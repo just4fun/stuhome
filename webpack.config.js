@@ -4,7 +4,7 @@ var webpack = require('webpack');
 
 var config = {
   debug: true,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   entry: {
     'index.ios': ['./ios/app/main.js'],
   },
@@ -15,11 +15,11 @@ var config = {
   module: {
     loaders: [{
       test: /\.js$/,
-      exclude: /node_modules/,
       loader: 'babel',
       query: {
         stage: 0,
-        plugins: []
+        plugins: [],
+        blacklist: 'validation.react'
       }
     }]
   },
