@@ -7,12 +7,16 @@ import React, {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#F5FCFF',
+    height: 60,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    justifyContent: 'center',
+    paddingTop: 15
   },
   title: {
-    fontSize: 18
+    fontSize: 18,
+    textAlign: 'center'
   }
 });
 

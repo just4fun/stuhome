@@ -10,13 +10,13 @@ import Menu from './Menu';
 import Home from './Home';
 import ForumList from './ForumList';
 import Header from './Header';
+import Dimensions from 'Dimensions';
 
-var styles = StyleSheet.create({
+const window = Dimensions.get('window');
+const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    width: window.width,
+    height: window.height
   }
 });
 
@@ -66,7 +66,7 @@ export default class Main extends Component {
         menu={menu}
         touchToClose={true}>
         <Navigator
-          initialRoute={{id: 'home', title: '最新1'}}
+          initialRoute={{id: 'home', title: '最新'}}
           configureScene={this.configureScene}
           renderScene={this.renderScene.bind(this)}
           ref='navigator' />
