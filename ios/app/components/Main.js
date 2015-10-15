@@ -16,7 +16,8 @@ const window = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     width: window.width,
-    height: window.height
+    height: window.height,
+    backgroundColor: '#F5F5F5'
   }
 });
 
