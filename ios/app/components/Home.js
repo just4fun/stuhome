@@ -3,12 +3,15 @@ import React, {
   StyleSheet,
   View,
   Text,
-  ScrollView
+  ListView
 } from 'react-native';
+import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
-import { fetchTopicsIfNeeded } from '../actions/index';
+import { invalidateTopic, fetchTopicsIfNeeded } from '../actions/index';
 
-var styles = StyleSheet.create({
+const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -22,11 +25,27 @@ export default class Home extends Component {
     this.props.dispatch(fetchTopicsIfNeeded('new'));
   }
 
+  _refreshTopics() {
+    this.props.dispatch(invalidateTopic());
+    this.props.dispatch(fetchTopicsIfNeeded('new'));
+  }
+
   render() {
+    const { dispatch, topics, isFetching } = this.props;
+    const source = ds.cloneWithRows(topics);
+
     return (
-      <ScrollView>
-        {this.props.topics.map((topic) => <TopicItem key={topic.topic_id} topic={topic} />)}
-      </ScrollView>
+      /**
+       * use `ControlledRefreshableListView` instead of `RefreshableListView` here
+       * since `_refreshTopics` won't return Promise which `loadData` needs to control
+       * the refreshing status. That being said, we should use `onRefresh` and `isRefreshing`
+       * to manually control it.
+       */
+      <ControlledRefreshableListView
+        dataSource={source}
+        renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} />}
+        onRefresh={this._refreshTopics.bind(this)}
+        isRefreshing={isFetching} />
     );
   }
 }
