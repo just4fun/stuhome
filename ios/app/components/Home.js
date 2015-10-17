@@ -6,7 +6,7 @@ import React, {
   ScrollView
 } from 'react-native';
 import TopicItem from './TopicItem';
-import { fetchTopics } from '../actions/index';
+import { fetchTopicsIfNeeded } from '../actions/index';
 
 var styles = StyleSheet.create({
   container: {
@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
 
 export default class Home extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchTopics('new'));
+    this.props.dispatch(fetchTopicsIfNeeded('new'));
   }
 
   render() {
