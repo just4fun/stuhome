@@ -4,8 +4,11 @@ import React, {
   View,
   Text
 } from 'react-native';
+import moment from 'moment';
 
-var styles = StyleSheet.create({
+moment.locale('zh-cn');
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -40,7 +43,14 @@ var styles = StyleSheet.create({
 
 export default class TopicItem extends Component {
   render() {
-    const { title, user_nick_name, last_reply_date } = this.props.topic;
+    let { title, user_nick_name, last_reply_date } = this.props.topic;
+
+    /**
+     * what API return for `last_reply_date` is string, like '1445063799000',
+     * it will cause `Invalid date` if we use `new Date(last_reply_date)` or
+     * `moment(last_reply_date).format()`, so just simply use `* 1` to convert.
+     */
+    last_reply_date = moment(last_reply_date * 1).startOf('minute').fromNow();
 
     return (
       <View style={styles.container}>

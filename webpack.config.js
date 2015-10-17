@@ -15,6 +15,7 @@ var config = {
   module: {
     loaders: [{
       test: /\.js$/,
+      exclude: /node_modules\/moment/,
       loader: 'babel',
       query: {
         stage: 0,
