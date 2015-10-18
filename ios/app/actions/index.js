@@ -12,36 +12,36 @@ function requestTopic() {
   };
 }
 
-function receiveTopic(topics) {
+function receiveTopic(topic) {
   return {
     type: RECEIVE_TOPIC,
-    topics
+    topic
   };
 }
 
-function fetchTopics(sortType = 'all', pageSize = 20) {
+function fetchTopic(sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestTopic());
-    return fetch(API_ROOT + `forum/topiclist&sortby=${sortType}&pageSize=${pageSize}`)
+    return fetch(API_ROOT + `forum/topiclist&sortby=${sortType}&page=${page}&pageSize=${pageSize}`)
       .then(response => response.json())
       .then(json => dispatch(receiveTopic(json)));
   };
 }
 
-function shouldFetchTopics(state) {
-  const { topics, isFetching, didInvalidate } = state;
+function shouldFetchTopic(state) {
+  const { topic, isFetching, didInvalidate } = state;
 
-  if (!topics.length) { return true; }
+  if (!topic.list.length) { return true; }
 
   if (isFetching) { return false; }
 
   return didInvalidate;
 }
 
-export function fetchTopicsIfNeeded(sortType, pageSize) {
+export function fetchTopicIfNeeded(sortType, page, pageSize) {
   return (dispatch, getState) => {
-    if (shouldFetchTopics(getState())) {
-      return dispatch(fetchTopics(sortType, pageSize));
+    if (shouldFetchTopic(getState())) {
+      return dispatch(fetchTopic(sortType, page, pageSize));
     }
   };
 }

@@ -4,12 +4,12 @@ import Main from '../components/Main';
 function mapStateToProps(state) {
   const { 
     isFetching,
-    topics
+    topic
   } = state;
 
   return {
     isFetching,
-    topics
+    topic
   };
 }
 

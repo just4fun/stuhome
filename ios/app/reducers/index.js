@@ -4,10 +4,13 @@ import {
   RECEIVE_TOPIC
 } from '../constants/ActionTypes';
 
-export default function topics(state = {
+export default function topic(state = {
   isFetching: false,
   didInvalidate: false,
-  topics: []
+  topic: {
+    list: [],
+    has_next: false
+  }
 }, action) {
   switch (action.type) {
     case INVALIDATE_TOPIC:
@@ -20,10 +23,14 @@ export default function topics(state = {
         didInvalidate: false
       });
     case RECEIVE_TOPIC:
+      if (action.topic.page !== 1) {
+        action.topic.list = state.topic.list.concat(action.topic.list);
+      }
+
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
-        topics: action.topics.list
+        topic: action.topic
       });
     default:
       return state;
