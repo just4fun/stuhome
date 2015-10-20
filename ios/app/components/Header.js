@@ -4,19 +4,32 @@ import React, {
   View,
   Text
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     backgroundColor: '#F5FCFF',
     height: 60,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
     justifyContent: 'center',
-    paddingTop: 15
+    paddingTop: 30
+  },
+  left: {
+    flex: 1,
+    textAlign: 'left',
+    paddingLeft: 15
   },
   title: {
+    flex: 2,
     fontSize: 18,
     textAlign: 'center'
+  },
+  right: {
+    flex: 1,
+    textAlign: 'right',
+    paddingRight: 15
   }
 });
 
@@ -28,7 +41,9 @@ export default class Header extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title} onPress={this.openSideMenu.bind(this)}>{this.props.title}</Text>
+        <Icon style={styles.left} name='reorder' size={18} onPress={this.openSideMenu.bind(this)} />
+        <Text style={styles.title}>{this.props.title}</Text>
+        <Text style={styles.right}></Text>
       </View>
     );
   }
