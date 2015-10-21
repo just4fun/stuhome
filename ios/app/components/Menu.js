@@ -8,6 +8,7 @@ import React, {
 } from 'react-native';
 import Dimensions from 'Dimensions';
 import SideMenu from 'react-native-side-menu';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const window = Dimensions.get('window');
 
@@ -29,7 +30,11 @@ const styles = StyleSheet.create({
   },
   avatar: {
     height: 70,
-    width: 70
+    width: 70,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -48,18 +53,16 @@ export default class Menu extends Component {
     this.props.navigateTo(route);
   }
 
-  _pressAvatar() {
-
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.menuHeader}>
-          <Image style={styles.avatar}
-            source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
-            onPress={this._pressAvatar.bind(this)}
-          />
+          <TouchableHighlight
+            style={styles.avatar}
+            underlayColor='#ddd'
+            onPress={() => this._navigateTo({id: 'login', title: '登录'})}>
+            <Icon name='venus-mars' size={50} />
+          </TouchableHighlight>
         </View>
         <TouchableHighlight
           style={styles.row}

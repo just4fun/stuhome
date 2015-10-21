@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
+import Login from './Login';
 import Home from './Home';
 import ForumList from './ForumList';
 import Header from './Header';
@@ -34,6 +35,9 @@ export default class Main extends Component {
     let mainComponent;
 
     switch (route.id) {
+      case 'login':
+        mainComponent = <Login {...this.props} />;
+        break;
       case 'home':
         mainComponent = <Home {...this.props} />;
         break;
