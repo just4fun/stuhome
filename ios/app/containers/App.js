@@ -3,13 +3,15 @@ import Main from '../components/Main';
 
 function mapStateToProps(state) {
   const { 
-    isFetching,
-    topic
+    topic,
+    forum
   } = state;
 
   return {
-    isFetching,
-    topic
+    entities: {
+      topic,
+      forum
+    }
   };
 }
 

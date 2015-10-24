@@ -61,7 +61,10 @@ export default class Menu extends Component {
             style={styles.avatar}
             underlayColor='#ddd'
             onPress={() => this._navigateTo({id: 'login', title: '登录'})}>
-            <Icon name='venus-mars' size={50} />
+            <Image
+             style={styles.avatar}
+             source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
+            />
           </TouchableHighlight>
         </View>
         <TouchableHighlight

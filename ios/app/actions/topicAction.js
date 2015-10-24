@@ -3,8 +3,9 @@ import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC
 } from '../constants/ActionTypes';
+import { API_ROOT } from '../config';
 
-const API_ROOT = 'http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=';
+const API_PATH = 'forum/topiclist';
 
 function requestTopic() {
   return {
@@ -22,20 +23,20 @@ function receiveTopic(topic) {
 function fetchTopic(sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestTopic());
-    return fetch(API_ROOT + `forum/topiclist&sortby=${sortType}&page=${page}&pageSize=${pageSize}`)
+    return fetch(API_ROOT + API_PATH + `&sortby=${sortType}&page=${page}&pageSize=${pageSize}`)
       .then(response => response.json())
       .then(json => dispatch(receiveTopic(json)));
   };
 }
 
 function shouldFetchTopic(state) {
-  const { topic, isFetching, didInvalidate } = state;
+  const topic = state.topic;
 
   if (!topic.list.length) { return true; }
 
-  if (isFetching) { return false; }
+  if (topic.isFetching) { return false; }
 
-  return didInvalidate;
+  return topic.didInvalidate;
 }
 
 export function fetchTopicIfNeeded(sortType, page, pageSize) {

@@ -7,18 +7,9 @@ import React, {
 } from 'react-native';
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
-import { invalidateTopic, fetchTopicIfNeeded } from '../actions/index';
+import { invalidateTopic, fetchTopicIfNeeded } from '../actions/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff'
-  }
-});
 
 export default class Home extends Component {
   componentDidMount() {
@@ -31,9 +22,9 @@ export default class Home extends Component {
   }
 
   _endReached() {
-    const { topic, isFetching } = this.props;
-    const hasMore = topic.has_next;
-    const page = topic.page;
+    const { dispatch, entities } = this.props;
+    const { topic } = entities;
+    const { hasMore, isFetching, page } = topic;
 
     if (!hasMore || isFetching) { return; }
 
@@ -41,7 +32,8 @@ export default class Home extends Component {
   }
 
   render() {
-    const { dispatch, topic, isFetching } = this.props;
+    const { dispatch, entities } = this.props;
+    const { topic } = entities;
     const source = ds.cloneWithRows(topic.list);
 
     return (
@@ -55,10 +47,10 @@ export default class Home extends Component {
         dataSource={source}
         renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} />}
         onRefresh={this._refreshTopic.bind(this)}
-        isRefreshing={isFetching}
+        isRefreshing={topic.isFetching}
         onEndReached={this._endReached.bind(this)}
         onEndReachedThreshold={100}
-         />
+       />
     );
   }
 }
