@@ -12,6 +12,7 @@ import Home from './Home';
 import ForumList from './ForumList';
 import Header from './Header';
 import Dimensions from 'Dimensions';
+import { getUserFromStorage } from '../actions/authorizeAction';
 
 const window = Dimensions.get('window');
 const styles = StyleSheet.create({

@@ -1,6 +1,7 @@
 import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
+  SET_AUTHRIZATION,
   REQUEST_LOGOUT
 } from '../constants/ActionTypes';
 
@@ -10,6 +11,10 @@ export default function user(state = {
   hasError: false
 }, action) {
   switch (action.type) {
+    case SET_AUTHRIZATION:
+      return Object.assign({}, state, {
+        authrization: action.user
+      });
     case REQUEST_LOGIN:
       return Object.assign({}, state, {
         isFetching: true,

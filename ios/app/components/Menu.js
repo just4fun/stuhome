@@ -6,7 +6,8 @@ import React, {
   Text,
   Image,
   AsyncStorage,
-  ActionSheetIOS
+  ActionSheetIOS,
+  Navigator
 } from 'react-native';
 import { userLogout } from '../actions/authorizeAction';
 import Dimensions from 'Dimensions';
@@ -71,7 +72,7 @@ export default class Menu extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          AsyncStorage.clear()
+          AsyncStorage.removeItem('authrization')
             .then(() => {
               this.props.dispatch(userLogout());
             }.bind(this));
@@ -98,7 +99,11 @@ export default class Menu extends Component {
       avatarComponent = <TouchableHighlight
                           style={styles.avatar}
                           underlayColor='#ddd'
-                          onPress={() => this._navigateTo({id: 'login', title: '登录'})}>
+                          onPress={() => this._navigateTo({
+                            id: 'login',
+                            title: '登录',
+                            sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+                          })}>
                           <Image
                            style={styles.avatar}
                            source={{uri: DEFAULT_AVATAR}}

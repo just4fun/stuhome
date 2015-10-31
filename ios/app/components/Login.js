@@ -5,7 +5,8 @@ import React, {
   Text,
   TextInput,
   AlertIOS,
-  AsyncStorage
+  AsyncStorage,
+  Navigator
 } from 'react-native';
 import Button from 'react-native-button';
 import { userLogin } from '../actions/authorizeAction';
@@ -59,16 +60,13 @@ export default class Login extends Component {
   }
 
   render() {
-    const { isFetching, authrization, hasError } = this.props.entities.user;
+    let { isFetching, authrization, hasError } = this.props.entities.user;
 
     if (hasError) { AlertIOS.alert('提示', authrization.errcode); }
 
     if (authrization.token) {
-      AsyncStorage
-        .multiSet([
-          ['authrization.token', authrization.token],
-          ['authrization.secret', authrization.secret]
-        ])
+      authrization = JSON.stringify(authrization);
+      AsyncStorage.setItem('authrization', authrization)
         .then(this._pushToHome.bind(this));
       return;
     }

@@ -25,16 +25,14 @@ function fetchForum() {
   return dispatch => {
     dispatch(requestForum());
 
-    return AsyncStorage.multiGet([
-        'authrization.token',
-        'authrization.secret'
-      ])
+    let requestUrl = API_ROOT + API_PATH;
+    return AsyncStorage.getItem('authrization')
       .then(authrization => {
-        let requestUrl = API_ROOT + API_PATH;
         if (authrization) {
+          authrization = JSON.parse(authrization);
           requestUrl +=
-            `&accessToken=${authrization[0][1]}` +
-            `&accessSecret=${authrization[1][1]}`;
+            `&accessToken=${authrization.token}` +
+            `&accessSecret=${authrization.secret}`;
         }
 
         return fetch(requestUrl)

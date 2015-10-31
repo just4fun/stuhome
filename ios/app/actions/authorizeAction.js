@@ -1,7 +1,9 @@
+import { AsyncStorage } from 'react-native';
 import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
 
+  SET_AUTHRIZATION,
   REQUEST_LOGOUT
 } from '../constants/ActionTypes';
 import { API_ROOT } from '../config';
@@ -18,6 +20,25 @@ function receiveLogin(user) {
   return {
     type: RECEIVE_LOGIN,
     user
+  };
+}
+
+function setAuthrization(user) {
+  return {
+    type: SET_AUTHRIZATION,
+    user
+  };
+}
+
+export function getUserFromStorage() {
+  return dispatch => {
+    AsyncStorage.getItem('authrization')
+      .then(authrization => {
+        if (authrization) {
+          authrization = JSON.parse(authrization);
+          dispatch(setAuthrization(authrization));
+        }
+      });
   };
 }
 
