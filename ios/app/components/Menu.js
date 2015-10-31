@@ -4,13 +4,22 @@ import React, {
   TouchableHighlight,
   View,
   Text,
-  Image
+  Image,
+  AsyncStorage,
+  ActionSheetIOS
 } from 'react-native';
+import { userLogout } from '../actions/authorizeAction';
 import Dimensions from 'Dimensions';
 import SideMenu from 'react-native-side-menu';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const window = Dimensions.get('window');
+const DEFAULT_AVATAR = 'http://facebook.github.io/react/img/logo_og.png';
+
+const BUTTONS = [
+  '注销',
+  '取消'
+];
 
 const styles = StyleSheet.create({
   container: {
@@ -53,19 +62,54 @@ export default class Menu extends Component {
     this.props.navigateTo(route);
   }
 
+  _showLogout() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: BUTTONS,
+      destructiveButtonIndex: 0,
+      cancelButtonIndex: 1
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          AsyncStorage.clear()
+            .then(() => {
+              this.props.dispatch(userLogout());
+            }.bind(this));
+          break;
+      }
+    }.bind(this));
+  }
+
   render() {
+    const authrization = this.props.entities.user.authrization;
+    let avatarComponent = null;
+
+    if (authrization.token) {
+      avatarComponent = <TouchableHighlight
+                          style={styles.avatar}
+                          underlayColor='#ddd'
+                          onPress={this._showLogout.bind(this)}>
+                          <Image
+                           style={styles.avatar}
+                           source={{uri: authrization.avatar}}
+                          />
+                        </TouchableHighlight>;
+    } else {
+      avatarComponent = <TouchableHighlight
+                          style={styles.avatar}
+                          underlayColor='#ddd'
+                          onPress={() => this._navigateTo({id: 'login', title: '登录'})}>
+                          <Image
+                           style={styles.avatar}
+                           source={{uri: DEFAULT_AVATAR}}
+                          />
+                        </TouchableHighlight>;
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.menuHeader}>
-          <TouchableHighlight
-            style={styles.avatar}
-            underlayColor='#ddd'
-            onPress={() => this._navigateTo({id: 'login', title: '登录'})}>
-            <Image
-             style={styles.avatar}
-             source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
-            />
-          </TouchableHighlight>
+          {avatarComponent}
         </View>
         <TouchableHighlight
           style={styles.row}

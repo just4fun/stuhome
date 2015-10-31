@@ -2,13 +2,15 @@ import { connect } from 'react-redux/native';
 import Main from '../components/Main';
 
 function mapStateToProps(state) {
-  const { 
+  const {
+    user,
     topic,
     forum
   } = state;
 
   return {
     entities: {
+      user,
       topic,
       forum
     }

@@ -1,7 +1,8 @@
+import { AsyncStorage } from 'react-native';
 import {
   INVALIDATE_FORUM,
   REQUEST_FORUM,
-  RECEIVE_FORUM
+  RECEIVE_FORUM,
 } from '../constants/ActionTypes';
 import { API_ROOT } from '../config';
 
@@ -23,9 +24,23 @@ function receiveForum(forum) {
 function fetchForum() {
   return dispatch => {
     dispatch(requestForum());
-    return fetch(API_ROOT + API_PATH)
-      .then(response => response.json())
-      .then(json => dispatch(receiveForum(json)));
+
+    return AsyncStorage.multiGet([
+        'authrization.token',
+        'authrization.secret'
+      ])
+      .then(authrization => {
+        let requestUrl = API_ROOT + API_PATH;
+        if (authrization) {
+          requestUrl +=
+            `&accessToken=${authrization[0][1]}` +
+            `&accessSecret=${authrization[1][1]}`;
+        }
+
+        return fetch(requestUrl)
+          .then(response => response.json())
+          .then(json => dispatch(receiveForum(json)));
+      });
   };
 }
 

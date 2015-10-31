@@ -36,7 +36,7 @@ export default class Main extends Component {
 
     switch (route.id) {
       case 'login':
-        mainComponent = <Login {...this.props} />;
+        mainComponent = <Login {...this.props} navigator={navigator} />;
         break;
       case 'home':
         mainComponent = <Home {...this.props} />;
@@ -54,7 +54,7 @@ export default class Main extends Component {
     );
   }
 
-  navigateTo(route) {
+  navigateTo(route, isLogin) {
     let navigator = this.refs.navigator;
     let routeList = navigator.getCurrentRoutes();
     let currentRoute = routeList[routeList.length - 1];
@@ -64,7 +64,7 @@ export default class Main extends Component {
   }
 
   render() {
-    const menu = <Menu navigateTo={this.navigateTo.bind(this)} />
+    const menu = <Menu {...this.props} navigateTo={this.navigateTo.bind(this)} />
 
     return (
       <SideMenu
