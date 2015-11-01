@@ -68,7 +68,7 @@ export default class Login extends Component {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(this._pushToHome.bind(this));
-      return;
+      return <View></View>;
     }
 
     return (
