@@ -5,11 +5,10 @@ import React, {
   Navigator,
   StyleSheet
 } from 'react-native';
+import Router from '../router';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
-import Login from './Login';
 import Home from './Home';
-import ForumList from './ForumList';
 import Header from './Header';
 import Dimensions from 'Dimensions';
 import { getUserFromStorage } from '../actions/authorizeAction';
@@ -33,46 +32,28 @@ export default class Main extends Component {
   }
 
   renderScene(route, navigator) {
-    let mainComponent;
-
-    switch (route.id) {
-      case 'login':
-        mainComponent = <Login {...this.props} navigator={navigator} />;
-        break;
-      case 'home':
-        mainComponent = <Home {...this.props} />;
-        break;
-      case 'forumList':
-        mainComponent = <ForumList {...this.props} />;
-        break;
-    }
+    this.router = this.router || new Router(navigator);
 
     return (
       <View style={styles.container}>
-        <Header title={route.title}/>
-        {mainComponent}
+        <Header title={route.title} />
+        <route.component {...this.props} router={this.router} />
       </View>
     );
   }
 
-  navigateTo(route, isLogin) {
-    let navigator = this.refs.navigator;
-    let routeList = navigator.getCurrentRoutes();
-    let currentRoute = routeList[routeList.length - 1];
-    if (route.id !== currentRoute.id) {
-      this.refs.navigator.push(route);
-    }
-  }
-
   render() {
-    const menu = <Menu {...this.props} navigateTo={this.navigateTo.bind(this)} />
+    const menu = <Menu {...this.props} router={this.router} />
 
     return (
       <SideMenu
         menu={menu}
         touchToClose={true}>
         <Navigator
-          initialRoute={{id: 'home', title: '最新'}}
+          initialRoute={{
+            title: '最新',
+            component: Home
+          }}
           configureScene={this.configureScene}
           renderScene={this.renderScene.bind(this)}
           ref='navigator' />

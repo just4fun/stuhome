@@ -12,6 +12,9 @@ import React, {
 import { userLogout } from '../actions/authorizeAction';
 import Dimensions from 'Dimensions';
 import SideMenu from 'react-native-side-menu';
+import Home from './Home';
+import Login from './Login';
+import ForumList from './ForumList';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const window = Dimensions.get('window');
@@ -58,11 +61,6 @@ const styles = StyleSheet.create({
 });
 
 export default class Menu extends Component {
-  _navigateTo(route) {
-    this.context.menuActions.close();
-    this.props.navigateTo(route);
-  }
-
   _showLogout() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: BUTTONS,
@@ -82,6 +80,7 @@ export default class Menu extends Component {
   }
 
   render() {
+    this.router = this.props.router;
     const authrization = this.props.entities.user.authrization;
     let avatarComponent = null;
 
@@ -99,11 +98,12 @@ export default class Menu extends Component {
       avatarComponent = <TouchableHighlight
                           style={styles.avatar}
                           underlayColor='#ddd'
-                          onPress={() => this._navigateTo({
-                            id: 'login',
-                            title: '登录',
-                            sceneConfig: Navigator.SceneConfigs.FloatFromBottom
-                          })}>
+                          onPress={() => {
+                            this.context.menuActions.close();
+                            this.router.toLogin({
+                              sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+                            })
+                          }}>
                           <Image
                            style={styles.avatar}
                            source={{uri: DEFAULT_AVATAR}}
@@ -119,13 +119,19 @@ export default class Menu extends Component {
         <TouchableHighlight
           style={styles.row}
           underlayColor='#ddd'
-          onPress={() => this._navigateTo({id: 'home', title: '最新'})}>
+          onPress={() => {
+            this.context.menuActions.close();
+            this.router.toHome();
+          }}>
           <Text style={styles.item}>最新</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.row}
           underlayColor='#ddd'
-          onPress={() => this._navigateTo({id: 'forumList', title: '版块'})}>
+          onPress={() => {
+            this.context.menuActions.close();
+            this.router.toForumList();
+          }}>
           <Text style={styles.item}>版块</Text>
         </TouchableHighlight>
       </View>

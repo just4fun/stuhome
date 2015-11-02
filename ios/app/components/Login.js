@@ -55,11 +55,8 @@ export default class Login extends Component {
     this.props.dispatch(userLogin(this._userNameValue, this._passwordValue));
   }
 
-  _pushToHome() {
-    this.props.navigator.popToTop();
-  }
-
   render() {
+    this.router = this.props.router;
     let { isFetching, authrization, hasError } = this.props.entities.user;
 
     if (hasError) { AlertIOS.alert('提示', authrization.errcode); }
@@ -67,7 +64,7 @@ export default class Login extends Component {
     if (authrization.token) {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
-        .then(this._pushToHome.bind(this));
+        .then(this.router.popToHome());
       return <View></View>;
     }
 
