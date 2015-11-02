@@ -2,25 +2,15 @@ import React, {
   View,
   Text,
   Component,
-  Navigator,
-  StyleSheet
+  Navigator
 } from 'react-native';
+import styles from '../styles/components/_Main';
 import Router from '../router';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
 import Home from './Home';
 import Header from './Header';
-import Dimensions from 'Dimensions';
 import { getUserFromStorage } from '../actions/authorizeAction';
-
-const window = Dimensions.get('window');
-const styles = StyleSheet.create({
-  container: {
-    width: window.width,
-    height: window.height,
-    backgroundColor: '#F5F5F5'
-  }
-});
 
 export default class Main extends Component {
   configureScene(route) {

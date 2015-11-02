@@ -1,6 +1,5 @@
 import React, {
   Component,
-  StyleSheet,
   View,
   Text,
   TextInput,
@@ -8,31 +7,9 @@ import React, {
   AsyncStorage,
   Navigator
 } from 'react-native';
+import styles from '../styles/components/_Login';
 import Button from 'react-native-button';
 import { userLogin } from '../actions/authorizeAction';
-
-var styles = StyleSheet.create({
-  form: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#F5FCFF'
-  },
-  formItem: {
-    height: 40,
-    borderRadius: 5,
-  },
-  formInput: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 10,
-    marginBottom: 10,
-  },
-  formSubmit: {
-    color: '#fff',
-    backgroundColor: '#93adc6',
-    paddingTop: 8,
-  },
-});
 
 export default class Login extends Component {
   constructor(props) {

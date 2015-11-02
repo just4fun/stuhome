@@ -1,6 +1,5 @@
 import React, {
   Component,
-  StyleSheet,
   View,
   Text,
   ListView
