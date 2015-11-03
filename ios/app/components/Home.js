@@ -46,7 +46,7 @@ export default class Home extends Component {
        */
       <ControlledRefreshableListView
         dataSource={source}
-        renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} />}
+        renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
         onRefresh={this._refreshTopic.bind(this)}
         isRefreshing={topic.isFetching}
         onEndReached={this._endReached.bind(this)}

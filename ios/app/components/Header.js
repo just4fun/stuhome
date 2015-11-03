@@ -12,9 +12,25 @@ export default class Header extends Component {
   }
 
   render() {
+    let leftTopButton = null;
+
+    if (this.props.needPopButton) {
+      leftTopButton = <Icon
+                        style={styles.left}
+                        name='angle-left'
+                        size={18}
+                        onPress={() => this.props.router.pop()} />
+    } else {
+      leftTopButton = <Icon
+                        style={styles.left}
+                        name='reorder'
+                        size={18}
+                        onPress={this.openSideMenu.bind(this)} />;
+    }
+
     return (
       <View style={styles.container}>
-        <Icon style={styles.left} name='reorder' size={18} onPress={this.openSideMenu.bind(this)} />
+        {leftTopButton}
         <Text style={styles.title}>{this.props.title}</Text>
         <Text style={styles.right}></Text>
       </View>

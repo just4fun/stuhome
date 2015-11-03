@@ -26,8 +26,8 @@ export default class Main extends Component {
 
     return (
       <View style={styles.container}>
-        <Header title={route.title} />
-        <route.component {...this.props} router={this.router} />
+        <Header title={route.title} router={this.router} needPopButton={route.needPopButton} />
+        <route.component {...this.props} router={this.router} passProps={route.passProps} />
       </View>
     );
   }

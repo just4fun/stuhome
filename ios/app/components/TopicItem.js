@@ -1,7 +1,8 @@
 import React, {
   Component,
   View,
-  Text
+  Text,
+  TouchableHighlight
 } from 'react-native';
 import moment from 'moment';
 import styles from '../styles/components/_TopicItem';
@@ -21,11 +22,17 @@ export default class TopicItem extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.info}>
-          <Text style={styles.name}>{user_nick_name}</Text>
-          <Text style={styles.date}>{last_reply_date}</Text>
-        </View>
+        <TouchableHighlight
+          underlayColor='#ddd'
+          onPress={() => this.props.router.toTopic(this.props.topic)}>
+          <View>
+            <Text style={styles.title}>{title}</Text>
+            <View style={styles.info}>
+              <Text style={styles.name}>{user_nick_name}</Text>
+              <Text style={styles.date}>{last_reply_date}</Text>
+            </View>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }

@@ -2,7 +2,7 @@ import { Navigator } from 'react-native';
 import Home from './components/Home';
 import Login from './components/Login';
 import ForumList from './components/ForumList';
-
+import TopicDetail from './components/TopicDetail';
 
 export default class Router {
   constructor(navigator) {
@@ -15,6 +15,10 @@ export default class Router {
     if (route.title !== currentRoute.title) {
       this.navigator.push(route);
     }
+  }
+
+  pop() {
+    this.navigator.pop();
   }
 
   popToHome() {
@@ -40,6 +44,15 @@ export default class Router {
     this._navigateTo({
       title: '版块',
       component: ForumList
+    });
+  }
+
+  toTopic(topic) {
+    this._navigateTo({
+      title: topic.board_name,
+      component: TopicDetail,
+      passProps: topic,
+      needPopButton: true
     });
   }
 }
