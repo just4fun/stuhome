@@ -16,8 +16,11 @@ import { getUserFromStorage } from '../actions/authorizeAction';
 @connect(state => ({
   entities: {
     user: state.user,
-    topic: state.topic,
+    topic: state.topicList,
     forum: state.forum
+  },
+  item: {
+    topicItem: state.topicItem
   }
 }))
 export default class Main extends Component {

@@ -4,7 +4,7 @@ import {
   RECEIVE_TOPICLIST
 } from '../constants/ActionTypes';
 
-export default function topic(state = {
+export default function topicList(state = {
   isFetching: false,
   didInvalidate: false,
   list: [],
@@ -22,16 +22,16 @@ export default function topic(state = {
         didInvalidate: false
       });
     case RECEIVE_TOPICLIST:
-      if (action.topic.page !== 1) {
-        action.topic.list = state.list.concat(action.topic.list);
+      if (action.topicList.page !== 1) {
+        action.topicList.list = state.list.concat(action.topicList.list);
       }
 
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
-        list: action.topic.list,
-        hasMore: action.topic.has_next,
-        page: action.topic.page
+        list: action.topicList.list,
+        hasMore: action.topicList.has_next,
+        page: action.topicList.page
       });
     default:
       return state;

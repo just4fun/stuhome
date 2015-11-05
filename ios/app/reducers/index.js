@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux';
 import user from './user';
 import forum from './forum';
-import topic from './topic';
+import topicList from './topicList';
+import topicItem from './topicItem';
 
 export default combineReducers({
   user,
   forum,
-  topic
+  topicList,
+
+  topicItem
 });
