@@ -1,7 +1,7 @@
 import {
-  INVALIDATE_TOPIC,
-  REQUEST_TOPIC,
-  RECEIVE_TOPIC
+  INVALIDATE_TOPICLIST,
+  REQUEST_TOPICLIST,
+  RECEIVE_TOPICLIST
 } from '../constants/ActionTypes';
 
 export default function topic(state = {
@@ -12,16 +12,16 @@ export default function topic(state = {
   page: 0
 }, action) {
   switch (action.type) {
-    case INVALIDATE_TOPIC:
+    case INVALIDATE_TOPICLIST:
       return Object.assign({}, state, {
         didInvalidate: true
       });
-    case REQUEST_TOPIC:
+    case REQUEST_TOPICLIST:
       return Object.assign({}, state, {
         isFetching: true,
         didInvalidate: false
       });
-    case RECEIVE_TOPIC:
+    case RECEIVE_TOPICLIST:
       if (action.topic.page !== 1) {
         action.topic.list = state.list.concat(action.topic.list);
       }

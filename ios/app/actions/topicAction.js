@@ -1,35 +1,35 @@
 import {
-  INVALIDATE_TOPIC,
-  REQUEST_TOPIC,
-  RECEIVE_TOPIC
+  INVALIDATE_TOPICLIST,
+  REQUEST_TOPICLIST,
+  RECEIVE_TOPICLIST
 } from '../constants/ActionTypes';
 import { API_ROOT } from '../config';
 
 const API_PATH = 'forum/topiclist';
 
-function requestTopic() {
+function requestTopicList() {
   return {
-    type: REQUEST_TOPIC
+    type: REQUEST_TOPICLIST
   };
 }
 
-function receiveTopic(topic) {
+function receiveTopicList(topic) {
   return {
-    type: RECEIVE_TOPIC,
+    type: RECEIVE_TOPICLIST,
     topic
   };
 }
 
-function fetchTopic(sortType = 'all', page = 1, pageSize = 20) {
+function fetchTopicList(sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
-    dispatch(requestTopic());
+    dispatch(requestTopicList());
     return fetch(API_ROOT + API_PATH + `&sortby=${sortType}&page=${page}&pageSize=${pageSize}`)
       .then(response => response.json())
-      .then(json => dispatch(receiveTopic(json)));
+      .then(json => dispatch(receiveTopicList(json)));
   };
 }
 
-function shouldFetchTopic(state) {
+function shouldFetchTopicList(state) {
   const topic = state.topic;
 
   if (!topic.list.length) { return true; }
@@ -39,16 +39,16 @@ function shouldFetchTopic(state) {
   return topic.didInvalidate;
 }
 
-export function fetchTopicIfNeeded(sortType, page, pageSize) {
+export function fetchTopicListIfNeeded(sortType, page, pageSize) {
   return (dispatch, getState) => {
-    if (shouldFetchTopic(getState())) {
-      return dispatch(fetchTopic(sortType, page, pageSize));
+    if (shouldFetchTopicList(getState())) {
+      return dispatch(fetchTopicList(sortType, page, pageSize));
     }
   };
 }
 
-export function invalidateTopic() {
+export function invalidateTopicList() {
   return {
-    type: INVALIDATE_TOPIC
+    type: INVALIDATE_TOPICLIST
   };
 }

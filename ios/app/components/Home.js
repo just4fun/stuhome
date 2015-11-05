@@ -7,19 +7,19 @@ import React, {
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
 import { getUserFromStorage } from '../actions/authorizeAction';
-import { invalidateTopic, fetchTopicIfNeeded } from '../actions/topicAction';
+import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class Home extends Component {
   componentDidMount() {
     this.props.dispatch(getUserFromStorage());
-    this.props.dispatch(fetchTopicIfNeeded('new'));
+    this.props.dispatch(fetchTopicListIfNeeded('new'));
   }
 
   _refreshTopic(page) {
-    this.props.dispatch(invalidateTopic());
-    this.props.dispatch(fetchTopicIfNeeded('new', page));
+    this.props.dispatch(invalidateTopicList());
+    this.props.dispatch(fetchTopicListIfNeeded('new', page));
   }
 
   _endReached() {
