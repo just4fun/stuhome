@@ -1,5 +1,5 @@
 import React, { Component } from 'react-native';
-import App from './App';
+import Main from '../components/Main';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux/native';
 import rootReducer from '../reducers';
@@ -14,7 +14,7 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={store}>
-        {() => <App />}
+        {() => <Main />}
       </Provider>
     );
   }
