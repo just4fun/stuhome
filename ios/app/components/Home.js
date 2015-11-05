@@ -23,9 +23,9 @@ export default class Home extends Component {
   }
 
   _endReached() {
-    const { dispatch, entities } = this.props;
-    const { topic } = entities;
-    const { hasMore, isFetching, page } = topic;
+    const { dispatch, list } = this.props;
+    const { topicList } = list;
+    const { hasMore, isFetching, page } = topicList;
 
     if (!hasMore || isFetching) { return; }
 
@@ -33,9 +33,9 @@ export default class Home extends Component {
   }
 
   render() {
-    const { dispatch, entities } = this.props;
-    const { topic } = entities;
-    const source = ds.cloneWithRows(topic.list);
+    const { dispatch, list } = this.props;
+    const { topicList } = list;
+    const source = ds.cloneWithRows(topicList.list);
 
     return (
       /**
@@ -48,7 +48,7 @@ export default class Home extends Component {
         dataSource={source}
         renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
         onRefresh={this._refreshTopic.bind(this)}
-        isRefreshing={topic.isFetching}
+        isRefreshing={topicList.isFetching}
         onEndReached={this._endReached.bind(this)}
         onEndReachedThreshold={100}
        />

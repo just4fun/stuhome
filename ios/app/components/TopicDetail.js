@@ -13,8 +13,8 @@ export default class TopicDetail extends Component {
   }
 
   render() {
-    const { dispatch, item } = this.props;
-    const { topicItem } = item;
+    const { dispatch, entity } = this.props;
+    const { topicItem } = entity;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);

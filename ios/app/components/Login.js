@@ -34,7 +34,7 @@ export default class Login extends Component {
 
   render() {
     this.router = this.props.router;
-    let { isFetching, authrization, hasError } = this.props.entities.user;
+    let { isFetching, authrization, hasError } = this.props.entity.user;
 
     if (hasError) { AlertIOS.alert('提示', authrization.errcode); }
 

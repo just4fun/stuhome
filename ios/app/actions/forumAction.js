@@ -1,29 +1,29 @@
 import { AsyncStorage } from 'react-native';
 import {
-  INVALIDATE_FORUM,
-  REQUEST_FORUM,
-  RECEIVE_FORUM,
+  INVALIDATE_FORUMLIST,
+  REQUEST_FORUMLIST,
+  RECEIVE_FORUMLIST,
 } from '../constants/ActionTypes';
 import { API_ROOT } from '../config';
 
 const API_PATH = 'forum/forumlist';
 
-function requestForum() {
+function requestForumList() {
   return {
-    type: REQUEST_FORUM
+    type: REQUEST_FORUMLIST
   };
 }
 
-function receiveForum(forum) {
+function receiveForumList(forumList) {
   return {
-    type: RECEIVE_FORUM,
-    forum
+    type: RECEIVE_FORUMLIST,
+    forumList
   };
 }
 
-function fetchForum() {
+function fetchForumList() {
   return dispatch => {
-    dispatch(requestForum());
+    dispatch(requestForumList());
 
     let requestUrl = API_ROOT + API_PATH;
     return AsyncStorage.getItem('authrization')
@@ -37,31 +37,31 @@ function fetchForum() {
 
         return fetch(requestUrl)
           .then(response => response.json())
-          .then(json => dispatch(receiveForum(json)));
+          .then(json => dispatch(receiveForumList(json)));
       });
   };
 }
 
-function shouldFetchForum(state) {
-  const { forum, didInvalidate } = state;
+function shouldFetchForumList(state) {
+  const { forumList, didInvalidate } = state;
 
-  if (!forum.list.length) { return true; }
+  if (!forumList.list.length) { return true; }
 
-  if (forum.isFetching) { return false; }
+  if (forumList.isFetching) { return false; }
 
-  return forum.didInvalidate;
+  return forumList.didInvalidate;
 }
 
-export function fetchForumIfNeeded() {
+export function fetchForumListIfNeeded() {
   return (dispatch, getState) => {
-    if (shouldFetchForum(getState())) {
-      return dispatch(fetchForum());
+    if (shouldFetchForumList(getState())) {
+      return dispatch(fetchForumList());
     }
   };
 }
 
-export function invalidateForum() {
+export function invalidateForumList() {
   return {
-    type: INVALIDATE_FORUM
+    type: INVALIDATE_FORUMLIST
   };
 }

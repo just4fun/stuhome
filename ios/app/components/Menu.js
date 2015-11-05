@@ -44,7 +44,7 @@ export default class Menu extends Component {
 
   render() {
     this.router = this.props.router;
-    const authrization = this.props.entities.user.authrization;
+    const authrization = this.props.entity.user.authrization;
     let avatarComponent = null;
 
     if (authrization.token) {

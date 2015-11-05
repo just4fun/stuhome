@@ -14,12 +14,12 @@ import Header from './Header';
 import { getUserFromStorage } from '../actions/authorizeAction';
 
 @connect(state => ({
-  entities: {
-    user: state.user,
-    topic: state.topicList,
-    forum: state.forum
+  list: {
+    topicList: state.topicList,
+    forumList: state.forumList
   },
-  item: {
+  entity: {
+    user: state.user,
     topicItem: state.topicItem
   }
 }))
