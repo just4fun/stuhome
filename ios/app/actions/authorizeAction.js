@@ -4,7 +4,8 @@ import {
   RECEIVE_LOGIN,
 
   SET_AUTHRIZATION,
-  REQUEST_LOGOUT
+  REQUEST_LOGOUT,
+  RESET_AUTHRIZATION
 } from '../constants/ActionTypes';
 import { API_ROOT } from '../config';
 
@@ -54,5 +55,11 @@ export function userLogin(userName, password) {
 export function userLogout() {
   return {
     type: REQUEST_LOGOUT
+  };
+}
+
+export function resetAuthrization() {
+  return {
+    type: RESET_AUTHRIZATION
   };
 }

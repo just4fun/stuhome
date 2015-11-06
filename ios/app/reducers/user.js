@@ -2,14 +2,17 @@ import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
   SET_AUTHRIZATION,
-  REQUEST_LOGOUT
+  REQUEST_LOGOUT,
+  RESET_AUTHRIZATION
 } from '../constants/ActionTypes';
 
-export default function user(state = {
+const defaultUserState = {
   isFetching: false,
   authrization: {},
   hasError: false
-}, action) {
+};
+
+export default function user(state = defaultUserState, action) {
   switch (action.type) {
     case SET_AUTHRIZATION:
       return Object.assign({}, state, {
@@ -33,6 +36,8 @@ export default function user(state = {
         authrization: {},
         hasError: false
       });
+    case RESET_AUTHRIZATION:
+      return defaultUserState;
     default:
       return state;
   }

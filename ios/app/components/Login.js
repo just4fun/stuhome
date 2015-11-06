@@ -9,7 +9,7 @@ import React, {
 } from 'react-native';
 import styles from '../styles/components/_Login';
 import Button from 'react-native-button';
-import { userLogin } from '../actions/authorizeAction';
+import { userLogin, resetAuthrization } from '../actions/authorizeAction';
 
 export default class Login extends Component {
   constructor(props) {
@@ -36,7 +36,10 @@ export default class Login extends Component {
     this.router = this.props.router;
     let { isFetching, authrization, hasError } = this.props.entity.user;
 
-    if (hasError) { AlertIOS.alert('提示', authrization.errcode); }
+    if (hasError) {
+      AlertIOS.alert('提示', authrization.errcode);
+      this.props.dispatch(resetAuthrization());
+    }
 
     if (authrization.token) {
       authrization = JSON.stringify(authrization);
