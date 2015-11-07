@@ -18,6 +18,26 @@ export default class Login extends Component {
     this._passwordValue = '';
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    this.router = nextProps.router;
+    let { isFetching, authrization, hasError } = nextProps.entity.user;
+
+    if (hasError) {
+      AlertIOS.alert('提示', authrization.errcode);
+      nextProps.dispatch(resetAuthrization());
+      return false;
+    }
+
+    if (authrization.token) {
+      authrization = JSON.stringify(authrization);
+      AsyncStorage.setItem('authrization', authrization)
+        .then(this.router.popToHome());
+      return false;
+    }
+
+    return true;
+  }
+
   _onSubmit() {
     if (this._userNameValue === '') {
       AlertIOS.alert('提示', '请输入用户名');
@@ -33,20 +53,7 @@ export default class Login extends Component {
   }
 
   render() {
-    this.router = this.props.router;
-    let { isFetching, authrization, hasError } = this.props.entity.user;
-
-    if (hasError) {
-      AlertIOS.alert('提示', authrization.errcode);
-      this.props.dispatch(resetAuthrization());
-    }
-
-    if (authrization.token) {
-      authrization = JSON.stringify(authrization);
-      AsyncStorage.setItem('authrization', authrization)
-        .then(this.router.popToHome());
-      return <View></View>;
-    }
+    const { isFetching } = this.props.entity.user;
 
     return (
       <View style={styles.form}>

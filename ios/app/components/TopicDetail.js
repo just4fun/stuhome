@@ -12,17 +12,25 @@ export default class TopicDetail extends Component {
     this.props.dispatch(fetchTopic(this.props.passProps.topic_id));
   }
 
-  render() {
-    const { dispatch, entity } = this.props;
+  componentWillUnmount() {
+    this.props.dispatch(resetTopic());
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { dispatch, entity } = nextProps;
     const { topicItem } = entity;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
-      this.props.router.pop();
-      // clear the error
-      dispatch(resetTopic());
-      return <View></View>;
+      nextProps.router.pop();
+      return false;
     }
+
+    return true;
+  }
+
+  render() {
+    const { topicItem } = this.props.entity;
 
     if (topicItem.isFetching || !topicItem.topic.topic_id) { return <View></View>; }
 
