@@ -3,6 +3,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import ForumList from './components/ForumList';
 import TopicDetail from './components/TopicDetail';
+import ForumDetail from './components/ForumDetail';
 
 export default class Router {
   constructor(navigator) {
@@ -12,7 +13,7 @@ export default class Router {
   _navigateTo(route) {
     let routeList = this.navigator.getCurrentRoutes();
     let currentRoute = routeList[routeList.length - 1];
-    if (route.title !== currentRoute.title) {
+    if (route.id !== currentRoute.id) {
       this.navigator.push(route);
     }
   }
@@ -27,6 +28,7 @@ export default class Router {
 
   toHome() {
     this._navigateTo({
+      id: 'home',
       title: '最新',
       component: Home
     });
@@ -34,6 +36,7 @@ export default class Router {
 
   toLogin(config) {
     this._navigateTo({
+      id: 'login',
       title: '登录',
       component: Login,
       sceneConfig: config.sceneConfig
@@ -42,6 +45,7 @@ export default class Router {
 
   toForumList() {
     this._navigateTo({
+      id: 'forumList',
       title: '版块',
       component: ForumList
     });
@@ -49,9 +53,20 @@ export default class Router {
 
   toTopic(topic) {
     this._navigateTo({
+      id: 'topicDetail',
       title: topic.board_name,
       component: TopicDetail,
       passProps: topic,
+      needPopButton: true
+    });
+  }
+
+  toForum(forum) {
+    this._navigateTo({
+      id: 'forumDetail',
+      title: forum.board_name,
+      component: ForumDetail,
+      passProps: forum,
       needPopButton: true
     });
   }

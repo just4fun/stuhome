@@ -1,7 +1,8 @@
 import React, {
   Component,
   View,
-  Text
+  Text,
+  TouchableHighlight
 } from 'react-native';
 import moment from 'moment';
 import styles from '../styles/components/_ForumItem';
@@ -16,15 +17,21 @@ export default class ForumItem extends Component {
 
     return (
       <View key={board_id} style={styles.subForum}>
-        <View style={styles.subForumRow}>
-          <Text style={styles.subForumTitle}>{board_name}</Text>
-          {td_posts_num !== 0 &&
-            <Text style={styles.subForumTodayPostsNumber}>
-              ({td_posts_num})
-            </Text>
-          }
-        </View>
-        <Text style={styles.subForumLastPostDate}>{last_posts_date}</Text>
+        <TouchableHighlight
+          underlayColor='#ddd'
+          onPress={() => this.props.router.toForum(subForum)}>
+          <View>
+            <View style={styles.subForumRow}>
+              <Text style={styles.subForumTitle}>{board_name}</Text>
+              {td_posts_num !== 0 &&
+                <Text style={styles.subForumTodayPostsNumber}>
+                  ({td_posts_num})
+                </Text>
+              }
+            </View>
+            <Text style={styles.subForumLastPostDate}>{last_posts_date}</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -38,7 +45,7 @@ export default class ForumItem extends Component {
           <Text style={styles.forumTitle}>{board_category_name}</Text>
         </View>
         <View>
-          {board_list.map(this._renderSubForum)}
+          {board_list.map(this._renderSubForum.bind(this))}
         </View>
       </View>
     );

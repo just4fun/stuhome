@@ -6,20 +6,23 @@ import React, {
 } from 'react-native';
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
-import { getUserFromStorage } from '../actions/authorizeAction';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class Home extends Component {
+export default class ForumDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.boardId = this.props.passProps.board_id;
+  }
+
   componentDidMount() {
-    this.props.dispatch(getUserFromStorage());
-    this.props.dispatch(fetchTopicListIfNeeded(null, 'new'));
+    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, 'new'));
   }
 
   _refreshTopic(page) {
     this.props.dispatch(invalidateTopicList());
-    this.props.dispatch(fetchTopicListIfNeeded(null, 'new', page));
+    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, 'new', page));
   }
 
   _endReached() {
@@ -38,12 +41,6 @@ export default class Home extends Component {
     const source = ds.cloneWithRows(topicList.list);
 
     return (
-      /**
-       * use `ControlledRefreshableListView` instead of `RefreshableListView` here
-       * since `_refreshTopic` won't return Promise which `loadData` needs to control
-       * the refreshing status. That being said, we should use `onRefresh` and `isRefreshing`
-       * to manually control it.
-       */
       <ControlledRefreshableListView
         dataSource={source}
         renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}

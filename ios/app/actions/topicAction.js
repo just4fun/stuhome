@@ -19,24 +19,51 @@ function requestTopicList() {
   };
 }
 
-function receiveTopicList(topicList) {
+function receiveTopicList(topicList, boardId) {
   return {
     type: RECEIVE_TOPICLIST,
-    topicList
+    topicList,
+    boardId
   };
 }
 
-function fetchTopicList(sortType = 'all', page = 1, pageSize = 20) {
+function fetchTopicList(boardId = null, sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestTopicList());
-    return fetch(API_ROOT + TOPICLIST_API_PATH + `&sortby=${sortType}&page=${page}&pageSize=${pageSize}`)
-      .then(response => response.json())
-      .then(json => dispatch(receiveTopicList(json)));
+
+    let requestUrl =
+      API_ROOT +
+      TOPICLIST_API_PATH +
+      `&boardId=${boardId}` +
+      `&sortby=${sortType}` +
+      `&page=${page}` +
+      `&pageSize=${pageSize}`;
+    return AsyncStorage.getItem('authrization')
+      .then(authrization => {
+        if (authrization) {
+          authrization = JSON.parse(authrization);
+          requestUrl +=
+            `&accessToken=${authrization.token}` +
+            `&accessSecret=${authrization.secret}`;
+        }
+
+        return fetch(requestUrl)
+          .then(response => response.json())
+          .then(json => dispatch(receiveTopicList(json, boardId)));
+      });
   };
 }
 
-function shouldFetchTopicList(state) {
+function shouldFetchTopicList(boardId, state) {
   const topicList = state.topicList;
+
+  /**
+   * in current implementation, we shared `TopicList` state in all components which
+   * contains topic list, so for having a simple cache, we just cache topic list
+   * for SAME forum. That said, if we access one forum, then change to another
+   * forum, then change back, we also need to fetch topic list again.
+   */
+  if (boardId !== topicList.boardId) { return true; }
 
   if (!topicList.list.length) { return true; }
 
@@ -45,10 +72,10 @@ function shouldFetchTopicList(state) {
   return topicList.didInvalidate;
 }
 
-export function fetchTopicListIfNeeded(sortType, page, pageSize) {
+export function fetchTopicListIfNeeded(boardId, sortType, page, pageSize) {
   return (dispatch, getState) => {
-    if (shouldFetchTopicList(getState())) {
-      return dispatch(fetchTopicList(sortType, page, pageSize));
+    if (shouldFetchTopicList(boardId, getState())) {
+      return dispatch(fetchTopicList(boardId, sortType, page, pageSize));
     }
   };
 }

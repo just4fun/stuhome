@@ -7,6 +7,7 @@ import {
 export default function topicList(state = {
   isFetching: false,
   didInvalidate: false,
+  boardId: null,
   list: [],
   hasMore: false,
   page: 0
@@ -29,6 +30,7 @@ export default function topicList(state = {
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
+        boardId: action.boardId,
         list: action.topicList.list,
         hasMore: action.topicList.has_next,
         page: action.topicList.page
