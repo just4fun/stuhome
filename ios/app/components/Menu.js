@@ -14,7 +14,6 @@ import SideMenu from 'react-native-side-menu';
 import Home from './Home';
 import Login from './Login';
 import ForumList from './ForumList';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const DEFAULT_AVATAR = 'http://facebook.github.io/react/img/logo_og.png';
 
