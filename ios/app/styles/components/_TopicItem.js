@@ -4,7 +4,7 @@ module.exports = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd'
   },

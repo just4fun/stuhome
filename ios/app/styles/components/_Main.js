@@ -7,6 +7,6 @@ module.exports = StyleSheet.create({
   container: {
     width: window.width,
     height: window.height,
-    backgroundColor: '#F5F5F5'
+    backgroundColor: '#fff'
   }
 });

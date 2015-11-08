@@ -4,7 +4,7 @@ module.exports = StyleSheet.create({
   form: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#fff'
   },
   formItem: {
     height: 40,

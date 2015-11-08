@@ -10,7 +10,7 @@ module.exports = StyleSheet.create({
     height: window.height,
     borderRightWidth: 1,
     borderRightColor: '#ddd',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#fff',
     paddingTop: 30,
   },
   menuHeader: {
