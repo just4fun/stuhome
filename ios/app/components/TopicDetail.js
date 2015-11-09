@@ -20,23 +20,20 @@ export default class TopicDetail extends Component {
     this.props.dispatch(resetTopic());
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     const { dispatch, entity } = nextProps;
     const { topicItem } = entity;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
       nextProps.router.pop();
-      return false;
     }
-
-    return true;
   }
 
   render() {
     const { topicItem } = this.props.entity;
 
-    if (topicItem.isFetching || !topicItem.topic.topic_id) { return <View></View>; }
+    if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) { return <View></View>; }
 
     const topic = topicItem.topic;
     const create_date = moment(topic.create_date * 1).startOf('minute').fromNow();

@@ -18,24 +18,20 @@ export default class Login extends Component {
     this._passwordValue = '';
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     this.router = nextProps.router;
     let { isFetching, authrization, hasError } = nextProps.entity.user;
 
     if (hasError) {
       AlertIOS.alert('提示', authrization.errcode);
       nextProps.dispatch(resetAuthrization());
-      return false;
     }
 
     if (authrization.token) {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(this.router.popToHome());
-      return false;
     }
-
-    return true;
   }
 
   _onSubmit() {
