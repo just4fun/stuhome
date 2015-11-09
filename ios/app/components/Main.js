@@ -24,6 +24,10 @@ import { getUserFromStorage } from '../actions/authorizeAction';
   }
 }))
 export default class Main extends Component {
+  componentDidMount() {
+    this.props.dispatch(getUserFromStorage());
+  }
+
   configureScene(route) {
     if (route.sceneConfig) {
       return route.sceneConfig;
