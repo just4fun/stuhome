@@ -11,26 +11,26 @@ module.exports = StyleSheet.create({
   authorInfo: {
     flex: 1,
     flexDirection: 'row',
-    marginBottom: 10,
-  },
-  avatarWapper: {
-    flex: 1,
   },
   avatar: {
-    height: 60,
-    width: 60,
+    flex: 1,
+    height: 35,
+    width: 35,
+    borderWidth: 1,
+    borderColor: '#ddd',
     borderRadius: 10,
   },
   author: {
-    flex: 3,
-    marginLeft: 10,
+    flex: 7,
+    marginLeft: 5,
+    marginTop: 3,
   },
   name: {
-    fontSize: 14,
-    marginBottom: 5,
+    fontSize: 12,
+    marginBottom: 3,
   },
   level: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#F16F53',
   },
   floor: {
@@ -38,8 +38,21 @@ module.exports = StyleSheet.create({
     textAlign: 'right',
     color: '#B7B7B7',
   },
+  comment: {
+    marginVertical: 10,
+  },
   commentText: {
     lineHeight: 15,
     textAlign: 'justify',
+  },
+  other: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  date: {
+    flex: 1,
+    textAlign: 'right',
+    fontSize: 12,
+    color: '#B7B7B7',
   },
 });

@@ -46,12 +46,15 @@ module.exports = StyleSheet.create({
   avatar: {
     height: 60,
     width: 60,
+    borderWidth: 1,
+    borderColor: '#ddd',
     borderRadius: 10,
   },
   author: {
     flex: 3,
     textAlign: 'left',
     marginLeft: 10,
+    marginTop: 3,
   },
   name: {
     fontSize: 14,
