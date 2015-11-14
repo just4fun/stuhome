@@ -4,12 +4,14 @@ import React, {
   Text,
   Image,
   AlertIOS,
-  ScrollView
+  ScrollView,
+  ActivityIndicatorIOS
 } from 'react-native';
 import moment from 'moment';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_TopicDetail';
+import indicatorStyles from '../styles/common/_Indicator';
 import { fetchTopic, resetTopic } from '../actions/topicAction';
 
 export default class TopicDetail extends Component {
@@ -34,7 +36,13 @@ export default class TopicDetail extends Component {
   render() {
     const { topicItem } = this.props.entity;
 
-    if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) { return <View></View>; }
+    if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
+      return (
+        <View style={indicatorStyles.indicator}>
+          <ActivityIndicatorIOS />
+        </View>
+      );
+    }
 
     const topic = topicItem.topic;
     const create_date = moment(topic.create_date * 1).startOf('minute').fromNow();
