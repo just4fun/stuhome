@@ -46,7 +46,6 @@ module.exports = StyleSheet.create({
   },
   avatarWapper: {
     flex: 1,
-    textAlign: 'left',
   },
   avatar: {
     height: 60,
@@ -57,7 +56,6 @@ module.exports = StyleSheet.create({
   },
   author: {
     flex: 3,
-    textAlign: 'left',
     marginLeft: 10,
     marginTop: 3,
   },
