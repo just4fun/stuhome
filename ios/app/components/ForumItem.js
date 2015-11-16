@@ -7,8 +7,6 @@ import React, {
 import moment from 'moment';
 import styles from '../styles/components/_ForumItem';
 
-moment.locale('zh-cn');
-
 export default class ForumItem extends Component {
   _renderSubForum(subForum) {
     let { board_id, board_name, td_posts_num, last_posts_date } = subForum;

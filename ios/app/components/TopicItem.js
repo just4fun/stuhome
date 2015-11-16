@@ -5,9 +5,9 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import moment from 'moment';
+// refer to this issue https://github.com/moment/momentjs.com/pull/241
+import 'moment/locale/zh-cn';
 import styles from '../styles/components/_TopicItem';
-
-moment.locale('zh-cn');
 
 export default class TopicItem extends Component {
   render() {
