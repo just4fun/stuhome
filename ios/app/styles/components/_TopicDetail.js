@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import {
+  Image,
+  StyleSheet
+} from 'react-native';
 
 module.exports = StyleSheet.create({
   indicator: {
@@ -72,9 +75,16 @@ module.exports = StyleSheet.create({
     textAlign: 'right',
     color: '#B7B7B7',
   },
+  contentItem: {
+    marginVertical: 5,
+  },
   contentText: {
     lineHeight: 18,
     textAlign: 'justify',
+  },
+  contentImage: {
+    height: 200,
+    resizeMode: Image.resizeMode.contain,
   },
   commentHeader: {
     height: 20,

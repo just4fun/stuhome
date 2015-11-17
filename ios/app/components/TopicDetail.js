@@ -82,7 +82,22 @@ export default class TopicDetail extends Component {
             <Text style={styles.floor}>楼主</Text>
           </View>
           <View>
-            {topic.content.map((content, index) => <Text key={index} style={styles.contentText}>{content.infor}</Text>)}
+            {topic.content.map((content, index) => {
+              switch (content.type) {
+                // text
+                case 0:
+                default:
+                  return <Text key={index}
+                               style={[styles.contentItem, styles.contentText]}>
+                           {content.infor}
+                         </Text>;
+                // pic
+                case 1:
+                  return <Image key={index}
+                                style={[styles.contentItem, styles.contentImage]}
+                                source={{uri: content.originalInfo}} />
+              }
+            })}
           </View>
         </View>
         <View style={styles.commentHeader}>

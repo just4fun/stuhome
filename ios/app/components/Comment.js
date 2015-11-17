@@ -28,8 +28,22 @@ export default class Comment extends Component {
           <Text style={styles.floor}>#{position}</Text>
         </View>
         <View style={styles.comment}>
-          {reply_content.map((content, index) =>
-            <Text key={index} style={styles.commentText}>{content.infor}</Text>)}
+          {reply_content.map((content, index) => {
+            switch (content.type) {
+              // text
+              case 0:
+              default:
+                return <Text key={index}
+                             style={[styles.commentSection, styles.commentText]}>
+                         {content.infor}
+                       </Text>;
+              // pic
+              case 1:
+                return <Image key={index}
+                              style={[styles.commentSection, styles.commentImage]}
+                              source={{uri: content.originalInfo}} />
+            }
+          })}
         </View>
         <View style={styles.other}>
           <Text style={styles.date}>{posts_date}</Text>

@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import {
+  Image,
+  StyleSheet
+} from 'react-native';
 
 module.exports = StyleSheet.create({
   commentItem: {
@@ -41,9 +44,16 @@ module.exports = StyleSheet.create({
   comment: {
     marginVertical: 10,
   },
+  commentSection: {
+    marginVertical: 5,
+  },
   commentText: {
     lineHeight: 15,
     textAlign: 'justify',
+  },
+  commentImage: {
+    height: 200,
+    resizeMode: Image.resizeMode.contain,
   },
   other: {
     flex: 1,
