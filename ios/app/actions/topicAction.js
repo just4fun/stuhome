@@ -87,9 +87,10 @@ export function invalidateTopicList() {
   };
 }
 
-function requestTopic() {
+function requestTopic(isEndReached) {
   return {
-    type: REQUEST_TOPIC
+    type: REQUEST_TOPIC,
+    isEndReached
   };
 }
 
@@ -100,11 +101,16 @@ function receiveTopic(topicItem) {
   };
 }
 
-export function fetchTopic(topicId) {
+export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 5) {
   return dispatch => {
-    dispatch(requestTopic());
+    dispatch(requestTopic(isEndReached));
 
-    let requestUrl = API_ROOT + TOPIC_API_PATH + `&topicId=${topicId}`;
+    let requestUrl =
+      API_ROOT +
+      TOPIC_API_PATH +
+      `&topicId=${topicId}` +
+      `&page=${page}` +
+      `&pageSize=${pageSize}`;
     return AsyncStorage.getItem('authrization')
       .then(authrization => {
         if (authrization) {

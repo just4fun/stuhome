@@ -37,7 +37,7 @@ export default function topicList(state = {
         didInvalidate: false,
         boardId: action.boardId,
         list: action.topicList.list,
-        hasMore: action.topicList.has_next,
+        hasMore: !!action.topicList.has_next,
         page: action.topicList.page
       });
     default:

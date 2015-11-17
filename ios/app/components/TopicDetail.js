@@ -5,7 +5,8 @@ import React, {
   Image,
   AlertIOS,
   ScrollView,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  ListView
 } from 'react-native';
 import moment from 'moment';
 import Comment from './Comment';
@@ -13,6 +14,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_TopicDetail';
 import indicatorStyles from '../styles/common/_Indicator';
 import { fetchTopic, resetTopic } from '../actions/topicAction';
+
+const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class TopicDetail extends Component {
   componentDidMount() {
@@ -24,13 +27,42 @@ export default class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, entity } = nextProps;
-    const { topicItem } = entity;
+    const { topicItem } = nextProps.entity;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
       nextProps.router.pop();
     }
+  }
+
+  _endReached() {
+    const {
+      hasMore,
+      isFetching,
+      isEndReached,
+      page
+    } = this.props.entity.topicItem;
+
+    if (!hasMore || isFetching || isEndReached) { return; }
+
+    this.props.dispatch(fetchTopic(this.props.passProps.topic_id, true, page + 1));
+  }
+
+  _renderFooter() {
+    const {
+      hasMore,
+      isFetching,
+      isEndReached,
+      page
+    } = this.props.entity.topicItem;
+
+    if (!hasMore || !isEndReached) { return <View></View>; }
+
+    return (
+      <View style={indicatorStyles.endRechedIndicator}>
+        <ActivityIndicatorIOS />
+      </View>
+    );
   }
 
   render() {
@@ -46,8 +78,9 @@ export default class TopicDetail extends Component {
 
     const topic = topicItem.topic;
     const create_date = moment(topic.create_date * 1).startOf('minute').fromNow();
+    const commentSource = ds.cloneWithRows(topicItem.list);
     const commentHeaderText =
-      topicItem.list.length ? (topicItem.list.length + '条评论') : '还没有评论，快来抢沙发！';
+      topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
 
     return (
       <ScrollView>
@@ -105,11 +138,14 @@ export default class TopicDetail extends Component {
             {commentHeaderText}
           </Text>
         </View>
-        <View style={styles.commentList}>
-          {topicItem.list.length > 0 &&
-            topicItem.list.map(comment => <Comment key={comment.reply_posts_id} comment={comment} />)
-          }
-        </View>
+        <ListView
+          style={styles.commentList}
+          dataSource={commentSource}
+          renderRow={comment => <Comment key={comment.reply_posts_id} comment={comment} />}
+          onEndReached={this._endReached.bind(this)}
+          onEndReachedThreshold={0}
+          renderFooter={this._renderFooter.bind(this)}
+        />
       </ScrollView>
     );
   }
