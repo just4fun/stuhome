@@ -22,8 +22,8 @@ export default function topicList(state = {
       });
     case REQUEST_TOPICLIST:
       return Object.assign({}, state, {
-        isRefreshing: action.isRefreshing,
-        isEndReached: !action.isRefreshing,
+        isRefreshing: !action.isEndReached,
+        isEndReached: action.isEndReached,
         didInvalidate: false
       });
     case RECEIVE_TOPICLIST:

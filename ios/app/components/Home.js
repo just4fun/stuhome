@@ -2,22 +2,24 @@ import React, {
   Component,
   View,
   Text,
-  ListView
+  ListView,
+  ActivityIndicatorIOS
 } from 'react-native';
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
+import indicatorStyles from '../styles/common/_Indicator';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class Home extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchTopicListIfNeeded(true, null, 'new'));
+    this.props.dispatch(fetchTopicListIfNeeded(null, false, 'new'));
   }
 
-  _refreshTopic(isRefreshing, page) {
+  _refreshTopic(page, isEndReached) {
     this.props.dispatch(invalidateTopicList());
-    this.props.dispatch(fetchTopicListIfNeeded(isRefreshing, null, 'new', page));
+    this.props.dispatch(fetchTopicListIfNeeded(null, isEndReached, 'new', page));
   }
 
   _endReached() {
@@ -30,7 +32,24 @@ export default class Home extends Component {
 
     if (!hasMore || isRefreshing || isEndReached) { return; }
 
-    this._refreshTopic(false, page + 1);
+    this._refreshTopic(page + 1, true);
+  }
+
+  _renderFooter() {
+    const {
+      hasMore,
+      isRefreshing,
+      isEndReached,
+      page
+    } = this.props.list.topicList;
+
+    if (!hasMore || !isEndReached) { return <View></View>; }
+
+    return (
+      <View style={indicatorStyles.endRechedIndicator}>
+        <ActivityIndicatorIOS />
+      </View>
+    );
   }
 
   render() {
@@ -51,6 +70,7 @@ export default class Home extends Component {
         isRefreshing={topicList.isRefreshing}
         onEndReached={this._endReached.bind(this)}
         onEndReachedThreshold={0}
+        renderFooter={this._renderFooter.bind(this)}
        />
     );
   }

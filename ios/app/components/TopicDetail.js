@@ -38,7 +38,7 @@ export default class TopicDetail extends Component {
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
-        <View style={indicatorStyles.indicator}>
+        <View style={indicatorStyles.fullScreenIndicator}>
           <ActivityIndicatorIOS />
         </View>
       );

@@ -13,10 +13,10 @@ import { API_ROOT } from '../config';
 const TOPICLIST_API_PATH = 'forum/topiclist';
 const TOPIC_API_PATH = 'forum/postlist';
 
-function requestTopicList(isRefreshing) {
+function requestTopicList(isEndReached) {
   return {
     type: REQUEST_TOPICLIST,
-    isRefreshing
+    isEndReached
   };
 }
 
@@ -28,9 +28,9 @@ function receiveTopicList(topicList, boardId) {
   };
 }
 
-function fetchTopicList(isRefreshing = true, boardId = null, sortType = 'all', page = 1, pageSize = 20) {
+function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
-    dispatch(requestTopicList(isRefreshing));
+    dispatch(requestTopicList(isEndReached));
 
     let requestUrl =
       API_ROOT +
@@ -73,10 +73,10 @@ function shouldFetchTopicList(boardId, state) {
   return topicList.didInvalidate;
 }
 
-export function fetchTopicListIfNeeded(isRefreshing, boardId, sortType, page, pageSize) {
+export function fetchTopicListIfNeeded(boardId, isEndReached, sortType, page, pageSize) {
   return (dispatch, getState) => {
     if (shouldFetchTopicList(boardId, getState())) {
-      return dispatch(fetchTopicList(isRefreshing, boardId, sortType, page, pageSize));
+      return dispatch(fetchTopicList(boardId, isEndReached, sortType, page, pageSize));
     }
   };
 }
