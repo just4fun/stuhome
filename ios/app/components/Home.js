@@ -12,27 +12,29 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class Home extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchTopicListIfNeeded(null, 'new'));
+    this.props.dispatch(fetchTopicListIfNeeded(true, null, 'new'));
   }
 
-  _refreshTopic(page) {
+  _refreshTopic(isRefreshing, page) {
     this.props.dispatch(invalidateTopicList());
-    this.props.dispatch(fetchTopicListIfNeeded(null, 'new', page));
+    this.props.dispatch(fetchTopicListIfNeeded(isRefreshing, null, 'new', page));
   }
 
   _endReached() {
-    const { dispatch, list } = this.props;
-    const { topicList } = list;
-    const { hasMore, isFetching, page } = topicList;
+    const {
+      hasMore,
+      isRefreshing,
+      isEndReached,
+      page
+    } = this.props.list.topicList;
 
-    if (!hasMore || isFetching) { return; }
+    if (!hasMore || isRefreshing || isEndReached) { return; }
 
-    this._refreshTopic(page + 1);
+    this._refreshTopic(false, page + 1);
   }
 
   render() {
-    const { dispatch, list } = this.props;
-    const { topicList } = list;
+    const { topicList } = this.props.list;
     const source = ds.cloneWithRows(topicList.list);
 
     return (
@@ -46,9 +48,9 @@ export default class Home extends Component {
         dataSource={source}
         renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
         onRefresh={this._refreshTopic.bind(this)}
-        isRefreshing={topicList.isFetching}
+        isRefreshing={topicList.isRefreshing}
         onEndReached={this._endReached.bind(this)}
-        onEndReachedThreshold={100}
+        onEndReachedThreshold={0}
        />
     );
   }

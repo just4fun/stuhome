@@ -5,7 +5,10 @@ import {
 } from '../constants/ActionTypes';
 
 export default function topicList(state = {
-  isFetching: false,
+  // indicate fetching via pull to refresh
+  isRefreshing: false,
+  // indicate fetching via end reached
+  isEndReached: false,
   didInvalidate: false,
   boardId: null,
   list: [],
@@ -19,7 +22,8 @@ export default function topicList(state = {
       });
     case REQUEST_TOPICLIST:
       return Object.assign({}, state, {
-        isFetching: true,
+        isRefreshing: action.isRefreshing,
+        isEndReached: !action.isRefreshing,
         didInvalidate: false
       });
     case RECEIVE_TOPICLIST:
@@ -28,7 +32,8 @@ export default function topicList(state = {
       }
 
       return Object.assign({}, state, {
-        isFetching: false,
+        isRefreshing: false,
+        isEndReached: false,
         didInvalidate: false,
         boardId: action.boardId,
         list: action.topicList.list,
