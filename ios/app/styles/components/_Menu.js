@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Dimensions from 'Dimensions';
+import colors from '../common/_colors';
 
 const window = Dimensions.get('window');
 
@@ -9,13 +10,13 @@ module.exports = StyleSheet.create({
     width: window.width * 2 / 3,
     height: window.height,
     borderRightWidth: 1,
-    borderRightColor: '#ddd',
-    backgroundColor: '#fff',
+    borderRightColor: colors.underlay,
+    backgroundColor: colors.white,
     paddingTop: 30,
   },
   menuHeader: {
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: colors.underlay,
     paddingLeft: 30,
     paddingBottom: 15
   },
@@ -23,7 +24,7 @@ module.exports = StyleSheet.create({
     height: 70,
     width: 70,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.underlay,
     justifyContent: 'center',
     alignItems: 'center',
   },

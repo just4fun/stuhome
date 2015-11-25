@@ -2,12 +2,13 @@ import {
   Image,
   StyleSheet
 } from 'react-native';
+import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({
   commentItem: {
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.underlay,
     marginBottom: 10,
     padding: 10,
   },
@@ -20,7 +21,7 @@ module.exports = StyleSheet.create({
     height: 35,
     width: 35,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.underlay,
     borderRadius: 10,
   },
   author: {
@@ -34,12 +35,12 @@ module.exports = StyleSheet.create({
   },
   level: {
     fontSize: 10,
-    color: '#F16F53',
+    color: colors.userLevel,
   },
   floor: {
     flex: 1,
     textAlign: 'right',
-    color: '#B7B7B7',
+    color: colors.mainField,
   },
   comment: {
     marginVertical: 10,
@@ -63,6 +64,6 @@ module.exports = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
     fontSize: 12,
-    color: '#B7B7B7',
+    color: colors.mainField,
   },
 });

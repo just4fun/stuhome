@@ -9,6 +9,7 @@ import React, {
   Navigator
 } from 'react-native';
 import styles from '../styles/components/_Menu';
+import colors from '../styles/common/_colors';
 import { userLogout } from '../actions/authorizeAction';
 import SideMenu from 'react-native-side-menu';
 import Home from './Home';
@@ -49,7 +50,7 @@ export default class Menu extends Component {
     if (authrization.token) {
       avatarComponent = <TouchableHighlight
                           style={styles.avatar}
-                          underlayColor='#ddd'
+                          underlayColor={colors.underlay}
                           onPress={this._showLogout.bind(this)}>
                           <Image
                            style={styles.avatar}
@@ -59,7 +60,7 @@ export default class Menu extends Component {
     } else {
       avatarComponent = <TouchableHighlight
                           style={styles.avatar}
-                          underlayColor='#ddd'
+                          underlayColor={colors.underlay}
                           onPress={() => {
                             this.context.menuActions.close();
                             this.router.toLogin({
@@ -80,7 +81,7 @@ export default class Menu extends Component {
         </View>
         <TouchableHighlight
           style={styles.row}
-          underlayColor='#ddd'
+          underlayColor={colors.underlay}
           onPress={() => {
             this.context.menuActions.close();
             this.router.toHome();
@@ -89,7 +90,7 @@ export default class Menu extends Component {
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.row}
-          underlayColor='#ddd'
+          underlayColor={colors.underlay}
           onPress={() => {
             this.context.menuActions.close();
             this.router.toForumList();

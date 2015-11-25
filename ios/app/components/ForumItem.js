@@ -5,6 +5,7 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import moment from 'moment';
+import colors from '../styles/common/_colors';
 import styles from '../styles/components/_ForumItem';
 
 export default class ForumItem extends Component {
@@ -16,7 +17,7 @@ export default class ForumItem extends Component {
     return (
       <View key={board_id} style={styles.subForum}>
         <TouchableHighlight
-          underlayColor='#ddd'
+          underlayColor={colors.underlay}
           onPress={() => this.props.router.toForum(subForum)}>
           <View>
             <View style={styles.subForumRow}>

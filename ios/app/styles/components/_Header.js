@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
+import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     height: 60,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: colors.underlay,
     justifyContent: 'center',
     paddingTop: 30
   },

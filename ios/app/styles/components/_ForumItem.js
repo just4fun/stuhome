@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native';
+import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   forumHeader: {
     height: 25,
-    backgroundColor: '#ddd',
+    backgroundColor: colors.underlay,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -18,7 +19,7 @@ module.exports = StyleSheet.create({
     flex: 1,
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: colors.underlay,
   },
   subForumRow: {
     flexDirection: 'row',
@@ -30,11 +31,11 @@ module.exports = StyleSheet.create({
   subForumTodayPostsNumber: {
     flex: 1,
     textAlign: 'right',
-    color: '#21B6F2',
+    color: colors.postNumber,
   },
   subForumLastPostDate: {
     textAlign: 'left',
-    color: '#B7B7B7',
+    color: colors.mainField,
     fontSize: 14,
     marginTop: 10,
   }

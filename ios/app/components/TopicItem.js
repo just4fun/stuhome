@@ -7,6 +7,7 @@ import React, {
 import moment from 'moment';
 // refer to this issue https://github.com/moment/momentjs.com/pull/241
 import 'moment/locale/zh-cn';
+import colors from '../styles/common/_colors';
 import styles from '../styles/components/_TopicItem';
 
 export default class TopicItem extends Component {
@@ -23,7 +24,7 @@ export default class TopicItem extends Component {
     return (
       <View style={styles.container}>
         <TouchableHighlight
-          underlayColor='#ddd'
+          underlayColor={colors.underlay}
           onPress={() => this.props.router.toTopic(this.props.topic)}>
           <View>
             <Text style={styles.title}>{title}</Text>

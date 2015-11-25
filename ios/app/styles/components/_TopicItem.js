@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
+import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd'
+    borderBottomColor: colors.underlay
   },
   title: {
     flex: 1,
@@ -22,13 +23,13 @@ module.exports = StyleSheet.create({
   name: {
     flex: 1,
     textAlign: 'left',
-    color: '#B7B7B7',
+    color: colors.mainField,
     paddingLeft: 10
   },
   date: {
     flex: 1,
     textAlign: 'right',
-    color: '#B7B7B7',
+    color: colors.mainField,
     paddingRight: 10
   }
 });
