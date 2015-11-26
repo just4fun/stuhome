@@ -18,6 +18,8 @@ const ActionTypes = {
   RECEIVE_LOGIN: 'RECEIVE_LOGIN',
 
   REQUEST_LOGOUT: 'REQUEST_LOGOUT',
+
+  CHANGE_ROUTE: 'CHANGE_ROUTE',
 };
 
 export default ActionTypes;

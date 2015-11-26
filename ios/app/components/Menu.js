@@ -42,6 +42,10 @@ export default class Menu extends Component {
     }.bind(this));
   }
 
+  _isCurrentRoute(routeId) {
+    return this.router && this.router.isCurrentRoute(routeId);
+  }
+
   render() {
     this.router = this.props.router;
     const authrization = this.props.entity.user.authrization;
@@ -80,22 +84,22 @@ export default class Menu extends Component {
           {avatarComponent}
         </View>
         <TouchableHighlight
-          style={styles.row}
+          style={[styles.row, this._isCurrentRoute('home') && styles.selectedRow]}
           underlayColor={colors.underlay}
           onPress={() => {
             this.context.menuActions.close();
             this.router.toHome();
           }}>
-          <Text style={styles.item}>最新</Text>
+          <Text style={[styles.item, this._isCurrentRoute('home') && styles.selectedItem]}>最新</Text>
         </TouchableHighlight>
         <TouchableHighlight
-          style={styles.row}
+          style={[styles.row, this._isCurrentRoute('forumList') && styles.selectedRow]}
           underlayColor={colors.underlay}
           onPress={() => {
             this.context.menuActions.close();
             this.router.toForumList();
           }}>
-          <Text style={styles.item}>版块</Text>
+          <Text style={[styles.item, this._isCurrentRoute('forumList') && styles.selectedItem]}>版块</Text>
         </TouchableHighlight>
       </View>
     );

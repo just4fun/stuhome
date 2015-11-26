@@ -12,8 +12,12 @@ import Menu from './Menu';
 import Home from './Home';
 import Header from './Header';
 import { getUserFromStorage } from '../actions/authorizeAction';
+import { changeRoute } from '../actions/routeAction';
 
 @connect(state => ({
+  app: {
+    route: state.route
+  },
   list: {
     topicList: state.topicList,
     forumList: state.forumList
@@ -37,7 +41,15 @@ export default class Main extends Component {
   }
 
   renderScene(route, navigator) {
-    this.router = this.router || new Router(navigator);
+    if (!this.router) {
+      this.router = new Router(navigator);
+
+      // indicate the current route in side menu
+      navigator.navigationContext.addListener('didfocus', e => {
+        let route = e.data.route;
+        this.props.dispatch(changeRoute(route));
+      }.bind(this));
+    }
 
     return (
       <View style={styles.container}>
@@ -56,6 +68,7 @@ export default class Main extends Component {
         touchToClose={true}>
         <Navigator
           initialRoute={{
+            id: 'home',
             title: '最新',
             component: Home
           }}

@@ -18,4 +18,6 @@ module.exports = {
   */
 
   white: '#fff',
+
+  lightBlue: '#21b6f2',
 }

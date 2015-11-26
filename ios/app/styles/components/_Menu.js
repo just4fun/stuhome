@@ -31,10 +31,16 @@ module.exports = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
+  selectedRow: {
+    backgroundColor: colors.underlay,
+  },
   item: {
     fontSize: 18,
     paddingTop: 10,
     paddingLeft: 30,
     paddingBottom: 10,
-  }
+  },
+  selectedItem: {
+    color: colors.lightBlue,
+  },
 });

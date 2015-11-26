@@ -11,11 +11,20 @@ export default class Router {
   }
 
   _navigateTo(route) {
-    let routeList = this.navigator.getCurrentRoutes();
-    let currentRoute = routeList[routeList.length - 1];
+    let currentRoute = this.getCurrentRoute();
     if (route.id !== currentRoute.id) {
       this.navigator.push(route);
     }
+  }
+
+  getCurrentRoute() {
+    let routeList = this.navigator.getCurrentRoutes();
+    let currentRoute = routeList[routeList.length - 1];
+    return currentRoute;
+  }
+
+  isCurrentRoute(routeId) {
+    return routeId === this.getCurrentRoute().id;
   }
 
   pop() {
