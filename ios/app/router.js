@@ -5,20 +5,22 @@ import ForumList from './components/ForumList';
 import TopicDetail from './components/TopicDetail';
 import ForumDetail from './components/ForumDetail';
 
+let _navigator = null;
+
 export default class Router {
   constructor(navigator) {
-    this.navigator = navigator;
+    _navigator = navigator;
   }
 
   _navigateTo(route) {
     let currentRoute = this.getCurrentRoute();
     if (route.id !== currentRoute.id) {
-      this.navigator.push(route);
+      _navigator.push(route);
     }
   }
 
   getCurrentRoute() {
-    let routeList = this.navigator.getCurrentRoutes();
+    let routeList = _navigator.getCurrentRoutes();
     let currentRoute = routeList[routeList.length - 1];
     return currentRoute;
   }
@@ -28,11 +30,11 @@ export default class Router {
   }
 
   pop() {
-    this.navigator.pop();
+    _navigator.pop();
   }
 
   popToHome() {
-    this.navigator.popToTop();
+    _navigator.popToTop();
   }
 
   toHome() {
