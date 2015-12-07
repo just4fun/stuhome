@@ -5,12 +5,10 @@ import React, {
   Navigator
 } from 'react-native';
 import { connect } from 'react-redux/native';
-import styles from '../styles/components/_Main';
 import Router from '../router';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
 import Home from './Home';
-import Header from './Header';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { changeRoute } from '../actions/routeAction';
 
@@ -51,12 +49,7 @@ export default class Main extends Component {
       }.bind(this));
     }
 
-    return (
-      <View style={styles.container}>
-        <Header title={route.title} router={this.router} needPopButton={route.needPopButton} />
-        <route.component {...this.props} router={this.router} passProps={route.passProps} />
-      </View>
-    );
+    return <route.component {...this.props} router={this.router} passProps={route.passProps} />;
   }
 
   render() {

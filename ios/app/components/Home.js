@@ -5,9 +5,11 @@ import React, {
   ListView,
   ActivityIndicatorIOS
 } from 'react-native';
+import mainStyles from '../styles/components/_Main';
+import indicatorStyles from '../styles/common/_Indicator';
+import Header from './Header';
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
-import indicatorStyles from '../styles/common/_Indicator';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -57,21 +59,23 @@ export default class Home extends Component {
     const source = ds.cloneWithRows(topicList.list);
 
     return (
-      /**
-       * use `ControlledRefreshableListView` instead of `RefreshableListView` here
-       * since `_refreshTopic` won't return Promise which `loadData` needs to control
-       * the refreshing status. That being said, we should use `onRefresh` and `isRefreshing`
-       * to manually control it.
-       */
-      <ControlledRefreshableListView
-        dataSource={source}
-        renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
-        onRefresh={this._refreshTopic.bind(this)}
-        isRefreshing={topicList.isRefreshing}
-        onEndReached={this._endReached.bind(this)}
-        onEndReachedThreshold={0}
-        renderFooter={this._renderFooter.bind(this)}
-       />
+      <View style={mainStyles.container}>
+        <Header title='最新' />
+        {/**
+         * use `ControlledRefreshableListView` instead of `RefreshableListView` here
+         * since `_refreshTopic` won't return Promise which `loadData` needs to control
+         * the refreshing status. That being said, we should use `onRefresh` and `isRefreshing`
+         * to manually control it.
+         */}
+        <ControlledRefreshableListView
+          dataSource={source}
+          renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
+          onRefresh={this._refreshTopic.bind(this)}
+          isRefreshing={topicList.isRefreshing}
+          onEndReached={this._endReached.bind(this)}
+          onEndReachedThreshold={0}
+          renderFooter={this._renderFooter.bind(this)} />
+      </View>
     );
   }
 }

@@ -4,6 +4,8 @@ import React, {
   Text,
   ListView
 } from 'react-native';
+import mainStyles from '../styles/components/_Main';
+import Header from './Header';
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import ForumItem from './ForumItem';
 import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
@@ -26,12 +28,15 @@ export default class ForumList extends Component {
     const source = ds.cloneWithRows(forumList.list);
 
     return (
-      <ControlledRefreshableListView
-        dataSource={source}
-        renderRow={(forum) => <ForumItem key={forum.board_category_id} forum={forum} router={this.props.router} />}
-        onRefresh={this._refreshForum.bind(this)}
-        isRefreshing={forumList.isFetching}
-      />
+      <View style={mainStyles.container}>
+        <Header title='版块' />
+        <ControlledRefreshableListView
+          dataSource={source}
+          renderRow={(forum) => <ForumItem key={forum.board_category_id} forum={forum} router={this.props.router} />}
+          onRefresh={this._refreshForum.bind(this)}
+          isRefreshing={forumList.isFetching}
+        />
+      </View>
     );
   }
 }

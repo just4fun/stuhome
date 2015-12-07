@@ -67,8 +67,7 @@ export default class Router {
       id: 'topicDetail',
       title: topic.board_name,
       component: TopicDetail,
-      passProps: topic,
-      needPopButton: true
+      passProps: topic
     });
   }
 
@@ -77,8 +76,7 @@ export default class Router {
       id: 'forumDetail',
       title: forum.board_name,
       component: ForumDetail,
-      passProps: forum,
-      needPopButton: true
+      passProps: forum
     });
   }
 }

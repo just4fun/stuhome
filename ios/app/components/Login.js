@@ -7,7 +7,9 @@ import React, {
   AsyncStorage,
   Navigator
 } from 'react-native';
+import mainStyles from '../styles/components/_Main';
 import styles from '../styles/components/_Login';
+import Header from './Header';
 import Button from 'react-native-button';
 import { userLogin, resetAuthrization } from '../actions/authorizeAction';
 
@@ -52,32 +54,35 @@ export default class Login extends Component {
     const { isFetching } = this.props.entity.user;
 
     return (
-      <View style={styles.form}>
-        <TextInput
-          ref={component => this._userName = component}
-          style={[styles.formItem, styles.formInput]}
-          onChangeText={(text) => {
-            this._userName.setNativeProps({ text: text });
-            this._userNameValue = text;
-          }}
-          placeholder='请输入用户名'
-          autoFocus={true}
-          editable={!isFetching} />
-        <TextInput
-          ref={component => this._password = component}
-          style={[styles.formItem, styles.formInput]}
-          onChangeText={(text) => {
-            this._password.setNativeProps({ text: text });
-            this._passwordValue = text;
-          }}
-          placeholder='请输入密码'
-          secureTextEntry={true}
-          editable={!isFetching} />
-        <Button
-          style={[styles.formItem, styles.formSubmit]}
-          onPress={this._onSubmit.bind(this)} >
-          登录
-        </Button>
+      <View style={mainStyles.container}>
+        <Header title='登陆' />
+        <View style={styles.form}>
+          <TextInput
+            ref={component => this._userName = component}
+            style={[styles.formItem, styles.formInput]}
+            onChangeText={(text) => {
+              this._userName.setNativeProps({ text: text });
+              this._userNameValue = text;
+            }}
+            placeholder='请输入用户名'
+            autoFocus={true}
+            editable={!isFetching} />
+          <TextInput
+            ref={component => this._password = component}
+            style={[styles.formItem, styles.formInput]}
+            onChangeText={(text) => {
+              this._password.setNativeProps({ text: text });
+              this._passwordValue = text;
+            }}
+            placeholder='请输入密码'
+            secureTextEntry={true}
+            editable={!isFetching} />
+          <Button
+            style={[styles.formItem, styles.formSubmit]}
+            onPress={this._onSubmit.bind(this)} >
+            登录
+          </Button>
+        </View>
       </View>
     );
   }

@@ -8,18 +8,30 @@ import React, {
   ActivityIndicatorIOS,
   ListView
 } from 'react-native';
+import mainStyles from '../styles/components/_Main';
+import indicatorStyles from '../styles/common/_Indicator';
+import styles from '../styles/components/_TopicDetail';
+import {
+  PopButton,
+  ReplyButton
+} from './common';
+import Header from './Header';
 import moment from 'moment';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from '../styles/components/_TopicDetail';
-import indicatorStyles from '../styles/common/_Indicator';
 import { fetchTopic, resetTopic } from '../actions/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class TopicDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.topicId = this.props.passProps.topic_id;
+    this.boardName = this.props.passProps.board_name;
+  }
+
   componentDidMount() {
-    this.props.dispatch(fetchTopic(this.props.passProps.topic_id));
+    this.props.dispatch(fetchTopic(this.topicId));
   }
 
   componentWillUnmount() {
@@ -45,7 +57,7 @@ export default class TopicDetail extends Component {
 
     if (!hasMore || isFetching || isEndReached) { return; }
 
-    this.props.dispatch(fetchTopic(this.props.passProps.topic_id, true, page + 1));
+    this.props.dispatch(fetchTopic(this.topicId, true, page + 1));
   }
 
   _renderFooter() {
@@ -65,13 +77,22 @@ export default class TopicDetail extends Component {
     );
   }
 
+  _handleReply() {
+
+  }
+
   render() {
     const { topicItem } = this.props.entity;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
-        <View style={indicatorStyles.fullScreenIndicator}>
-          <ActivityIndicatorIOS />
+        <View style={mainStyles.container}>
+          <Header title={this.boardName}>
+            <PopButton router={this.props.router} />
+          </Header>
+          <View style={indicatorStyles.fullScreenIndicator}>
+            <ActivityIndicatorIOS />
+          </View>
         </View>
       );
     }
@@ -83,70 +104,76 @@ export default class TopicDetail extends Component {
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
 
     return (
-      <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.title}>{topic.title}</Text>
-          <View style={styles.info}>
-            <Icon
-              style={styles.views}
-              name='eye'>
-              {topic.hits}
-            </Icon>
-            <Icon
-              style={styles.comments}
-              name='comments'>
-              {topic.replies}
-            </Icon>
-            <Text style={styles.date}>{create_date}</Text>
-          </View>
-        </View>
-        <View style={styles.postContent}>
-          <View style={styles.authorInfo}>
-            <View style={styles.avatarWapper}>
-              <Image
-               style={styles.avatar}
-               source={{uri: topic.icon}}
-              />
+      <View style={mainStyles.container}>
+        <Header title={this.boardName}>
+          <PopButton router={this.props.router} />
+          <ReplyButton onPress={this._handleReply} />
+        </Header>
+        <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.title}>{topic.title}</Text>
+            <View style={styles.info}>
+              <Icon
+                style={styles.views}
+                name='eye'>
+                {topic.hits}
+              </Icon>
+              <Icon
+                style={styles.comments}
+                name='comments'>
+                {topic.replies}
+              </Icon>
+              <Text style={styles.date}>{create_date}</Text>
             </View>
-            <View style={styles.author}>
-              <Text style={styles.name}>{topic.user_nick_name}</Text>
-              <Text style={styles.level}>{topic.userTitle}</Text>
+          </View>
+          <View style={styles.postContent}>
+            <View style={styles.authorInfo}>
+              <View style={styles.avatarWapper}>
+                <Image
+                 style={styles.avatar}
+                 source={{uri: topic.icon}}
+                />
+              </View>
+              <View style={styles.author}>
+                <Text style={styles.name}>{topic.user_nick_name}</Text>
+                <Text style={styles.level}>{topic.userTitle}</Text>
+              </View>
+              <Text style={styles.floor}>楼主</Text>
             </View>
-            <Text style={styles.floor}>楼主</Text>
+            <View>
+              {topic.content.map((content, index) => {
+                switch (content.type) {
+                  // text
+                  case 0:
+                  default:
+                    return <Text key={index}
+                                 style={[styles.contentItem, styles.contentText]}>
+                             {content.infor}
+                           </Text>;
+                  // pic
+                  case 1:
+                    return <Image key={index}
+                                  style={[styles.contentItem, styles.contentImage]}
+                                  source={{uri: content.originalInfo}} />
+                }
+              })}
+            </View>
           </View>
-          <View>
-            {topic.content.map((content, index) => {
-              switch (content.type) {
-                // text
-                case 0:
-                default:
-                  return <Text key={index}
-                               style={[styles.contentItem, styles.contentText]}>
-                           {content.infor}
-                         </Text>;
-                // pic
-                case 1:
-                  return <Image key={index}
-                                style={[styles.contentItem, styles.contentImage]}
-                                source={{uri: content.originalInfo}} />
-              }
-            })}
+          <View style={styles.commentHeader}>
+            <Text style={styles.commentHeaderText}>
+              {commentHeaderText}
+            </Text>
           </View>
-        </View>
-        <View style={styles.commentHeader}>
-          <Text style={styles.commentHeaderText}>
-            {commentHeaderText}
-          </Text>
-        </View>
-        <ListView
-          style={styles.commentList}
-          dataSource={commentSource}
-          renderRow={comment => <Comment key={comment.reply_posts_id} comment={comment} />}
-          onEndReached={this._endReached.bind(this)}
-          onEndReachedThreshold={0}
-          renderFooter={this._renderFooter.bind(this)}
-        />
-      </ScrollView>
+          <ListView
+            style={styles.commentList}
+            dataSource={commentSource}
+            renderRow={comment => <Comment key={comment.reply_posts_id} comment={comment} />}
+            onEndReached={this._endReached.bind(this)}
+            onEndReachedThreshold={0}
+            renderFooter={this._renderFooter.bind(this)}
+          />
+        </ScrollView>
+      </View>
     );
   }
 }
