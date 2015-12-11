@@ -11,7 +11,7 @@ export default class ReplyButton extends Component {
         style={this.props.style}
         name='reply'
         size={18}
-        onPress={() => this.props.onPress} />
+        onPress={this.props.onPress} />
     );
   }
 }

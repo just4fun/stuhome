@@ -16,6 +16,7 @@ import {
   ReplyButton
 } from './common';
 import Header from './Header';
+import ReplyModal from './ReplyModal';
 import moment from 'moment';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -77,10 +78,6 @@ export default class TopicDetail extends Component {
     );
   }
 
-  _handleReply() {
-
-  }
-
   render() {
     const { topicItem } = this.props.entity;
 
@@ -105,9 +102,13 @@ export default class TopicDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
+        <ReplyModal
+          ref={component => this._replyModal = component}
+          visible={false} />
+
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
-          <ReplyButton onPress={this._handleReply} />
+          <ReplyButton onPress={() => this._replyModal.openReplyModal()} />
         </Header>
         <ScrollView>
           <View style={styles.header}>
