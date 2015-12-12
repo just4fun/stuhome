@@ -20,4 +20,6 @@ module.exports = {
   white: '#fff',
 
   lightBlue: '#21b6f2',
+
+  disabledLightBlue: '#a5c9fd',
 }

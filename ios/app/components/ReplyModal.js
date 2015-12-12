@@ -40,12 +40,22 @@ export default class ReplayModal extends Component {
         style={styles.container}
         visible={this.state.isModalOpen}>
         <Header title={this.title}>
-          <Text style={styles.button} onPress={this.handleCancel.bind(this)}>取消</Text>
-          <Text style={styles.button} onPress={this.props.handlePublish}>发布</Text>
+          <Text
+            style={styles.button}
+            onPress={this.handleCancel.bind(this)}>
+            取消
+          </Text>
+          <Text
+            style={[styles.button, !this.state.replyContent.length && styles.disabled]}
+            onPress={this.props.handlePublish}>
+            发布
+          </Text>
         </Header>
         <TextInput
           placeholder='同学，请文明用语噢～'
           style={styles.replyBox}
+          value={this.state.replyContent}
+          onChangeText={(text) => this.setState({ replyContent: text })}
           autoFocus={true}
           multiline={true} />
       </Modal>

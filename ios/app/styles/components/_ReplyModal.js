@@ -20,4 +20,7 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  disabled: {
+    color: colors.disabledLightBlue,
+  },
 });
