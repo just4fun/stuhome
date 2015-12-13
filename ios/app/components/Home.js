@@ -10,7 +10,7 @@ import indicatorStyles from '../styles/common/_Indicator';
 import Header from './Header';
 import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
-import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topicAction';
+import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 

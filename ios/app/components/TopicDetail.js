@@ -20,7 +20,7 @@ import ReplyModal from './ReplyModal';
 import moment from 'moment';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { fetchTopic, resetTopic } from '../actions/topicAction';
+import { fetchTopic, resetTopic } from '../actions/topic/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
