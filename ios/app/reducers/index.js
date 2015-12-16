@@ -4,6 +4,7 @@ import user from './user';
 import forumList from './forumList';
 import topicList from './topicList';
 import topicItem from './topicItem';
+import comment from './comment';
 
 export default combineReducers({
   route,
@@ -13,4 +14,5 @@ export default combineReducers({
 
   user,
   topicItem,
+  comment
 });

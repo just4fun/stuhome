@@ -22,7 +22,8 @@ import { changeRoute } from '../actions/routeAction';
   },
   entity: {
     user: state.user,
-    topicItem: state.topicItem
+    topicItem: state.topicItem,
+    comment: state.comment
   }
 }))
 export default class Main extends Component {

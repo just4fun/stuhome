@@ -20,7 +20,7 @@ import ReplyModal from './ReplyModal';
 import moment from 'moment';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { fetchTopic, resetTopic } from '../actions/topic/topicAction';
+import { fetchTopic, resetTopic, publishComment } from '../actions/topic/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -28,11 +28,12 @@ export default class TopicDetail extends Component {
   constructor(props) {
     super(props);
     this.topicId = this.props.passProps.topic_id;
+    this.boardId = this.props.passProps.board_id;
     this.boardName = this.props.passProps.board_name;
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchTopic(this.topicId));
+    this.fetchTopic();
   }
 
   componentWillUnmount() {
@@ -46,6 +47,10 @@ export default class TopicDetail extends Component {
       AlertIOS.alert('提示', topicItem.errCode);
       nextProps.router.pop();
     }
+  }
+
+  fetchTopic() {
+    this.props.dispatch(fetchTopic(this.topicId));
   }
 
   _endReached() {
@@ -78,8 +83,18 @@ export default class TopicDetail extends Component {
     );
   }
 
+  publishComment(comment) {
+    this.props.dispatch(publishComment(
+      this.boardId,
+      this.topicId,
+      null,
+      null,
+      comment
+    ));
+  }
+
   render() {
-    const { topicItem } = this.props.entity;
+    const { topicItem, comment } = this.props.entity;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
@@ -104,7 +119,11 @@ export default class TopicDetail extends Component {
       <View style={mainStyles.container}>
         <ReplyModal
           ref={component => this._replyModal = component}
-          visible={false} />
+          {...this.props}
+          visible={false}
+          comment={comment}
+          handlePublish={this.publishComment.bind(this)}
+          fetchTopic={this.fetchTopic.bind(this)} />
 
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />

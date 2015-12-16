@@ -8,15 +8,26 @@ import React, {
 } from 'react-native';
 import Header from './Header';
 import styles from '../styles/components/_ReplyModal';
+import { resetPublish } from '../actions/topic/topicAction';
 
 export default class ReplayModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalOpen: this.props.visible || false,
+      isModalOpen: !!this.props.visible,
       replyContent: ''
     };
     this.title = this.props.title || '评论';
+    this.comment = this.props.comment;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const comment = nextProps.comment;
+    if (comment.response && comment.response.rs) {
+      this.handleCancel();
+      this.props.dispatch(resetPublish());
+      this.props.fetchTopic();
+    }
   }
 
   openReplyModal() {
@@ -45,11 +56,18 @@ export default class ReplayModal extends Component {
             onPress={this.handleCancel.bind(this)}>
             取消
           </Text>
-          <Text
-            style={[styles.button, !this.state.replyContent.length && styles.disabled]}
-            onPress={this.props.handlePublish}>
-            发布
-          </Text>
+          {(this.state.replyContent.length && !this.comment.isPublishing ) &&
+            <Text
+              style={styles.button}
+              onPress={() => this.props.handlePublish(this.state.replyContent)}>
+              发布
+            </Text>
+            ||
+            <Text
+              style={[styles.button, styles.disabled]}>
+              发布
+            </Text>
+          }
         </Header>
         <TextInput
           placeholder='同学，请文明用语噢～'
