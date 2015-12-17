@@ -18,7 +18,6 @@ export default class ReplayModal extends Component {
       replyContent: ''
     };
     this.title = this.props.title || '评论';
-    this.comment = this.props.comment;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +55,7 @@ export default class ReplayModal extends Component {
             onPress={this.handleCancel.bind(this)}>
             取消
           </Text>
-          {(this.state.replyContent.length && !this.comment.isPublishing ) &&
+          {(this.state.replyContent.length && !this.props.comment.isPublishing ) &&
             <Text
               style={styles.button}
               onPress={() => this.props.handlePublish(this.state.replyContent)}>

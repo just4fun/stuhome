@@ -89,7 +89,7 @@ function assemblePayload(
 
 export function publishComment(boardId, topicId, replyId, title, content) {
   return dispatch => {
-    dispatch(startPublish);
+    dispatch(startPublish());
 
     let requestUrl = API_ROOT + TOPIC_POST_API_PATH + `&apphash=${getAppHashValue()}&platType=5`;
     let payload = assemblePayload(boardId, topicId, replyId, title, content);
