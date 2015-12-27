@@ -94,7 +94,7 @@ export default class TopicDetail extends Component {
   }
 
   render() {
-    const { topicItem, comment } = this.props.entity;
+    const { topicItem, comment, user } = this.props.entity;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
@@ -110,6 +110,7 @@ export default class TopicDetail extends Component {
     }
 
     const topic = topicItem.topic;
+    const token = user.authrization.token;
     const create_date = moment(topic.create_date * 1).startOf('minute').fromNow();
     const commentSource = ds.cloneWithRows(topicItem.list);
     const commentHeaderText =
@@ -127,7 +128,11 @@ export default class TopicDetail extends Component {
 
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
-          <ReplyButton onPress={() => this._replyModal.openReplyModal()} />
+          {token &&
+            <ReplyButton onPress={() => this._replyModal.openReplyModal()} />
+            ||
+            <Text></Text>
+          }
         </Header>
         <ScrollView>
           <View style={styles.header}>
