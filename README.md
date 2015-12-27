@@ -24,11 +24,11 @@ Open [Live Demo](https://github.com/just4fun/uestc-bbs-react-native#live-demo) w
 
 #### Run on your iOS device
 
-- Execute same commands as [Simulator](https://github.com/just4fun/uestc-bbs-react-native#simulator) above except last step with Xcode, then follow this [official guide](http://facebook.github.io/react-native/docs/running-on-device-ios.html)
+- Execute same commands as [Run in simulator](https://github.com/just4fun/uestc-bbs-react-native#run-in-simulator) except last step with Xcode, then follow this [official guide](http://facebook.github.io/react-native/docs/running-on-device-ios.html)
 
 - Download [React Native Playground](https://itunes.apple.com/us/app/react-native-playground/id1002032944) from App Store
 
-  - Then scan QR code
+  - Then scan QR code below
 
   ![stuhome_qrcode](https://cloud.githubusercontent.com/assets/7512625/12009164/0082d9f8-aca8-11e5-9b04-a88bf9ff4ae3.png)
 
