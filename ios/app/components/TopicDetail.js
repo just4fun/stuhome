@@ -45,6 +45,7 @@ export default class TopicDetail extends Component {
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
+      nextProps.dispatch(resetTopic());
       nextProps.router.pop();
     }
   }
