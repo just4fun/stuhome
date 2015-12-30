@@ -6,7 +6,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Screenshot
 
-![](http://g.recordit.co/4FaIYxJwqH.gif)
+![](http://g.recordit.co/Z3RyLrdFTq.gif)
 
 ## Try it out
 
