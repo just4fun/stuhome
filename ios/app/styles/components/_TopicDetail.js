@@ -81,7 +81,6 @@ module.exports = StyleSheet.create({
   },
   contentText: {
     lineHeight: 18,
-    textAlign: 'justify',
   },
   contentImage: {
     height: 200,

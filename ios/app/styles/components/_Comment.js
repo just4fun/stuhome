@@ -50,7 +50,6 @@ module.exports = StyleSheet.create({
   },
   commentText: {
     lineHeight: 15,
-    textAlign: 'justify',
   },
   commentImage: {
     height: 200,

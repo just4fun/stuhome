@@ -14,7 +14,7 @@ module.exports = {
   submit: '#93adc6',
 
   /**
-  * customized colors 
+  * customized colors
   */
 
   white: '#fff',
