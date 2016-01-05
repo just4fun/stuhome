@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 import moment from 'moment';
 import styles from '../styles/components/_Comment';
+import { parseContentWithImage } from '../utils/app';
 
 export default class Comment extends Component {
   render() {
@@ -34,8 +35,8 @@ export default class Comment extends Component {
               case 0:
               default:
                 return <Text key={index}
-                             style={[styles.commentSection, styles.commentText]}>
-                         {content.infor}
+                             style={styles.commentSection}>
+                         {parseContentWithImage(content.infor)}
                        </Text>;
               // pic
               case 1:

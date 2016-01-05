@@ -79,9 +79,6 @@ module.exports = StyleSheet.create({
   contentItem: {
     marginVertical: 5,
   },
-  contentText: {
-    lineHeight: 18,
-  },
   contentImage: {
     height: 200,
     resizeMode: Image.resizeMode.contain,

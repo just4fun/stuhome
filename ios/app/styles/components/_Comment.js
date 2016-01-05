@@ -48,9 +48,6 @@ module.exports = StyleSheet.create({
   commentSection: {
     marginVertical: 5,
   },
-  commentText: {
-    lineHeight: 15,
-  },
   commentImage: {
     height: 200,
     resizeMode: Image.resizeMode.contain,

@@ -21,6 +21,7 @@ import moment from 'moment';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { fetchTopic, resetTopic, publishComment } from '../actions/topic/topicAction';
+import { parseContentWithImage } from '../utils/app';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -173,8 +174,8 @@ export default class TopicDetail extends Component {
                   case 0:
                   default:
                     return <Text key={index}
-                                 style={[styles.contentItem, styles.contentText]}>
-                             {content.infor}
+                                 style={styles.contentItem}>
+                             {parseContentWithImage(content.infor)}
                            </Text>;
                   // pic
                   case 1:
