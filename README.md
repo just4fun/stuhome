@@ -2,7 +2,7 @@
 
 An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://facebook.github.io/react-native/) with [Redux](http://redux.js.org/). APIs are provided by [UESTC-BBS](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
-###[Live Demo](https://rnplay.org/apps/VEFTKg)
+###~~[Live Demo](https://rnplay.org/apps/VEFTKg)~~
 
 ## Screenshot
 
@@ -18,21 +18,21 @@ npm install
 ```
 Then use Xcode to open this project and simply click **Run**.
 
-#### Run in browser
+#### ~~Run in browser~~
 
-Open [Live Demo](https://github.com/just4fun/uestc-bbs-react-native#live-demo) which hosted this project on the web and run it through [Appetize.io](http://www.appetize.io/) via [RNPlay](https://rnplay.org/).
+~~Open [Live Demo](https://github.com/just4fun/uestc-bbs-react-native#live-demo) which hosted this project on the web and run it through [Appetize.io](http://www.appetize.io/) via [RNPlay](https://rnplay.org/).~~
 
 #### Run on your iOS device
 
 - Execute same commands as [Run in simulator](https://github.com/just4fun/uestc-bbs-react-native#run-in-simulator) except last step with Xcode, then follow this [official guide](http://facebook.github.io/react-native/docs/running-on-device-ios.html)
 
-- Download [React Native Playground](https://itunes.apple.com/us/app/react-native-playground/id1002032944) from App Store
+- ~~Download [React Native Playground](https://itunes.apple.com/us/app/react-native-playground/id1002032944) from App Store~~
 
-  - Then scan QR code below
+  - ~~Then scan QR code below~~
 
   ![stuhome_qrcode](https://cloud.githubusercontent.com/assets/7512625/12009164/0082d9f8-aca8-11e5-9b04-a88bf9ff4ae3.png)
 
-  - Or search `stuhome` directly
+  - ~~Or search `stuhome` directly~~
 
 ## Status
 
