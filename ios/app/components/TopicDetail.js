@@ -113,7 +113,7 @@ export default class TopicDetail extends Component {
 
     const topic = topicItem.topic;
     const token = user.authrization.token;
-    const create_date = moment(topic.create_date * 1).startOf('minute').fromNow();
+    const create_date = moment(+topic.create_date).startOf('minute').fromNow();
     const commentSource = ds.cloneWithRows(topicItem.list);
     const commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';

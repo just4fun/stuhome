@@ -13,7 +13,7 @@ export default class Comment extends Component {
   render() {
     let { icon, reply_name, userTitle, position, reply_content, posts_date } = this.props.comment;
 
-    posts_date = moment(posts_date * 1).startOf('minute').fromNow();
+    posts_date = moment(+posts_date).startOf('minute').fromNow();
 
     return (
       <View style={styles.commentItem}>

@@ -12,7 +12,7 @@ export default class ForumItem extends Component {
   _renderSubForum(subForum) {
     let { board_name, td_posts_num, last_posts_date } = subForum;
 
-    last_posts_date = moment(last_posts_date * 1).startOf('minute').fromNow();
+    last_posts_date = moment(+last_posts_date).startOf('minute').fromNow();
 
     return (
       <TouchableHighlight

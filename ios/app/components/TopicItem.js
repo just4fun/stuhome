@@ -22,12 +22,8 @@ export default class TopicItem extends Component {
       last_reply_date
     } = this.props.topic;
 
-    /**
-     * what API return for `last_reply_date` is string, like '1445063799000',
-     * it will cause `Invalid date` if we use `new Date(last_reply_date)` or
-     * `moment(last_reply_date).format()`, so just simply use `* 1` to convert.
-     */
-    last_reply_date = moment(last_reply_date * 1).startOf('minute').fromNow();
+    // `last_reply_date` is timestamp in string from API
+    last_reply_date = moment(+last_reply_date).startOf('minute').fromNow();
 
     return (
       <View style={styles.container}>
