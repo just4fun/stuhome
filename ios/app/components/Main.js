@@ -4,9 +4,9 @@ import React, {
   Component,
   Navigator
 } from 'react-native';
+import SideMenu from 'react-native-side-menu';
 import { connect } from 'react-redux/native';
 import Router from '../router';
-import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
 import Home from './Home';
 import { getUserFromStorage } from '../actions/authorizeAction';

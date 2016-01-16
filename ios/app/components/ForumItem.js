@@ -10,12 +10,18 @@ import styles from '../styles/components/_ForumItem';
 
 export default class ForumItem extends Component {
   _renderSubForum(subForum) {
-    let { board_name, td_posts_num, last_posts_date } = subForum;
+    let {
+      board_id,
+      board_name,
+      td_posts_num,
+      last_posts_date
+    } = subForum;
 
     last_posts_date = moment(+last_posts_date).startOf('minute').fromNow();
 
     return (
       <TouchableHighlight
+        key={board_id}
         underlayColor={colors.underlay}
         onPress={() => this.props.router.toForum(subForum)}>
         <View style={styles.subForum}>
@@ -34,7 +40,10 @@ export default class ForumItem extends Component {
   }
 
   render() {
-    const { board_category_name, board_list } = this.props.forum;
+    const {
+      board_category_name,
+      board_list
+    } = this.props.forum;
 
     return (
       <View style={styles.container}>

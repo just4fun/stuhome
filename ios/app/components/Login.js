@@ -7,10 +7,10 @@ import React, {
   AsyncStorage,
   Navigator
 } from 'react-native';
+import Button from 'react-native-button';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/components/_Login';
 import Header from './Header';
-import Button from 'react-native-button';
 import { userLogin, resetAuthrization } from '../actions/authorizeAction';
 
 export default class Login extends Component {

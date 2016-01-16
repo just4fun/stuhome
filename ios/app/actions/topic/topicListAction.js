@@ -1,10 +1,10 @@
 import { AsyncStorage } from 'react-native';
+import { API_ROOT } from '../../config';
 import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
   RECEIVE_TOPICLIST,
 } from '../../constants/ActionTypes';
-import { API_ROOT } from '../../config';
 
 const TOPICLIST_API_PATH = 'forum/topiclist';
 
@@ -27,20 +27,19 @@ function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 
   return dispatch => {
     dispatch(requestTopicList(isEndReached));
 
-    let requestUrl =
-      API_ROOT +
-      TOPICLIST_API_PATH +
-      `&boardId=${boardId}` +
-      `&sortby=${sortType}` +
-      `&page=${page}` +
-      `&pageSize=${pageSize}`;
+    let requestUrl = API_ROOT +
+                     TOPICLIST_API_PATH +
+                     `&boardId=${boardId}` +
+                     `&sortby=${sortType}` +
+                     `&page=${page}` +
+                     `&pageSize=${pageSize}`;
+
     return AsyncStorage.getItem('authrization')
       .then(authrization => {
         if (authrization) {
           authrization = JSON.parse(authrization);
-          requestUrl +=
-            `&accessToken=${authrization.token}` +
-            `&accessSecret=${authrization.secret}`;
+          requestUrl += `&accessToken=${authrization.token}` +
+                        `&accessSecret=${authrization.secret}`;
         }
 
         return fetch(requestUrl)

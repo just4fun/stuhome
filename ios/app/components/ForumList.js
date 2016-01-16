@@ -4,9 +4,9 @@ import React, {
   Text,
   ListView
 } from 'react-native';
+import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import mainStyles from '../styles/components/_Main';
 import Header from './Header';
-import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import ForumItem from './ForumItem';
 import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
 

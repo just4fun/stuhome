@@ -4,12 +4,12 @@ import React, {
   Text,
   TouchableHighlight
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 // refer to this issue https://github.com/moment/momentjs.com/pull/241
 import 'moment/locale/zh-cn';
-import colors from '../styles/common/_colors';
 import styles from '../styles/components/_TopicItem';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import colors from '../styles/common/_colors';
 
 export default class TopicItem extends Component {
   render() {

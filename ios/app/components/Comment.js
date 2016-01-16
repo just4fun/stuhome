@@ -11,7 +11,14 @@ import { parseContentWithImage } from '../utils/app';
 
 export default class Comment extends Component {
   render() {
-    let { icon, reply_name, userTitle, position, reply_content, posts_date } = this.props.comment;
+    let {
+      reply_name,
+      userTitle,
+      icon,
+      position,
+      reply_content,
+      posts_date
+    } = this.props.comment;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 
@@ -20,8 +27,7 @@ export default class Comment extends Component {
         <View style={styles.authorInfo}>
           <Image
            style={styles.avatar}
-           source={{uri: icon}}
-          />
+           source={{uri: icon}} />
           <View style={styles.author}>
             <Text style={styles.name}>{reply_name}</Text>
             <Text style={styles.level}>{userTitle}</Text>

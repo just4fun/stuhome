@@ -1,13 +1,12 @@
 import { AsyncStorage } from 'react-native';
+import { API_ROOT } from '../config';
 import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
-
   SET_AUTHRIZATION,
   REQUEST_LOGOUT,
   RESET_AUTHRIZATION
 } from '../constants/ActionTypes';
-import { API_ROOT } from '../config';
 
 const API_PATH = 'user/login';
 
@@ -46,7 +45,7 @@ export function getUserFromStorage() {
 export function userLogin(userName, password) {
   return dispatch => {
     dispatch(requestLogin());
-    return fetch(API_ROOT + API_PATH + `&username=${userName}&password=${password}`)
+    return fetch(`${API_ROOT}${API_PATH}&username=${userName}&password=${password}`)
       .then(response => response.json())
       .then(json => dispatch(receiveLogin(json)));
   };

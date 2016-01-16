@@ -5,10 +5,10 @@ import React, {
   ListView,
   ActivityIndicatorIOS
 } from 'react-native';
+import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import Header from './Header';
-import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 

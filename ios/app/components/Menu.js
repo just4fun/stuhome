@@ -8,13 +8,13 @@ import React, {
   ActionSheetIOS,
   Navigator
 } from 'react-native';
+import SideMenu from 'react-native-side-menu';
 import styles from '../styles/components/_Menu';
 import colors from '../styles/common/_colors';
-import { userLogout } from '../actions/authorizeAction';
-import SideMenu from 'react-native-side-menu';
 import Home from './Home';
 import Login from './Login';
 import ForumList from './ForumList';
+import { userLogout } from '../actions/authorizeAction';
 
 const DEFAULT_AVATAR = 'http://facebook.github.io/react/img/logo_og.png';
 
@@ -58,8 +58,7 @@ export default class Menu extends Component {
                           onPress={this._showLogout.bind(this)}>
                           <Image
                            style={styles.avatar}
-                           source={{uri: authrization.avatar}}
-                          />
+                           source={{uri: authrization.avatar}} />
                         </TouchableHighlight>;
     } else {
       avatarComponent = <TouchableHighlight
@@ -73,8 +72,7 @@ export default class Menu extends Component {
                           }}>
                           <Image
                            style={styles.avatar}
-                           source={{uri: DEFAULT_AVATAR}}
-                          />
+                           source={{uri: DEFAULT_AVATAR}} />
                         </TouchableHighlight>;
     }
 

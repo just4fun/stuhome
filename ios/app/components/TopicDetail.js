@@ -8,18 +8,15 @@ import React, {
   ActivityIndicatorIOS,
   ListView
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/components/_TopicDetail';
-import {
-  PopButton,
-  ReplyButton
-} from './common';
 import Header from './Header';
 import ReplyModal from './ReplyModal';
-import moment from 'moment';
 import Comment from './Comment';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { PopButton, ReplyButton} from './common';
 import { fetchTopic, resetTopic, publishComment } from '../actions/topic/topicAction';
 import { parseContentWithImage } from '../utils/app';
 
@@ -28,9 +25,11 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 export default class TopicDetail extends Component {
   constructor(props) {
     super(props);
-    this.topicId = this.props.passProps.topic_id;
-    this.boardId = this.props.passProps.board_id;
-    this.boardName = this.props.passProps.board_name;
+    ({
+      topic_id: this.topicId,
+      board_id: this.boardId,
+      board_name: this.boardName
+    } = this.props.passProps);
   }
 
   componentDidMount() {
@@ -158,8 +157,7 @@ export default class TopicDetail extends Component {
               <View style={styles.avatarWapper}>
                 <Image
                  style={styles.avatar}
-                 source={{uri: topic.icon}}
-                />
+                 source={{uri: topic.icon}} />
               </View>
               <View style={styles.author}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>
@@ -197,8 +195,7 @@ export default class TopicDetail extends Component {
             renderRow={comment => <Comment key={comment.reply_posts_id} comment={comment} />}
             onEndReached={this._endReached.bind(this)}
             onEndReachedThreshold={0}
-            renderFooter={this._renderFooter.bind(this)}
-          />
+            renderFooter={this._renderFooter.bind(this)} />
         </ScrollView>
       </View>
     );

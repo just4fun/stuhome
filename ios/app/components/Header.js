@@ -3,9 +3,9 @@ import React, {
   View,
   Text
 } from 'react-native';
-import { MenuButton } from './common';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_Header';
+import { MenuButton } from './common';
 
 export default class Header extends Component {
   render() {

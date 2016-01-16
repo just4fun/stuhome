@@ -5,12 +5,12 @@ import React, {
   ListView,
   ActivityIndicatorIOS
 } from 'react-native';
+import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
-import { PopButton } from './common';
 import Header from './Header';
-import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import TopicItem from './TopicItem';
+import { PopButton } from './common';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -18,8 +18,10 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 export default class ForumDetail extends Component {
   constructor(props) {
     super(props);
-    this.boardId = this.props.passProps.board_id;
-    this.boardName = this.props.passProps.board_name;
+    ({
+      board_id: this.boardId,
+      board_name: this.boardName
+    } = this.props.passProps);
   }
 
   componentDidMount() {
@@ -77,8 +79,7 @@ export default class ForumDetail extends Component {
           isRefreshing={topicList.isRefreshing}
           onEndReached={this._endReached.bind(this)}
           onEndReachedThreshold={0}
-          renderFooter={this._renderFooter.bind(this)}
-        />
+          renderFooter={this._renderFooter.bind(this)} />
       </View>
     );
   }

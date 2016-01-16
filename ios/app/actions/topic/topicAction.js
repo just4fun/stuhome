@@ -1,4 +1,6 @@
 import { AsyncStorage } from 'react-native';
+import { API_ROOT, PLAT_TYPE } from '../../config';
+import { getAppHashValue } from '../../utils/app';
 import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC,
@@ -7,8 +9,6 @@ import {
   FINISH_PUBLISH,
   RESET_PUBLISH
 } from '../../constants/ActionTypes';
-import { API_ROOT } from '../../config';
-import { getAppHashValue } from '../../utils/app';
 
 const TOPIC_FETCH_API_PATH = 'forum/postlist';
 const TOPIC_POST_API_PATH = 'forum/topicadmin';
@@ -27,23 +27,22 @@ function receiveTopic(topicItem) {
   };
 }
 
-export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 5) {
+export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestTopic(isEndReached));
 
-    let requestUrl =
-      API_ROOT +
-      TOPIC_FETCH_API_PATH +
-      `&topicId=${topicId}` +
-      `&page=${page}` +
-      `&pageSize=${pageSize}`;
+    let requestUrl = API_ROOT +
+                     TOPIC_FETCH_API_PATH +
+                     `&topicId=${topicId}` +
+                     `&page=${page}` +
+                     `&pageSize=${pageSize}`;
+
     return AsyncStorage.getItem('authrization')
       .then(authrization => {
         if (authrization) {
           authrization = JSON.parse(authrization);
-          requestUrl +=
-            `&accessToken=${authrization.token}` +
-            `&accessSecret=${authrization.secret}`;
+          requestUrl += `&accessToken=${authrization.token}` +
+                        `&accessSecret=${authrization.secret}`;
         }
 
         return fetch(requestUrl)
@@ -91,7 +90,11 @@ export function publishComment(boardId, topicId, replyId, title, content) {
   return dispatch => {
     dispatch(startPublish());
 
-    let requestUrl = API_ROOT + TOPIC_POST_API_PATH + `&apphash=${getAppHashValue()}&platType=5`;
+    let requestUrl = API_ROOT +
+                     TOPIC_POST_API_PATH +
+                     `&apphash=${getAppHashValue()}` +
+                     `&platType=${PLAT_TYPE}`;
+
     let payload = assemblePayload(boardId, topicId, replyId, title, content);
     let fetchOptions = {
       method: 'POST',
@@ -101,18 +104,18 @@ export function publishComment(boardId, topicId, replyId, title, content) {
       },
       body: `act=reply&json=${JSON.stringify(payload)}`
     };
+
     return AsyncStorage.getItem('authrization')
       .then(authrization => {
         if (authrization) {
           authrization = JSON.parse(authrization);
-          requestUrl +=
-            `&accessToken=${authrization.token}` +
-            `&accessSecret=${authrization.secret}`;
+          requestUrl += `&accessToken=${authrization.token}` +
+                        `&accessSecret=${authrization.secret}`;
         }
 
         return fetch(requestUrl, fetchOptions)
-        .then(response => response.json())
-        .then(json => dispatch(finishPublish(json)));
+          .then(response => response.json())
+          .then(json => dispatch(finishPublish(json)));
       });
   };
 }
