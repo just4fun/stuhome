@@ -4,6 +4,8 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ###~~[Live Demo](https://rnplay.org/apps/VEFTKg)~~
 
+![](https://cloud.githubusercontent.com/assets/7512625/12371330/88981098-bc6a-11e5-8511-6e02c5233006.gif)
+
 ## Screenshot
 
 ![](http://g.recordit.co/Z3RyLrdFTq.gif)
