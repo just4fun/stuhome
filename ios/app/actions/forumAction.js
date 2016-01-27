@@ -1,5 +1,5 @@
-import { AsyncStorage } from 'react-native';
 import { API_ROOT } from '../config';
+import { fetchWithToken } from '../utils/app';
 import {
   INVALIDATE_FORUMLIST,
   REQUEST_FORUMLIST,
@@ -27,18 +27,7 @@ function fetchForumList() {
 
     let requestUrl = API_ROOT + API_PATH;
 
-    return AsyncStorage.getItem('authrization')
-      .then(authrization => {
-        if (authrization) {
-          authrization = JSON.parse(authrization);
-          requestUrl += `&accessToken=${authrization.token}` +
-                        `&accessSecret=${authrization.secret}`;
-        }
-
-        return fetch(requestUrl)
-          .then(response => response.json())
-          .then(json => dispatch(receiveForumList(json)));
-      });
+    return fetchWithToken(requestUrl, null, dispatch, receiveForumList);
   };
 }
 

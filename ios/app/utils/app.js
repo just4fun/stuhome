@@ -1,5 +1,6 @@
 import React, {
   Image,
+  AsyncStorage,
 } from 'react-native';
 import md5 from 'MD5';
 import { APP_AUTH_KEY } from '../config';
@@ -29,4 +30,24 @@ export function parseContentWithImage(content) {
       return item;
     }
   })
+}
+
+export function fetchWithToken(
+  requestUrl,
+  fetchOptions,
+  dispatch,
+  fetchSuccessCallbackAction,
+  fetchSuccessCallbackParameter) {
+  return AsyncStorage.getItem('authrization')
+    .then(authrization => {
+      if (authrization) {
+        authrization = JSON.parse(authrization);
+        requestUrl += `&accessToken=${authrization.token}` +
+                      `&accessSecret=${authrization.secret}`;
+      }
+
+      return fetch(requestUrl, fetchOptions)
+        .then(response => response.json())
+        .then(json => dispatch(fetchSuccessCallbackAction(json, fetchSuccessCallbackParameter)));
+    });
 }

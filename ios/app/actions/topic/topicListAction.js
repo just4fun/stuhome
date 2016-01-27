@@ -1,5 +1,5 @@
-import { AsyncStorage } from 'react-native';
 import { API_ROOT } from '../../config';
+import { fetchWithToken } from '../../utils/app';
 import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
@@ -15,7 +15,7 @@ function requestTopicList(isEndReached) {
   };
 }
 
-function receiveTopicList(topicList, boardId) {
+function receiveTopicList(topicList, { boardId }) {
   return {
     type: RECEIVE_TOPICLIST,
     topicList,
@@ -34,18 +34,7 @@ function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 
                      `&page=${page}` +
                      `&pageSize=${pageSize}`;
 
-    return AsyncStorage.getItem('authrization')
-      .then(authrization => {
-        if (authrization) {
-          authrization = JSON.parse(authrization);
-          requestUrl += `&accessToken=${authrization.token}` +
-                        `&accessSecret=${authrization.secret}`;
-        }
-
-        return fetch(requestUrl)
-          .then(response => response.json())
-          .then(json => dispatch(receiveTopicList(json, boardId)));
-      });
+    return fetchWithToken(requestUrl, null, dispatch, receiveTopicList, { boardId: boardId });
   };
 }
 

@@ -1,6 +1,5 @@
-import { AsyncStorage } from 'react-native';
 import { API_ROOT, PLAT_TYPE } from '../../config';
-import { getAppHashValue } from '../../utils/app';
+import { getAppHashValue, fetchWithToken } from '../../utils/app';
 import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC,
@@ -37,18 +36,7 @@ export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 2
                      `&page=${page}` +
                      `&pageSize=${pageSize}`;
 
-    return AsyncStorage.getItem('authrization')
-      .then(authrization => {
-        if (authrization) {
-          authrization = JSON.parse(authrization);
-          requestUrl += `&accessToken=${authrization.token}` +
-                        `&accessSecret=${authrization.secret}`;
-        }
-
-        return fetch(requestUrl)
-          .then(response => response.json())
-          .then(json => dispatch(receiveTopic(json)));
-      });
+    return fetchWithToken(requestUrl, null, dispatch, receiveTopic);
   };
 }
 
@@ -105,18 +93,7 @@ export function publishComment(boardId, topicId, replyId, title, content) {
       body: `act=reply&json=${JSON.stringify(payload)}`
     };
 
-    return AsyncStorage.getItem('authrization')
-      .then(authrization => {
-        if (authrization) {
-          authrization = JSON.parse(authrization);
-          requestUrl += `&accessToken=${authrization.token}` +
-                        `&accessSecret=${authrization.secret}`;
-        }
-
-        return fetch(requestUrl, fetchOptions)
-          .then(response => response.json())
-          .then(json => dispatch(finishPublish(json)));
-      });
+    return fetchWithToken(requestUrl, fetchOptions, dispatch, finishPublish);
   };
 }
 
