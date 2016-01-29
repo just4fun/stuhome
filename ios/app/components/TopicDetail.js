@@ -14,7 +14,7 @@ import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/components/_TopicDetail';
 import Header from './Header';
-import ReplyModal from './ReplyModal';
+import ReplyModal from './modal/ReplyModal';
 import Comment from './Comment';
 import { PopButton, ReplyButton} from './common';
 import { fetchTopic, resetTopic, publishComment } from '../actions/topic/topicAction';

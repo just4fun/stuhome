@@ -6,9 +6,9 @@ import React, {
   Modal,
   TouchableHighlight
 } from 'react-native';
-import styles from '../styles/components/_ReplyModal';
-import Header from './Header';
-import { resetPublish } from '../actions/topic/topicAction';
+import styles from '../../styles/components/modal/_ReplyModal';
+import Header from '../Header';
+import { resetPublish } from '../../actions/topic/topicAction';
 
 export default class ReplayModal extends Component {
   constructor(props) {
