@@ -7,9 +7,9 @@
   },
   "dependencies": {
     "MD5": "^1.3.0",
+    "apsl-react-native-button": "^2.4.1",
     "moment": "^2.10.6",
     "react-native": "^0.14.0",
-    "react-native-button": "^1.2.1",
     "react-native-refreshable-listview": "^1.3.0",
     "react-native-side-menu": "^0.14.2",
     "react-native-vector-icons": "^0.8.2",

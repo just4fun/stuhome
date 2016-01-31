@@ -11,8 +11,6 @@ module.exports = {
 
   postNumber: '#21b6f2',
 
-  submit: '#93adc6',
-
   /**
   * customized colors
   */

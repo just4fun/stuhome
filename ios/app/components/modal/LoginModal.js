@@ -8,7 +8,7 @@ import React, {
   Navigator,
   Modal,
 } from 'react-native';
-import Button from 'react-native-button';
+import Button from 'apsl-react-native-button';
 import styles from '../../styles/components/modal/_LoginModal';
 import { userLogin, resetAuthrization } from '../../actions/authorizeAction';
 
@@ -54,7 +54,7 @@ export default class Login extends Component {
   render() {
     let { isFetching } = this.props.user;
     let { userName, password } = this.state;
-    let isEnable = userName && password && !isFetching;
+    let isDisabled = !userName || !password || isFetching;
 
     return (
       <Modal
@@ -84,18 +84,14 @@ export default class Login extends Component {
             onChangeText={text => this.setState({ password: text })}
             placeholder='请输入密码'
             secureTextEntry={true} />
-          {isEnable &&
-            <Button
-              style={[styles.formItem, styles.formSubmit]}
-              onPress={() => this.props.dispatch(userLogin(userName, password))}>
-              登录
-            </Button>
-            ||
-            <Button
-              style={[styles.formItem, styles.formSubmit, styles.disabled]}>
-              登录
-            </Button>
-          }
+          <Button
+            style={[styles.formItem, styles.formSubmit]}
+            textStyle={styles.formSubmitText}
+            isDisabled={isDisabled}
+            isLoading={isFetching}
+            onPress={() => this.props.dispatch(userLogin(userName, password))}>
+            登录
+          </Button>
         </View>
       </Modal>
     );

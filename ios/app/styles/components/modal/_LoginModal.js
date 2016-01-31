@@ -34,11 +34,11 @@ module.exports = StyleSheet.create({
     marginBottom: 10,
   },
   formSubmit: {
+    borderColor: '#2980b9',
+    backgroundColor: '#3498db',
+    marginTop: 30,
+  },
+  formSubmitText: {
     color: colors.white,
-    backgroundColor: colors.submit,
-    paddingTop: 8,
-  },
-  disabled: {
-    backgroundColor: colors.mainField,
-  },
+  }
 });
