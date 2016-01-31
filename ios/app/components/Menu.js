@@ -11,8 +11,8 @@ import React, {
 import SideMenu from 'react-native-side-menu';
 import styles from '../styles/components/_Menu';
 import colors from '../styles/common/_colors';
+import LoginModal from './modal/LoginModal';
 import Home from './Home';
-import Login from './Login';
 import ForumList from './ForumList';
 import { userLogout } from '../actions/authorizeAction';
 
@@ -34,12 +34,10 @@ export default class Menu extends Component {
       switch (buttonIndex) {
         case 0:
           AsyncStorage.removeItem('authrization')
-            .then(() => {
-              this.props.dispatch(userLogout());
-            }.bind(this));
+            .then(() => this.props.dispatch(userLogout()));
           break;
       }
-    }.bind(this));
+    });
   }
 
   _isCurrentRoute(routeId) {
@@ -48,38 +46,37 @@ export default class Menu extends Component {
 
   render() {
     this.router = this.props.router;
-    const authrization = this.props.entity.user.authrization;
-    let avatarComponent = null;
-
-    if (authrization.token) {
-      avatarComponent = <TouchableHighlight
-                          style={styles.avatar}
-                          underlayColor={colors.underlay}
-                          onPress={this._showLogout.bind(this)}>
-                          <Image
-                           style={styles.avatar}
-                           source={{uri: authrization.avatar}} />
-                        </TouchableHighlight>;
-    } else {
-      avatarComponent = <TouchableHighlight
-                          style={styles.avatar}
-                          underlayColor={colors.underlay}
-                          onPress={() => {
-                            this.context.menuActions.close();
-                            this.router.toLogin({
-                              sceneConfig: Navigator.SceneConfigs.FloatFromBottom
-                            })
-                          }}>
-                          <Image
-                           style={styles.avatar}
-                           source={{uri: DEFAULT_AVATAR}} />
-                        </TouchableHighlight>;
-    }
+    let user = this.props.entity.user;
+    let authrization = user.authrization;
 
     return (
       <View style={styles.container}>
+        <LoginModal
+          ref={component => this._loginModal = component}
+          {...this.props}
+          visible={false}
+          user={user} />
+
         <View style={styles.menuHeader}>
-          {avatarComponent}
+          {authrization.token &&
+            <TouchableHighlight
+              style={styles.avatar}
+              underlayColor={colors.underlay}
+              onPress={() => this._showLogout()}>
+              <Image
+               style={styles.avatar}
+               source={{uri: authrization.avatar}} />
+            </TouchableHighlight>
+            ||
+            <TouchableHighlight
+              style={styles.avatar}
+              underlayColor={colors.underlay}
+              onPress={() => this._loginModal._openLoginModal()}>
+              <Image
+               style={styles.avatar}
+               source={{uri: DEFAULT_AVATAR}} />
+            </TouchableHighlight>
+          }
         </View>
         <TouchableHighlight
           style={[styles.row, this._isCurrentRoute('home') && styles.selectedRow]}

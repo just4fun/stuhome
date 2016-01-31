@@ -1,10 +1,25 @@
 import { StyleSheet } from 'react-native';
-import colors from '../common/_colors';
-
+import colors from '../../common/_colors';
 
 module.exports = StyleSheet.create({
+  close: {
+    marginTop: 20,
+    marginLeft: 20,
+    fontSize: 40,
+  },
+  top: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  subTitle: {
+    color: colors.mainField,
+    marginVertical: 20,
+  },
   form: {
-    flex: 1,
     padding: 20,
     backgroundColor: colors.white,
   },
@@ -22,5 +37,8 @@ module.exports = StyleSheet.create({
     color: colors.white,
     backgroundColor: colors.submit,
     paddingTop: 8,
-  }
+  },
+  disabled: {
+    backgroundColor: colors.mainField,
+  },
 });

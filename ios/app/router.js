@@ -1,6 +1,5 @@
 import { Navigator } from 'react-native';
 import Home from './components/Home';
-import Login from './components/Login';
 import ForumList from './components/ForumList';
 import TopicDetail from './components/TopicDetail';
 import ForumDetail from './components/ForumDetail';
@@ -42,15 +41,6 @@ export default class Router {
       id: 'home',
       title: '最新',
       component: Home
-    });
-  }
-
-  toLogin(config) {
-    this._navigateTo({
-      id: 'login',
-      title: '登录',
-      component: Login,
-      sceneConfig: config.sceneConfig
     });
   }
 
