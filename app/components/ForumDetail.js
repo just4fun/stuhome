@@ -49,12 +49,10 @@ export default class ForumDetail extends Component {
   _renderFooter() {
     const {
       hasMore,
-      isRefreshing,
-      isEndReached,
-      page
+      isEndReached
     } = this.props.list.topicList;
 
-    if (!hasMore || !isEndReached) { return <View></View>; }
+    if (!hasMore || !isEndReached) { return; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -75,11 +73,11 @@ export default class ForumDetail extends Component {
         <ControlledRefreshableListView
           dataSource={source}
           renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
-          onRefresh={this._refreshTopic.bind(this)}
+          onRefresh={() => this._refreshTopic()}
           isRefreshing={topicList.isRefreshing}
-          onEndReached={this._endReached.bind(this)}
+          onEndReached={() => this._endReached()}
           onEndReachedThreshold={0}
-          renderFooter={this._renderFooter.bind(this)} />
+          renderFooter={() => this._renderFooter()} />
       </View>
     );
   }

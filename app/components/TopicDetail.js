@@ -70,12 +70,10 @@ export default class TopicDetail extends Component {
   _renderFooter() {
     const {
       hasMore,
-      isFetching,
-      isEndReached,
-      page
+      isEndReached
     } = this.props.entity.topicItem;
 
-    if (!hasMore || !isEndReached) { return <View></View>; }
+    if (!hasMore || !isEndReached) { return; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -124,8 +122,8 @@ export default class TopicDetail extends Component {
           {...this.props}
           visible={false}
           comment={comment}
-          handlePublish={this.publishComment.bind(this)}
-          fetchTopic={this.fetchTopic.bind(this)} />
+          handlePublish={content => this.publishComment(content)}
+          fetchTopic={() => this.fetchTopic()} />
 
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
@@ -193,9 +191,9 @@ export default class TopicDetail extends Component {
             style={styles.commentList}
             dataSource={commentSource}
             renderRow={comment => <Comment key={comment.reply_posts_id} comment={comment} />}
-            onEndReached={this._endReached.bind(this)}
+            onEndReached={() => this._endReached()}
             onEndReachedThreshold={0}
-            renderFooter={this._renderFooter.bind(this)} />
+            renderFooter={() => this._renderFooter()} />
         </ScrollView>
       </View>
     );

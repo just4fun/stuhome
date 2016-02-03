@@ -52,7 +52,7 @@ export default class ReplayModal extends Component {
         <Header title={this.title}>
           <Text
             style={styles.button}
-            onPress={this.handleCancel.bind(this)}>
+            onPress={() => this.handleCancel()}>
             取消
           </Text>
           {(this.state.replyContent.length && !this.props.comment.isPublishing ) &&

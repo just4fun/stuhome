@@ -47,7 +47,7 @@ export default class Main extends Component {
       navigator.navigationContext.addListener('didfocus', e => {
         let route = e.data.route;
         this.props.dispatch(changeRoute(route));
-      }.bind(this));
+      });
     }
 
     return <route.component {...this.props} router={this.router} passProps={route.passProps} />;

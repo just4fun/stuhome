@@ -33,7 +33,7 @@ export default class ForumList extends Component {
         <ControlledRefreshableListView
           dataSource={source}
           renderRow={(forum) => <ForumItem key={forum.board_category_id} forum={forum} router={this.props.router} />}
-          onRefresh={this._refreshForum.bind(this)}
+          onRefresh={() => this._refreshForum()}
           isRefreshing={forumList.isFetching}
         />
       </View>
