@@ -27,6 +27,7 @@ Then use Xcode to open this project and simply click **Run**.
 #### Run on your iOS device
 
 - Execute same commands as [Run in simulator](https://github.com/just4fun/uestc-bbs-react-native#run-in-simulator) except last step with Xcode, then follow this [official guide](http://facebook.github.io/react-native/docs/running-on-device-ios.html)
+  - **Tip**: JavaScript thread performance suffers greatly when running in dev mode (refer [here](https://facebook.github.io/react-native/docs/performance.html)), so it's best to change `Build Configuration` from `Debug` to `Release` when using offline bundle (refer [here](https://facebook.github.io/react-native/docs/running-on-device-ios.html#using-offline-bundle)).
 
 - ~~Download [React Native Playground](https://itunes.apple.com/us/app/react-native-playground/id1002032944) from App Store~~
 
@@ -55,11 +56,12 @@ Now it's still being built, and it maybe buggy honestly.
 - [ ] Read private messages
 - [ ] Reply private messages
 - [ ] Personal settings
+- [ ] Unit Testing (refer this [article](http://www.schibsted.pl/2015/10/testing-react-native-components-with-jest/))
 
 ## Known issues
 
-- User avatar is not displayed sometimes
-- Switching between pages is not very smooth
+- User avatar is not displayed sometimes: [issue](https://github.com/facebook/react-native/issues/5616)
+- Switching between pages is not very smooth: [performance](https://facebook.github.io/react-native/docs/performance.html)
 
 ## License
 [The MIT License](http://opensource.org/licenses/MIT)
