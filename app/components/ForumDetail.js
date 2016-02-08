@@ -10,8 +10,10 @@ import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import Header from './Header';
 import TopicItem from './TopicItem';
-import { PopButton } from './common';
+import { PopButton, PublishButton } from './common';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
+import PublishModal from './modal/PublishModal';
+import { publish } from '../actions/topic/topicAction';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -61,14 +63,38 @@ export default class ForumDetail extends Component {
     );
   }
 
+  _publish(topic) {
+    let { typeId, title, content } = topic;
+
+    this.props.dispatch(publish(
+      this.props.boardId,
+      null,
+      null,
+      typeId,
+      title,
+      content
+    ));
+  }
+
   render() {
     const { topicList } = this.props.list;
+    const { comment } = this.props.entity;
     const source = ds.cloneWithRows(topicList.list);
 
     return (
       <View style={mainStyles.container}>
-        <Header title={this.boardName}>
+        <PublishModal
+          ref={component => this._publishModal = component}
+          visible={false}
+          comment={comment}
+          handlePublish={topic => this._publish(topic)} />
+
+        <Header
+          title={this.boardName}
+          comment={comment}>
           <PopButton router={this.props.router} />
+          <PublishButton
+            onPress={() => this._publishModal.openPublishModal()} />
         </Header>
         <ControlledRefreshableListView
           dataSource={source}

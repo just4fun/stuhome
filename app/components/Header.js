@@ -17,11 +17,9 @@ export default class Header extends Component {
     switch (count) {
       case 0:
         leftTopButton = <MenuButton style={styles.left} />
-        rightTopButton = <Text style={styles.right}></Text>;
         break;
       case 1:
         leftTopButton = React.cloneElement(buttons, { style: [buttons.props.style, styles.left] });
-        rightTopButton = <Text style={styles.right}></Text>;
         break;
       case 2:
         leftTopButton = React.cloneElement(buttons[0], { style: [buttons[0].props.style, styles.left] });
@@ -33,7 +31,7 @@ export default class Header extends Component {
       <View style={styles.container}>
         {leftTopButton}
         <Text style={styles.title}>{this.props.title}</Text>
-        {rightTopButton}
+        {rightTopButton || <Text style={styles.right}></Text>}
       </View>
     );
   }

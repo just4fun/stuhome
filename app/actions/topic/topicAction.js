@@ -11,6 +11,10 @@ import {
 
 const TOPIC_FETCH_API_PATH = 'forum/postlist';
 const TOPIC_POST_API_PATH = 'forum/topicadmin';
+const ACTIONS = {
+  REPLY: 'reply',
+  NEW: 'new'
+};
 
 function requestTopic(isEndReached) {
   return {
@@ -50,6 +54,7 @@ function assemblePayload(
   boardId,
   topicId,
   replyId,
+  typeId,
   title,
   content
 ) {
@@ -62,7 +67,8 @@ function assemblePayload(
         isOnlyAuthor: 0,
         isQuote: 0,
         replyId: replyId,
-        title: null,
+        typeId: typeId,
+        title: title,
         content: JSON.stringify([
           {
             type: 0,
@@ -74,7 +80,21 @@ function assemblePayload(
   };
 }
 
-export function publishComment(boardId, topicId, replyId, title, content) {
+function assembleFetchOptions(payload) {
+  // check `tid` (aka `topicId`) for obtaining `action`
+  let action = payload.body.json.fid ? ACTIONS.REPLY : ACTIONS.NEW;
+
+  return {
+    method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: `act=${action}&json=${JSON.stringify(payload)}`
+  };
+}
+
+export function publish(boardId, topicId, replyId, typeId, title, content) {
   return dispatch => {
     dispatch(startPublish());
 
@@ -83,15 +103,8 @@ export function publishComment(boardId, topicId, replyId, title, content) {
                      `&apphash=${getAppHashValue()}` +
                      `&platType=${PLAT_TYPE}`;
 
-    let payload = assemblePayload(boardId, topicId, replyId, title, content);
-    let fetchOptions = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      },
-      body: `act=reply&json=${JSON.stringify(payload)}`
-    };
+    let payload = assemblePayload(boardId, topicId, replyId, typeId, title, content);
+    let fetchOptions = assembleFetchOptions(payload);
 
     return fetchWithToken(requestUrl, fetchOptions, dispatch, finishPublish);
   };

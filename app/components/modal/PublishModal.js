@@ -4,21 +4,22 @@ import React, {
   Text,
   TextInput,
   Modal,
-  TouchableHighlight
 } from 'react-native';
 import modalStyles from '../../styles/common/_Modal';
-import styles from '../../styles/components/modal/_ReplyModal';
+import styles from '../../styles/components/modal/_PublishModal';
 import Header from '../Header';
 import { resetPublish } from '../../actions/topic/topicAction';
 
-export default class ReplayModal extends Component {
+export default class PublishModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isModalOpen: !!this.props.visible,
-      replyContent: ''
+      typeId: null,
+      title: '',
+      content: ''
     };
-    this.title = this.props.title || '评论';
+    this.title = this.props.title || '发表新主题';
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,11 +27,11 @@ export default class ReplayModal extends Component {
     if (comment.response && comment.response.rs) {
       this.handleCancel();
       this.props.dispatch(resetPublish());
-      this.props.fetchTopic();
+      // this.props.fetchTopic();
     }
   }
 
-  openReplyModal() {
+  openPublishModal() {
     this.setState({
       isModalOpen: true
     });
@@ -39,11 +40,24 @@ export default class ReplayModal extends Component {
   handleCancel() {
     this.setState({
       isModalOpen: false,
-      replyContent: ''
+      typeId: null,
+      title: '',
+      content: ''
     });
   }
 
+  _isFormValid() {
+    let { typeId, title, content } = this.state;
+
+    return typeId !== null
+        && title.length
+        && content.length
+        && !this.props.comment.isPublishing;
+  }
+
   render() {
+    let { typeId, title, content } = this.state;
+
     return (
       <Modal
         animated={true}
@@ -56,10 +70,14 @@ export default class ReplayModal extends Component {
             onPress={() => this.handleCancel()}>
             取消
           </Text>
-          {(this.state.replyContent.length && !this.props.comment.isPublishing ) &&
+          {this._isFormValid() &&
             <Text
               style={modalStyles.button}
-              onPress={() => this.props.handlePublish(this.state.replyContent)}>
+              onPress={() => this.props.handlePublish({
+                typeId,
+                title,
+                content
+              })}>
               发布
             </Text>
             ||
@@ -69,13 +87,6 @@ export default class ReplayModal extends Component {
             </Text>
           }
         </Header>
-        <TextInput
-          placeholder='同学，请文明用语噢～'
-          style={styles.replyBox}
-          value={this.state.replyContent}
-          onChangeText={(text) => this.setState({ replyContent: text })}
-          autoFocus={true}
-          multiline={true} />
       </Modal>
     );
   }

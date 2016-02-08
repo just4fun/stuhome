@@ -17,7 +17,7 @@ import Header from './Header';
 import ReplyModal from './modal/ReplyModal';
 import Comment from './Comment';
 import { PopButton, ReplyButton} from './common';
-import { fetchTopic, resetTopic, publishComment } from '../actions/topic/topicAction';
+import { fetchTopic, resetTopic, publish } from '../actions/topic/topicAction';
 import { parseContentWithImage } from '../utils/app';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -82,10 +82,11 @@ export default class TopicDetail extends Component {
     );
   }
 
-  publishComment(comment) {
-    this.props.dispatch(publishComment(
+  _publish(comment) {
+    this.props.dispatch(publish(
       this.boardId,
       this.topicId,
+      null,
       null,
       null,
       comment
@@ -122,7 +123,7 @@ export default class TopicDetail extends Component {
           {...this.props}
           visible={false}
           comment={comment}
-          handlePublish={content => this.publishComment(content)}
+          handlePublish={content => this._publish(content)}
           fetchTopic={() => this.fetchTopic()} />
 
         <Header title={this.boardName}>
