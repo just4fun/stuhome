@@ -12,6 +12,7 @@ export default function topicList(state = {
   didInvalidate: false,
   boardId: null,
   list: [],
+  typeList: [],
   hasMore: false,
   page: 0
 }, action) {
@@ -37,6 +38,7 @@ export default function topicList(state = {
         didInvalidate: false,
         boardId: action.boardId,
         list: action.topicList.list,
+        typeList: action.topicList.classificationType_list,
         hasMore: !!action.topicList.has_next,
         page: action.topicList.page
       });

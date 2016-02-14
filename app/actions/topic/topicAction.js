@@ -82,7 +82,7 @@ function assemblePayload(
 
 function assembleFetchOptions(payload) {
   // check `tid` (aka `topicId`) for obtaining `action`
-  let action = payload.body.json.fid ? ACTIONS.REPLY : ACTIONS.NEW;
+  let action = payload.body.json.tid ? ACTIONS.REPLY : ACTIONS.NEW;
 
   return {
     method: 'POST',

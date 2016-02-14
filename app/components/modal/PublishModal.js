@@ -4,10 +4,15 @@ import React, {
   Text,
   TextInput,
   Modal,
+  ScrollView,
+  TouchableHighlight,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_PublishModal';
+import colors from '../../styles/common/_colors';
 import Header from '../Header';
+import TopicTypeModal from './TopicTypeModal';
 import { resetPublish } from '../../actions/topic/topicAction';
 
 export default class PublishModal extends Component {
@@ -15,7 +20,10 @@ export default class PublishModal extends Component {
     super(props);
     this.state = {
       isModalOpen: !!this.props.visible,
-      typeId: null,
+      type: {
+        typeId: null,
+        typeName: null
+      },
       title: '',
       content: ''
     };
@@ -27,7 +35,7 @@ export default class PublishModal extends Component {
     if (comment.response && comment.response.rs) {
       this.handleCancel();
       this.props.dispatch(resetPublish());
-      // this.props.fetchTopic();
+      this.props.fetchTopicList();
     }
   }
 
@@ -40,23 +48,26 @@ export default class PublishModal extends Component {
   handleCancel() {
     this.setState({
       isModalOpen: false,
-      typeId: null,
+      type: {
+        typeId: null,
+        typeName: null
+      },
       title: '',
       content: ''
     });
   }
 
   _isFormValid() {
-    let { typeId, title, content } = this.state;
+    let { type, title, content } = this.state;
 
-    return typeId !== null
+    return type.typeId !== null
         && title.length
         && content.length
         && !this.props.comment.isPublishing;
   }
 
   render() {
-    let { typeId, title, content } = this.state;
+    let { type, title, content } = this.state;
 
     return (
       <Modal
@@ -64,6 +75,11 @@ export default class PublishModal extends Component {
         transparent={false}
         style={modalStyles.container}
         visible={this.state.isModalOpen}>
+        <TopicTypeModal
+          types={this.props.types}
+          ref={component => this._topicTypeModal = component}
+          visible={false}
+          setTopicType={type => this.setState({type})} />
         <Header title={this.title}>
           <Text
             style={modalStyles.button}
@@ -74,7 +90,7 @@ export default class PublishModal extends Component {
             <Text
               style={modalStyles.button}
               onPress={() => this.props.handlePublish({
-                typeId,
+                typeId: type.typeId,
                 title,
                 content
               })}>
@@ -87,6 +103,42 @@ export default class PublishModal extends Component {
             </Text>
           }
         </Header>
+        <ScrollView style={styles.form}>
+          <TouchableHighlight
+            underlayColor={colors.underlay}
+            onPress={() => this._topicTypeModal.openTopicTypeModal()}>
+            <View style={styles.formItem}>
+              <Icon
+                style={[styles.formIcon, styles.formIconLeft]}
+                name='list-ul'
+                size={18} />
+              <Text
+                style={styles.topicType}>
+                {type.typeName || '请选择分类'}
+              </Text>
+              <Icon
+                style={[styles.formIcon, styles.formIconRight]}
+                name='angle-right'
+                size={18} />
+            </View>
+          </TouchableHighlight>
+          <View style={styles.formItem}>
+            <Icon
+              style={[styles.formIcon, styles.formIconLeft]}
+              name='asterisk'
+              size={18} />
+            <TextInput
+              style={styles.topicTitle}
+              onChangeText={text => this.setState({ title: text })}
+              placeholder='请输入标题' />
+          </View>
+          <View style={styles.formItem}>
+            <TextInput
+              style={styles.topicContent}
+              onChangeText={text => this.setState({ content: text })}
+              multiline={true} />
+          </View>
+        </ScrollView>
       </Modal>
     );
   }

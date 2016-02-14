@@ -27,12 +27,16 @@ export default class ForumDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'new'));
+    this._fetchTopicList();
   }
 
   _refreshTopic(page, isEndReached) {
     this.props.dispatch(invalidateTopicList());
     this.props.dispatch(fetchTopicListIfNeeded(this.boardId, isEndReached, 'new', page));
+  }
+
+  _fetchTopicList() {
+    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'new'));
   }
 
   _endReached() {
@@ -67,7 +71,7 @@ export default class ForumDetail extends Component {
     let { typeId, title, content } = topic;
 
     this.props.dispatch(publish(
-      this.props.boardId,
+      this.boardId,
       null,
       null,
       typeId,
@@ -87,7 +91,9 @@ export default class ForumDetail extends Component {
           ref={component => this._publishModal = component}
           visible={false}
           comment={comment}
-          handlePublish={topic => this._publish(topic)} />
+          types={topicList.typeList}
+          handlePublish={topic => this._publish(topic)}
+          fetchTopicList={() => this._fetchTopicList()} />
 
         <Header
           title={this.boardName}

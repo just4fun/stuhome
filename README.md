@@ -51,7 +51,7 @@ Now it's still being built, and it maybe buggy honestly.
 - [x] Read topic detail and comments
 - [x] Reply a topic
 - [ ] Reply a comment
-- [ ] Publish a topic
+- [x] Publish a topic
 - [ ] Search in whole site
 - [ ] Read private messages
 - [ ] Reply private messages
