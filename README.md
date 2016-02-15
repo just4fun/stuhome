@@ -56,6 +56,7 @@ Now it's still being built, and it maybe buggy honestly.
 - [ ] Read private messages
 - [ ] Reply private messages
 - [ ] Personal settings
+- [ ] Fixture data (aka `mock data`)
 - [ ] Unit Testing (refer this [article](http://www.schibsted.pl/2015/10/testing-react-native-components-with-jest/))
 
 ## Known issues
