@@ -2,7 +2,7 @@ import {
   START_PUBLISH,
   FINISH_PUBLISH,
   RESET_PUBLISH
-} from '../constants/ActionTypes';
+} from '../../constants/ActionTypes';
 
 const defaultState = {
   isPublishing: false,

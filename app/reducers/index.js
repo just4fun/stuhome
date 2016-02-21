@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 import route from './route';
 import user from './user';
 import forumList from './forumList';
-import topicList from './topicList';
-import topicItem from './topicItem';
-import comment from './comment';
+import topicList from './topic/topicList';
+import topicItem from './topic/topicItem';
+import comment from './topic/comment';
 
 export default combineReducers({
   route,

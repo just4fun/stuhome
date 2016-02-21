@@ -2,7 +2,7 @@ import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
   RECEIVE_TOPICLIST
-} from '../constants/ActionTypes';
+} from '../../constants/ActionTypes';
 
 export default function topicList(state = {
   // indicate fetching via pull to refresh

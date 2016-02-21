@@ -2,7 +2,7 @@ import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC,
   RESET_TOPIC
-} from '../constants/ActionTypes';
+} from '../../constants/ActionTypes';
 
 const defaultTopicState = {
   isFetching: false,
