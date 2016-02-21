@@ -32,10 +32,6 @@ export default class Router {
     _navigator.pop();
   }
 
-  popToHome() {
-    _navigator.popToTop();
-  }
-
   toHome() {
     this._navigateTo({
       id: 'home',

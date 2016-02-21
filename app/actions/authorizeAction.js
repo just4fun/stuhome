@@ -5,7 +5,8 @@ import {
   RECEIVE_LOGIN,
   SET_AUTHRIZATION,
   REQUEST_LOGOUT,
-  RESET_AUTHRIZATION
+  RESET_AUTHRIZATION,
+  RESET_AUTHRIZATION_RESULT
 } from '../constants/ActionTypes';
 
 const API_PATH = 'user/login';
@@ -60,5 +61,11 @@ export function userLogout() {
 export function resetAuthrization() {
   return {
     type: RESET_AUTHRIZATION
+  };
+}
+
+export function resetAuthrizationResult() {
+  return {
+    type: RESET_AUTHRIZATION_RESULT
   };
 }

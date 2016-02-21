@@ -33,9 +33,9 @@ export default class PublishModal extends Component {
   componentWillReceiveProps(nextProps) {
     const comment = nextProps.comment;
     if (comment.response && comment.response.rs) {
-      this.handleCancel();
       this.props.dispatch(resetPublish());
-      this.props.fetchTopicList();
+      this.props.router.toHome();
+      this.handleCancel();
     }
   }
 

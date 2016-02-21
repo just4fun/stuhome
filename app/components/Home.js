@@ -19,7 +19,7 @@ export default class Home extends Component {
     this.props.dispatch(fetchTopicListIfNeeded(null, false, 'new'));
   }
 
-  _refreshTopic(page, isEndReached) {
+  _refreshTopicList(page, isEndReached) {
     this.props.dispatch(invalidateTopicList());
     this.props.dispatch(fetchTopicListIfNeeded(null, isEndReached, 'new', page));
   }
@@ -34,7 +34,7 @@ export default class Home extends Component {
 
     if (!hasMore || isRefreshing || isEndReached) { return; }
 
-    this._refreshTopic(page + 1, true);
+    this._refreshTopicList(page + 1, true);
   }
 
   _renderFooter() {
@@ -61,14 +61,14 @@ export default class Home extends Component {
         <Header title='最新' />
         {/**
          * use `ControlledRefreshableListView` instead of `RefreshableListView` here
-         * since `_refreshTopic` won't return Promise which `loadData` needs to control
+         * since `_refreshTopicList` won't return Promise which `loadData` needs to control
          * the refreshing status. That being said, we should use `onRefresh` and `isRefreshing`
          * to manually control it.
          */}
         <ControlledRefreshableListView
           dataSource={source}
           renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
-          onRefresh={() => this._refreshTopic()}
+          onRefresh={() => this._refreshTopicList()}
           isRefreshing={topicList.isRefreshing}
           onEndReached={() => this._endReached()}
           onEndReachedThreshold={0}

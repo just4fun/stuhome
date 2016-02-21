@@ -27,16 +27,12 @@ export default class ForumDetail extends Component {
   }
 
   componentDidMount() {
-    this._fetchTopicList();
+    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'new'));
   }
 
-  _refreshTopic(page, isEndReached) {
+  _refreshTopicList(page, isEndReached) {
     this.props.dispatch(invalidateTopicList());
     this.props.dispatch(fetchTopicListIfNeeded(this.boardId, isEndReached, 'new', page));
-  }
-
-  _fetchTopicList() {
-    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'new'));
   }
 
   _endReached() {
@@ -49,7 +45,7 @@ export default class ForumDetail extends Component {
 
     if (!hasMore || isRefreshing || isEndReached) { return; }
 
-    this._refreshTopic(page + 1, true);
+    this._refreshTopicList(page + 1, true);
   }
 
   _renderFooter() {
@@ -82,30 +78,35 @@ export default class ForumDetail extends Component {
 
   render() {
     const { topicList } = this.props.list;
-    const { comment } = this.props.entity;
+    const { comment, user } = this.props.entity;
+    const token = user.authrization.token;
     const source = ds.cloneWithRows(topicList.list);
 
     return (
       <View style={mainStyles.container}>
         <PublishModal
           ref={component => this._publishModal = component}
+          {...this.props}
           visible={false}
           comment={comment}
           types={topicList.typeList}
-          handlePublish={topic => this._publish(topic)}
-          fetchTopicList={() => this._fetchTopicList()} />
+          handlePublish={topic => this._publish(topic)} />
 
         <Header
           title={this.boardName}
           comment={comment}>
           <PopButton router={this.props.router} />
-          <PublishButton
-            onPress={() => this._publishModal.openPublishModal()} />
+          {token &&
+            <PublishButton
+              onPress={() => this._publishModal.openPublishModal()} />
+            ||
+            <Text></Text>
+          }
         </Header>
         <ControlledRefreshableListView
           dataSource={source}
           renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
-          onRefresh={() => this._refreshTopic()}
+          onRefresh={() => this._refreshTopicList()}
           isRefreshing={topicList.isRefreshing}
           onEndReached={() => this._endReached()}
           onEndReachedThreshold={0}

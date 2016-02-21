@@ -10,7 +10,7 @@ import React, {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import styles from '../../styles/components/modal/_LoginModal';
-import { userLogin, resetAuthrization } from '../../actions/authorizeAction';
+import { userLogin, resetAuthrization, resetAuthrizationResult } from '../../actions/authorizeAction';
 
 export default class Login extends Component {
   constructor(props) {
@@ -23,17 +23,22 @@ export default class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { isFetching, authrization, hasError } = nextProps.user;
+    let { isFetching, authrization, hasError, result } = nextProps.user;
 
     if (hasError) {
       AlertIOS.alert('提示', authrization.errcode);
       nextProps.dispatch(resetAuthrization());
     }
 
-    if (authrization.token) {
+    if (result) {
+      this.props.dispatch(resetAuthrizationResult());
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
-        .then(() => this._closeLoginModal());
+        .then(() => {
+          this.context.menuActions.close();
+          this.props.router.toHome();
+          this._closeLoginModal();
+        });
     }
   }
 
@@ -96,4 +101,8 @@ export default class Login extends Component {
       </Modal>
     );
   }
+}
+
+Login.contextTypes = {
+  menuActions: React.PropTypes.object.isRequired
 }
