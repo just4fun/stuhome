@@ -108,25 +108,17 @@ export default class PublishModal extends Component {
             underlayColor={colors.underlay}
             onPress={() => this._topicTypeModal.openTopicTypeModal()}>
             <View style={styles.formItem}>
-              <Icon
-                style={[styles.formIcon, styles.formIconLeft]}
-                name='list-ul'
-                size={18} />
               <Text
                 style={styles.topicType}>
                 {type.typeName || '请选择分类'}
               </Text>
               <Icon
-                style={[styles.formIcon, styles.formIconRight]}
+                style={styles.topicTypeIcon}
                 name='angle-right'
                 size={18} />
             </View>
           </TouchableHighlight>
           <View style={styles.formItem}>
-            <Icon
-              style={[styles.formIcon, styles.formIconLeft]}
-              name='asterisk'
-              size={18} />
             <TextInput
               style={styles.topicTitle}
               onChangeText={text => this.setState({ title: text })}
@@ -136,7 +128,8 @@ export default class PublishModal extends Component {
             <TextInput
               style={styles.topicContent}
               onChangeText={text => this.setState({ content: text })}
-              multiline={true} />
+              multiline={true}
+              placeholder='请输入正文' />
           </View>
         </ScrollView>
       </Modal>

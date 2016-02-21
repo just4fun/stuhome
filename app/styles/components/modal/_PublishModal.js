@@ -12,20 +12,17 @@ module.exports = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
   },
-  formIcon: {
-    width: 50,
-  },
-  formIconLeft: {
-    textAlign: 'left',
-  },
-  formIconRight: {
-    textAlign: 'right',
-  },
   topicType: {
     flex: 1,
+    paddingTop: 1,
+  },
+  topicTypeIcon: {
+    textAlign: 'right',
   },
   topicTitle: {
     flex: 1,
+    paddingTop: 1,
+    height: 20,
     fontSize: 14,
   },
   topicContent: {

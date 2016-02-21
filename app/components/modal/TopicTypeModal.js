@@ -42,7 +42,11 @@ export default class TopicTypeModal extends Component {
     this.setState({
       isModalOpen: false
     });
+  }
+
+  _setTopicType() {
     this.props.setTopicType(this.state.type);
+    this.handleCancel();
   }
 
   render() {
@@ -55,25 +59,31 @@ export default class TopicTypeModal extends Component {
         visible={this.state.isModalOpen}>
         <View
           style={[modalStyles.container, styles.backdrop]}>
-          <PickerIOS
-            style={styles.typePicker}
-            selectedValue={this.state.type.typeId}
-            onValueChange={typeId => {
-              this.setState({type: {
-                typeId,
-                typeName: types[typeId].classificationType_name
-              }}),
-              this.handleCancel();
-            }}>
-            {Object.keys(types).map(typeId => {
-              return (
-                <PickerIOS.Item
-                  key={typeId}
-                  value={typeId}
-                  label={types[typeId].classificationType_name} />
-              );
-            })}
-          </PickerIOS>
+          <View
+            style={styles.main}>
+            <Text
+              style={[modalStyles.button, styles.button]}
+              onPress={() => this._setTopicType()}>
+              确定
+            </Text>
+            <PickerIOS
+              selectedValue={this.state.type.typeId}
+              onValueChange={typeId => {
+                this.setState({type: {
+                  typeId,
+                  typeName: types[typeId].classificationType_name
+                }});
+              }}>
+              {Object.keys(types).map(typeId => {
+                return (
+                  <PickerIOS.Item
+                    key={typeId}
+                    value={typeId}
+                    label={types[typeId].classificationType_name} />
+                );
+              })}
+            </PickerIOS>
+          </View>
         </View>
       </Modal>
     );
