@@ -4,6 +4,18 @@ import {
   RECEIVE_TOPICLIST
 } from '../../constants/ActionTypes';
 
+// map the fields of `type` to more clear names
+function getMappedTypeList(list) {
+  if (!list) { return []; }
+
+  return list.map((item, index) => {
+    return {
+      typeId: item.classificationType_id,
+      typeName: item.classificationType_name
+    };
+  });
+}
+
 export default function topicList(state = {
   // indicate fetching via pull to refresh
   isRefreshing: false,
@@ -38,7 +50,7 @@ export default function topicList(state = {
         didInvalidate: false,
         boardId: action.boardId,
         list: action.topicList.list,
-        typeList: action.topicList.classificationType_list,
+        typeList: getMappedTypeList(action.topicList.classificationType_list),
         hasMore: !!action.topicList.has_next,
         page: action.topicList.page
       });

@@ -20,10 +20,7 @@ export default class PublishModal extends Component {
     super(props);
     this.state = {
       isModalOpen: !!this.props.visible,
-      type: {
-        typeId: null,
-        typeName: null
-      },
+      typeId: null,
       title: '',
       content: ''
     };
@@ -48,26 +45,24 @@ export default class PublishModal extends Component {
   handleCancel() {
     this.setState({
       isModalOpen: false,
-      type: {
-        typeId: null,
-        typeName: null
-      },
+      typeId: null,
       title: '',
       content: ''
     });
   }
 
   _isFormValid() {
-    let { type, title, content } = this.state;
+    let { typeId, title, content } = this.state;
 
-    return type.typeId !== null
+    return typeId !== null
         && title.length
         && content.length
         && !this.props.comment.isPublishing;
   }
 
   render() {
-    let { type, title, content } = this.state;
+    let { typeId, title, content } = this.state;
+    let { types } = this.props;
 
     return (
       <Modal
@@ -76,10 +71,10 @@ export default class PublishModal extends Component {
         style={modalStyles.container}
         visible={this.state.isModalOpen}>
         <TopicTypeModal
-          types={this.props.types}
+          types={types}
           ref={component => this._topicTypeModal = component}
           visible={false}
-          setTopicType={type => this.setState({type})} />
+          setTopicType={typeId => this.setState({ typeId })} />
         <Header title={this.title}>
           <Text
             style={modalStyles.button}
@@ -90,7 +85,7 @@ export default class PublishModal extends Component {
             <Text
               style={modalStyles.button}
               onPress={() => this.props.handlePublish({
-                typeId: type.typeId,
+                typeId,
                 title,
                 content
               })}>
@@ -110,7 +105,7 @@ export default class PublishModal extends Component {
             <View style={styles.formItem}>
               <Text
                 style={styles.topicType}>
-                {type.typeName || '请选择分类'}
+                {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
               </Text>
               <Icon
                 style={styles.topicTypeIcon}

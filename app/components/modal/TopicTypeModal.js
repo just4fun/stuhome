@@ -15,10 +15,7 @@ export default class TopicTypeModal extends Component {
     super(props);
     this.state = {
       isModalOpen: !!this.props.visible,
-      type: {
-        typeId: null,
-        typeName: null
-      },
+      typeId: null
     };
   }
 
@@ -28,13 +25,8 @@ export default class TopicTypeModal extends Component {
     });
 
     // set first type as default
-    if (!this.state.type.typeId) {
-      this.setState({
-        type: {
-          typeId: this.props.types[0].classificationType_id,
-          typeName: this.props.types[0].classificationType_name
-        },
-      });
+    if (!this.state.typeId && this.props.types.length) {
+      this.setState({ typeId: this.props.types[0].typeId });
     }
   }
 
@@ -45,12 +37,12 @@ export default class TopicTypeModal extends Component {
   }
 
   _setTopicType() {
-    this.props.setTopicType(this.state.type);
+    this.props.setTopicType(this.state.typeId);
     this.handleCancel();
   }
 
   render() {
-    let types = this.props.types;
+    let { types } = this.props;
 
     return (
       <Modal
@@ -67,19 +59,16 @@ export default class TopicTypeModal extends Component {
               确定
             </Text>
             <PickerIOS
-              selectedValue={this.state.type.typeId}
+              selectedValue={this.state.typeId}
               onValueChange={typeId => {
-                this.setState({type: {
-                  typeId,
-                  typeName: types[typeId].classificationType_name
-                }});
+                this.setState({ typeId });
               }}>
-              {Object.keys(types).map(typeId => {
+              {types.map(type => {
                 return (
                   <PickerIOS.Item
-                    key={typeId}
-                    value={typeId}
-                    label={types[typeId].classificationType_name} />
+                    key={type.typeId}
+                    value={type.typeId}
+                    label={type.typeName} />
                 );
               })}
             </PickerIOS>
