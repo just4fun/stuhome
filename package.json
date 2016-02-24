@@ -1,9 +1,17 @@
 {
   "name": "stuhome",
   "version": "0.0.1",
-  "private": true,
+  "description": "An iOS client for http://bbs.uestc.edu.cn/ written in React Native with Redux.",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/just4fun/uestc-bbs-react-native.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/just4fun/uestc-bbs-react-native/issues"
   },
   "dependencies": {
     "MD5": "^1.3.0",
