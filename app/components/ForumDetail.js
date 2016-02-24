@@ -89,7 +89,7 @@ export default class ForumDetail extends Component {
           {...this.props}
           visible={false}
           comment={comment}
-          types={topicList.typeList || []}
+          types={topicList.typeList}
           handlePublish={topic => this._publish(topic)} />
 
         <Header
