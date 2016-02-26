@@ -45,6 +45,18 @@ module.exports = StyleSheet.create({
   comment: {
     marginVertical: 10,
   },
+  quote: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: colors.underlay,
+    marginBottom: 5,
+    padding: 5,
+  },
+  quoteContent: {
+    fontSize: 12,
+    lineHeight: 14,
+    color: colors.mainField,
+  },
   commentSection: {
     marginVertical: 5,
   },

@@ -17,7 +17,9 @@ export default class Comment extends Component {
       icon,
       position,
       reply_content,
-      posts_date
+      posts_date,
+      is_quote,
+      quote_content
     } = this.props.comment;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
@@ -35,6 +37,11 @@ export default class Comment extends Component {
           <Text style={styles.floor}>#{position}</Text>
         </View>
         <View style={styles.comment}>
+          {!!is_quote &&
+            <View style={styles.quote}>
+              <Text style={styles.quoteContent}>{quote_content}</Text>
+            </View>
+          }
           {reply_content.map((content, index) => {
             switch (content.type) {
               // text
