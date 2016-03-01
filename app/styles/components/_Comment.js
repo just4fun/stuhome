@@ -17,7 +17,6 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
   },
   avatar: {
-    flex: 1,
     height: 35,
     width: 35,
     borderWidth: 1,
@@ -25,7 +24,7 @@ module.exports = StyleSheet.create({
     borderRadius: 10,
   },
   author: {
-    flex: 7,
+    flex: 2,
     marginLeft: 5,
     marginTop: 3,
   },
