@@ -31,11 +31,6 @@ module.exports = StyleSheet.create({
     color: colors.mainField,
     textAlign: 'left',
   },
-  date: {
-    flex: 1,
-    color: colors.mainField,
-    textAlign: 'right',
-  },
   postContent: {
     margin: 10,
     borderRadius: 5,
@@ -76,6 +71,9 @@ module.exports = StyleSheet.create({
     textAlign: 'right',
     color: colors.mainField,
   },
+  content: {
+    marginVertical: 10,
+  },
   contentItem: {
     marginVertical: 5,
   },
@@ -95,5 +93,21 @@ module.exports = StyleSheet.create({
   },
   commentList: {
     padding: 10,
+  },
+  other: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  reply: {
+    flex: 1,
+    textAlign: 'left',
+    fontSize: 20,
+    color: colors.mainField,
+  },
+  date: {
+    flex: 1,
+    textAlign: 'right',
+    marginTop: 2,
+    color: colors.mainField,
   },
 });

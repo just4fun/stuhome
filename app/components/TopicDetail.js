@@ -16,7 +16,7 @@ import styles from '../styles/components/_TopicDetail';
 import Header from './Header';
 import ReplyModal from './modal/ReplyModal';
 import Comment from './Comment';
-import { PopButton, ReplyButton} from './common';
+import { PopButton, ReplyButton, CommentButton } from './common';
 import { fetchTopic, resetTopic, publish } from '../actions/topic/topicAction';
 import { parseContentWithImage } from '../utils/app';
 
@@ -82,15 +82,19 @@ export default class TopicDetail extends Component {
     );
   }
 
-  _publish(comment) {
+  _publish(comment, replyId) {
     this.props.dispatch(publish(
       this.boardId,
       this.topicId,
-      null,
+      replyId,
       null,
       null,
       comment
     ));
+  }
+
+  _openReplyModal(comment) {
+    this._replyModal.openReplyModal(comment);
   }
 
   render() {
@@ -123,13 +127,13 @@ export default class TopicDetail extends Component {
           {...this.props}
           visible={false}
           comment={comment}
-          handlePublish={content => this._publish(content)}
+          handlePublish={(content, replyId) => this._publish(content, replyId)}
           fetchTopic={() => this.fetchTopic()} />
 
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
           {token &&
-            <ReplyButton onPress={() => this._replyModal.openReplyModal()} />
+            <ReplyButton onPress={() => this._openReplyModal()} />
             ||
             <Text></Text>
           }
@@ -148,7 +152,6 @@ export default class TopicDetail extends Component {
                 name='comments'>
                 {topic.replies}
               </Icon>
-              <Text style={styles.date}>{create_date}</Text>
             </View>
           </View>
           <View style={styles.postContent}>
@@ -164,7 +167,7 @@ export default class TopicDetail extends Component {
               </View>
               <Text style={styles.floor}>楼主</Text>
             </View>
-            <View>
+            <View style={styles.content}>
               {topic.content.map((content, index) => {
                 switch (content.type) {
                   // text
@@ -182,6 +185,12 @@ export default class TopicDetail extends Component {
                 }
               })}
             </View>
+            <View style={styles.other}>
+              <CommentButton
+                style={styles.reply}
+                onPress={() => this._openReplyModal()}/>
+              <Text style={styles.date}>{create_date}</Text>
+            </View>
           </View>
           <View style={styles.commentHeader}>
             <Text style={styles.commentHeaderText}>
@@ -191,7 +200,12 @@ export default class TopicDetail extends Component {
           <ListView
             style={styles.commentList}
             dataSource={commentSource}
-            renderRow={comment => <Comment key={comment.reply_posts_id} comment={comment} />}
+            renderRow={comment =>
+              <Comment
+                key={comment.reply_posts_id}
+                comment={comment}
+                openReplyModal={() => this._openReplyModal(comment)}/>
+            }
             onEndReached={() => this._endReached()}
             onEndReachedThreshold={0}
             renderFooter={() => this._renderFooter()} />

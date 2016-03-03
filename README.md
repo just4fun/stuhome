@@ -50,7 +50,7 @@ Now it's still being built, and it maybe buggy honestly.
 - [x] Read topics in each forum
 - [x] Read topic detail and comments
 - [x] Reply a topic
-- [ ] Reply a comment
+- [x] Reply a comment
 - [x] Publish a topic
 - [ ] Search in whole site
 - [ ] Read private messages

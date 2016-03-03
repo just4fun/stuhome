@@ -65,7 +65,7 @@ function assemblePayload(
         tid: topicId,
         isAnonymous: 0,
         isOnlyAuthor: 0,
-        isQuote: 0,
+        isQuote: +!!replyId,
         replyId: replyId,
         typeId: typeId,
         title: title,

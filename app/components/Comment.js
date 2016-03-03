@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 import moment from 'moment';
 import styles from '../styles/components/_Comment';
+import { CommentButton } from './common';
 import { parseContentWithImage } from '../utils/app';
 
 export default class Comment extends Component {
@@ -60,6 +61,9 @@ export default class Comment extends Component {
           })}
         </View>
         <View style={styles.other}>
+          <CommentButton
+            style={styles.reply}
+            onPress={() => this.props.openReplyModal()}/>
           <Text style={styles.date}>{posts_date}</Text>
         </View>
       </View>
