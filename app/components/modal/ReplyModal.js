@@ -33,9 +33,22 @@ export default class ReplyModal extends Component {
   openReplyModal(comment) {
     this.setState({
       isModalOpen: true,
-      title: comment && `回复 ${comment.reply_name}` || '评论',
+      title: this._getTitle(comment),
       replyId: comment && comment.reply_posts_id || null
     });
+  }
+
+  _getTitle(comment) {
+    if (comment) {
+      // the topic author has no `position` field
+      if (!comment.position) {
+        return `回复 ${comment.user_nick_name}`;
+      }
+
+      return `回复 ${comment.reply_name}`;
+    } 
+
+    return '评论';
   }
 
   handleCancel() {

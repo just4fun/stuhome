@@ -188,7 +188,7 @@ export default class TopicDetail extends Component {
             <View style={styles.other}>
               <CommentButton
                 style={styles.reply}
-                onPress={() => this._openReplyModal()}/>
+                onPress={() => this._openReplyModal(topic)}/>
               <Text style={styles.date}>{create_date}</Text>
             </View>
           </View>

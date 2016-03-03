@@ -14,16 +14,18 @@ module.exports = StyleSheet.create({
   left: {
     flex: 1,
     textAlign: 'left',
-    paddingLeft: 15
+    paddingLeft: 15,
+    paddingTop: 2
   },
   title: {
-    flex: 2,
+    width: 150,
     fontSize: 18,
     textAlign: 'center'
   },
   right: {
     flex: 1,
     textAlign: 'right',
-    paddingRight: 15
+    paddingRight: 15,
+    paddingTop: 2
   }
 });

@@ -30,7 +30,11 @@ export default class Header extends Component {
     return (
       <View style={styles.container}>
         {leftTopButton}
-        <Text style={styles.title}>{this.props.title}</Text>
+        <Text
+          style={styles.title}
+          numberOfLines={1}>
+          {this.props.title}
+        </Text>
         {rightTopButton || <Text style={styles.right}></Text>}
       </View>
     );
