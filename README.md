@@ -8,7 +8,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Screenshot
 
-![](http://g.recordit.co/Z3RyLrdFTq.gif)
+![](https://cloud.githubusercontent.com/assets/7512625/13497473/54ac771a-e190-11e5-9a63-944ed8f836a1.gif)
 
 ## Try it out
 
@@ -56,6 +56,9 @@ Now it's still being built, and it maybe buggy honestly.
 - [ ] Read private messages
 - [ ] Reply private messages
 - [ ] Personal settings
+
+## Todo list
+
 - [ ] Fixture data (aka `mock data`)
 - [ ] Unit Testing (refer this [article](http://www.schibsted.pl/2015/10/testing-react-native-components-with-jest/))
 
