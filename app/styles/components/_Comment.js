@@ -69,12 +69,12 @@ module.exports = StyleSheet.create({
   },
   reply: {
     flex: 1,
-    textAlign: 'left',
+    textAlign: 'right',
     color: colors.mainField,
   },
   date: {
     flex: 1,
-    textAlign: 'right',
+    textAlign: 'left',
     marginTop: 2,
     fontSize: 12,
     color: colors.mainField,

@@ -33,12 +33,12 @@ module.exports = StyleSheet.create({
   },
   name: {
     flex: 1,
-    textAlign: 'left',
+    textAlign: 'right',
     color: colors.mainField,
   },
   date: {
     flex: 1,
-    textAlign: 'right',
+    textAlign: 'left',
     color: colors.mainField,
   },
   forumInfo: {

@@ -61,10 +61,10 @@ export default class Comment extends Component {
           })}
         </View>
         <View style={styles.other}>
+          <Text style={styles.date}>{posts_date}</Text>
           <CommentButton
             style={styles.reply}
             onPress={() => this.props.openReplyModal()}/>
-          <Text style={styles.date}>{posts_date}</Text>
         </View>
       </View>
     );

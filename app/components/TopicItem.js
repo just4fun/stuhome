@@ -50,8 +50,8 @@ export default class TopicItem extends Component {
               </View>
             </View>
             <View style={styles.info}>
-              <Text style={styles.name}>{user_nick_name}</Text>
               <Text style={styles.date}>{last_reply_date}</Text>
+              <Text style={styles.name}>{user_nick_name}</Text>
             </View>
           </View>
         </TouchableHighlight>

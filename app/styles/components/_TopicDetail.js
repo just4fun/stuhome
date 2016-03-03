@@ -100,13 +100,13 @@ module.exports = StyleSheet.create({
   },
   reply: {
     flex: 1,
-    textAlign: 'left',
+    textAlign: 'right',
     fontSize: 20,
     color: colors.mainField,
   },
   date: {
     flex: 1,
-    textAlign: 'right',
+    textAlign: 'left',
     marginTop: 2,
     color: colors.mainField,
   },
