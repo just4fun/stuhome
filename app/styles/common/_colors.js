@@ -11,6 +11,8 @@ module.exports = {
 
   postNumber: '#21b6f2',
 
+  mobileSign: '#d94600',
+
   /**
   * customized colors
   */

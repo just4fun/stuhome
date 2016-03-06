@@ -72,6 +72,21 @@ module.exports = StyleSheet.create({
     textAlign: 'right',
     color: colors.mainField,
   },
+  mobileWrapper: {
+    flex: 3,
+    flexDirection: 'row',
+  },
+  mobileIcon: {
+    fontSize: 16,
+    color: colors.mobileSign,
+    marginTop: 1,
+  },
+  mobileText: {
+    fontSize: 12,
+    color: colors.mobileSign,
+    marginLeft: 3,
+    marginTop: 3,
+  },
   date: {
     flex: 1,
     textAlign: 'left',

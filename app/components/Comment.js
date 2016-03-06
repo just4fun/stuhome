@@ -5,6 +5,7 @@ import React, {
   Image,
   TouchableHighlight
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import styles from '../styles/components/_Comment';
 import { CommentButton } from './common';
@@ -20,7 +21,8 @@ export default class Comment extends Component {
       reply_content,
       posts_date,
       is_quote,
-      quote_content
+      quote_content,
+      mobileSign
     } = this.props.comment;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
@@ -62,6 +64,12 @@ export default class Comment extends Component {
         </View>
         <View style={styles.other}>
           <Text style={styles.date}>{posts_date}</Text>
+          {!!mobileSign &&
+            <View style={styles.mobileWrapper}>
+              <Icon style={styles.mobileIcon} name='mobile' />
+              <Text style={styles.mobileText}>{mobileSign}</Text>
+            </View>
+          }
           <CommentButton
             style={styles.reply}
             onPress={() => this.props.openReplyModal()}/>

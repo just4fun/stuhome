@@ -187,6 +187,12 @@ export default class TopicDetail extends Component {
             </View>
             <View style={styles.other}>
               <Text style={styles.date}>{create_date}</Text>
+              {!!topic.mobileSign &&
+                <View style={styles.mobileWrapper}>
+                  <Icon style={styles.mobileIcon} name='mobile' />
+                  <Text style={styles.mobileText}>{topic.mobileSign}</Text>
+                </View>
+              }
               <CommentButton
                 style={styles.reply}
                 onPress={() => this._openReplyModal(topic)}/>
