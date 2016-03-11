@@ -16,7 +16,7 @@ import styles from '../styles/components/_TopicDetail';
 import Header from './Header';
 import ReplyModal from './modal/ReplyModal';
 import Comment from './Comment';
-import { PopButton, ReplyButton, CommentButton } from './common';
+import { PopButton, ReplyButton, CommentButton } from './button';
 import { fetchTopic, resetTopic, publish } from '../actions/topic/topicAction';
 import { parseContentWithImage } from '../utils/app';
 

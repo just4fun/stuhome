@@ -8,7 +8,7 @@ import React, {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import styles from '../styles/components/_Comment';
-import { CommentButton } from './common';
+import { CommentButton } from './button';
 import { parseContentWithImage } from '../utils/app';
 
 export default class Comment extends Component {

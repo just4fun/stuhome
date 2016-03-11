@@ -5,7 +5,7 @@ import React, {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_Header';
-import { MenuButton } from './common';
+import { MenuButton } from './button';
 
 export default class Header extends Component {
   render() {

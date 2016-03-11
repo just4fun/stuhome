@@ -10,7 +10,7 @@ import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import Header from './Header';
 import TopicItem from './TopicItem';
-import { PopButton, PublishButton } from './common';
+import { PopButton, PublishButton } from './button';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 import PublishModal from './modal/PublishModal';
 import { publish } from '../actions/topic/topicAction';
