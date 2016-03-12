@@ -15,28 +15,4 @@ module.exports = StyleSheet.create({
   forumTitle: {
     fontSize: 16,
   },
-  subForum: {
-    flex: 1,
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.underlay,
-  },
-  subForumRow: {
-    flexDirection: 'row',
-  },
-  subForumTitle: {
-    flex: 1,
-    textAlign: 'left',
-  },
-  subForumTodayPostsNumber: {
-    flex: 1,
-    textAlign: 'right',
-    color: colors.lightBlue,
-  },
-  subForumLastPostDate: {
-    textAlign: 'left',
-    color: colors.mainField,
-    fontSize: 14,
-    marginTop: 10,
-  }
 });
