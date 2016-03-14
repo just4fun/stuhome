@@ -17,10 +17,7 @@ export default class TopicList extends Component {
     super(props);
 
     var forum = props.passProps;
-    if (forum) {
-      this.boardId = forum.board_id;
-      this.boardName = forum.board_name;
-    }
+    this.boardId = forum && forum.board_id || 'all';
   }
 
   componentDidMount() {
@@ -46,7 +43,7 @@ export default class TopicList extends Component {
   }
 
   _renderFooter() {
-    const {
+    let {
       hasMore,
       isEndReached
     } = this.props.list.topicList;
@@ -61,8 +58,17 @@ export default class TopicList extends Component {
   }
 
   render() {
-    const { topicList } = this.props.list;
-    const source = ds.cloneWithRows(topicList.list);
+    let { topicList } = this.props.list;
+
+    if (!topicList.list[this.boardId]) {
+      topicList.list[this.boardId] = {
+        typeList: [],
+        topicList: []
+      }
+    }
+
+    let realTopicList = topicList.list[this.boardId].topicList;
+    let source = ds.cloneWithRows(realTopicList);
 
     return (
       <ControlledRefreshableListView

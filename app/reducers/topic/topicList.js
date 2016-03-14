@@ -5,15 +5,33 @@ import {
 } from '../../constants/ActionTypes';
 
 // map the fields of `type` to more clear names
-function getMappedTypeList(list) {
-  if (!list) { return []; }
+function getMappedTypeList(typeList) {
+  if (!typeList) { return []; }
 
-  return list.map((item, index) => {
+  return typeList.map((item, index) => {
     return {
       typeId: item.classificationType_id,
       typeName: item.classificationType_name
     };
   });
+}
+
+// cache topic list and return
+function getNewCache(oldState, typeList, topicList, boardId, page) {
+  let newTopicList = [];
+  let newState = Object.assign({}, oldState);
+
+  if (page !== 1) {
+    newTopicList = oldState.list[boardId].topicList.concat(topicList);
+  } else {
+    newTopicList = topicList.slice(0);
+  }
+
+  newState.list[boardId] = {
+    typeList: typeList,
+    topicList: newTopicList
+  };
+  return newState.list;
 }
 
 export default function topicList(state = {
@@ -23,8 +41,9 @@ export default function topicList(state = {
   isEndReached: false,
   didInvalidate: false,
   boardId: null,
-  list: [],
-  typeList: [],
+  // dictionary for cache
+  list: {},
+  // typeList: [],
   hasMore: false,
   page: 0
 }, action) {
@@ -40,19 +59,21 @@ export default function topicList(state = {
         didInvalidate: false
       });
     case RECEIVE_TOPICLIST:
-      if (action.topicList.page !== 1) {
-        action.topicList.list = state.list.concat(action.topicList.list);
-      }
+      let {
+        boardId,
+        topicList
+      } = action;
+
+      let typeList = getMappedTypeList(topicList.classificationType_list);
 
       return Object.assign({}, state, {
         isRefreshing: false,
         isEndReached: false,
         didInvalidate: false,
-        boardId: action.boardId,
-        list: action.topicList.list,
-        typeList: getMappedTypeList(action.topicList.classificationType_list),
-        hasMore: !!action.topicList.has_next,
-        page: action.topicList.page
+        boardId: boardId,
+        list: getNewCache(state, typeList, topicList.list, boardId, topicList.page),
+        hasMore: !!topicList.has_next,
+        page: topicList.page
       });
     default:
       return state;

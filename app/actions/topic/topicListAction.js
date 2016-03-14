@@ -34,22 +34,14 @@ function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 
                      `&page=${page}` +
                      `&pageSize=${pageSize}`;
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveTopicList, { boardId: boardId });
+    return fetchWithToken(requestUrl, null, dispatch, receiveTopicList, { boardId });
   };
 }
 
 function shouldFetchTopicList(boardId, state) {
-  const topicList = state.topicList;
+  let { topicList } = state;
 
-  /**
-   * in current implementation, we shared `TopicList` state in all components which
-   * contains topic list, so for having a simple cache, we just cache topic list
-   * for SAME forum. That said, if we access one forum, then change to another
-   * forum, then change back, we also need to fetch topic list again.
-   */
-  if (boardId !== topicList.boardId) { return true; }
-
-  if (!topicList.list.length) { return true; }
+  if (!topicList.list[boardId] || !topicList.list[boardId].topicList.length) { return true; }
 
   if (topicList.isRefreshing || topicList.isEndReached) { return false; }
 

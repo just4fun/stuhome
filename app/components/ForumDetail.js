@@ -12,6 +12,7 @@ import { publish } from '../actions/topic/topicAction';
 export default class ForumDetail extends Component {
   constructor(props) {
     super(props);
+    this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
   }
 
@@ -29,9 +30,18 @@ export default class ForumDetail extends Component {
   }
 
   render() {
-    const { topicList } = this.props.list;
-    const { comment, user } = this.props.entity;
-    const { token } = user.authrization;
+    let { topicList } = this.props.list;
+    let { comment, user } = this.props.entity;
+    let { token } = user.authrization;
+
+    if (!topicList.list[this.boardId]) {
+      topicList.list[this.boardId] = {
+        typeList: [],
+        topicList: []
+      }
+    }
+
+    let typeList = topicList.list[this.boardId].typeList;
 
     return (
       <View style={mainStyles.container}>
@@ -40,7 +50,7 @@ export default class ForumDetail extends Component {
           {...this.props}
           visible={false}
           comment={comment}
-          types={topicList.typeList}
+          types={typeList}
           handlePublish={topic => this._publish(topic)} />
 
         <Header
