@@ -8,6 +8,7 @@ import React, {
   TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
@@ -16,7 +17,7 @@ import TopicTypeModal from './TopicTypeModal';
 import { resetPublish } from '../../actions/topic/topicAction';
 import { invalidateTopicList } from '../../actions/topic/topicListAction';
 
-export default class PublishModal extends Component {
+class PublishModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,64 +73,68 @@ export default class PublishModal extends Component {
         transparent={false}
         style={modalStyles.container}
         visible={this.state.isModalOpen}>
-        <TopicTypeModal
-          types={types}
-          ref={component => this._topicTypeModal = component}
-          visible={false}
-          setTopicType={typeId => this.setState({ typeId })} />
-        <Header title={this.title}>
-          <Text
-            style={modalStyles.button}
-            onPress={() => this.handleCancel()}>
-            取消
-          </Text>
-          {this._isFormValid() &&
+        <View style={mainStyles.container}>
+          <TopicTypeModal
+            types={types}
+            ref={component => this._topicTypeModal = component}
+            visible={false}
+            setTopicType={typeId => this.setState({ typeId })} />
+          <Header title={this.title}>
             <Text
               style={modalStyles.button}
-              onPress={() => this.props.handlePublish({
-                typeId,
-                title,
-                content
-              })}>
-              发布
+              onPress={() => this.handleCancel()}>
+              取消
             </Text>
-            ||
-            <Text
-              style={[modalStyles.button, modalStyles.disabled]}>
-              发布
-            </Text>
-          }
-        </Header>
-        <ScrollView style={styles.form}>
-          <TouchableHighlight
-            underlayColor={colors.underlay}
-            onPress={() => this._topicTypeModal.openTopicTypeModal()}>
-            <View style={styles.formItem}>
+            {this._isFormValid() &&
               <Text
-                style={styles.topicType}>
-                {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
+                style={modalStyles.button}
+                onPress={() => this.props.handlePublish({
+                  typeId,
+                  title,
+                  content
+                })}>
+                发布
               </Text>
-              <Icon
-                style={styles.topicTypeIcon}
-                name='angle-right'
-                size={18} />
+              ||
+              <Text
+                style={[modalStyles.button, modalStyles.disabled]}>
+                发布
+              </Text>
+            }
+          </Header>
+          <ScrollView style={styles.form}>
+            <TouchableHighlight
+              underlayColor={colors.underlay}
+              onPress={() => this._topicTypeModal.openTopicTypeModal()}>
+              <View style={styles.formItem}>
+                <Text
+                  style={styles.topicType}>
+                  {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
+                </Text>
+                <Icon
+                  style={styles.topicTypeIcon}
+                  name='angle-right'
+                  size={18} />
+              </View>
+            </TouchableHighlight>
+            <View style={styles.formItem}>
+              <TextInput
+                style={styles.topicTitle}
+                onChangeText={text => this.setState({ title: text })}
+                placeholder='请输入标题' />
             </View>
-          </TouchableHighlight>
-          <View style={styles.formItem}>
-            <TextInput
-              style={styles.topicTitle}
-              onChangeText={text => this.setState({ title: text })}
-              placeholder='请输入标题' />
-          </View>
-          <View style={styles.formItem}>
-            <TextInput
-              style={styles.topicContent}
-              onChangeText={text => this.setState({ content: text })}
-              multiline={true}
-              placeholder='请输入正文' />
-          </View>
-        </ScrollView>
+            <View style={styles.formItem}>
+              <TextInput
+                style={styles.topicContent}
+                onChangeText={text => this.setState({ content: text })}
+                multiline={true}
+                placeholder='请输入正文' />
+            </View>
+          </ScrollView>
+        </View>
       </Modal>
     );
   }
 }
+
+module.exports = PublishModal;

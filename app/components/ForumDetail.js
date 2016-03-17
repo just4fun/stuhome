@@ -1,6 +1,7 @@
 import React, {
   Component,
-  View
+  View,
+  Text
 } from 'react-native';
 import mainStyles from '../styles/components/_Main';
 import Header from './Header';
@@ -9,7 +10,7 @@ import PublishModal from './modal/PublishModal';
 import { PopButton, PublishButton } from './button';
 import { publish } from '../actions/topic/topicAction';
 
-export default class ForumDetail extends Component {
+class ForumDetail extends Component {
   constructor(props) {
     super(props);
     this.boardId = props.passProps.board_id;
@@ -69,3 +70,5 @@ export default class ForumDetail extends Component {
     );
   }
 }
+
+module.exports = ForumDetail;

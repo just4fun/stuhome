@@ -23,7 +23,7 @@ const BUTTONS = [
   '取消'
 ];
 
-export default class Menu extends Component {
+class Menu extends Component {
   _showLogout() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: BUTTONS,
@@ -104,3 +104,5 @@ export default class Menu extends Component {
 Menu.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
 }
+
+module.exports = Menu;

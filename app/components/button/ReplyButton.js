@@ -4,7 +4,7 @@ import React, {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class ReplyButton extends Component {
+class ReplyButton extends Component {
   render() {
     return (
       <Icon
@@ -15,3 +15,5 @@ export default class ReplyButton extends Component {
     );
   }
 }
+
+module.exports = ReplyButton;

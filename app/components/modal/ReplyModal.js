@@ -6,12 +6,13 @@ import React, {
   Modal,
   TouchableHighlight
 } from 'react-native';
+import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
 import { resetPublish } from '../../actions/topic/topicAction';
 
-export default class ReplyModal extends Component {
+class ReplyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,33 +69,37 @@ export default class ReplyModal extends Component {
         transparent={false}
         style={modalStyles.container}
         visible={isModalOpen}>
-        <Header title={title}>
-          <Text
-            style={modalStyles.button}
-            onPress={() => this.handleCancel()}>
-            取消
-          </Text>
-          {(replyContent.length && !comment.isPublishing ) &&
+        <View style={mainStyles.container}>
+          <Header title={title}>
             <Text
               style={modalStyles.button}
-              onPress={() => handlePublish(replyContent, replyId)}>
-              发布
+              onPress={() => this.handleCancel()}>
+              取消
             </Text>
-            ||
-            <Text
-              style={[modalStyles.button, modalStyles.disabled]}>
-              发布
-            </Text>
-          }
-        </Header>
-        <TextInput
-          placeholder='同学，请文明用语噢～'
-          style={styles.replyBox}
-          value={replyContent}
-          onChangeText={(text) => this.setState({ replyContent: text })}
-          autoFocus={true}
-          multiline={true} />
+            {(replyContent.length && !comment.isPublishing ) &&
+              <Text
+                style={modalStyles.button}
+                onPress={() => handlePublish(replyContent, replyId)}>
+                发布
+              </Text>
+              ||
+              <Text
+                style={[modalStyles.button, modalStyles.disabled]}>
+                发布
+              </Text>
+            }
+          </Header>
+          <TextInput
+            placeholder='同学，请文明用语噢～'
+            style={styles.replyBox}
+            value={replyContent}
+            onChangeText={(text) => this.setState({ replyContent: text })}
+            autoFocus={true}
+            multiline={true} />
+          </View>
       </Modal>
     );
   }
 }
+
+module.exports = ReplyModal;

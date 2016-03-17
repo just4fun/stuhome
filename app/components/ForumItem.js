@@ -6,7 +6,7 @@ import React, {
 import styles from '../styles/components/_ForumItem';
 import SubForumList from './SubForumList';
 
-export default class ForumItem extends Component {
+class ForumItem extends Component {
   render() {
     let {
       board_category_name,
@@ -25,3 +25,5 @@ export default class ForumItem extends Component {
     );
   }
 }
+
+module.exports = ForumItem;

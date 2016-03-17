@@ -12,7 +12,7 @@ import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/to
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class TopicList extends Component {
+class TopicList extends Component {
   constructor(props) {
     super(props);
 
@@ -82,3 +82,5 @@ export default class TopicList extends Component {
     );
   }
 }
+
+module.exports = TopicList;

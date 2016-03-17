@@ -11,7 +11,7 @@ import styles from '../styles/components/_Comment';
 import { CommentButton } from './button';
 import { parseContentWithImage } from '../utils/app';
 
-export default class Comment extends Component {
+class Comment extends Component {
   render() {
     let {
       reply_name,
@@ -78,3 +78,5 @@ export default class Comment extends Component {
     );
   }
 }
+
+module.exports = Comment;

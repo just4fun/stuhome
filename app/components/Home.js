@@ -6,7 +6,7 @@ import mainStyles from '../styles/components/_Main';
 import Header from './Header';
 import TopicList from './TopicList';
 
-export default class Home extends Component {
+class Home extends Component {
   render() {
     return (
       <View style={mainStyles.container}>
@@ -16,3 +16,5 @@ export default class Home extends Component {
     );
   }
 }
+
+module.exports = Home;

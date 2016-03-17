@@ -34,7 +34,7 @@ function getNewCache(oldState, typeList, topicList, boardId, page) {
   return newState.list;
 }
 
-export default function topicList(state = {
+function topicList(state = {
   // indicate fetching via pull to refresh
   isRefreshing: false,
   // indicate fetching via end reached
@@ -79,3 +79,5 @@ export default function topicList(state = {
       return state;
   }
 }
+
+module.exports = topicList;

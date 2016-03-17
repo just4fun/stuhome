@@ -4,7 +4,7 @@ import React, {
 } from 'react-native';
 import SubForumItem from './SubForumItem';
 
-export default class SubForumList extends Component {
+class SubForumList extends Component {
   render() {
     let { forumList } = this.props;
 
@@ -22,3 +22,5 @@ export default class SubForumList extends Component {
     );
   }
 }
+
+module.exports = SubForumList;

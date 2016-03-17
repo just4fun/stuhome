@@ -6,7 +6,7 @@ import topicList from './topic/topicList';
 import topicItem from './topic/topicItem';
 import comment from './topic/comment';
 
-export default combineReducers({
+module.exports = combineReducers({
   route,
 
   forumList,

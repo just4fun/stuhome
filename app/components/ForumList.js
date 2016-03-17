@@ -12,7 +12,7 @@ import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAct
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class ForumList extends Component {
+class ForumList extends Component {
   componentDidMount() {
     this.props.dispatch(fetchForumListIfNeeded());
   }
@@ -40,3 +40,5 @@ export default class ForumList extends Component {
     );
   }
 }
+
+module.exports = ForumList;

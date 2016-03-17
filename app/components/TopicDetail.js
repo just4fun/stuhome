@@ -22,7 +22,7 @@ import { parseContentWithImage } from '../utils/app';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class TopicDetail extends Component {
+class TopicDetail extends Component {
   constructor(props) {
     super(props);
     ({
@@ -220,3 +220,5 @@ export default class TopicDetail extends Component {
     );
   }
 }
+
+module.exports = TopicDetail;

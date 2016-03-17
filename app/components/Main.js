@@ -5,28 +5,13 @@ import React, {
   Navigator
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
-import { connect } from 'react-redux/native';
 import Router from '../router';
 import Menu from './Menu';
 import Home from './Home';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { changeRoute } from '../actions/routeAction';
 
-@connect(state => ({
-  app: {
-    route: state.route
-  },
-  list: {
-    topicList: state.topicList,
-    forumList: state.forumList
-  },
-  entity: {
-    user: state.user,
-    topicItem: state.topicItem,
-    comment: state.comment
-  }
-}))
-export default class Main extends Component {
+class Main extends Component {
   componentDidMount() {
     this.props.dispatch(getUserFromStorage());
   }
@@ -73,3 +58,5 @@ export default class Main extends Component {
     );
   }
 }
+
+module.exports = Main;

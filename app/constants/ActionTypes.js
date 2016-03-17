@@ -27,4 +27,4 @@ const ActionTypes = {
   CHANGE_ROUTE: 'CHANGE_ROUTE',
 };
 
-export default ActionTypes;
+module.exports = ActionTypes;

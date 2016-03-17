@@ -10,7 +10,7 @@ import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_TopicTypeModal';
 import Header from '../Header';
 
-export default class TopicTypeModal extends Component {
+class TopicTypeModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,3 +78,5 @@ export default class TopicTypeModal extends Component {
     );
   }
 }
+
+module.exports = TopicTypeModal;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react-native';
-import Main from '../components/Main';
+import App from './App';
 import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux/native';
+import { Provider } from 'react-redux';
 import rootReducer from '../reducers';
 import thunkMiddleware from 'redux-thunk';
 
@@ -14,7 +14,7 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={store}>
-        {() => <Main />}
+        <App />
       </Provider>
     );
   }

@@ -4,7 +4,7 @@ import React, {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class MenuButton extends Component {
+class MenuButton extends Component {
   render() {
     return (
       <Icon
@@ -19,3 +19,5 @@ export default class MenuButton extends Component {
 MenuButton.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
 }
+
+module.exports = MenuButton;

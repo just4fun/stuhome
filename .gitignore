@@ -22,9 +22,11 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# WebStorm
+# Android/IJ
 #
 .idea
+.gradle
+local.properties
 
 # node.js
 #
@@ -33,4 +35,5 @@ npm-debug.log
 
 # other
 #
+main.jsbundle
 .rnplay

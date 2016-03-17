@@ -16,7 +16,7 @@ const defaultTopicState = {
   errCode: ''
 };
 
-export default function topicItem(state = defaultTopicState, action) {
+function topicItem(state = defaultTopicState, action) {
   switch (action.type) {
     case REQUEST_TOPIC:
       return Object.assign({}, state, {
@@ -45,3 +45,5 @@ export default function topicItem(state = defaultTopicState, action) {
       return state;
   }
 }
+
+module.exports = topicItem;

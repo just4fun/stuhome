@@ -4,7 +4,7 @@ import React, {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class CommentButton extends Component {
+class CommentButton extends Component {
   render() {
     return (
       <Icon
@@ -15,3 +15,5 @@ export default class CommentButton extends Component {
     );
   }
 }
+
+module.exports = CommentButton;

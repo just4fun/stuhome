@@ -9,10 +9,11 @@ import React, {
   Modal,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
 import { userLogin, resetAuthrization, resetAuthrizationResult } from '../../actions/authorizeAction';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,38 +66,39 @@ export default class Login extends Component {
       <Modal
         animated={true}
         transparent={false}
-        style={styles.container}
         visible={this.state.isModalOpen}>
-        <Text
-          style={styles.close}
-          onPress={() => this._closeLoginModal()}>
-          &times;
-        </Text>
-        <View style={styles.top}>
-          <Text style={styles.title}>清水河畔</Text>
-          <Text style={styles.subTitle}>React Native简易版</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput
-            value={this.state.userName}
-            style={[styles.formItem, styles.formInput]}
-            onChangeText={text => this.setState({ userName: text })}
-            placeholder='请输入用户名'
-            autoFocus={true} />
-          <TextInput
-            value={this.state.password}
-            style={[styles.formItem, styles.formInput]}
-            onChangeText={text => this.setState({ password: text })}
-            placeholder='请输入密码'
-            secureTextEntry={true} />
-          <Button
-            style={[styles.formItem, styles.formSubmit]}
-            textStyle={styles.formSubmitText}
-            isDisabled={isDisabled}
-            isLoading={isFetching}
-            onPress={() => this.props.dispatch(userLogin(userName, password))}>
-            登录
-          </Button>
+        <View style={mainStyles.container}>
+          <Text
+            style={styles.close}
+            onPress={() => this._closeLoginModal()}>
+            &times;
+          </Text>
+          <View style={styles.top}>
+            <Text style={styles.title}>清水河畔</Text>
+            <Text style={styles.subTitle}>React Native简易版</Text>
+          </View>
+          <View style={styles.form}>
+            <TextInput
+              value={this.state.userName}
+              style={[styles.formItem, styles.formInput]}
+              onChangeText={text => this.setState({ userName: text })}
+              placeholder='请输入用户名'
+              autoFocus={true} />
+            <TextInput
+              value={this.state.password}
+              style={[styles.formItem, styles.formInput]}
+              onChangeText={text => this.setState({ password: text })}
+              placeholder='请输入密码'
+              secureTextEntry={true} />
+            <Button
+              style={[styles.formItem, styles.formSubmit]}
+              textStyle={styles.formSubmitText}
+              isDisabled={isDisabled}
+              isLoading={isFetching}
+              onPress={() => this.props.dispatch(userLogin(userName, password))}>
+              登录
+            </Button>
+          </View>
         </View>
       </Modal>
     );
@@ -106,3 +108,5 @@ export default class Login extends Component {
 Login.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
 }
+
+module.exports = Login;

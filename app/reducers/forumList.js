@@ -4,7 +4,7 @@ import {
   RECEIVE_FORUMLIST
 } from '../constants/ActionTypes';
 
-export default function forumList(state = {
+function forumList(state = {
   isFetching: false,
   didInvalidate: false,
   list: []
@@ -29,3 +29,5 @@ export default function forumList(state = {
       return state;
   }
 }
+
+module.exports = forumList;

@@ -2,7 +2,7 @@ import {
   CHANGE_ROUTE
 } from '../constants/ActionTypes';
 
-export default function route(state = {
+function route(state = {
   current: {
     id: 'home',
   }
@@ -16,3 +16,5 @@ export default function route(state = {
       return state;
   }
 }
+
+module.exports = route;
