@@ -2,15 +2,16 @@
   "name": "stuhome",
   "version": "1.0.0",
   "description": "An iOS client for http://bbs.uestc.edu.cn/ written in React Native with Redux.",
+  "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
     "eslint": "eslint ./app"
   },
+  "homepage": "https://github.com/just4fun/uestc-bbs-react-native#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/just4fun/uestc-bbs-react-native.git"
+    "url": "git+https://github.com/just4fun/uestc-bbs-react-native.git"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/just4fun/uestc-bbs-react-native/issues"
   },
@@ -30,5 +31,6 @@
     "babel-eslint": "^6.0.0-beta.6",
     "eslint": "^2.4.0",
     "eslint-plugin-react": "^4.2.3"
-  }
+  },
+  "license": "MIT"
 }
