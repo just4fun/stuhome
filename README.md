@@ -13,6 +13,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 ## Try it out
 
 #### Run in simulator
+
 ```bash
 git clone git@github.com:just4fun/uestc-bbs-react-native.git
 cd uestc-bbs-react-native
@@ -36,6 +37,12 @@ Then use Xcode to open this project and simply click **Run**.
   ![stuhome_qrcode](https://cloud.githubusercontent.com/assets/7512625/12009164/0082d9f8-aca8-11e5-9b04-a88bf9ff4ae3.png)
 
   - ~~Or search `stuhome` directly~~
+
+## Run ESlint
+
+```bash
+npm run eslint
+```
 
 ## Status
 
@@ -68,4 +75,5 @@ Now it's still being built, and it maybe buggy honestly.
 - Switching between pages is not very smooth: [performance](https://facebook.github.io/react-native/docs/performance.html)
 
 ## License
+
 [The MIT License](http://opensource.org/licenses/MIT)
