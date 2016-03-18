@@ -72,7 +72,7 @@ class Comment extends Component {
           }
           <CommentButton
             style={styles.reply}
-            onPress={() => this.props.openReplyModal()}/>
+            onPress={() => this.props.openReplyModal()} />
         </View>
       </View>
     );

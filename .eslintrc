@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "env": {
+    "es6": true
+  },
+  "rules": {
+    "indent": [1, 2, {"SwitchCase": 1}],
+    "comma-spacing": [1, {"before": false, "after": true}],
+    "space-before-function-paren": [1, "never"],
+    "eol-last": 1,
+
+    "react/jsx-space-before-closing": [1, "always"],
+    "react/jsx-no-duplicate-props": [2, {"ignoreCase": true}]
+  }
+}

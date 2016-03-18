@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "An iOS client for http://bbs.uestc.edu.cn/ written in React Native with Redux.",
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "eslint": "eslint ./app"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,10 @@
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-thunk": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.0-beta.6",
+    "eslint": "^2.4.0",
+    "eslint-plugin-react": "^4.2.3"
   }
 }

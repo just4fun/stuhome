@@ -195,7 +195,7 @@ class TopicDetail extends Component {
               }
               <CommentButton
                 style={styles.reply}
-                onPress={() => this._openReplyModal(topic)}/>
+                onPress={() => this._openReplyModal(topic)} />
             </View>
           </View>
           <View style={styles.commentHeader}>
@@ -210,7 +210,7 @@ class TopicDetail extends Component {
               <Comment
                 key={comment.reply_posts_id}
                 comment={comment}
-                openReplyModal={() => this._openReplyModal(comment)}/>
+                openReplyModal={() => this._openReplyModal(comment)} />
             }
             onEndReached={() => this._endReached()}
             onEndReachedThreshold={0}
