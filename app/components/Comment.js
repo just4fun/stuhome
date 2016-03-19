@@ -70,9 +70,11 @@ class Comment extends Component {
               <Text style={styles.mobileText}>{mobileSign}</Text>
             </View>
           }
-          <CommentButton
-            style={styles.reply}
-            onPress={() => this.props.openReplyModal()} />
+          {this.props.token &&
+            <CommentButton
+              style={styles.reply}
+              onPress={() => this.props.openReplyModal()} />
+          }
         </View>
       </View>
     );

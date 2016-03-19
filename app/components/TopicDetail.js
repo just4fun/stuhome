@@ -191,9 +191,11 @@ class TopicDetail extends Component {
                   <Text style={styles.mobileText}>{topic.mobileSign}</Text>
                 </View>
               }
-              <CommentButton
-                style={styles.reply}
-                onPress={() => this._openReplyModal(topic)} />
+              {token &&
+                <CommentButton
+                  style={styles.reply}
+                  onPress={() => this._openReplyModal(topic)} />
+              }
             </View>
           </View>
           <View style={styles.commentHeader}>
@@ -208,6 +210,7 @@ class TopicDetail extends Component {
               <Comment
                 key={comment.reply_posts_id}
                 comment={comment}
+                token={token}
                 openReplyModal={() => this._openReplyModal(comment)} />
             }
             onEndReached={() => this._endReached()}
