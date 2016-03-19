@@ -21,12 +21,12 @@ class TopicList extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'new'));
+    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'all'));
   }
 
   _refreshTopicList(page, isEndReached) {
     this.props.dispatch(invalidateTopicList());
-    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, isEndReached, 'new', page));
+    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page));
   }
 
   _endReached() {
