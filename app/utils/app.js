@@ -2,7 +2,7 @@ import React, {
   Image,
   AsyncStorage,
 } from 'react-native';
-import md5 from 'MD5';
+import md5 from 'md5';
 import { APP_AUTH_KEY } from '../config';
 
 // http://phpjs.org/functions/time/
