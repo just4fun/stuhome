@@ -25,11 +25,9 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class TopicDetail extends Component {
   constructor(props) {
     super(props);
-    ({
-      topic_id: this.topicId,
-      board_id: this.boardId,
-      board_name: this.boardName
-    } = this.props.passProps);
+    this.topicId = props.passProps.topic_id;
+    this.boardId = props.passProps.board_id;
+    this.boardName = props.passProps.board_name;
   }
 
   componentDidMount() {
@@ -41,7 +39,7 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { topicItem } = nextProps.entity;
+    let { topicItem } = nextProps.entity;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
@@ -55,7 +53,7 @@ class TopicDetail extends Component {
   }
 
   _endReached() {
-    const {
+    let {
       hasMore,
       isFetching,
       isEndReached,
@@ -68,7 +66,7 @@ class TopicDetail extends Component {
   }
 
   _renderFooter() {
-    const {
+    let {
       hasMore,
       isEndReached
     } = this.props.entity.topicItem;
@@ -98,7 +96,7 @@ class TopicDetail extends Component {
   }
 
   render() {
-    const { topicItem, comment, user } = this.props.entity;
+    let { topicItem, comment, user } = this.props.entity;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
@@ -113,11 +111,11 @@ class TopicDetail extends Component {
       );
     }
 
-    const topic = topicItem.topic;
-    const token = user.authrization.token;
-    const create_date = moment(+topic.create_date).startOf('minute').fromNow();
-    const commentSource = ds.cloneWithRows(topicItem.list);
-    const commentHeaderText =
+    let topic = topicItem.topic;
+    let token = user.authrization.token;
+    let create_date = moment(+topic.create_date).startOf('minute').fromNow();
+    let commentSource = ds.cloneWithRows(topicItem.list);
+    let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
 
     return (

@@ -34,10 +34,18 @@ class TopicList extends Component {
       hasMore,
       isRefreshing,
       isEndReached,
-      page
+      page,
+      list
     } = this.props.list.topicList;
 
     if (!hasMore || isRefreshing || isEndReached) { return; }
+
+    /**
+    * `onEndReached` will be triggered when we want to access a forum
+    * without logging in, that will leads the error alter appears two
+    * times, so check whether there are topics already to avoid this issue.
+    */
+    if (!list[this.boardId].topicList.length) { return; }
 
     this._refreshTopicList(page + 1, true);
   }

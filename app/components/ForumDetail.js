@@ -1,7 +1,8 @@
 import React, {
   Component,
   View,
-  Text
+  Text,
+  AlertIOS
 } from 'react-native';
 import mainStyles from '../styles/components/_Main';
 import Header from './Header';
@@ -9,12 +10,23 @@ import TopicList from './TopicList';
 import PublishModal from './modal/PublishModal';
 import { PopButton, PublishButton } from './button';
 import { publish } from '../actions/topic/topicAction';
+import { resetTopicList } from '../actions/topic/topicListAction';
 
 class ForumDetail extends Component {
   constructor(props) {
     super(props);
     this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let { topicList } = nextProps.list;
+
+    if (topicList.errCode) {
+      AlertIOS.alert('提示', topicList.errCode);
+      nextProps.dispatch(resetTopicList(this.boardId));
+      nextProps.router.pop();
+    }
   }
 
   _publish(topic) {

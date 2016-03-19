@@ -1,8 +1,63 @@
 import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
-  RECEIVE_TOPICLIST
+  RECEIVE_TOPICLIST,
+  RESET_TOPICLIST
 } from '../../constants/ActionTypes';
+
+const defaultTopicListState = {
+  // indicate fetching via pull to refresh
+  isRefreshing: false,
+  // indicate fetching via end reached
+  isEndReached: false,
+  didInvalidate: false,
+  boardId: null,
+  // dictionary for cache
+  list: {},
+  // typeList: [],
+  hasMore: false,
+  page: 0,
+  errCode: ''
+};
+
+function topicList(state = defaultTopicListState, action) {
+  switch (action.type) {
+    case INVALIDATE_TOPICLIST:
+      return Object.assign({}, state, {
+        didInvalidate: true
+      });
+    case REQUEST_TOPICLIST:
+      return Object.assign({}, state, {
+        isRefreshing: !action.isEndReached,
+        isEndReached: action.isEndReached,
+        didInvalidate: false
+      });
+    case RECEIVE_TOPICLIST:
+      let {
+        boardId,
+        topicList
+      } = action;
+
+      let typeList = getMappedTypeList(topicList.classificationType_list);
+
+      return Object.assign({}, state, {
+        isRefreshing: false,
+        isEndReached: false,
+        didInvalidate: false,
+        boardId: boardId,
+        list: getNewCache(state, typeList, topicList.list, boardId, topicList.page),
+        hasMore: !!topicList.has_next,
+        page: topicList.page,
+        errCode: topicList.errcode
+      });
+    case RESET_TOPICLIST:
+      return Object.assign({}, defaultTopicListState, {
+        list: getTopicListWithoutSpecificForum(state, action.forumId)
+      });
+    default:
+      return state;
+  }
+}
 
 // map the fields of `type` to more clear names
 function getMappedTypeList(typeList) {
@@ -34,50 +89,10 @@ function getNewCache(oldState, typeList, topicList, boardId, page) {
   return newState.list;
 }
 
-function topicList(state = {
-  // indicate fetching via pull to refresh
-  isRefreshing: false,
-  // indicate fetching via end reached
-  isEndReached: false,
-  didInvalidate: false,
-  boardId: null,
-  // dictionary for cache
-  list: {},
-  // typeList: [],
-  hasMore: false,
-  page: 0
-}, action) {
-  switch (action.type) {
-    case INVALIDATE_TOPICLIST:
-      return Object.assign({}, state, {
-        didInvalidate: true
-      });
-    case REQUEST_TOPICLIST:
-      return Object.assign({}, state, {
-        isRefreshing: !action.isEndReached,
-        isEndReached: action.isEndReached,
-        didInvalidate: false
-      });
-    case RECEIVE_TOPICLIST:
-      let {
-        boardId,
-        topicList
-      } = action;
-
-      let typeList = getMappedTypeList(topicList.classificationType_list);
-
-      return Object.assign({}, state, {
-        isRefreshing: false,
-        isEndReached: false,
-        didInvalidate: false,
-        boardId: boardId,
-        list: getNewCache(state, typeList, topicList.list, boardId, topicList.page),
-        hasMore: !!topicList.has_next,
-        page: topicList.page
-      });
-    default:
-      return state;
-  }
+function getTopicListWithoutSpecificForum(oldState, forumId) {
+  let newState = Object.assign({}, oldState);
+  delete newState.list[forumId];
+  return newState.list;
 }
 
 module.exports = topicList;

@@ -4,6 +4,7 @@ import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
   RECEIVE_TOPICLIST,
+  RESET_TOPICLIST
 } from '../../constants/ActionTypes';
 
 const TOPICLIST_API_PATH = 'forum/topiclist';
@@ -59,5 +60,12 @@ export function fetchTopicListIfNeeded(boardId, isEndReached, sortType, page, pa
 export function invalidateTopicList() {
   return {
     type: INVALIDATE_TOPICLIST
+  };
+}
+
+export function resetTopicList(forumId) {
+  return {
+    type: RESET_TOPICLIST,
+    forumId
   };
 }
