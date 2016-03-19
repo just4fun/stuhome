@@ -8,7 +8,6 @@ import React, {
   ActionSheetIOS,
   Navigator
 } from 'react-native';
-import SideMenu from 'react-native-side-menu';
 import styles from '../styles/components/_Menu';
 import colors from '../styles/common/_colors';
 import LoginModal from './modal/LoginModal';

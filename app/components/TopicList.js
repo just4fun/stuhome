@@ -81,7 +81,7 @@ class TopicList extends Component {
     return (
       <ControlledRefreshableListView
         dataSource={source}
-        renderRow={(topic) => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
+        renderRow={topic => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
         onRefresh={() => this._refreshTopicList()}
         isRefreshing={topicList.isRefreshing}
         onEndReached={() => this._endReached()}

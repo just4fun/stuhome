@@ -73,7 +73,7 @@ module.exports = StyleSheet.create({
     color: colors.mainField,
   },
   mobileWrapper: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
   },
   mobileIcon: {

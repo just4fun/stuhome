@@ -105,11 +105,11 @@ module.exports = StyleSheet.create({
     color: colors.mainField,
   },
   mobileWrapper: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
   },
   mobileIcon: {
-    fontSize: 22,
+    fontSize: 20,
     color: colors.mobileSign,
   },
   mobileText: {
