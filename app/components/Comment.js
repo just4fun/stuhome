@@ -32,7 +32,7 @@ class Comment extends Component {
         <View style={styles.authorInfo}>
           <Image
            style={styles.avatar}
-           source={{uri: icon}} />
+           source={{ uri: icon }} />
           <View style={styles.author}>
             <Text style={styles.name}>{reply_name}</Text>
             <Text style={styles.level}>{userTitle}</Text>
@@ -58,7 +58,7 @@ class Comment extends Component {
               case 1:
                 return <Image key={index}
                               style={[styles.commentSection, styles.commentImage]}
-                              source={{uri: content.originalInfo}} />
+                              source={{ uri: content.originalInfo }} />
             }
           })}
         </View>

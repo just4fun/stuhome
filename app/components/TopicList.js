@@ -10,7 +10,7 @@ import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class TopicList extends Component {
   constructor(props) {

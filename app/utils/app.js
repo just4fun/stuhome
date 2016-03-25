@@ -25,7 +25,7 @@ export function parseContentWithImage(content) {
 
   return contentEmoticonUrlArray.map(item => {
     if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
-      return <Image source={{uri: item}} />;
+      return <Image source={{ uri: item }} />;
     } else {
       return item;
     }

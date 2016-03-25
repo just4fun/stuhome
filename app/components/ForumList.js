@@ -10,7 +10,7 @@ import Header from './Header';
 import ForumItem from './ForumItem';
 import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
   componentDidMount() {

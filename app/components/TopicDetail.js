@@ -20,7 +20,7 @@ import { PopButton, ReplyButton, CommentButton } from './button';
 import { fetchTopic, resetTopic, publish } from '../actions/topic/topicAction';
 import { parseContentWithImage } from '../utils/app';
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class TopicDetail extends Component {
   constructor(props) {
@@ -157,7 +157,7 @@ class TopicDetail extends Component {
               <View style={styles.avatarWapper}>
                 <Image
                  style={styles.avatar}
-                 source={{uri: topic.icon}} />
+                 source={{ uri: topic.icon }} />
               </View>
               <View style={styles.author}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>
@@ -179,7 +179,7 @@ class TopicDetail extends Component {
                   case 1:
                     return <Image key={index}
                                   style={[styles.contentItem, styles.contentImage]}
-                                  source={{uri: content.originalInfo}} />
+                                  source={{ uri: content.originalInfo }} />
                 }
               })}
             </View>

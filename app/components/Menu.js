@@ -64,7 +64,7 @@ class Menu extends Component {
               onPress={() => this._showLogout()}>
               <Image
                style={styles.avatar}
-               source={{uri: authrization.avatar}} />
+               source={{ uri: authrization.avatar }} />
             </TouchableHighlight>
             ||
             <TouchableHighlight
@@ -73,7 +73,7 @@ class Menu extends Component {
               onPress={() => this._loginModal._openLoginModal()}>
               <Image
                style={styles.avatar}
-               source={{uri: DEFAULT_AVATAR}} />
+               source={{ uri: DEFAULT_AVATAR }} />
             </TouchableHighlight>
           }
         </View>
