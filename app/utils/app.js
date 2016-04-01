@@ -29,7 +29,7 @@ export function parseContentWithImage(content) {
     } else {
       return item;
     }
-  })
+  });
 }
 
 export function fetchWithToken(

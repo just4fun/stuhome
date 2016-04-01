@@ -72,7 +72,7 @@ class TopicList extends Component {
       topicList.list[this.boardId] = {
         typeList: [],
         topicList: []
-      }
+      };
     }
 
     let realTopicList = topicList.list[this.boardId].topicList;

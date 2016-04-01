@@ -18,6 +18,6 @@ class MenuButton extends Component {
 
 MenuButton.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
-}
+};
 
 module.exports = MenuButton;

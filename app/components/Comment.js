@@ -58,7 +58,7 @@ class Comment extends Component {
               case 1:
                 return <Image key={index}
                               style={[styles.commentSection, styles.commentImage]}
-                              source={{ uri: content.originalInfo }} />
+                              source={{ uri: content.originalInfo }} />;
             }
           })}
         </View>

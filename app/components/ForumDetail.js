@@ -51,7 +51,7 @@ class ForumDetail extends Component {
       topicList.list[this.boardId] = {
         typeList: [],
         topicList: []
-      }
+      };
     }
 
     let typeList = topicList.list[this.boardId].typeList;

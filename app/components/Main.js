@@ -39,7 +39,7 @@ class Main extends Component {
   }
 
   render() {
-    const menu = <Menu {...this.props} router={this.router} />
+    const menu = <Menu {...this.props} router={this.router} />;
 
     return (
       <SideMenu

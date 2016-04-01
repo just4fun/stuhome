@@ -12,6 +12,7 @@
     "es6": true
   },
   "rules": {
+    "semi": [1, "always"],
     "indent": [1, 2, {"SwitchCase": 1}],
     "comma-spacing": [1, {"before": false, "after": true}],
     "object-curly-spacing": [1, "always"],

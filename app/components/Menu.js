@@ -102,6 +102,6 @@ class Menu extends Component {
 
 Menu.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
-}
+};
 
 module.exports = Menu;

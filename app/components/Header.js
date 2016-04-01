@@ -17,7 +17,7 @@ class Header extends Component {
 
     switch (count) {
       case 0:
-        leftTopButton = <MenuButton style={styles.left} />
+        leftTopButton = <MenuButton style={styles.left} />;
         break;
       case 1:
         leftTopButton = React.cloneElement(buttons, { style: [buttons.props.style, styles.left] });

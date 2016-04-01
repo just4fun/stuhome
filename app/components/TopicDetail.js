@@ -179,7 +179,7 @@ class TopicDetail extends Component {
                   case 1:
                     return <Image key={index}
                                   style={[styles.contentItem, styles.contentImage]}
-                                  source={{ uri: content.originalInfo }} />
+                                  source={{ uri: content.originalInfo }} />;
                 }
               })}
             </View>

@@ -8,4 +8,4 @@ module.exports = {
    * 5: iOS
    */
   PLAT_TYPE: 5
-}
+};

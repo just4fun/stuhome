@@ -107,6 +107,6 @@ class Login extends Component {
 
 Login.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
-}
+};
 
 module.exports = Login;
