@@ -23,15 +23,17 @@ const defaultTopicListState = {
 function topicList(state = defaultTopicListState, action) {
   switch (action.type) {
     case INVALIDATE_TOPICLIST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         didInvalidate: true
-      });
+      };
     case REQUEST_TOPICLIST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isRefreshing: !action.isEndReached,
         isEndReached: action.isEndReached,
         didInvalidate: false
-      });
+      };
     case RECEIVE_TOPICLIST:
       let {
         boardId,
@@ -40,7 +42,8 @@ function topicList(state = defaultTopicListState, action) {
 
       let typeList = getMappedTypeList(topicList.classificationType_list);
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isRefreshing: false,
         isEndReached: false,
         didInvalidate: false,
@@ -49,11 +52,12 @@ function topicList(state = defaultTopicListState, action) {
         hasMore: !!topicList.has_next,
         page: topicList.page,
         errCode: topicList.errcode
-      });
+      };
     case RESET_TOPICLIST:
-      return Object.assign({}, defaultTopicListState, {
+      return {
+        ...defaultTopicListState,
         list: getTopicListWithoutSpecificForum(state, action.forumId)
-      });
+      };
     default:
       return state;
   }
@@ -74,7 +78,7 @@ function getMappedTypeList(typeList) {
 // cache topic list and return
 function getNewCache(oldState, typeList, topicList, boardId, page) {
   let newTopicList = [];
-  let newState = Object.assign({}, oldState);
+  let newState = { ...oldState };
 
   if (page !== 1) {
     newTopicList = oldState.list[boardId].topicList.concat(topicList);
@@ -90,7 +94,7 @@ function getNewCache(oldState, typeList, topicList, boardId, page) {
 }
 
 function getTopicListWithoutSpecificForum(oldState, forumId) {
-  let newState = Object.assign({}, oldState);
+  let newState = { ...oldState };
   delete newState.list[forumId];
   return newState.list;
 }

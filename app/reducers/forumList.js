@@ -11,20 +11,23 @@ function forumList(state = {
 }, action) {
   switch (action.type) {
     case INVALIDATE_FORUMLIST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         didInvalidate: true
-      });
+      };
     case REQUEST_FORUMLIST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
         didInvalidate: false
-      });
+      };
     case RECEIVE_FORUMLIST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         didInvalidate: false,
         list: action.forumList.list
-      });
+      };
     default:
       return state;
   }

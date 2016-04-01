@@ -19,10 +19,11 @@ const defaultTopicState = {
 function topicItem(state = defaultTopicState, action) {
   switch (action.type) {
     case REQUEST_TOPIC:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: !action.isEndReached,
         isEndReached: action.isEndReached
-      });
+      };
     case RECEIVE_TOPIC:
       if (action.topicItem.page !== 1) {
         action.topicItem.list = state.list.concat(action.topicItem.list);
@@ -30,7 +31,8 @@ function topicItem(state = defaultTopicState, action) {
         action.topicItem.topic = state.topic;
       }
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         isEndReached: false,
         topic: action.topicItem.topic,
@@ -38,7 +40,7 @@ function topicItem(state = defaultTopicState, action) {
         hasMore: !!action.topicItem.has_next,
         page: action.topicItem.page,
         errCode: action.topicItem.errcode
-      });
+      };
     case RESET_TOPIC:
       return defaultTopicState;
     default:

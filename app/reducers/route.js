@@ -9,9 +9,10 @@ function route(state = {
 }, action) {
   switch (action.type) {
     case CHANGE_ROUTE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         current: action.route
-      });
+      };
     default:
       return state;
   }

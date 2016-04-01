@@ -12,14 +12,16 @@ const defaultState = {
 function comment(state = defaultState, action) {
   switch (action.type) {
     case START_PUBLISH:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isPublishing: true
-      });
+      };
     case FINISH_PUBLISH:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isPublishing: false,
         response: action.response
-      });
+      };
     case RESET_PUBLISH:
       return defaultState;
     default:
