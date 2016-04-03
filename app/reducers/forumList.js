@@ -7,7 +7,8 @@ import {
 function forumList(state = {
   isFetching: false,
   didInvalidate: false,
-  list: []
+  // dictionary for cache
+  list: {},
 }, action) {
   switch (action.type) {
     case INVALIDATE_FORUMLIST:
@@ -22,15 +23,34 @@ function forumList(state = {
         didInvalidate: false
       };
     case RECEIVE_FORUMLIST:
+      let {
+        boardId,
+        forumList
+      } = action;
+
       return {
         ...state,
         isFetching: false,
         didInvalidate: false,
-        list: action.forumList.list
+        // list: action.forumList.list
+        list: getNewCache(state, forumList.list, boardId),
       };
     default:
       return state;
   }
+}
+
+// cache forum list and return
+function getNewCache(oldState, forumList, boardId) {
+  let newForumList = [];
+  let newState = { ...oldState };
+
+  newForumList = forumList.slice(0);
+
+  newState.list[boardId] = {
+    forumList: newForumList
+  };
+  return newState.list;
 }
 
 module.exports = forumList;

@@ -14,7 +14,6 @@ const defaultTopicListState = {
   boardId: null,
   // dictionary for cache
   list: {},
-  // typeList: [],
   hasMore: false,
   page: 0,
   errCode: ''

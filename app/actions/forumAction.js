@@ -14,37 +14,41 @@ function requestForumList() {
   };
 }
 
-function receiveForumList(forumList) {
+function receiveForumList(forumList, { boardId }) {
   return {
     type: RECEIVE_FORUMLIST,
-    forumList
+    forumList,
+    boardId
   };
 }
 
-function fetchForumList() {
+function fetchForumList(boardId) {
   return dispatch => {
     dispatch(requestForumList());
 
     let requestUrl = API_ROOT + API_PATH;
+    if (boardId && boardId !== 'all') {
+      requestUrl += `&fid=${boardId}`;
+    }
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveForumList);
+    return fetchWithToken(requestUrl, null, dispatch, receiveForumList, { boardId });
   };
 }
 
-function shouldFetchForumList(state) {
+function shouldFetchForumList(boardId, state) {
   const { forumList, didInvalidate } = state;
 
-  if (!forumList.list.length) { return true; }
+  if (!forumList.list[boardId] || !forumList.list[boardId].forumList.length) { return true; }
 
   if (forumList.isFetching) { return false; }
 
   return forumList.didInvalidate;
 }
 
-export function fetchForumListIfNeeded() {
+export function fetchForumListIfNeeded(boardId) {
   return (dispatch, getState) => {
-    if (shouldFetchForumList(getState())) {
-      return dispatch(fetchForumList());
+    if (shouldFetchForumList(boardId, getState())) {
+      return dispatch(fetchForumList(boardId));
     }
   };
 }

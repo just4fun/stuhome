@@ -14,18 +14,25 @@ const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchForumListIfNeeded());
+    this.props.dispatch(fetchForumListIfNeeded('all'));
   }
 
   _refreshForum() {
     this.props.dispatch(invalidateForumList());
-    this.props.dispatch(fetchForumListIfNeeded());
+    this.props.dispatch(fetchForumListIfNeeded('all'));
   }
 
   render() {
-    const { dispatch, list } = this.props;
-    const { forumList } = list;
-    const source = ds.cloneWithRows(forumList.list);
+    let { dispatch, list } = this.props;
+    let { forumList } = list;
+
+    if (!forumList.list['all']) {
+      forumList.list['all'] = {
+        forumList: []
+      };
+    }
+
+    let source = ds.cloneWithRows(forumList.list['all'].forumList);
 
     return (
       <View style={mainStyles.container}>
