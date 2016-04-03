@@ -53,7 +53,7 @@ Now it's still being built, and it maybe buggy honestly.
 - [x] Login/Logout
 - [x] Read latest topics
 - [x] Read forums
-- [ ] Read sub forums
+- [x] Read sub forums
 - [x] Read topics in each forum
 - [x] Read topic detail and comments
 - [x] Reply a topic

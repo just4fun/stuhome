@@ -59,7 +59,11 @@ class Router {
 
   toForum(forum) {
     this._navigateTo({
-      id: 'forumDetail',
+      /**
+      * we should use `forum.board_id` instead of literal text `forumDetail`
+      * as id otherwise we can't transition to sub forum from top torum.
+      */
+      id: forum.board_id,
       title: forum.board_name,
       component: ForumDetail,
       passProps: forum

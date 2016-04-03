@@ -1,11 +1,15 @@
 import {
   INVALIDATE_FORUMLIST,
   REQUEST_FORUMLIST,
+  REQUEST_SUBFORUMLIST,
   RECEIVE_FORUMLIST
 } from '../constants/ActionTypes';
 
 function forumList(state = {
+  // indicate fetching top forums
   isFetching: false,
+  // indicate fetching sub forums
+  isSubFetching: false,
   didInvalidate: false,
   // dictionary for cache
   list: {},
@@ -20,6 +24,14 @@ function forumList(state = {
       return {
         ...state,
         isFetching: true,
+        isSubFetching: false,
+        didInvalidate: false
+      };
+    case REQUEST_SUBFORUMLIST:
+      return {
+        ...state,
+        isFetching: false,
+        isSubFetching: true,
         didInvalidate: false
       };
     case RECEIVE_FORUMLIST:
@@ -31,8 +43,8 @@ function forumList(state = {
       return {
         ...state,
         isFetching: false,
+        isSubFetching: false,
         didInvalidate: false,
-        // list: action.forumList.list
         list: getNewCache(state, forumList.list, boardId),
       };
     default:

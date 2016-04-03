@@ -3,6 +3,7 @@ import { fetchWithToken } from '../utils/app';
 import {
   INVALIDATE_FORUMLIST,
   REQUEST_FORUMLIST,
+  REQUEST_SUBFORUMLIST,
   RECEIVE_FORUMLIST,
 } from '../constants/ActionTypes';
 
@@ -11,6 +12,12 @@ const API_PATH = 'forum/forumlist';
 function requestForumList() {
   return {
     type: REQUEST_FORUMLIST
+  };
+}
+
+function requestSubForumList() {
+  return {
+    type: REQUEST_SUBFORUMLIST
   };
 }
 
@@ -24,7 +31,8 @@ function receiveForumList(forumList, { boardId }) {
 
 function fetchForumList(boardId) {
   return dispatch => {
-    dispatch(requestForumList());
+    let shouldFetchTopForumList = boardId === 'all';
+    dispatch(shouldFetchTopForumList ? requestForumList() : requestSubForumList());
 
     let requestUrl = API_ROOT + API_PATH;
     if (boardId && boardId !== 'all') {

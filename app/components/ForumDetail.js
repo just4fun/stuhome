@@ -4,9 +4,11 @@ import React, {
   Text,
   AlertIOS
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import Header from './Header';
 import TopicList from './TopicList';
+import ForumList from './ForumList';
 import PublishModal from './modal/PublishModal';
 import { PopButton, PublishButton } from './button';
 import { publish } from '../actions/topic/topicAction';
@@ -15,8 +17,16 @@ import { resetTopicList } from '../actions/topic/topicListAction';
 class ForumDetail extends Component {
   constructor(props) {
     super(props);
-    this.boardId = props.passProps.board_id;
-    this.boardName = props.passProps.board_name;
+    let {
+      board_id,
+      board_name,
+      board_content,
+      board_child
+    } = props.passProps;
+    this.boardId = board_id;
+    this.boardName = board_name;
+    this.boardContent = !!board_content;
+    this.boardChild = !!board_child;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,7 +87,23 @@ class ForumDetail extends Component {
             <Text></Text>
           }
         </Header>
-        <TopicList {...this.props} />
+        {this.boardContent && this.boardChild &&
+          <ScrollableTabView>
+            <TopicList
+              tabLabel='最新'
+              {...this.props} />
+            <ForumList
+              tabLabel='子版块'
+              boardId={this.boardId}
+              {...this.props} />
+          </ScrollableTabView>
+        }
+        {this.boardContent && !this.boardChild &&
+          <TopicList {...this.props} />
+        }
+        {!this.boardContent && this.boardChild &&
+          <ForumList boardId={this.boardId} {...this.props} />
+        }
       </View>
     );
   }

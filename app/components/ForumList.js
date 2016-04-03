@@ -13,36 +13,50 @@ import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAct
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
-  componentDidMount() {
-    this.props.dispatch(fetchForumListIfNeeded('all'));
+  constructor(props) {
+    super(props);
+    this.boardId = this.props.boardId || 'all';
+    this.isTopForumList = this.boardId === 'all';
   }
 
-  _refreshForum() {
+  componentDidMount() {
+    this.props.dispatch(fetchForumListIfNeeded(this.boardId));
+  }
+
+  _refreshForumList() {
     this.props.dispatch(invalidateForumList());
-    this.props.dispatch(fetchForumListIfNeeded('all'));
+    this.props.dispatch(fetchForumListIfNeeded(this.boardId));
   }
 
   render() {
-    let { dispatch, list } = this.props;
-    let { forumList } = list;
+    let { forumList } = this.props.list;
 
-    if (!forumList.list['all']) {
-      forumList.list['all'] = {
+    if (!forumList.list[this.boardId]) {
+      forumList.list[this.boardId] = {
         forumList: []
       };
     }
 
-    let source = ds.cloneWithRows(forumList.list['all'].forumList);
+    let source = ds.cloneWithRows(forumList.list[this.boardId].forumList);
 
     return (
       <View style={mainStyles.container}>
-        <Header title='版块' />
+        {this.isTopForumList &&
+          <Header title='版块' />
+        }
         <ControlledRefreshableListView
           dataSource={source}
-          renderRow={forum => <ForumItem key={forum.board_category_id} forum={forum} router={this.props.router} />}
-          onRefresh={() => this._refreshForum()}
-          isRefreshing={forumList.isFetching}
-        />
+          renderRow={forum => {
+            return (
+              <ForumItem
+                key={forum.board_category_id}
+                isTopForumList={this.isTopForumList}
+                forum={forum}
+                router={this.props.router} />
+            );
+          }}
+          onRefresh={() => this._refreshForumList()}
+          isRefreshing={this.isTopForumList ? forumList.isFetching : forumList.isSubFetching} />
       </View>
     );
   }
