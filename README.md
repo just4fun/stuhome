@@ -73,7 +73,7 @@ Now it's still being built, and it maybe buggy honestly.
 
 ## Known issues
 
-- User avatar is not displayed sometimes: [issue](https://github.com/facebook/react-native/issues/5616)
+- ~~User avatar is not displayed sometimes: [issue](https://github.com/facebook/react-native/issues/5616)~~ (Fixed by this [PR](https://github.com/facebook/react-native/pull/7262) for React Native)
 - Switching between pages is not very smooth: [performance](https://facebook.github.io/react-native/docs/performance.html)
 
 ## License
