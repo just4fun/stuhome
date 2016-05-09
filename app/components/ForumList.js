@@ -2,9 +2,9 @@ import React, {
   Component,
   View,
   Text,
-  ListView
+  ListView,
+  RefreshControl,
 } from 'react-native';
-import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import mainStyles from '../styles/components/_Main';
 import Header from './Header';
 import ForumItem from './ForumItem';
@@ -44,7 +44,7 @@ class ForumList extends Component {
         {this.isTopForumList &&
           <Header title='版块' />
         }
-        <ControlledRefreshableListView
+        <ListView
           dataSource={source}
           renderRow={forum => {
             return (
@@ -55,8 +55,12 @@ class ForumList extends Component {
                 router={this.props.router} />
             );
           }}
-          onRefresh={() => this._refreshForumList()}
-          isRefreshing={this.isTopForumList ? forumList.isFetching : forumList.isSubFetching} />
+          refreshControl={
+            <RefreshControl
+              title='正在加载...'
+              onRefresh={() => this._refreshForumList()}
+              refreshing={this.isTopForumList ? forumList.isFetching : forumList.isSubFetching} />
+          } />
       </View>
     );
   }

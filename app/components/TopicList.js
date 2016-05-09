@@ -3,9 +3,9 @@ import React, {
   View,
   Text,
   ListView,
+  RefreshControl,
   ActivityIndicatorIOS
 } from 'react-native';
-import ControlledRefreshableListView from 'react-native-refreshable-listview/lib/ControlledRefreshableListView';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
@@ -79,14 +79,25 @@ class TopicList extends Component {
     let source = ds.cloneWithRows(realTopicList);
 
     return (
-      <ControlledRefreshableListView
+      <ListView
         dataSource={source}
-        renderRow={topic => <TopicItem key={topic.topic_id} topic={topic} router={this.props.router} />}
-        onRefresh={() => this._refreshTopicList()}
-        isRefreshing={topicList.isRefreshing}
+        renderRow={topic => {
+          return (
+            <TopicItem
+              key={topic.topic_id}
+              topic={topic}
+              router={this.props.router} />
+          )
+        }}
         onEndReached={() => this._endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()} />
+        renderFooter={() => this._renderFooter()}
+        refreshControl={
+          <RefreshControl
+            title='正在加载...'
+            onRefresh={() => this._refreshTopicList()}
+            refreshing={topicList.isRefreshing} />
+        } />
     );
   }
 }
