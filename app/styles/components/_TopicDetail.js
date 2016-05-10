@@ -10,9 +10,6 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  header: {
-    margin: 10,
-  },
   title: {
     fontSize: 16,
     fontWeight: 'bold'
@@ -32,7 +29,6 @@ module.exports = StyleSheet.create({
     textAlign: 'left',
   },
   postContent: {
-    margin: 10,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: colors.underlay,
@@ -82,6 +78,10 @@ module.exports = StyleSheet.create({
     resizeMode: Image.resizeMode.contain,
   },
   commentHeader: {
+    position: 'absolute',
+    left: -10,
+    right: -10,
+    marginVertical: 10,
     height: 20,
     backgroundColor: colors.underlay,
   },
@@ -90,6 +90,9 @@ module.exports = StyleSheet.create({
     marginLeft: 10,
     marginTop: 3,
     color: colors.white,
+  },
+  commentHeaderSpace: {
+    height: 40,
   },
   commentList: {
     padding: 10,

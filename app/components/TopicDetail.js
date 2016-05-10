@@ -65,6 +65,84 @@ class TopicDetail extends Component {
     this.props.dispatch(fetchTopic(this.topicId, true, page + 1));
   }
 
+  _renderHeader(topic, token) {
+    let create_date = moment(+topic.create_date).startOf('minute').fromNow();
+    let commentHeaderText =
+      topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
+
+    return (
+      <View>
+        <View>
+          <Text style={styles.title}>{topic.title}</Text>
+          <View style={styles.info}>
+            <Icon
+              style={styles.views}
+              name='eye'>
+              {topic.hits}
+            </Icon>
+            <Icon
+              style={styles.comments}
+              name='comments'>
+              {topic.replies}
+            </Icon>
+          </View>
+        </View>
+        <View style={styles.postContent}>
+          <View style={styles.authorInfo}>
+            <View style={styles.avatarWapper}>
+              <Image
+               style={styles.avatar}
+               source={{ uri: topic.icon }} />
+            </View>
+            <View style={styles.author}>
+              <Text style={styles.name}>{topic.user_nick_name}</Text>
+              <Text style={styles.level}>{topic.userTitle}</Text>
+            </View>
+            <Text style={styles.floor}>楼主</Text>
+          </View>
+          <View style={styles.content}>
+            {topic.content.map((content, index) => {
+              switch (content.type) {
+                // text
+                case 0:
+                default:
+                  return <Text key={index}
+                               style={styles.contentItem}>
+                           {parseContentWithImage(content.infor)}
+                         </Text>;
+                // pic
+                case 1:
+                  return <Image key={index}
+                                style={[styles.contentItem, styles.contentImage]}
+                                source={{ uri: content.originalInfo }} />;
+              }
+            })}
+          </View>
+          <View style={styles.other}>
+            <Text style={styles.date}>{create_date}</Text>
+            {!!topic.mobileSign &&
+              <View style={styles.mobileWrapper}>
+                <Icon style={styles.mobileIcon} name='mobile' />
+                <Text style={styles.mobileText}>{topic.mobileSign}</Text>
+              </View>
+            }
+            {token &&
+              <CommentButton
+                style={styles.reply}
+                onPress={() => this._openReplyModal(topic)} />
+            }
+          </View>
+        </View>
+        <View style={styles.commentHeader}>
+          <Text style={styles.commentHeaderText}>
+            {commentHeaderText}
+          </Text>
+        </View>
+        <View style={styles.commentHeaderSpace}></View>
+      </View>
+    );
+  }
+
   _renderFooter() {
     let {
       hasMore,
@@ -113,10 +191,7 @@ class TopicDetail extends Component {
 
     let topic = topicItem.topic;
     let token = user.authrization.token;
-    let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentSource = ds.cloneWithRows(topicItem.list);
-    let commentHeaderText =
-      topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
 
     return (
       <View style={mainStyles.container}>
@@ -136,87 +211,20 @@ class TopicDetail extends Component {
             <Text></Text>
           }
         </Header>
-        <ScrollView>
-          <View style={styles.header}>
-            <Text style={styles.title}>{topic.title}</Text>
-            <View style={styles.info}>
-              <Icon
-                style={styles.views}
-                name='eye'>
-                {topic.hits}
-              </Icon>
-              <Icon
-                style={styles.comments}
-                name='comments'>
-                {topic.replies}
-              </Icon>
-            </View>
-          </View>
-          <View style={styles.postContent}>
-            <View style={styles.authorInfo}>
-              <View style={styles.avatarWapper}>
-                <Image
-                 style={styles.avatar}
-                 source={{ uri: topic.icon }} />
-              </View>
-              <View style={styles.author}>
-                <Text style={styles.name}>{topic.user_nick_name}</Text>
-                <Text style={styles.level}>{topic.userTitle}</Text>
-              </View>
-              <Text style={styles.floor}>楼主</Text>
-            </View>
-            <View style={styles.content}>
-              {topic.content.map((content, index) => {
-                switch (content.type) {
-                  // text
-                  case 0:
-                  default:
-                    return <Text key={index}
-                                 style={styles.contentItem}>
-                             {parseContentWithImage(content.infor)}
-                           </Text>;
-                  // pic
-                  case 1:
-                    return <Image key={index}
-                                  style={[styles.contentItem, styles.contentImage]}
-                                  source={{ uri: content.originalInfo }} />;
-                }
-              })}
-            </View>
-            <View style={styles.other}>
-              <Text style={styles.date}>{create_date}</Text>
-              {!!topic.mobileSign &&
-                <View style={styles.mobileWrapper}>
-                  <Icon style={styles.mobileIcon} name='mobile' />
-                  <Text style={styles.mobileText}>{topic.mobileSign}</Text>
-                </View>
-              }
-              {token &&
-                <CommentButton
-                  style={styles.reply}
-                  onPress={() => this._openReplyModal(topic)} />
-              }
-            </View>
-          </View>
-          <View style={styles.commentHeader}>
-            <Text style={styles.commentHeaderText}>
-              {commentHeaderText}
-            </Text>
-          </View>
-          <ListView
-            style={styles.commentList}
-            dataSource={commentSource}
-            renderRow={comment =>
-              <Comment
-                key={comment.reply_posts_id}
-                comment={comment}
-                token={token}
-                openReplyModal={() => this._openReplyModal(comment)} />
-            }
-            onEndReached={() => this._endReached()}
-            onEndReachedThreshold={0}
-            renderFooter={() => this._renderFooter()} />
-        </ScrollView>
+        <ListView
+          style={styles.commentList}
+          dataSource={commentSource}
+          renderRow={comment =>
+            <Comment
+              key={comment.reply_posts_id}
+              comment={comment}
+              token={token}
+              openReplyModal={() => this._openReplyModal(comment)} />
+          }
+          onEndReached={() => this._endReached()}
+          onEndReachedThreshold={0}
+          renderHeader={() => this._renderHeader(topic, token)}
+          renderFooter={() => this._renderFooter()} />
       </View>
     );
   }
