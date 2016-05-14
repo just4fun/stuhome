@@ -79,7 +79,7 @@ class PublishModal extends Component {
             ref={component => this._topicTypeModal = component}
             visible={false}
             setTopicType={typeId => this.setState({ typeId })} />
-          <Header title={this.title}>
+          <Header title={this.title} {...this.props}>
             <Text
               style={modalStyles.button}
               onPress={() => this.handleCancel()}>

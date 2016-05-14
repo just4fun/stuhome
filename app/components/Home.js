@@ -10,7 +10,7 @@ class Home extends Component {
   render() {
     return (
       <View style={mainStyles.container}>
-        <Header title='最新' />
+        <Header title='最新' {...this.props} />
         <TopicList {...this.props} />
       </View>
     );
