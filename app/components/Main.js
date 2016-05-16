@@ -9,7 +9,6 @@ import Router from '../router';
 import Menu from './Menu';
 import Home from './Home';
 import { getUserFromStorage } from '../actions/authorizeAction';
-import { changeRoute } from '../actions/routeAction';
 
 class Main extends Component {
   componentDidMount() {
@@ -27,12 +26,6 @@ class Main extends Component {
   renderScene(route, navigator) {
     if (!this.router) {
       this.router = new Router(navigator);
-
-      // indicate the current route in side menu
-      navigator.navigationContext.addListener('didfocus', e => {
-        let route = e.data.route;
-        this.props.dispatch(changeRoute(route));
-      });
     }
 
     return <route.component {...this.props} router={this.router} passProps={route.passProps} />;

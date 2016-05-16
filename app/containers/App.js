@@ -3,7 +3,6 @@ import Main from '../components/Main';
 
 function mapStateToProps(state) {
   let {
-    route,
     topicList,
     forumList,
     user,
@@ -12,9 +11,6 @@ function mapStateToProps(state) {
   } = state;
 
   return {
-    app: {
-      route
-    },
     list: {
       topicList,
       forumList

@@ -6,7 +6,6 @@ import React, {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_Header';
 import { MenuButton } from './button';
-// var MenuButton = require('./button').MenuButton;
 
 class Header extends Component {
   render() {
