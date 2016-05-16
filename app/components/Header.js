@@ -6,6 +6,7 @@ import React, {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_Header';
 import { MenuButton } from './button';
+// var MenuButton = require('./button').MenuButton;
 
 class Header extends Component {
   render() {
@@ -16,7 +17,7 @@ class Header extends Component {
 
     switch (count) {
       case 0:
-        leftTopButton = <MenuButton style={styles.left} {...this.props} />;
+        leftTopButton = <MenuButton style={styles.left} />;
         break;
       case 1:
         leftTopButton = React.cloneElement(buttons, { style: [buttons.props.style, styles.left] });

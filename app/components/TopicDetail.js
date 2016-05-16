@@ -179,7 +179,7 @@ class TopicDetail extends Component {
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName} {...this.props}>
+          <Header title={this.boardName}>
             <PopButton router={this.props.router} />
           </Header>
           <View style={indicatorStyles.fullScreenIndicator}>
@@ -203,7 +203,7 @@ class TopicDetail extends Component {
           handlePublish={(content, replyId) => this._publish(content, replyId)}
           fetchTopic={() => this.fetchTopic()} />
 
-        <Header title={this.boardName} {...this.props}>
+        <Header title={this.boardName}>
           <PopButton router={this.props.router} />
           {token &&
             <ReplyButton onPress={() => this._openReplyModal()} />

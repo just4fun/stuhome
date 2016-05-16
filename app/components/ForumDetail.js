@@ -78,8 +78,7 @@ class ForumDetail extends Component {
 
         <Header
           title={this.boardName}
-          comment={comment}
-          {...this.props}>
+          comment={comment}>
           <PopButton router={this.props.router} />
           {token &&
             <PublishButton

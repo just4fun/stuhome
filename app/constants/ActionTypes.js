@@ -26,7 +26,7 @@ const ActionTypes = {
 
   REQUEST_LOGOUT: 'REQUEST_LOGOUT',
 
-  TOGGLE_SIDE_MENU: 'TOGGLE_SIDE_MENU',
+  CHANGE_ROUTE: 'CHANGE_ROUTE',
 };
 
 module.exports = ActionTypes;

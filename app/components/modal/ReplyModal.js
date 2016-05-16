@@ -70,7 +70,7 @@ class ReplyModal extends Component {
         style={modalStyles.container}
         visible={isModalOpen}>
         <View style={mainStyles.container}>
-          <Header title={title} {...this.props}>
+          <Header title={title}>
             <Text
               style={modalStyles.button}
               onPress={() => this.handleCancel()}>

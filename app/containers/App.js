@@ -3,7 +3,7 @@ import Main from '../components/Main';
 
 function mapStateToProps(state) {
   let {
-    global,
+    route,
     topicList,
     forumList,
     user,
@@ -12,7 +12,9 @@ function mapStateToProps(state) {
   } = state;
 
   return {
-    global,
+    app: {
+      route
+    },
     list: {
       topicList,
       forumList

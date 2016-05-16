@@ -14,7 +14,6 @@ import LoginModal from './modal/LoginModal';
 import Home from './Home';
 import ForumList from './ForumList';
 import { userLogout } from '../actions/authorizeAction';
-import { toggleSideMenu } from '../actions/globalAction';
 
 const DEFAULT_AVATAR = 'http://facebook.github.io/react/img/logo_og.png';
 
@@ -82,7 +81,7 @@ class Menu extends Component {
           style={[styles.row, this._isCurrentRoute('home') && styles.selectedRow]}
           underlayColor={colors.underlay}
           onPress={() => {
-            this.props.dispatch(toggleSideMenu());
+            this.context.menuActions.close();
             this.router.toHome();
           }}>
           <Text style={[styles.item, this._isCurrentRoute('home') && styles.selectedItem]}>最新</Text>
@@ -91,7 +90,7 @@ class Menu extends Component {
           style={[styles.row, this._isCurrentRoute('forumList') && styles.selectedRow]}
           underlayColor={colors.underlay}
           onPress={() => {
-            this.props.dispatch(toggleSideMenu());
+            this.context.menuActions.close();
             this.router.toForumList();
           }}>
           <Text style={[styles.item, this._isCurrentRoute('forumList') && styles.selectedItem]}>版块</Text>
@@ -100,5 +99,9 @@ class Menu extends Component {
     );
   }
 }
+
+Menu.contextTypes = {
+  menuActions: React.PropTypes.object.isRequired
+};
 
 module.exports = Menu;

@@ -42,7 +42,7 @@ class ForumList extends Component {
     return (
       <View style={mainStyles.container}>
         {this.isTopForumList &&
-          <Header title='版块' {...this.props} />
+          <Header title='版块' />
         }
         <ListView
           dataSource={source}

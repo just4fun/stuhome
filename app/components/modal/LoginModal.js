@@ -11,7 +11,6 @@ import React, {
 import Button from 'apsl-react-native-button';
 import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
-import { toggleSideMenu } from '../../actions/globalAction';
 import { userLogin, resetAuthrization, resetAuthrizationResult } from '../../actions/authorizeAction';
 
 class Login extends Component {
@@ -37,7 +36,7 @@ class Login extends Component {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
-          this.props.dispatch(toggleSideMenu());
+          this.context.menuActions.close();
           this.props.router.toHome();
           this._closeLoginModal();
         });
@@ -105,5 +104,9 @@ class Login extends Component {
     );
   }
 }
+
+Login.contextTypes = {
+  menuActions: React.PropTypes.object.isRequired
+};
 
 module.exports = Login;
