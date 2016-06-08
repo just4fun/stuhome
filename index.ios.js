@@ -1,4 +1,5 @@
-import React, { AppRegistry } from 'react-native';
-import Root from './app/containers/Root';
+import React from 'react';
+import { AppRegistry } from 'react-native';
+import Root from './src/containers/Root';
 
 AppRegistry.registerComponent('stuhome', () => Root);
