@@ -11,9 +11,14 @@ class Router {
     _navigator = navigator;
   }
 
-  _navigateTo(route) {
+  _navigateTo(route, isReplace) {
     let currentRoute = this.getCurrentRoute();
     if (route.id !== currentRoute.id) {
+      if (isReplace) {
+        _navigator.replace(route);
+        return;
+      }
+
       _navigator.push(route);
     }
   }
@@ -37,7 +42,7 @@ class Router {
       id: 'home',
       title: '最新',
       component: Home
-    });
+    }, true);
   }
 
   toForumList() {
@@ -45,7 +50,7 @@ class Router {
       id: 'forumList',
       title: '版块',
       component: ForumList
-    });
+    }, true);
   }
 
   toTopic(topic) {
