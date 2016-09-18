@@ -8,11 +8,10 @@ module.exports = StyleSheet.create({
     padding: 10,
   },
   button: {
-    color: colors.lightBlue,
     fontSize: 16,
     fontWeight: 'bold',
   },
   disabled: {
-    color: colors.disabledLightBlue,
-  },
+    opacity: 0.5,
+  }
 });

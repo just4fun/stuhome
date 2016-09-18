@@ -14,33 +14,4 @@ module.exports = StyleSheet.create({
     backgroundColor: colors.white,
     paddingTop: 30,
   },
-  menuHeader: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.underlay,
-    paddingLeft: 30,
-    paddingBottom: 15
-  },
-  avatar: {
-    height: 70,
-    width: 70,
-    borderWidth: 1,
-    borderColor: colors.underlay,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-  },
-  selectedRow: {
-    backgroundColor: colors.underlay,
-  },
-  item: {
-    fontSize: 18,
-    paddingTop: 10,
-    paddingLeft: 30,
-    paddingBottom: 10,
-  },
-  selectedItem: {
-    color: colors.lightBlue,
-  },
 });

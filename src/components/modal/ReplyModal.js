@@ -92,9 +92,7 @@ class ReplyModal extends Component {
           <TextInput
             placeholder='同学，请文明用语噢～'
             style={styles.replyBox}
-            value={replyContent}
             onChangeText={(text) => this.setState({ replyContent: text })}
-            autoFocus={true}
             multiline={true} />
           </View>
       </Modal>

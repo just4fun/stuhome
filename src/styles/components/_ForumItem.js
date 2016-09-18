@@ -8,11 +8,12 @@ module.exports = StyleSheet.create({
   },
   forumHeader: {
     height: 25,
-    backgroundColor: colors.underlay,
+    backgroundColor: colors.lightBlue,
     alignItems: 'center',
     justifyContent: 'center',
   },
   forumTitle: {
+    color: colors.white,
     fontSize: 16,
   },
 });

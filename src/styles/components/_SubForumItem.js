@@ -18,7 +18,7 @@ module.exports = StyleSheet.create({
   subForumTodayPostsNumber: {
     flex: 1,
     textAlign: 'right',
-    color: colors.lightBlue,
+    color: colors.blue,
   },
   subForumLastPostDate: {
     textAlign: 'left',

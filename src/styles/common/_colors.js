@@ -19,7 +19,7 @@ module.exports = {
 
   white: '#fff',
 
-  lightBlue: '#21b6f2',
+  blue: '#4fa7ff',
 
-  disabledLightBlue: '#a5c9fd',
+  lightBlue: '#75baff',
 };

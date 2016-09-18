@@ -31,15 +31,21 @@ module.exports = StyleSheet.create({
     justifyContent: 'flex-end',
     marginTop: 3,
   },
-  name: {
-    flex: 1,
-    textAlign: 'right',
-    color: colors.mainField,
-  },
   date: {
     flex: 1,
     textAlign: 'left',
     color: colors.mainField,
+    marginTop: 4,
+  },
+  avatar: {
+    height: 25,
+    width: 25,
+    marginLeft: 5,
+    borderRadius: 5,
+  },
+  name: {
+    color: colors.mainField,
+    marginTop: 4,
   },
   forumInfo: {
     padding: 3,

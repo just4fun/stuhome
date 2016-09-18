@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TextInput,
   Modal,
   PickerIOS
 } from 'react-native';

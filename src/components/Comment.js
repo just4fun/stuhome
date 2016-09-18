@@ -37,7 +37,7 @@ class Comment extends Component {
             <Text style={styles.name}>{reply_name}</Text>
             <Text style={styles.level}>{userTitle}</Text>
           </View>
-          <Text style={styles.floor}>#{position}</Text>
+          <Text style={styles.floor}>#{position - 1}</Text>
         </View>
         <View style={styles.comment}>
           {!!is_quote &&

@@ -4,7 +4,7 @@ import colors from '../common/_colors';
 module.exports = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: colors.white,
+    backgroundColor: colors.blue,
     height: 60,
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
@@ -15,17 +15,20 @@ module.exports = StyleSheet.create({
     flex: 1,
     textAlign: 'left',
     paddingLeft: 15,
-    paddingTop: 2
+    paddingTop: 2,
+    color: colors.white
   },
   title: {
     width: 150,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: colors.white
   },
   right: {
     flex: 1,
     textAlign: 'right',
     paddingRight: 15,
-    paddingTop: 2
+    paddingTop: 2,
+    color: colors.white
   }
 });

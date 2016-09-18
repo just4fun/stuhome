@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
+import styles from '../styles/components/_ForumDetail';
+import colors from '../styles/common/_colors';
 import Header from './Header';
 import TopicList from './TopicList';
 import ForumList from './ForumList';
@@ -88,7 +90,12 @@ class ForumDetail extends Component {
           }
         </Header>
         {this.boardContent && this.boardChild &&
-          <ScrollableTabView>
+          <ScrollableTabView
+            tabBarBackgroundColor={colors.lightBlue}
+            tabBarActiveTextColor={colors.white}
+            tabBarInactiveTextColor={colors.white}
+            tabBarUnderlineStyle={styles.tabBarUnderline}
+            tabBarTextStyle={styles.tabBarText}>
             <TopicList
               tabLabel='最新'
               {...this.props} />

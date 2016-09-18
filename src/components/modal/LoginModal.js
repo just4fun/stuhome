@@ -78,13 +78,10 @@ class Login extends Component {
           </View>
           <View style={styles.form}>
             <TextInput
-              value={this.state.userName}
               style={[styles.formItem, styles.formInput]}
               onChangeText={text => this.setState({ userName: text })}
-              placeholder='请输入用户名'
-              autoFocus={true} />
+              placeholder='请输入用户名' />
             <TextInput
-              value={this.state.password}
               style={[styles.formItem, styles.formInput]}
               onChangeText={text => this.setState({ password: text })}
               placeholder='请输入密码'

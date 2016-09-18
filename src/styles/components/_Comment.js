@@ -19,8 +19,6 @@ module.exports = StyleSheet.create({
   avatar: {
     height: 35,
     width: 35,
-    borderWidth: 1,
-    borderColor: colors.underlay,
     borderRadius: 10,
   },
   author: {

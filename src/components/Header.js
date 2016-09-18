@@ -19,11 +19,11 @@ class Header extends Component {
         leftTopButton = <MenuButton style={styles.left} />;
         break;
       case 1:
-        leftTopButton = React.cloneElement(buttons, { style: [buttons.props.style, styles.left] });
+        leftTopButton = React.cloneElement(buttons, { style: [styles.left, buttons.props.style] });
         break;
       case 2:
-        leftTopButton = React.cloneElement(buttons[0], { style: [buttons[0].props.style, styles.left] });
-        rightTopButton = React.cloneElement(buttons[1], { style: [buttons[1].props.style, styles.right] });
+        leftTopButton = React.cloneElement(buttons[0], { style: [styles.left, buttons[0].props.style] });
+        rightTopButton = React.cloneElement(buttons[1], { style: [styles.right, buttons[1].props.style] });
         break;
     }
 

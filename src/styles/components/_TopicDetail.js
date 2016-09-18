@@ -45,8 +45,6 @@ module.exports = StyleSheet.create({
   avatar: {
     height: 60,
     width: 60,
-    borderWidth: 1,
-    borderColor: colors.underlay,
     borderRadius: 10,
   },
   author: {
@@ -83,7 +81,7 @@ module.exports = StyleSheet.create({
     right: -10,
     marginVertical: 10,
     height: 20,
-    backgroundColor: colors.underlay,
+    backgroundColor: colors.lightBlue,
   },
   commentHeaderText: {
     fontSize: 12,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Image,
   TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,7 +20,8 @@ class TopicItem extends Component {
       replies,
       board_name,
       user_nick_name,
-      last_reply_date
+      last_reply_date,
+      userAvatar
     } = this.props.topic;
 
     // `last_reply_date` is timestamp in string from API
@@ -52,6 +54,7 @@ class TopicItem extends Component {
             <View style={styles.info}>
               <Text style={styles.date}>{last_reply_date}</Text>
               <Text style={styles.name}>{user_nick_name}</Text>
+              <Image style={styles.avatar} source={{ uri: userAvatar }} />
             </View>
           </View>
         </TouchableHighlight>
