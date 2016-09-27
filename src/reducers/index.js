@@ -4,6 +4,7 @@ import forumList from './forumList';
 import topicList from './topic/topicList';
 import topicItem from './topic/topicItem';
 import comment from './topic/comment';
+import vote from './topic/vote';
 
 module.exports = combineReducers({
   forumList,
@@ -11,5 +12,6 @@ module.exports = combineReducers({
 
   user,
   topicItem,
-  comment
+  comment,
+  vote
 });

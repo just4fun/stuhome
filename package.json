@@ -21,6 +21,7 @@
     "moment": "^2.10.6",
     "react": "^15.1.0",
     "react-native": "^0.27.1",
+    "react-native-checkbox": "^1.0.15",
     "react-native-scrollable-tab-view": "^0.4.0",
     "react-native-vector-icons": "^2.0.3",
     "react-redux": "^4.4.1",

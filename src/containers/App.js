@@ -7,7 +7,8 @@ function mapStateToProps(state) {
     forumList,
     user,
     topicItem,
-    comment
+    comment,
+    vote
   } = state;
 
   return {
@@ -18,7 +19,8 @@ function mapStateToProps(state) {
     entity: {
       user,
       topicItem,
-      comment
+      comment,
+      vote
     }
   };
 }

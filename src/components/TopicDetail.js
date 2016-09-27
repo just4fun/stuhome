@@ -16,8 +16,9 @@ import styles from '../styles/components/_TopicDetail';
 import Header from './Header';
 import ReplyModal from './modal/ReplyModal';
 import Comment from './Comment';
+import VoteList from './VoteList';
 import { PopButton, ReplyButton, CommentButton } from './button';
-import { fetchTopic, resetTopic, publish } from '../actions/topic/topicAction';
+import { fetchTopic, resetTopic, publish, publishVote, resetVote } from '../actions/topic/topicAction';
 import { parseContentWithImage } from '../utils/app';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -65,7 +66,7 @@ class TopicDetail extends Component {
     this.props.dispatch(fetchTopic(this.topicId, true, page + 1));
   }
 
-  _renderHeader(topic, token) {
+  _renderHeader(topic, token, vote) {
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -117,6 +118,14 @@ class TopicDetail extends Component {
                                 source={{ uri: content.originalInfo }} />;
               }
             })}
+            {topic.poll_info &&
+              <VoteList
+                pollInfo={topic.poll_info}
+                vote={vote}
+                publishVote={voteIds => this._publishVote(voteIds)}
+                resetVote={() => this._resetVote()}
+                fetchTopic={() => this.fetchTopic()} />
+            }
           </View>
           <View style={styles.other}>
             <Text style={styles.date}>{create_date}</Text>
@@ -169,12 +178,23 @@ class TopicDetail extends Component {
     ));
   }
 
+  _publishVote(voteIds) {
+    this.props.dispatch(publishVote(
+      this.topicId,
+      voteIds
+    ));
+  }
+
+  _resetVote() {
+    this.props.dispatch(resetVote());
+  }
+
   _openReplyModal(comment) {
     this._replyModal.openReplyModal(comment);
   }
 
   render() {
-    let { topicItem, comment, user } = this.props.entity;
+    let { topicItem, comment, vote, user } = this.props.entity;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
@@ -223,7 +243,7 @@ class TopicDetail extends Component {
           }
           onEndReached={() => this._endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this._renderHeader(topic, token)}
+          renderHeader={() => this._renderHeader(topic, token, vote)}
           renderFooter={() => this._renderFooter()} />
       </View>
     );
