@@ -13,6 +13,8 @@ module.exports = {
 
   mobileSign: '#d94600',
 
+  imageProgress: '#969696',
+
   /**
   * customized colors
   */

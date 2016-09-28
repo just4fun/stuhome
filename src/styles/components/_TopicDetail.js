@@ -69,10 +69,6 @@ module.exports = StyleSheet.create({
   contentItem: {
     marginVertical: 5,
   },
-  contentImage: {
-    height: 200,
-    resizeMode: Image.resizeMode.contain,
-  },
   commentHeader: {
     position: 'absolute',
     left: -10,

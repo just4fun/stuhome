@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   ListView
 } from 'react-native';
+import ProgressImage from './ProgressImage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
@@ -109,13 +110,13 @@ class TopicDetail extends Component {
                 default:
                   return <Text key={index}
                                style={styles.contentItem}>
-                           {parseContentWithImage(content.infor, index)}
+                           {parseContentWithImage(content.infor)}
                          </Text>;
                 // pic
                 case 1:
-                  return <Image key={index}
-                                style={[styles.contentItem, styles.contentImage]}
-                                source={{ uri: content.originalInfo }} />;
+                  return <ProgressImage key={index}
+                                        style={styles.contentItem}
+                                        uri={content.originalInfo} />;
               }
             })}
             {topic.poll_info &&
