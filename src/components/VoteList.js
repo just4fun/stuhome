@@ -106,19 +106,20 @@ class VoteList extends Component {
             let progressTintColor = progressTintColors[colorIndex];
 
             return (
-              <View style={styles.pollItem}>
+              <View key={item.poll_item_id} style={styles.pollItem}>
                 <View style={styles.pollItemText}>
                   {poll_status == 2 &&
                     <CheckBox
                       checkboxStyle={styles.checkbox}
                       labelStyle={styles.checkboxLabel}
-                      key={item.poll_item_id}
                       label={labelText}
                       checked={this.state.pollListStatus[item.poll_item_id]}
                       onChange={checked => this._setPollItemStatus(item.poll_item_id, checked)}
                     />
                     ||
-                    <Text style={styles.checkboxLabelOnly}>{labelText}</Text>
+                    <Text style={styles.checkboxLabelOnly}>
+                      {labelText}
+                    </Text>
                   }
                   {poll_status !== 2 &&
                     <View style={styles.text}>

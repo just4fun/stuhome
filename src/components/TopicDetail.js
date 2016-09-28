@@ -5,7 +5,7 @@ import {
   Image,
   AlertIOS,
   ScrollView,
-  ActivityIndicatorIOS,
+  ActivityIndicator,
   ListView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -109,7 +109,7 @@ class TopicDetail extends Component {
                 default:
                   return <Text key={index}
                                style={styles.contentItem}>
-                           {parseContentWithImage(content.infor)}
+                           {parseContentWithImage(content.infor, index)}
                          </Text>;
                 // pic
                 case 1:
@@ -162,7 +162,7 @@ class TopicDetail extends Component {
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
-        <ActivityIndicatorIOS />
+        <ActivityIndicator />
       </View>
     );
   }
@@ -203,7 +203,7 @@ class TopicDetail extends Component {
             <PopButton router={this.props.router} />
           </Header>
           <View style={indicatorStyles.fullScreenIndicator}>
-            <ActivityIndicatorIOS />
+            <ActivityIndicator />
           </View>
         </View>
       );
@@ -234,6 +234,7 @@ class TopicDetail extends Component {
         <ListView
           style={styles.commentList}
           dataSource={commentSource}
+          enableEmptySections={true}
           renderRow={comment =>
             <Comment
               key={comment.reply_posts_id}

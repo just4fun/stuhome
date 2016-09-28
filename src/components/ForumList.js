@@ -46,6 +46,7 @@ class ForumList extends Component {
         }
         <ListView
           dataSource={source}
+          enableEmptySections={true}
           renderRow={forum => {
             return (
               <ForumItem

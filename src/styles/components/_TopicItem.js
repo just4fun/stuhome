@@ -3,8 +3,6 @@ import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.white,
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay
@@ -13,7 +11,6 @@ module.exports = StyleSheet.create({
     margin: 10,
   },
   title: {
-    flex: 1,
     fontSize: 18,
     textAlign: 'left',
   },

@@ -11,7 +11,7 @@ import Home from './Home';
 import { getUserFromStorage } from '../actions/authorizeAction';
 
 class Main extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(getUserFromStorage());
   }
 

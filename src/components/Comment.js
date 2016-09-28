@@ -52,7 +52,7 @@ class Comment extends Component {
               default:
                 return <Text key={index}
                              style={styles.commentSection}>
-                         {parseContentWithImage(content.infor)}
+                         {parseContentWithImage(content.infor, index)}
                        </Text>;
               // pic
               case 1:

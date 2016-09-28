@@ -18,7 +18,7 @@ export function getAppHashValue() {
   return encryptedTimeStr.substr(8, 8);
 }
 
-export function parseContentWithImage(content) {
+export function parseContentWithImage(content, index) {
   if (!content) { return ''; }
 
   let contentWithEmoticonUrl = content.replace(/\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/g, '___emoticonBoundary___$1___emoticonBoundary___');
@@ -26,7 +26,12 @@ export function parseContentWithImage(content) {
 
   return contentEmoticonUrlArray.map(item => {
     if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
-      return <Image source={{ uri: item }} style={{ height: 30, width: 30, resizeMode: Image.resizeMode.contain, marginTop: 5 }} />;
+      return (
+        <Image
+          key={index}
+          source={{ uri: item }}
+          style={{ height: 30, width: 30, resizeMode: Image.resizeMode.contain, marginTop: 5 }} />
+      );
     } else {
       return item;
     }

@@ -45,7 +45,7 @@ class TopicTypeModal extends Component {
 
     return (
       <Modal
-        animationType='slide'
+        animationType='none'
         transparent={true}
         visible={this.state.isModalOpen}>
         <View

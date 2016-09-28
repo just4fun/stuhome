@@ -3,7 +3,6 @@ import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.white,
   },
   forumHeader: {

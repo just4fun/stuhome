@@ -4,7 +4,7 @@ import {
   Text,
   ListView,
   RefreshControl,
-  ActivityIndicatorIOS
+  ActivityIndicator
 } from 'react-native';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
@@ -60,7 +60,7 @@ class TopicList extends Component {
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
-        <ActivityIndicatorIOS />
+        <ActivityIndicator />
       </View>
     );
   }
@@ -81,6 +81,7 @@ class TopicList extends Component {
     return (
       <ListView
         dataSource={source}
+        enableEmptySections={true}
         renderRow={topic => {
           return (
             <TopicItem

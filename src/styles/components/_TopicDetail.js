@@ -15,7 +15,6 @@ module.exports = StyleSheet.create({
     fontWeight: 'bold'
   },
   info: {
-    flex: 1,
     flexDirection: 'row',
     marginVertical: 10,
   },
@@ -35,7 +34,6 @@ module.exports = StyleSheet.create({
     padding: 10,
   },
   authorInfo: {
-    flex: 1,
     flexDirection: 'row',
     marginBottom: 10,
   },

@@ -6,7 +6,6 @@ module.exports = StyleSheet.create({
     margin: 10,
   },
   formItem: {
-    flex: 1,
     flexDirection: 'row',
     padding: 10,
     borderBottomWidth: 1,

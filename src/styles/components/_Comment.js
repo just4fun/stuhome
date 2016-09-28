@@ -13,7 +13,6 @@ module.exports = StyleSheet.create({
     padding: 10,
   },
   authorInfo: {
-    flex: 1,
     flexDirection: 'row',
   },
   avatar: {
