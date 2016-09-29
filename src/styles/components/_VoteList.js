@@ -28,13 +28,12 @@ module.exports = StyleSheet.create({
     fontSize: 13
   },
   checkboxLabelOnly: {
+    flex: 1,
     fontSize: 13,
     marginTop: 1,
-    marginRight: 10,
     color: 'grey',
   },
   text: {
-    flex: 1,
     flexDirection: 'row',
     marginTop: 1,
   },
