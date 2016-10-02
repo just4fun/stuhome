@@ -11,7 +11,6 @@ import {
 import Button from 'apsl-react-native-button';
 import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
-import { userLogin, resetAuthrization, resetAuthrizationResult } from '../../actions/authorizeAction';
 
 class Login extends Component {
   constructor(props) {
@@ -28,11 +27,11 @@ class Login extends Component {
 
     if (hasError) {
       AlertIOS.alert('提示', authrization.errcode);
-      nextProps.dispatch(resetAuthrization());
+      nextProps.resetAuthrization();
     }
 
     if (result) {
-      this.props.dispatch(resetAuthrizationResult());
+      this.props.resetAuthrizationResult();
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
@@ -92,7 +91,7 @@ class Login extends Component {
               textStyle={styles.formSubmitText}
               isDisabled={isDisabled}
               isLoading={isFetching}
-              onPress={() => this.props.dispatch(userLogin(userName, password))}>
+              onPress={() => this.props.userLogin(userName, password)}>
               登录
             </Button>
           </View>

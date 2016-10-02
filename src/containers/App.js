@@ -1,28 +1,21 @@
-import { connect } from 'react-redux';
-import Main from '../components/Main';
+import React, { Component } from 'react';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import rootReducer from '../reducers';
+import Navigator from './Navigator';
 
-function mapStateToProps(state) {
-  let {
-    topicList,
-    forumList,
-    user,
-    topicItem,
-    comment,
-    vote
-  } = state;
+const createStoreWithMiddleware = applyMiddleware(
+  thunkMiddleware
+)(createStore);
+const store = createStoreWithMiddleware(rootReducer);
 
-  return {
-    list: {
-      topicList,
-      forumList
-    },
-    entity: {
-      user,
-      topicItem,
-      comment,
-      vote
-    }
-  };
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
+    );
+  }
 }
-
-module.exports = connect(mapStateToProps)(Main);

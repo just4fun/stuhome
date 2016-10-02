@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
 import styles from '../styles/components/_Menu';
 import LoginModal from './modal/LoginModal';
-import MenuItem from './MenuItem';
 import MenuProfile from './MenuProfile';
+import MenuItem from './MenuItem';
 
-class Menu extends Component {
+export default class Menu extends Component {
   render() {
-    this.router = this.props.router;
-    let user = this.props.entity.user;
-    let authrization = user.authrization;
+    let {
+      router,
+      user: { authrization }
+    } = this.props;
+    this.router = router;
 
     return (
       <View style={styles.container}>
         <LoginModal
           ref={component => this._loginModal = component}
-          {...this.props}
           visible={false}
-          user={user} />
+          {...this.props} />
         <MenuProfile authrization={authrization} loginModal={this._loginModal} {...this.props} />
         <MenuItem menu='home' router={this.router} />
         <MenuItem menu='forumList' router={this.router} />
@@ -27,5 +26,3 @@ class Menu extends Component {
     );
   }
 }
-
-module.exports = Menu;

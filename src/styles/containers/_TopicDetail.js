@@ -1,7 +1,4 @@
-import {
-  Image,
-  StyleSheet
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
 module.exports = StyleSheet.create({

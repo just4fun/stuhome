@@ -14,8 +14,6 @@ import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
 import Header from '../Header';
 import TopicTypeModal from './TopicTypeModal';
-import { resetPublish } from '../../actions/topic/topicAction';
-import { invalidateTopicList } from '../../actions/topic/topicListAction';
 
 class PublishModal extends Component {
   constructor(props) {
@@ -32,8 +30,8 @@ class PublishModal extends Component {
   componentWillReceiveProps(nextProps) {
     const comment = nextProps.comment;
     if (comment.response && comment.response.rs) {
-      this.props.dispatch(resetPublish());
-      this.props.dispatch(invalidateTopicList());
+      this.props.resetPublish();
+      this.props.invalidateTopicList();
       this.props.router.toHome();
       this.handleCancel();
     }

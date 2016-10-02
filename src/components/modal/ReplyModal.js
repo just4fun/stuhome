@@ -10,7 +10,6 @@ import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
-import { resetPublish } from '../../actions/topic/topicAction';
 
 class ReplyModal extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class ReplyModal extends Component {
     const comment = nextProps.comment;
     if (comment.response && comment.response.rs) {
       this.handleCancel();
-      this.props.dispatch(resetPublish());
+      this.props.resetPublish();
       this.props.fetchTopic();
     }
   }

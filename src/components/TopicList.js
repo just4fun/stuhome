@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   ListView,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
-import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-class TopicList extends Component {
+export default class TopicList extends Component {
   constructor(props) {
     super(props);
 
-    var forum = props.passProps;
+    let forum = props.passProps;
     this.boardId = forum && forum.board_id || 'all';
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, false, 'all'));
+    this.props.fetchTopicListIfNeeded(this.boardId, false, 'all');
   }
 
   _refreshTopicList(page, isEndReached) {
-    this.props.dispatch(invalidateTopicList());
-    this.props.dispatch(fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page));
+    this.props.invalidateTopicList();
+    this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
   }
 
   _endReached() {
@@ -36,7 +34,7 @@ class TopicList extends Component {
       isEndReached,
       page,
       list
-    } = this.props.list.topicList;
+    } = this.props.topicList;
 
     if (!hasMore || isRefreshing || isEndReached) { return; }
 
@@ -54,7 +52,7 @@ class TopicList extends Component {
     let {
       hasMore,
       isEndReached
-    } = this.props.list.topicList;
+    } = this.props.topicList;
 
     if (!hasMore || !isEndReached) { return; }
 
@@ -66,7 +64,7 @@ class TopicList extends Component {
   }
 
   render() {
-    let { topicList } = this.props.list;
+    let { topicList } = this.props;
 
     if (!topicList.list[this.boardId]) {
       topicList.list[this.boardId] = {
@@ -102,5 +100,3 @@ class TopicList extends Component {
     );
   }
 }
-
-module.exports = TopicList;

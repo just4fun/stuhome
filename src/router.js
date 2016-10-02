@@ -1,8 +1,8 @@
 import { Navigator } from 'react-native';
-import Home from './components/Home';
-import ForumList from './components/ForumList';
-import TopicDetail from './components/TopicDetail';
-import ForumDetail from './components/ForumDetail';
+import Home from './containers/Home';
+import ForumList from './containers/ForumList';
+import TopicDetail from './containers/TopicDetail';
+import ForumDetail from './containers/ForumDetail';
 
 let _navigator = null;
 

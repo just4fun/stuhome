@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import styles from '../styles/components/_MenuProfile';
 import colors from '../styles/common/_colors';
-import { userLogout } from '../actions/authorizeAction';
 
 class MenuProfile extends Component {
   _showLogout() {
@@ -24,7 +23,7 @@ class MenuProfile extends Component {
       switch (buttonIndex) {
         case 0:
           AsyncStorage.removeItem('authrization')
-            .then(() => this.props.dispatch(userLogout()));
+            .then(() => this.props.userLogout());
           break;
       }
     });

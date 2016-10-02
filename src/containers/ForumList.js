@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -6,8 +7,8 @@ import {
   RefreshControl
 } from 'react-native';
 import mainStyles from '../styles/components/_Main';
-import Header from './Header';
-import ForumItem from './ForumItem';
+import Header from '../components/Header';
+import ForumItem from '../components/ForumItem';
 import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -15,21 +16,22 @@ const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class ForumList extends Component {
   constructor(props) {
     super(props);
+
     this.boardId = this.props.boardId || 'all';
     this.isTopForumList = this.boardId === 'all';
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchForumListIfNeeded(this.boardId));
+    this.props.fetchForumListIfNeeded(this.boardId);
   }
 
   _refreshForumList() {
-    this.props.dispatch(invalidateForumList());
-    this.props.dispatch(fetchForumListIfNeeded(this.boardId));
+    this.props.invalidateForumList();
+    this.props.fetchForumListIfNeeded(this.boardId);
   }
 
   render() {
-    let { forumList } = this.props.list;
+    let { forumList } = this.props;
 
     if (!forumList.list[this.boardId]) {
       forumList.list[this.boardId] = {
@@ -67,4 +69,15 @@ class ForumList extends Component {
   }
 }
 
-module.exports = ForumList;
+function mapStateToProps(state) {
+  let { forumList } = state;
+
+  return {
+    forumList
+  };
+}
+
+export default connect(mapStateToProps, {
+  invalidateForumList,
+  fetchForumListIfNeeded
+})(ForumList);
