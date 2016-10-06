@@ -11,22 +11,6 @@ import TopicItem from './TopicItem';
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class TopicList extends Component {
-  constructor(props) {
-    super(props);
-
-    let forum = props.passProps;
-    this.boardId = forum && forum.board_id || 'all';
-  }
-
-  componentDidMount() {
-    this.props.fetchTopicListIfNeeded(this.boardId, false, 'all');
-  }
-
-  _refreshTopicList(page, isEndReached) {
-    this.props.invalidateTopicList();
-    this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
-  }
-
   _endReached() {
     const {
       hasMore,
@@ -43,9 +27,9 @@ export default class TopicList extends Component {
     * without logging in, that will leads the error alter appears two
     * times, so check whether there are topics already to avoid this issue.
     */
-    if (!list[this.boardId].topicList.length) { return; }
+    if (!list[this.props.boardId].topicList.length) { return; }
 
-    this._refreshTopicList(page + 1, true);
+    this.props.refreshTopicList(page + 1, true);
   }
 
   _renderFooter() {
@@ -64,16 +48,16 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let { topicList } = this.props;
+    let { topicList, boardId } = this.props;
 
-    if (!topicList.list[this.boardId]) {
-      topicList.list[this.boardId] = {
+    if (!topicList.list[boardId]) {
+      topicList.list[boardId] = {
         typeList: [],
         topicList: []
       };
     }
 
-    let realTopicList = topicList.list[this.boardId].topicList;
+    let realTopicList = topicList.list[boardId].topicList;
     let source = ds.cloneWithRows(realTopicList);
 
     return (
@@ -94,7 +78,7 @@ export default class TopicList extends Component {
         refreshControl={
           <RefreshControl
             title='正在加载...'
-            onRefresh={() => this._refreshTopicList()}
+            onRefresh={() => this.props.refreshTopicList()}
             refreshing={topicList.isRefreshing} />
         } />
     );

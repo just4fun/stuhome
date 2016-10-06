@@ -43,6 +43,15 @@ class ForumDetail extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchTopicListIfNeeded(this.boardId, false, 'all');
+  }
+
+  _refreshTopicList(page, isEndReached) {
+    this.props.invalidateTopicList();
+    this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
+  }
+
   _publish(topic) {
     let { typeId, title, content } = topic;
 
@@ -104,7 +113,10 @@ class ForumDetail extends Component {
             tabBarTextStyle={styles.tabBarText}>
             <TopicList
               tabLabel='最新'
-              {...this.props} />
+              router={this.props.router}
+              boardId={this.boardId}
+              topicList={topicList}
+              refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
             <ForumList
               tabLabel='子版块'
               boardId={this.boardId}
@@ -112,7 +124,11 @@ class ForumDetail extends Component {
           </ScrollableTabView>
         }
         {this.boardContent && !this.boardChild &&
-          <TopicList {...this.props} />
+          <TopicList
+            router={this.props.router}
+            boardId={this.boardId}
+            topicList={topicList}
+            refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
         }
         {!this.boardContent && this.boardChild &&
           <ForumList boardId={this.boardId} {...this.props} />
