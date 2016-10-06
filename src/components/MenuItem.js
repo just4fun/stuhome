@@ -23,25 +23,18 @@ const menus = {
 };
 
 class MenuItem extends Component {
-  _isCurrentRoute(routeId) {
-    let { router } = this.props;
-    return router && router.isCurrentRoute(routeId);
-  }
-
   render() {
-    let { menu, router } = this.props;
-    let { title, icon, actionName } = menus[menu];
+    let { menu, router, isCurrentRoute } = this.props;
+    let currentMenu = menus[menu];
+    let { title, icon, actionName } = currentMenu;
 
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => {
-          this.props.updateMenuState(false);
-          router[actionName]();
-        }}>
-        <View style={[styles.row, this._isCurrentRoute(menu) && styles.selectedRow]}>
-          <Icon style={[styles.icon, this._isCurrentRoute(menu) && styles.selectedItem]} name={icon} size={20} />
-          <Text style={[styles.item, this._isCurrentRoute(menu) && styles.selectedItem]}>{title}</Text>
+        onPress={() => this.props.selectMenuItem(currentMenu)}>
+        <View style={[styles.row, isCurrentRoute(menu) && styles.selectedRow]}>
+          <Icon style={[styles.icon, isCurrentRoute(menu) && styles.selectedItem]} name={icon} size={20} />
+          <Text style={[styles.item, isCurrentRoute(menu) && styles.selectedItem]}>{title}</Text>
         </View>
       </TouchableHighlight>
     );

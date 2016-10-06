@@ -8,10 +8,10 @@ import MenuItem from './MenuItem';
 export default class Menu extends Component {
   render() {
     let {
-      router,
       user: { authrization },
 
-      updateMenuState
+      selectMenuItem,
+      isCurrentRoute
     } = this.props;
 
     return (
@@ -23,12 +23,12 @@ export default class Menu extends Component {
         <MenuProfile authrization={authrization} loginModal={this._loginModal} {...this.props} />
         <MenuItem
           menu='home'
-          router={router}
-          updateMenuState={updateMenuState} />
+          selectMenuItem={selectMenuItem}
+          isCurrentRoute={isCurrentRoute} />
         <MenuItem
           menu='forumList'
-          router={router}
-          updateMenuState={updateMenuState} />
+          selectMenuItem={selectMenuItem}
+          isCurrentRoute={isCurrentRoute} />
       </View>
     );
   }

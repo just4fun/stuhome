@@ -49,11 +49,20 @@ class RNavigator extends Component {
     this.setState({ isOpen });
   }
 
+  _onMenuItemSelected(item) {
+    this._updateMenuState(false);
+    this.router[item.actionName]();
+  }
+
+  _isCurrentRoute(routeId) {
+    return this.router && this.router.isCurrentRoute(routeId);
+  }
+
   render() {
     let menu = <Menu
                  {...this.props}
-                 router={this.router}
-                 updateMenuState={isOpen => this._updateMenuState(isOpen)} />;
+                 selectMenuItem={item => this._onMenuItemSelected(item)}
+                 isCurrentRoute={routeId => this._isCurrentRoute(routeId)} />;
 
     return (
       <SideMenu

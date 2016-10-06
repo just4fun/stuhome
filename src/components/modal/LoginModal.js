@@ -35,8 +35,10 @@ class Login extends Component {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
-          this.props.updateMenuState(false);
-          this.props.router.toHome();
+          this.props.selectMenuItem({
+            title: '最新',
+            actionName: 'toHome'
+          });
           this._closeLoginModal();
         });
     }
