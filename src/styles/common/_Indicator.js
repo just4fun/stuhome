@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   fullScreenIndicator: {
     flex: 1,
     justifyContent: 'center',

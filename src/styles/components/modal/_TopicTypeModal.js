@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../common/_colors';
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     padding: 0,

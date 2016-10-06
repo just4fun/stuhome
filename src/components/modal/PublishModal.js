@@ -15,7 +15,7 @@ import colors from '../../styles/common/_colors';
 import Header from '../Header';
 import TopicTypeModal from './TopicTypeModal';
 
-class PublishModal extends Component {
+export default class PublishModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -134,5 +134,3 @@ class PublishModal extends Component {
     );
   }
 }
-
-module.exports = PublishModal;

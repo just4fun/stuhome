@@ -12,7 +12,7 @@ import Button from 'apsl-react-native-button';
 import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
 
-class Login extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,5 +102,3 @@ class Login extends Component {
     );
   }
 }
-
-module.exports = Login;

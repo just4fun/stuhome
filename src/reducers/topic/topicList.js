@@ -19,7 +19,7 @@ const defaultTopicListState = {
   errCode: ''
 };
 
-function topicList(state = defaultTopicListState, action) {
+export default function topicList(state = defaultTopicListState, action) {
   switch (action.type) {
     case INVALIDATE_TOPICLIST:
       return {
@@ -97,5 +97,3 @@ function getTopicListWithoutSpecificForum(oldState, forumId) {
   delete newState.list[forumId];
   return newState.list;
 }
-
-module.exports = topicList;

@@ -9,7 +9,7 @@ const defaultState = {
   response: ''
 };
 
-function vote(state = defaultState, action) {
+export default function vote(state = defaultState, action) {
   switch (action.type) {
     case START_VOTE:
       return {
@@ -28,5 +28,3 @@ function vote(state = defaultState, action) {
       return state;
   }
 }
-
-module.exports = vote;

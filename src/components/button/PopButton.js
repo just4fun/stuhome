@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class PopButton extends Component {
+export default class PopButton extends Component {
   render() {
     return (
       <Icon
@@ -13,5 +13,3 @@ class PopButton extends Component {
     );
   }
 }
-
-module.exports = PopButton;

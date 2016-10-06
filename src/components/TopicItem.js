@@ -12,7 +12,7 @@ import 'moment/locale/zh-cn';
 import styles from '../styles/components/_TopicItem';
 import colors from '../styles/common/_colors';
 
-class TopicItem extends Component {
+export default class TopicItem extends Component {
   render() {
     let {
       title,
@@ -62,5 +62,3 @@ class TopicItem extends Component {
     );
   }
 }
-
-module.exports = TopicItem;

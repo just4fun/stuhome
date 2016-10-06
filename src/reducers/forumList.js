@@ -5,7 +5,7 @@ import {
   RECEIVE_FORUMLIST
 } from '../constants/ActionTypes';
 
-function forumList(state = {
+export default function forumList(state = {
   // indicate fetching top forums
   isFetching: false,
   // indicate fetching sub forums
@@ -64,5 +64,3 @@ function getNewCache(oldState, forumList, boardId) {
   };
   return newState.list;
 }
-
-module.exports = forumList;

@@ -1,4 +1,4 @@
-const ActionTypes = {
+module.exports = {
   INVALIDATE_TOPICLIST: 'INVALIDATE_TOPICLIST',
   REQUEST_TOPICLIST: 'REQUEST_TOPICLIST',
   RECEIVE_TOPICLIST: 'RECEIVE_TOPICLIST',
@@ -32,5 +32,3 @@ const ActionTypes = {
 
   CHANGE_ROUTE: 'CHANGE_ROUTE',
 };
-
-module.exports = ActionTypes;

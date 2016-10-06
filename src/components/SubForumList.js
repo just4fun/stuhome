@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import SubForumItem from './SubForumItem';
 
-class SubForumList extends Component {
+export default class SubForumList extends Component {
   render() {
     let { forumList } = this.props;
 
@@ -20,5 +20,3 @@ class SubForumList extends Component {
     );
   }
 }
-
-module.exports = SubForumList;

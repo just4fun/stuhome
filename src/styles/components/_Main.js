@@ -4,7 +4,7 @@ import colors from '../common/_colors';
 
 const window = Dimensions.get('window');
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     width: window.width,
     height: window.height,

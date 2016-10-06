@@ -4,7 +4,7 @@ import ReplyButton from './ReplyButton';
 import PublishButton from './PublishButton';
 import CommentButton from './CommentButton';
 
-module.exports = {
+export {
   MenuButton,
   PopButton,
   ReplyButton,

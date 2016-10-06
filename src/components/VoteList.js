@@ -21,7 +21,7 @@ const progressTintColors = [
   '#db3191'
 ];
 
-class VoteList extends Component {
+export default class VoteList extends Component {
   constructor(props) {
     super(props);
     this._initState();
@@ -155,5 +155,3 @@ class VoteList extends Component {
     );
   }
 }
-
-module.exports = VoteList;

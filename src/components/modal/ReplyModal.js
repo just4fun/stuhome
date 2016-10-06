@@ -11,7 +11,7 @@ import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
 
-class ReplyModal extends Component {
+export default class ReplyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -99,5 +99,3 @@ class ReplyModal extends Component {
     );
   }
 }
-
-module.exports = ReplyModal;

@@ -6,7 +6,7 @@ import ImageWithProgress from 'react-native-image-progress';
 import Pie from 'react-native-progress/Pie';
 import colors from '../styles/common/_colors';
 
-class ProgressImage extends Component {
+export default class ProgressImage extends Component {
   constructor(props) {
     super(props);
 
@@ -70,5 +70,3 @@ class ProgressImage extends Component {
     );
   }
 }
-
-module.exports = ProgressImage;

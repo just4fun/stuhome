@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   row: {
     flexDirection: 'row',
     borderBottomWidth: 1,

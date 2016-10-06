@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   menuHeader: {
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,

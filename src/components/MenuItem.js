@@ -22,7 +22,7 @@ const menus = {
   }
 };
 
-class MenuItem extends Component {
+export default class MenuItem extends Component {
   render() {
     let { menu, router, isCurrentRoute } = this.props;
     let currentMenu = menus[menu];
@@ -40,5 +40,3 @@ class MenuItem extends Component {
     );
   }
 }
-
-module.exports = MenuItem;

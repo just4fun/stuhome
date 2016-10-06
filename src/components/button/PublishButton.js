@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class PublishButton extends Component {
+export default class PublishButton extends Component {
   render() {
     return (
       <Icon
@@ -13,5 +13,3 @@ class PublishButton extends Component {
     );
   }
 }
-
-module.exports = PublishButton;

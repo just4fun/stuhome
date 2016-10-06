@@ -6,7 +6,7 @@ import topicItem from './topic/topicItem';
 import comment from './topic/comment';
 import vote from './topic/vote';
 
-module.exports = combineReducers({
+export default combineReducers({
   forumList,
   topicList,
 

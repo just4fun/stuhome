@@ -6,7 +6,7 @@ import {
 import styles from '../styles/components/_ForumItem';
 import SubForumList from './SubForumList';
 
-class ForumItem extends Component {
+export default class ForumItem extends Component {
   render() {
     let { isTopForumList, forum } = this.props;
     let {
@@ -28,5 +28,3 @@ class ForumItem extends Component {
     );
   }
 }
-
-module.exports = ForumItem;

@@ -14,7 +14,7 @@ const defaultUserState = {
   result: false
 };
 
-function user(state = defaultUserState, action) {
+export default function user(state = defaultUserState, action) {
   switch (action.type) {
     case SET_AUTHRIZATION:
       return {
@@ -49,5 +49,3 @@ function user(state = defaultUserState, action) {
       return state;
   }
 }
-
-module.exports = user;

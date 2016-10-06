@@ -6,7 +6,7 @@ import ForumDetail from './containers/ForumDetail';
 
 let _navigator = null;
 
-class Router {
+export default class Router {
   constructor(navigator) {
     _navigator = navigator;
   }
@@ -75,5 +75,3 @@ class Router {
     });
   }
 }
-
-module.exports = Router;

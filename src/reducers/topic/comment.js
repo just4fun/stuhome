@@ -9,7 +9,7 @@ const defaultState = {
   response: ''
 };
 
-function comment(state = defaultState, action) {
+export default function comment(state = defaultState, action) {
   switch (action.type) {
     case START_PUBLISH:
       return {
@@ -28,5 +28,3 @@ function comment(state = defaultState, action) {
       return state;
   }
 }
-
-module.exports = comment;

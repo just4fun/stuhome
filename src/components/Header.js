@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_Header';
 import { MenuButton } from './button';
 
-class Header extends Component {
+export default class Header extends Component {
   render() {
     let leftTopButton = null;
     let rightTopButton = null;
@@ -40,5 +40,3 @@ class Header extends Component {
     );
   }
 }
-
-module.exports = Header;

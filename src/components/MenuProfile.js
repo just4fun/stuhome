@@ -9,7 +9,7 @@ import {
 import styles from '../styles/components/_MenuProfile';
 import colors from '../styles/common/_colors';
 
-class MenuProfile extends Component {
+export default class MenuProfile extends Component {
   _showLogout() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
@@ -53,5 +53,3 @@ class MenuProfile extends Component {
     );
   }
 }
-
-module.exports = MenuProfile;

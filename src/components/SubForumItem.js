@@ -8,7 +8,7 @@ import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_SubForumItem';
 
-class SubForumItem extends Component {
+export default class SubForumItem extends Component {
   render() {
     let { router, subForum } = this.props;
     let {
@@ -40,5 +40,3 @@ class SubForumItem extends Component {
     );
   }
 }
-
-module.exports = SubForumItem;
