@@ -3,6 +3,7 @@ import Home from './containers/Home';
 import ForumList from './containers/ForumList';
 import TopicDetail from './containers/TopicDetail';
 import ForumDetail from './containers/ForumDetail';
+import Search from './containers/Search';
 
 let _navigator = null;
 
@@ -51,6 +52,14 @@ export default class Router {
       title: '版块',
       component: ForumList
     }, true);
+  }
+
+  toSearch() {
+    this._navigateTo({
+      id: 'search',
+      title: '搜索',
+      component: Search
+    });
   }
 
   toTopic(topic) {

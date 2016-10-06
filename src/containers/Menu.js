@@ -12,6 +12,30 @@ import {
   resetAuthrization,
   resetAuthrizationResult
 } from '../actions/authorizeAction';
+import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
+
+const menus = {
+  home: {
+    id: 'home',
+    title: '最新',
+    icon: 'commenting',
+    actionName: 'toHome'
+  },
+
+  forumList: {
+    id: 'forumList',
+    title: '版块',
+    icon: 'comments',
+    actionName: 'toForumList'
+  },
+
+  search: {
+    id: 'search',
+    title: '搜索',
+    icon: 'search',
+    actionName: 'toSearch'
+  }
+};
 
 class Menu extends Component {
   componentDidMount() {
@@ -30,13 +54,19 @@ class Menu extends Component {
         <MenuProfile
           authrization={user.authrization}
           loginModal={this._loginModal}
+          menus={menus}
           {...this.props} />
         <MenuItem
-          menu='home'
+          menu={menus['home']}
           {...this.props} />
         <MenuItem
-          menu='forumList'
+          menu={menus['forumList']}
           {...this.props} />
+        {user.authrization.token &&
+          <MenuItem
+          menu={menus['search']}
+          {...this.props} />
+        }
       </View>
     );
   }
@@ -55,5 +85,7 @@ export default connect(mapStateToProps, {
   userLogin,
   userLogout,
   resetAuthrization,
-  resetAuthrizationResult
+  resetAuthrizationResult,
+  invalidateTopicList,
+  fetchTopicListIfNeeded
 })(Menu);

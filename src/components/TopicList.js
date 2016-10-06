@@ -27,7 +27,7 @@ export default class TopicList extends Component {
     * without logging in, that will leads the error alter appears two
     * times, so check whether there are topics already to avoid this issue.
     */
-    if (!list[this.props.boardId].topicList.length) { return; }
+    // if (!list[this.props.boardId].topicList.length) { return; }
 
     this.props.refreshTopicList(page + 1, true);
   }
@@ -48,16 +48,22 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let { topicList, boardId } = this.props;
+    let { topicList, boardId, isSearch } = this.props;
+    let realTopicList = null;
 
-    if (!topicList.list[boardId]) {
-      topicList.list[boardId] = {
-        typeList: [],
-        topicList: []
-      };
+    if (!isSearch) {
+      if (!topicList.list[boardId]) {
+        topicList.list[boardId] = {
+          typeList: [],
+          topicList: []
+        };
+      }
+
+      realTopicList = topicList.list[boardId].topicList;
+    } else {
+      realTopicList = topicList.list;
     }
 
-    let realTopicList = topicList.list[boardId].topicList;
     let source = ds.cloneWithRows(realTopicList);
 
     return (

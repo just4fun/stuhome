@@ -15,6 +15,7 @@ import styles from '../../styles/components/modal/_LoginModal';
 export default class Login extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isModalOpen: !!this.props.visible,
       userName: '',

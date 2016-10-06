@@ -35,9 +35,11 @@ export default class TopicItem extends Component {
           <View style={styles.item}>
             <Text style={styles.title}>{title}</Text>
             <View style={styles.info}>
-              <View style={styles.forumInfo}>
-                <Text style={styles.forumName}>{board_name}</Text>
-              </View>
+              {board_name &&
+                <View style={styles.forumInfo}>
+                  <Text style={styles.forumName}>{board_name}</Text>
+                </View>
+              }
               <View style={styles.details}>
                 <Icon
                   style={styles.viewsInfo}
@@ -54,7 +56,7 @@ export default class TopicItem extends Component {
             <View style={styles.info}>
               <Text style={styles.date}>{last_reply_date}</Text>
               <Text style={styles.name}>{user_nick_name}</Text>
-              <Image style={styles.avatar} source={{ uri: userAvatar }} />
+              {userAvatar && <Image style={styles.avatar} source={{ uri: userAvatar }} />}
             </View>
           </View>
         </TouchableHighlight>

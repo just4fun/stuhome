@@ -42,14 +42,14 @@ export default class RNavigator extends Component {
     this.router[item.actionName]();
   }
 
-  _isCurrentRoute(routeId) {
-    return this.router && this.router.isCurrentRoute(routeId);
+  _isCurrentRoute(route) {
+    return this.router && this.router.isCurrentRoute(route.id);
   }
 
   render() {
     let menu = <Menu
                  selectMenuItem={item => this._onMenuItemSelected(item)}
-                 isCurrentRoute={routeId => this._isCurrentRoute(routeId)} />;
+                 isCurrentRoute={route => this._isCurrentRoute(route)} />;
 
     return (
       <SideMenu

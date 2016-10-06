@@ -17,6 +17,7 @@ export default StyleSheet.create({
   info: {
     flex: 1,
     flexDirection: 'row',
+    height: 25,
     marginTop: 10,
   },
   forum: {

@@ -22,11 +22,19 @@ export default class MenuProfile extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          AsyncStorage.removeItem('authrization')
-            .then(() => this.props.userLogout());
+          this._handleLogout();
           break;
       }
     });
+  }
+
+  _handleLogout() {
+    AsyncStorage.removeItem('authrization')
+                .then(() => {
+                  this.props.userLogout();
+                  this.props.invalidateTopicList();
+                  this.props.selectMenuItem(this.props.menus['home']);
+                });
   }
 
   render() {
