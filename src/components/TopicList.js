@@ -86,7 +86,7 @@ export default class TopicList extends Component {
               key={topic.topic_id}
               topic={topic}
               router={this.props.router} />
-          )
+          );
         }}
         onEndReached={() => this._endReached()}
         onEndReachedThreshold={0}

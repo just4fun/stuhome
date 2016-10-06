@@ -5,7 +5,7 @@
   "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
-    "eslint": "eslint ./app"
+    "eslint": "eslint ./src"
   },
   "homepage": "https://github.com/just4fun/uestc-bbs-react-native#readme",
   "repository": {
