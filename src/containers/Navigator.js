@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Navigator } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Router from '../router';
-import Menu from '../components/Menu';
+import Menu from './Menu';
 import Home from './Home';
-import {
-  getUserFromStorage,
-  userLogin,
-  userLogout,
-  resetAuthrization,
-  resetAuthrizationResult
-} from '../actions/authorizeAction';
 
-class RNavigator extends Component {
+export default class RNavigator extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isOpen: false
     };
-  }
-
-  componentWillMount() {
-    this.props.getUserFromStorage();
   }
 
   configureScene(route) {
@@ -60,7 +48,6 @@ class RNavigator extends Component {
 
   render() {
     let menu = <Menu
-                 {...this.props}
                  selectMenuItem={item => this._onMenuItemSelected(item)}
                  isCurrentRoute={routeId => this._isCurrentRoute(routeId)} />;
 
@@ -82,19 +69,3 @@ class RNavigator extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  let { user } = state;
-
-  return {
-    user
-  };
-}
-
-export default connect(mapStateToProps, {
-  getUserFromStorage,
-  userLogin,
-  userLogout,
-  resetAuthrization,
-  resetAuthrizationResult
-})(RNavigator);
