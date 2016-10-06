@@ -58,6 +58,7 @@ class RNavigator extends Component {
     return (
       <SideMenu
         menu={menu}
+        disableGestures={true}
         isOpen={this.state.isOpen}>
         <Navigator
           ref='navigator'
