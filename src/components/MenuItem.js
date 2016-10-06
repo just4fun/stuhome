@@ -36,7 +36,7 @@ class MenuItem extends Component {
       <TouchableHighlight
         underlayColor={colors.underlay}
         onPress={() => {
-          this.context.menuActions.close();
+          this.props.updateMenuState(false);
           router[actionName]();
         }}>
         <View style={[styles.row, this._isCurrentRoute(menu) && styles.selectedRow]}>
@@ -47,9 +47,5 @@ class MenuItem extends Component {
     );
   }
 }
-
-MenuItem.contextTypes = {
-  menuActions: React.PropTypes.object.isRequired
-};
 
 module.exports = MenuItem;

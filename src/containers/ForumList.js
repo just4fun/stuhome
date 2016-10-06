@@ -44,7 +44,7 @@ class ForumList extends Component {
     return (
       <View style={mainStyles.container}>
         {this.isTopForumList &&
-          <Header title='版块' />
+          <Header title='版块' updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         }
         <ListView
           dataSource={source}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navigator } from 'react-native';
-import SideMenu from '../vendor/react-native-side-menu';
+import SideMenu from 'react-native-side-menu';
 import Router from '../router';
 import Menu from '../components/Menu';
 import Home from './Home';
@@ -14,6 +14,14 @@ import {
 } from '../actions/authorizeAction';
 
 class RNavigator extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: false
+    };
+  }
+
   componentWillMount() {
     this.props.getUserFromStorage();
   }
@@ -31,16 +39,26 @@ class RNavigator extends Component {
       this.router = new Router(navigator);
     }
 
-    return <route.component router={this.router} passProps={route.passProps} />;
+    return <route.component
+             router={this.router}
+             updateMenuState={isOpen => this._updateMenuState(isOpen)}
+             passProps={route.passProps} />;
+  }
+
+  _updateMenuState(isOpen) {
+    this.setState({ isOpen });
   }
 
   render() {
-    let menu = <Menu {...this.props} router={this.router} />;
+    let menu = <Menu
+                 {...this.props}
+                 router={this.router}
+                 updateMenuState={isOpen => this._updateMenuState(isOpen)} />;
 
     return (
       <SideMenu
         menu={menu}
-        touchToClose={true}>
+        isOpen={this.state.isOpen}>
         <Navigator
           ref='navigator'
           configureScene={this.configureScene}

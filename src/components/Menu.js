@@ -9,9 +9,10 @@ export default class Menu extends Component {
   render() {
     let {
       router,
-      user: { authrization }
+      user: { authrization },
+
+      updateMenuState
     } = this.props;
-    this.router = router;
 
     return (
       <View style={styles.container}>
@@ -20,8 +21,14 @@ export default class Menu extends Component {
           visible={false}
           {...this.props} />
         <MenuProfile authrization={authrization} loginModal={this._loginModal} {...this.props} />
-        <MenuItem menu='home' router={this.router} />
-        <MenuItem menu='forumList' router={this.router} />
+        <MenuItem
+          menu='home'
+          router={router}
+          updateMenuState={updateMenuState} />
+        <MenuItem
+          menu='forumList'
+          router={router}
+          updateMenuState={updateMenuState} />
       </View>
     );
   }

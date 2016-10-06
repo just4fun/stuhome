@@ -16,7 +16,7 @@ class Header extends Component {
 
     switch (count) {
       case 0:
-        leftTopButton = <MenuButton style={styles.left} />;
+        leftTopButton = <MenuButton updateMenuState={isOpen => this.props.updateMenuState(isOpen)} style={styles.left} />;
         break;
       case 1:
         leftTopButton = React.cloneElement(buttons, { style: [styles.left, buttons.props.style] });

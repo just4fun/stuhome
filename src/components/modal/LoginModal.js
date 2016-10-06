@@ -35,7 +35,7 @@ class Login extends Component {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
-          this.context.menuActions.close();
+          this.props.updateMenuState(false);
           this.props.router.toHome();
           this._closeLoginModal();
         });
@@ -100,9 +100,5 @@ class Login extends Component {
     );
   }
 }
-
-Login.contextTypes = {
-  menuActions: React.PropTypes.object.isRequired
-};
 
 module.exports = Login;

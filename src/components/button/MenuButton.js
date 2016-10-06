@@ -9,13 +9,9 @@ class MenuButton extends Component {
         style={this.props.style}
         name='reorder'
         size={18}
-        onPress={() => this.context.menuActions.open()} />
+        onPress={() => this.props.updateMenuState(true)} />
     );
   }
 }
-
-MenuButton.contextTypes = {
-  menuActions: React.PropTypes.object.isRequired
-};
 
 module.exports = MenuButton;
