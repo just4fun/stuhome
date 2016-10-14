@@ -54,11 +54,15 @@ export default class PublishModal extends Component {
 
   _isFormValid() {
     let { typeId, title, content } = this.state;
+    let { comment, types } = this.props;
 
-    return typeId !== null
+    let hasNoTopicTypes = types.length === 0;
+    let hasTypeId = hasNoTopicTypes && true || (typeId !== null);
+
+    return hasTypeId
         && title.length
         && content.length
-        && !this.props.comment.isPublishing;
+        && !comment.isPublishing;
   }
 
   render() {
@@ -101,20 +105,22 @@ export default class PublishModal extends Component {
             }
           </Header>
           <ScrollView style={styles.form}>
-            <TouchableHighlight
-              underlayColor={colors.underlay}
-              onPress={() => this._topicTypeModal.openTopicTypeModal()}>
-              <View style={styles.formItem}>
-                <Text
-                  style={styles.topicType}>
-                  {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
-                </Text>
-                <Icon
-                  style={styles.topicTypeIcon}
-                  name='angle-right'
-                  size={18} />
-              </View>
-            </TouchableHighlight>
+            {types.length > 0 &&
+              <TouchableHighlight
+                underlayColor={colors.underlay}
+                onPress={() => this._topicTypeModal.openTopicTypeModal()}>
+                <View style={styles.formItem}>
+                  <Text
+                    style={styles.topicType}>
+                    {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
+                  </Text>
+                  <Icon
+                    style={styles.topicTypeIcon}
+                    name='angle-right'
+                    size={18} />
+                </View>
+              </TouchableHighlight>
+            }
             <View style={styles.formItem}>
               <TextInput
                 style={styles.topicTitle}
