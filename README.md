@@ -49,7 +49,7 @@ Now it's still being built, and it maybe buggy honestly.
 - [x] ~~Reply a topic~~
 - [x] ~~Reply a comment~~
 - [x] ~~Publish a topic~~
-- [x] Search in whole site
+- [x] ~~Search in whole site~~
 - [ ] Read private messages
 - [ ] Reply private messages
 - [ ] Personal settings
