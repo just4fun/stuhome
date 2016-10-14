@@ -50,6 +50,7 @@ export default class TopicList extends Component {
   render() {
     let { topicList, boardId, isSearch } = this.props;
     let realTopicList = null;
+    let refreshControl = null;
 
     if (!isSearch) {
       if (!topicList.list[boardId]) {
@@ -60,6 +61,10 @@ export default class TopicList extends Component {
       }
 
       realTopicList = topicList.list[boardId].topicList;
+      refreshControl = <RefreshControl
+                         title='正在加载...'
+                         onRefresh={() => this.props.refreshTopicList()}
+                         refreshing={topicList.isRefreshing} />;
     } else {
       realTopicList = topicList.list;
     }
@@ -81,12 +86,7 @@ export default class TopicList extends Component {
         onEndReached={() => this._endReached()}
         onEndReachedThreshold={0}
         renderFooter={() => this._renderFooter()}
-        refreshControl={
-          <RefreshControl
-            title='正在加载...'
-            onRefresh={() => this.props.refreshTopicList()}
-            refreshing={topicList.isRefreshing} />
-        } />
+        refreshControl={refreshControl} />
     );
   }
 }

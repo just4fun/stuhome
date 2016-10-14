@@ -30,6 +30,7 @@ class Search extends Component {
   }
 
   _handleSearch() {
+    this.props.resetSearch();
     this._refreshTopicList();
   }
 

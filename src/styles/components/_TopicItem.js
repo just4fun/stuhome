@@ -27,7 +27,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 3,
+    marginTop: 10,
   },
   date: {
     flex: 1,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   name: {
     color: colors.mainField,
-    marginTop: 4,
+    marginTop: 5,
   },
   forumInfo: {
     padding: 3,
@@ -52,6 +52,7 @@ export default StyleSheet.create({
   },
   forumName: {
     color: colors.white,
+    marginTop: 1
   },
   viewsInfo: {
     color: colors.mainField,

@@ -34,7 +34,9 @@ export default function search(state = defaultSearchState, action) {
     case RECEIVE_SEARCH:
       let { topicList } = action;
 
-      if (topicList.page !== 1) {
+      // if there is no search result, both `page`
+      // and `list` will return `undefined`.
+      if (topicList.page !== 1 && topicList.list) {
         topicList.list = state.list.concat(topicList.list);
       }
 
@@ -43,7 +45,7 @@ export default function search(state = defaultSearchState, action) {
         isRefreshing: false,
         isEndReached: false,
         didInvalidate: false,
-        list: topicList.list,
+        list: topicList.list || [],
         hasMore: !!topicList.has_next,
         page: topicList.page,
         errCode: topicList.errcode

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  TextInput
+  TextInput,
+  AlertIOS
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import styles from '../styles/components/_SearchInput';
