@@ -16,7 +16,7 @@
     "url": "https://github.com/just4fun/uestc-bbs-react-native/issues"
   },
   "dependencies": {
-    "apsl-react-native-button": "^2.4.1",
+    "apsl-react-native-button": "^3.0.1",
     "md5": "^2.1.0",
     "moment": "^2.10.6",
     "react": "^15.3.1",
