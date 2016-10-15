@@ -17,18 +17,23 @@ export default class MenuProfile extends Component {
     }
   }
 
+  _handleSearch() {
+    this.searchInput.blur();
+    this.props.handleSearch();
+  }
+
   render() {
     let {
       isDisabled,
       isLoading,
 
-      handleChange,
-      handleSearch
+      handleChange
     } = this.props
 
     return (
       <View style={styles.container}>
         <TextInput
+          ref={component => this.searchInput = component}
           style={styles.input}
           onChangeText={keyword => handleChange(keyword)}
           placeholder='请输入关键字'
@@ -37,7 +42,7 @@ export default class MenuProfile extends Component {
           style={styles.submit}
           isDisabled={isDisabled}
           isLoading={isLoading}
-          onPress={() => handleSearch()}>
+          onPress={() => this._handleSearch()}>
           搜索
         </Button>
       </View>

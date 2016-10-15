@@ -65,6 +65,12 @@ export default class PublishModal extends Component {
         && !comment.isPublishing;
   }
 
+  _handlePublish(topic) {
+    this.titleInput.blur();
+    this.contentInput.blur();
+    this.props.handlePublish(topic);
+  }
+
   render() {
     let { typeId, title, content } = this.state;
     let { types } = this.props;
@@ -90,7 +96,7 @@ export default class PublishModal extends Component {
             {this._isFormValid() &&
               <Text
                 style={modalStyles.button}
-                onPress={() => this.props.handlePublish({
+                onPress={() => this._handlePublish({
                   typeId,
                   title,
                   content
@@ -123,12 +129,14 @@ export default class PublishModal extends Component {
             }
             <View style={styles.formItem}>
               <TextInput
+                ref={component => this.titleInput = component}
                 style={styles.topicTitle}
                 onChangeText={text => this.setState({ title: text })}
                 placeholder='请输入标题' />
             </View>
             <View style={styles.formItem}>
               <TextInput
+                ref={component => this.contentInput = component}
                 style={styles.topicContent}
                 onChangeText={text => this.setState({ content: text })}
                 multiline={true}

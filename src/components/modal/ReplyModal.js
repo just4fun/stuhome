@@ -58,8 +58,13 @@ export default class ReplyModal extends Component {
     });
   }
 
+  _handlePublish(content, replyId) {
+    this.contentInput.blur();
+    this.props.handlePublish(content, replyId);
+  }
+
   render() {
-    let { comment, handlePublish } = this.props;
+    let { comment } = this.props;
     let { isModalOpen, title, replyContent, replyId } = this.state;
 
     return (
@@ -78,7 +83,7 @@ export default class ReplyModal extends Component {
             {(replyContent.length && !comment.isPublishing ) &&
               <Text
                 style={modalStyles.button}
-                onPress={() => handlePublish(replyContent, replyId)}>
+                onPress={() => this._handlePublish(replyContent, replyId)}>
                 发布
               </Text>
               ||
@@ -89,6 +94,7 @@ export default class ReplyModal extends Component {
             }
           </Header>
           <TextInput
+            ref={component => this.contentInput = component}
             placeholder='同学，请文明用语噢～'
             style={styles.replyBox}
             onChangeText={(text) => this.setState({ replyContent: text })}

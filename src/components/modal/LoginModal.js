@@ -59,6 +59,12 @@ export default class Login extends Component {
     });
   }
 
+  _handleSubmit(userName, password) {
+    this.userNameInput.blur();
+    this.passwordInput.blur();
+    this.props.userLogin(userName, password);
+  }
+
   render() {
     let { isFetching } = this.props.user;
     let { userName, password } = this.state;
@@ -80,11 +86,13 @@ export default class Login extends Component {
           </View>
           <View style={styles.form}>
             <TextInput
+              ref={component => this.userNameInput = component}
               style={[styles.formItem, styles.formInput]}
               onChangeText={text => this.setState({ userName: text })}
               placeholder='请输入用户名'
               autoFocus={true} />
             <TextInput
+              ref={component => this.passwordInput = component}
               style={[styles.formItem, styles.formInput]}
               onChangeText={text => this.setState({ password: text })}
               placeholder='请输入密码'
@@ -94,7 +102,7 @@ export default class Login extends Component {
               textStyle={styles.formSubmitText}
               isDisabled={isDisabled}
               isLoading={isFetching}
-              onPress={() => this.props.userLogin(userName, password)}>
+              onPress={() => this._handleSubmit(userName, password)}>
               登录
             </Button>
           </View>
