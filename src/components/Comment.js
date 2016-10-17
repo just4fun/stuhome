@@ -5,7 +5,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import ProgressImage from './ProgressImage';
+import Content from './Content';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import styles from '../styles/components/_Comment';
@@ -46,22 +46,7 @@ export default class Comment extends Component {
               <Text style={styles.quoteContent}>{quote_content}</Text>
             </View>
           }
-          {reply_content.map((content, index) => {
-            switch (content.type) {
-              // text
-              case 0:
-              default:
-                return <Text key={index}
-                             style={styles.commentSection}>
-                         {parseContentWithImage(content.infor)}
-                       </Text>;
-              // pic
-              case 1:
-                return <ProgressImage key={index}
-                                      style={styles.commentSection}
-                                      uri={content.originalInfo} />;
-            }
-          })}
+          <Content content={reply_content} />
         </View>
         <View style={styles.other}>
           <Text style={styles.date}>{posts_date}</Text>

@@ -17,8 +17,8 @@ import styles from '../styles/containers/_TopicDetail';
 import Header from '../components/Header';
 import ReplyModal from '../components/modal/ReplyModal';
 import Comment from '../components/Comment';
+import Content from '../components/Content';
 import VoteList from '../components/VoteList';
-import ProgressImage from '../components/ProgressImage';
 import { PopButton, ReplyButton, CommentButton } from '../components/button';
 import {
   fetchTopic,
@@ -28,7 +28,6 @@ import {
   publishVote,
   resetVote
 } from '../actions/topic/topicAction';
-import { parseContentWithImage } from '../utils/app';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -112,22 +111,7 @@ class TopicDetail extends Component {
             <Text style={styles.floor}>楼主</Text>
           </View>
           <View style={styles.content}>
-            {topic.content.map((content, index) => {
-              switch (content.type) {
-                // text
-                case 0:
-                default:
-                  return <Text key={index}
-                               style={styles.contentItem}>
-                           {parseContentWithImage(content.infor)}
-                         </Text>;
-                // pic
-                case 1:
-                  return <ProgressImage key={index}
-                                        style={styles.contentItem}
-                                        uri={content.originalInfo} />;
-              }
-            })}
+            <Content content={topic.content} />
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}

@@ -63,9 +63,6 @@ export default StyleSheet.create({
   content: {
     marginVertical: 10,
   },
-  contentItem: {
-    marginVertical: 5,
-  },
   commentHeader: {
     position: 'absolute',
     left: -10,

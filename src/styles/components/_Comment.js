@@ -50,9 +50,6 @@ export default StyleSheet.create({
     lineHeight: 14,
     color: colors.mainField,
   },
-  commentSection: {
-    marginVertical: 5,
-  },
   other: {
     flex: 1,
     flexDirection: 'row',
