@@ -111,7 +111,8 @@ class TopicDetail extends Component {
             <Text style={styles.floor}>楼主</Text>
           </View>
           <View style={styles.content}>
-            <Content content={topic.content} />
+            <Content content={topic.content}
+                     router={this.props.router} />
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
@@ -234,6 +235,7 @@ class TopicDetail extends Component {
               key={comment.reply_posts_id}
               comment={comment}
               token={token}
+              router={this.props.router}
               openReplyModal={() => this._openReplyModal(comment)} />
           }
           onEndReached={() => this._endReached()}

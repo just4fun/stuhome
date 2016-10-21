@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  TouchableHighlight
 } from 'react-native';
 import ProgressImage from './ProgressImage';
 import styles from '../styles/components/_Content';
+import colors from '../styles/common/_colors';
 import { parseContentWithImage } from '../utils/app';
 
 export default class Content extends Component {
@@ -27,6 +29,18 @@ export default class Content extends Component {
               return <ProgressImage key={index}
                                     style={styles.contentItem}
                                     uri={content.originalInfo} />;
+            // link
+            case 4:
+              return (
+                <TouchableHighlight
+                  key={index}
+                  underlayColor={colors.underlay}
+                  onPress={() => this.props.router.toBrowser(content.url)}>
+                  <Text style={styles.url}>
+                    {content.url}
+                  </Text>
+                </TouchableHighlight>
+              );
           }
         })}
       </View>

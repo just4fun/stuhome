@@ -15,6 +15,8 @@ module.exports = {
 
   imageProgress: '#969696',
 
+  link: '#05a5d1',
+
   /**
   * customized colors
   */

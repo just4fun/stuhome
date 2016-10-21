@@ -46,7 +46,8 @@ export default class Comment extends Component {
               <Text style={styles.quoteContent}>{quote_content}</Text>
             </View>
           }
-          <Content content={reply_content} />
+          <Content content={reply_content}
+                   router={this.props.router} />
         </View>
         <View style={styles.other}>
           <Text style={styles.date}>{posts_date}</Text>

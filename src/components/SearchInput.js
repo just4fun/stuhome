@@ -28,7 +28,7 @@ export default class MenuProfile extends Component {
       isLoading,
 
       handleChange
-    } = this.props
+    } = this.props;
 
     return (
       <View style={styles.container}>

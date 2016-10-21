@@ -4,6 +4,7 @@ import ForumList from './containers/ForumList';
 import TopicDetail from './containers/TopicDetail';
 import ForumDetail from './containers/ForumDetail';
 import Search from './containers/Search';
+import Browser from './containers/Browser';
 
 let _navigator = null;
 
@@ -81,6 +82,14 @@ export default class Router {
       title: forum.board_name,
       component: ForumDetail,
       passProps: forum
+    });
+  }
+
+  toBrowser(url) {
+    this._navigateTo({
+      id: 'WebView',
+      component: Browser,
+      passProps: { url }
     });
   }
 }
