@@ -34,10 +34,21 @@ export default class Content extends Component {
               return (
                 <TouchableHighlight
                   key={index}
+                  style={styles.contentItem}
                   underlayColor={colors.underlay}
                   onPress={() => this.props.router.toBrowser(content.url)}>
                   <Text style={styles.url}>
-                    {content.url}
+                    {
+                      // if the link content is `@somebody`, `infor` is
+                      // the text, while `url` is the link to his/her
+                      // personal page.
+                    }
+                    {content.url !== content.infor
+                      &&
+                      content.infor
+                      ||
+                      content.url
+                    }
                   </Text>
                 </TouchableHighlight>
               );
