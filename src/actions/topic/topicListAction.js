@@ -1,5 +1,5 @@
 import { API_ROOT } from '../../config';
-import { fetchWithToken } from '../../utils/app';
+import { fetchWithToken } from '../../utils/request';
 import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,

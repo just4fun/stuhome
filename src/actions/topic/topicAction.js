@@ -1,5 +1,6 @@
 import { API_ROOT, PLAT_TYPE } from '../../config';
-import { getAppHashValue, fetchWithToken } from '../../utils/app';
+import { getAppHashValue } from '../../utils/app';
+import { fetchWithToken } from '../../utils/request';
 import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC,

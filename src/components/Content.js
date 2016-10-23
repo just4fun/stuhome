@@ -7,7 +7,7 @@ import {
 import ProgressImage from './ProgressImage';
 import styles from '../styles/components/_Content';
 import colors from '../styles/common/_colors';
-import { parseContentWithImage } from '../utils/app';
+import { parseContentWithImage } from '../utils/contentParser';
 
 export default class Content extends Component {
   render() {

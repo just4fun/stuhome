@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import styles from '../styles/components/_Comment';
 import { CommentButton } from './button';
-import { parseContentWithImage } from '../utils/app';
+import { parseContentWithImage } from '../utils/contentParser';
 
 export default class Comment extends Component {
   render() {
