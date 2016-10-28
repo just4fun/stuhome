@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
+import Dimensions from 'Dimensions';
 import colors from '../common/_colors';
+
+const window = Dimensions.get('window');
+
 
 export default StyleSheet.create({
   pollList: {
@@ -18,12 +22,18 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10,
   },
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
   checkbox: {
     width: 18,
     height: 18
   },
   checkboxLabel: {
-    fontSize: 13
+    fontSize: 13,
+    // window.width - (window-padding * 2 + topic-content-padding * 2 + checkbox-width + checkbox-label-marginLeft)
+    width: window.width - (10 * 2 + 10 * 2 + 18 + 10)
   },
   checkboxLabelOnly: {
     flex: 1,

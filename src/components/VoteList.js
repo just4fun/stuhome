@@ -110,6 +110,7 @@ export default class VoteList extends Component {
                 <View style={styles.pollItemText}>
                   {poll_status == 2 &&
                     <CheckBox
+                      containerStyle={styles.checkboxContainer}
                       checkboxStyle={styles.checkbox}
                       labelStyle={styles.checkboxLabel}
                       label={labelText}
