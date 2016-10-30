@@ -34,6 +34,13 @@ const menus = {
     title: '搜索',
     icon: 'search',
     actionName: 'toSearch'
+  },
+
+  message: {
+    id: 'message',
+    title: '消息',
+    icon: 'at',
+    actionName: 'toMessage'
   }
 };
 
@@ -63,9 +70,14 @@ class Menu extends Component {
           menu={menus['forumList']}
           {...this.props} />
         {user.authrization.token &&
-          <MenuItem
-          menu={menus['search']}
-          {...this.props} />
+          <View>
+            <MenuItem
+              menu={menus['search']}
+              {...this.props} />
+            <MenuItem
+              menu={menus['message']}
+              {...this.props} />
+          </View>
         }
       </View>
     );

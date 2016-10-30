@@ -5,6 +5,7 @@ import TopicDetail from './containers/TopicDetail';
 import ForumDetail from './containers/ForumDetail';
 import Search from './containers/Search';
 import Browser from './containers/Browser';
+import Message from './containers/Message';
 
 let _navigator = null;
 
@@ -90,6 +91,14 @@ export default class Router {
       id: 'WebView',
       component: Browser,
       passProps: { url }
+    });
+  }
+
+  toMessage() {
+    this._navigateTo({
+      id: 'message',
+      title: '消息',
+      component: Message
     });
   }
 }

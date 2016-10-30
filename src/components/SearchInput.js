@@ -7,7 +7,7 @@ import {
 import Button from 'apsl-react-native-button';
 import styles from '../styles/components/_SearchInput';
 
-export default class MenuProfile extends Component {
+export default class SearchInput extends Component {
   componentWillReceiveProps(nextProps) {
     let { errCode } = nextProps;
 
