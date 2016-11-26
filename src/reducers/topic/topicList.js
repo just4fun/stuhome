@@ -46,7 +46,7 @@ export default function topicList(state = defaultTopicListState, action) {
         isRefreshing: false,
         isEndReached: false,
         didInvalidate: false,
-        boardId: boardId,
+        boardId,
         list: getNewCache(state, typeList, topicList.list, boardId, topicList.page),
         hasMore: !!topicList.has_next,
         page: topicList.page,
@@ -86,7 +86,7 @@ function getNewCache(oldState, typeList, topicList, boardId, page) {
   }
 
   newState.list[boardId] = {
-    typeList: typeList,
+    typeList,
     topicList: newTopicList
   };
   return newState.list;
