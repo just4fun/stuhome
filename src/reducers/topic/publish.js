@@ -9,7 +9,7 @@ const defaultState = {
   response: ''
 };
 
-export default function comment(state = defaultState, action) {
+export default function publish(state = defaultState, action) {
   switch (action.type) {
     case START_PUBLISH:
       return {

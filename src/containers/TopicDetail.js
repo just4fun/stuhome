@@ -23,8 +23,8 @@ import { PopButton, ReplyButton, CommentButton } from '../components/button';
 import {
   fetchTopic,
   resetTopic,
-  publish,
-  resetPublish,
+  submit,
+  resetReply,
   publishVote,
   resetVote
 } from '../actions/topic/topicAction';
@@ -162,14 +162,14 @@ class TopicDetail extends Component {
     );
   }
 
-  _publish(comment, replyId) {
-    this.props.publish(
+  _publish(content, replyId) {
+    this.props.submit(
       this.boardId,
       this.topicId,
       replyId,
       null,
       null,
-      comment
+      content
     );
   }
 
@@ -184,12 +184,12 @@ class TopicDetail extends Component {
     this.props.resetVote();
   }
 
-  _openReplyModal(comment) {
-    this._replyModal.openReplyModal(comment);
+  _openReplyModal(content) {
+    this._replyModal.openReplyModal(content);
   }
 
   render() {
-    let { topicItem, comment, vote, user } = this.props;
+    let { topicItem, reply, vote, user } = this.props;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
@@ -214,7 +214,7 @@ class TopicDetail extends Component {
           ref={component => this._replyModal = component}
           {...this.props}
           visible={false}
-          comment={comment}
+          reply={reply}
           handlePublish={(content, replyId) => this._publish(content, replyId)}
           fetchTopic={() => this.fetchTopic()} />
 
@@ -248,19 +248,19 @@ class TopicDetail extends Component {
 }
 
 function mapStateToProps(state) {
-  let { topicItem, comment, vote, user } = state;
+  let { topicItem, reply, vote, user } = state;
 
   return {
     topicItem,
-    comment,
+    reply,
     vote,
     user
   };
 }
 
 export default connect(mapStateToProps, {
-  publish,
-  resetPublish,
+  submit,
+  resetReply,
   fetchTopic,
   resetTopic,
   publishVote,

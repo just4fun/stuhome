@@ -3,7 +3,8 @@ import user from './user';
 import forumList from './forumList';
 import topicList from './topic/topicList';
 import topicItem from './topic/topicItem';
-import comment from './topic/comment';
+import publish from './topic/publish';
+import reply from './topic/reply';
 import search from './topic/search';
 import vote from './topic/vote';
 import notifyList from './message/notifyList';
@@ -15,7 +16,8 @@ export default combineReducers({
 
   user,
   topicItem,
-  comment,
+  publish,
+  reply,
   search,
   vote
 });

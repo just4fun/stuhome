@@ -22,30 +22,30 @@ export default class ReplyModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const comment = nextProps.comment;
-    if (comment.response && comment.response.rs) {
+    const reply = nextProps.reply;
+    if (reply.response && reply.response.rs) {
       this.handleCancel();
-      this.props.resetPublish();
+      this.props.resetReply();
       this.props.fetchTopic();
     }
   }
 
-  openReplyModal(comment) {
+  openReplyModal(content) {
     this.setState({
       isModalOpen: true,
-      title: this._getTitle(comment),
-      replyId: comment && comment.reply_posts_id || null
+      title: this._getTitle(content),
+      replyId: content && content.reply_posts_id || null
     });
   }
 
-  _getTitle(comment) {
-    if (comment) {
+  _getTitle(content) {
+    if (content) {
       // the topic author has no `position` field
-      if (!comment.position) {
-        return `回复 ${comment.user_nick_name}`;
+      if (!content.position) {
+        return `回复 ${content.user_nick_name}`;
       }
 
-      return `回复 ${comment.reply_name}`;
+      return `回复 ${content.reply_name}`;
     } 
 
     return '评论';
@@ -64,7 +64,7 @@ export default class ReplyModal extends Component {
   }
 
   render() {
-    let { comment } = this.props;
+    let { reply } = this.props;
     let { isModalOpen, title, replyContent, replyId } = this.state;
 
     return (
@@ -80,7 +80,7 @@ export default class ReplyModal extends Component {
               onPress={() => this.handleCancel()}>
               取消
             </Text>
-            {(replyContent.length && !comment.isPublishing ) &&
+            {(replyContent.length && !reply.isPublishing ) &&
               <Text
                 style={modalStyles.button}
                 onPress={() => this._handlePublish(replyContent, replyId)}>

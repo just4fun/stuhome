@@ -28,8 +28,8 @@ export default class PublishModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const comment = nextProps.comment;
-    if (comment.response && comment.response.rs) {
+    const publish = nextProps.publish;
+    if (publish.response && publish.response.rs) {
       this.props.resetPublish();
       this.props.invalidateTopicList();
       this.props.router.toHome();
@@ -54,7 +54,7 @@ export default class PublishModal extends Component {
 
   _isFormValid() {
     let { typeId, title, content } = this.state;
-    let { comment, types } = this.props;
+    let { publish, types } = this.props;
 
     let hasNoTopicTypes = types.length === 0;
     let hasTypeId = hasNoTopicTypes && true || (typeId !== null);
@@ -62,7 +62,7 @@ export default class PublishModal extends Component {
     return hasTypeId
         && title.length
         && content.length
-        && !comment.isPublishing;
+        && !publish.isPublishing;
   }
 
   _handlePublish(topic) {

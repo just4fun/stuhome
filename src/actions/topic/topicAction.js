@@ -10,6 +10,10 @@ import {
   FINISH_PUBLISH,
   RESET_PUBLISH,
 
+  START_REPLY,
+  FINISH_REPLY,
+  RESET_REPLY,
+
   START_VOTE,
   FINISH_VOTE,
   RESET_VOTE
@@ -99,10 +103,10 @@ function getFetchOptions(body) {
   };
 }
 
-export function publish(boardId, topicId, replyId, typeId, title, content) {
+export function submit(boardId, topicId, replyId, typeId, title, content) {
   return dispatch => {
-    dispatch(startPublish());
-
+    let startAction = null;
+    let finishAction = null;
     let requestUrl = API_ROOT +
                      TOPIC_POST_API_PATH +
                      `&apphash=${getAppHashValue()}` +
@@ -110,10 +114,19 @@ export function publish(boardId, topicId, replyId, typeId, title, content) {
     let payload = assemblePayload(boardId, topicId, replyId, typeId, title, content);
     // check `tid` (aka `topicId`) for obtaining `action`
     let action = payload.body.json.tid ? ACTIONS.REPLY : ACTIONS.NEW;
+
+    if (action === ACTIONS.REPLY) {
+      startAction = startReply;
+      finishAction = finishReply;
+    } else {
+      startAction = startPublish;
+      finishAction = finishPublish;
+    }
+    dispatch(startAction());
     let body = `act=${action}&json=${JSON.stringify(payload)}`;
     let fetchOptions = getFetchOptions(body);
 
-    return fetchWithToken(requestUrl, fetchOptions, dispatch, finishPublish);
+    return fetchWithToken(requestUrl, fetchOptions, dispatch, finishAction);
   };
 }
 
@@ -165,5 +178,24 @@ function finishVote(response) {
 export function resetVote() {
   return {
     type: RESET_VOTE
+  };
+}
+
+function startReply() {
+  return {
+    type: START_REPLY
+  };
+}
+
+function finishReply(response) {
+  return {
+    type: FINISH_REPLY,
+    response
+  };
+}
+
+export function resetReply() {
+  return {
+    type: RESET_REPLY
   };
 }

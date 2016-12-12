@@ -14,7 +14,7 @@ import TopicList from '../components/TopicList';
 import ForumList from './ForumList';
 import PublishModal from '../components/modal/PublishModal';
 import { PopButton, PublishButton } from '../components/button';
-import { publish, resetPublish } from '../actions/topic/topicAction';
+import { submit, resetPublish } from '../actions/topic/topicAction';
 import { invalidateTopicList, fetchTopicListIfNeeded, resetTopicList } from '../actions/topic/topicListAction';
 
 class ForumDetail extends Component {
@@ -55,7 +55,7 @@ class ForumDetail extends Component {
   _publish(topic) {
     let { typeId, title, content } = topic;
 
-    this.props.publish(
+    this.props.submit(
       this.boardId,
       null,
       null,
@@ -68,7 +68,7 @@ class ForumDetail extends Component {
   render() {
     let {
       topicList,
-      comment,
+      publish,
       user: {
         authrization: { token }
       }
@@ -89,13 +89,12 @@ class ForumDetail extends Component {
           ref={component => this._publishModal = component}
           {...this.props}
           visible={false}
-          comment={comment}
+          publish={publish}
           types={typeList}
           handlePublish={topic => this._publish(topic)} />
 
         <Header
-          title={this.boardName}
-          comment={comment}>
+          title={this.boardName}>
           <PopButton router={this.props.router} />
           {token &&
             <PublishButton
@@ -139,17 +138,17 @@ class ForumDetail extends Component {
 }
 
 function mapStateToProps(state) {
-  let { topicList, comment, user } = state;
+  let { topicList, publish, user } = state;
 
   return {
     topicList,
-    comment,
+    publish,
     user
   };
 }
 
 export default connect(mapStateToProps, {
-  publish,
+  submit,
   resetPublish,
   invalidateTopicList,
   fetchTopicListIfNeeded,
