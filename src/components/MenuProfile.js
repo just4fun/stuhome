@@ -58,7 +58,7 @@ export default class MenuProfile extends Component {
     }
 
     return (
-      <View style={styles.menuHeader}>
+      <View style={[styles.menuHeader, !token && styles.menuHeaderNoToken]}>
         <View>
           <TouchableHighlight
             style={styles.avatar}

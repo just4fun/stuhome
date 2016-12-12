@@ -6,8 +6,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
-    paddingHorizontal: 30,
+    justifyContent: 'center',
     paddingBottom: 12
+  },
+  menuHeaderNoToken: {
+    paddingLeft: 30,
+    justifyContent: 'flex-start'
   },
   avatar: {
     height: 70,
