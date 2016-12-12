@@ -37,9 +37,9 @@ export default class RNavigator extends Component {
     this.setState({ isOpen });
   }
 
-  _onMenuItemSelected(item) {
+  _onMenuItemSelected(item, isForceReplace) {
     this._updateMenuState(false);
-    this.router[item.actionName]();
+    this.router[item.actionName](isForceReplace);
   }
 
   _isCurrentRoute(route) {
@@ -48,7 +48,7 @@ export default class RNavigator extends Component {
 
   render() {
     let menu = <Menu
-                 selectMenuItem={item => this._onMenuItemSelected(item)}
+                 selectMenuItem={(item, isForceReplace) => this._onMenuItemSelected(item, isForceReplace)}
                  isCurrentRoute={route => this._isCurrentRoute(route)} />;
 
     return (

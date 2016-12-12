@@ -14,7 +14,16 @@ export default class Router {
     _navigator = navigator;
   }
 
-  _navigateTo(route, isReplace) {
+  _navigateTo(route, isReplace, isForceReplace) {
+    // this case is that if we are in Home page and
+    // we want to login or logout, we need to replace
+    // Home page as well since we want to fetch topic
+    // list again with or without authrization.
+    if (isForceReplace) {
+      _navigator.replace(route);
+      return;
+    }
+
     let currentRoute = this.getCurrentRoute();
     if (route.id !== currentRoute.id) {
       if (isReplace) {
@@ -40,12 +49,12 @@ export default class Router {
     _navigator.pop();
   }
 
-  toHome() {
+  toHome(isForceReplace) {
     this._navigateTo({
       id: 'home',
       title: '最新',
       component: Home
-    }, true);
+    }, true, isForceReplace);
   }
 
   toForumList() {

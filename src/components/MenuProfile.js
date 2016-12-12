@@ -31,9 +31,10 @@ export default class MenuProfile extends Component {
   _handleLogout() {
     AsyncStorage.removeItem('authrization')
                 .then(() => {
-                  this.props.userLogout();
-                  this.props.invalidateTopicList();
-                  this.props.selectMenuItem(this.props.menus['home']);
+                  // remove all cache first
+                  this.props.cleanCache();
+                  // force replace Home route
+                  this.props.selectMenuItem(this.props.menus['home'], true);
                 });
   }
 

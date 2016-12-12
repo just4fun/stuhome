@@ -36,10 +36,10 @@ export default class Login extends Component {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
-          this.props.selectMenuItem({
-            title: '最新',
-            actionName: 'toHome'
-          });
+          // remove all cache except authrization
+          this.props.cleanCache(true);
+          // force replace Home route
+          this.props.selectMenuItem(this.props.menus['home'], true);
           this._closeLoginModal();
         });
     }

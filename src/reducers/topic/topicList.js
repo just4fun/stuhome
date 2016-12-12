@@ -2,7 +2,8 @@ import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
   RECEIVE_TOPICLIST,
-  RESET_TOPICLIST
+  RESET_TOPICLIST,
+  REMOVE_CACHE
 } from '../../constants/ActionTypes';
 
 const defaultTopicListState = {
@@ -57,6 +58,8 @@ export default function topicList(state = defaultTopicListState, action) {
         ...defaultTopicListState,
         list: getTopicListWithoutSpecificForum(state, action.forumId)
       };
+    case REMOVE_CACHE:
+      return defaultTopicListState;
     default:
       return state;
   }
@@ -77,19 +80,20 @@ function getMappedTypeList(typeList) {
 // cache topic list and return
 function getNewCache(oldState, typeList, topicList, boardId, page) {
   let newTopicList = [];
-  let newState = { ...oldState };
 
   if (page !== 1) {
     newTopicList = oldState.list[boardId].topicList.concat(topicList);
   } else {
-    newTopicList = topicList.slice(0);
+    newTopicList = topicList;
   }
 
-  newState.list[boardId] = {
-    typeList,
-    topicList: newTopicList
+  return {
+    ...oldState.list,
+    [boardId]: {
+      typeList,
+      topicList: newTopicList
+    }
   };
-  return newState.list;
 }
 
 function getTopicListWithoutSpecificForum(oldState, forumId) {

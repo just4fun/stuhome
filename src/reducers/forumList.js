@@ -2,10 +2,11 @@ import {
   INVALIDATE_FORUMLIST,
   REQUEST_FORUMLIST,
   REQUEST_SUBFORUMLIST,
-  RECEIVE_FORUMLIST
+  RECEIVE_FORUMLIST,
+  REMOVE_CACHE
 } from '../constants/ActionTypes';
 
-export default function forumList(state = {
+const defaultForumListState = {
   // indicate fetching top forums
   isFetching: false,
   // indicate fetching sub forums
@@ -13,7 +14,9 @@ export default function forumList(state = {
   didInvalidate: false,
   // dictionary for cache
   list: {},
-}, action) {
+};
+
+export default function forumList(state = defaultForumListState, action) {
   switch (action.type) {
     case INVALIDATE_FORUMLIST:
       return {
@@ -47,6 +50,8 @@ export default function forumList(state = {
         didInvalidate: false,
         list: getNewCache(state, forumList.list, boardId),
       };
+    case REMOVE_CACHE:
+      return defaultForumListState;
     default:
       return state;
   }
@@ -54,13 +59,8 @@ export default function forumList(state = {
 
 // cache forum list and return
 function getNewCache(oldState, forumList, boardId) {
-  let newForumList = [];
-  let newState = { ...oldState };
-
-  newForumList = forumList.slice(0);
-
-  newState.list[boardId] = {
-    forumList: newForumList
+  return {
+    ...oldState.list,
+    [boardId]: { forumList }
   };
-  return newState.list;
 }

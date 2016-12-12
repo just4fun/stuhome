@@ -4,7 +4,7 @@ import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
   SET_AUTHRIZATION,
-  REQUEST_LOGOUT,
+  REMOVE_CACHE,
   RESET_AUTHRIZATION,
   RESET_AUTHRIZATION_RESULT
 } from '../constants/ActionTypes';
@@ -52,12 +52,6 @@ export function userLogin(userName, password) {
   };
 }
 
-export function userLogout() {
-  return {
-    type: REQUEST_LOGOUT
-  };
-}
-
 export function resetAuthrization() {
   return {
     type: RESET_AUTHRIZATION
@@ -67,5 +61,12 @@ export function resetAuthrization() {
 export function resetAuthrizationResult() {
   return {
     type: RESET_AUTHRIZATION_RESULT
+  };
+}
+
+export function cleanCache(isLogin) {
+  return {
+    type: REMOVE_CACHE,
+    isLogin
   };
 }

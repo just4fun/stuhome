@@ -32,14 +32,15 @@ class ForumList extends Component {
 
   render() {
     let { forumList } = this.props;
+    let realForumList = null;
 
     if (!forumList.list[this.boardId]) {
-      forumList.list[this.boardId] = {
-        forumList: []
-      };
+      realForumList = [];
+    } else {
+      realForumList = forumList.list[this.boardId].forumList;
     }
 
-    let source = ds.cloneWithRows(forumList.list[this.boardId].forumList);
+    let source = ds.cloneWithRows(realForumList);
 
     return (
       <View style={mainStyles.container}>

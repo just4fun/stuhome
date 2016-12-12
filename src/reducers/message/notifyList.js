@@ -2,7 +2,8 @@ import {
   INVALIDATE_NOTIFYLIST,
   REQUEST_NOTIFYLIST_AT,
   REQUEST_NOTIFYLIST_REPLY,
-  RECEIVE_NOTIFYLIST
+  RECEIVE_NOTIFYLIST,
+  REMOVE_CACHE
 } from '../../constants/ActionTypes';
 
 const defaultNotifyListState = {
@@ -58,6 +59,8 @@ export default function notifyList(state = defaultNotifyListState, action) {
         page: notifyList.page,
         errCode: notifyList.errcode
       };
+    case REMOVE_CACHE:
+      return defaultNotifyListState;
     default:
       return state;
   }
@@ -65,16 +68,17 @@ export default function notifyList(state = defaultNotifyListState, action) {
 
 function getNewCache(oldState, notifyList, notifyType, page) {
   let newNotifyList = [];
-  let newState = { ...oldState };
 
   if (page !== 1) {
     newNotifyList = oldState.list[notifyType].notifyList.concat(notifyList);
   } else {
-    newNotifyList = notifyList.slice(0);
+    newNotifyList = notifyList;
   }
 
-  newState.list[notifyType] = {
-    notifyList: newNotifyList
+  return {
+    ...oldState.list,
+    [notifyType]: {
+      notifyList: newNotifyList
+    }
   };
-  return newState.list;
 }

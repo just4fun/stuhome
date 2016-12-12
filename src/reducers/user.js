@@ -2,7 +2,7 @@ import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
   SET_AUTHRIZATION,
-  REQUEST_LOGOUT,
+  REMOVE_CACHE,
   RESET_AUTHRIZATION,
   RESET_AUTHRIZATION_RESULT
 } from '../constants/ActionTypes';
@@ -37,7 +37,11 @@ export default function user(state = defaultUserState, action) {
         hasError: !!action.user.errcode,
         result: !!action.user.rs
       };
-    case REQUEST_LOGOUT:
+    case REMOVE_CACHE:
+      if (!action.isLogin) {
+        return defaultUserState;
+      }
+      return state;
     case RESET_AUTHRIZATION:
       return defaultUserState;
     case RESET_AUTHRIZATION_RESULT:

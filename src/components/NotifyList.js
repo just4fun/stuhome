@@ -58,11 +58,12 @@ export default class NotifyList extends Component {
     let { notifyList, notifyType } = this.props;
     let { isFetchingAtList, isFetchingReplyList } = notifyList;
     let isRefreshing = this.isAtList ? isFetchingAtList : isFetchingReplyList;
+    let realNotifyList = null;
 
     if (!notifyList.list[notifyType]) {
-      notifyList.list[notifyType] = {
-        notifyList: []
-      };
+      realNotifyList = [];
+    } else {
+      realNotifyList = notifyList.list[notifyType].notifyList;
     }
 
     let refreshControl = <RefreshControl
@@ -70,7 +71,7 @@ export default class NotifyList extends Component {
                        onRefresh={() => this.props.refreshNotifyList(this.notifyType)}
                        refreshing={isRefreshing} />;
 
-    let source = ds.cloneWithRows(notifyList.list[notifyType].notifyList);
+    let source = ds.cloneWithRows(realNotifyList);
 
     return (
       <ListView

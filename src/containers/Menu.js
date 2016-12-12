@@ -8,9 +8,9 @@ import MenuItem from '../components/MenuItem';
 import {
   getUserFromStorage,
   userLogin,
-  userLogout,
   resetAuthrization,
-  resetAuthrizationResult
+  resetAuthrizationResult,
+  cleanCache
 } from '../actions/authorizeAction';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
 
@@ -49,6 +49,10 @@ class Menu extends Component {
     this.props.getUserFromStorage();
   }
 
+  cleanCache() {
+    this.props.cleanCache();
+  }
+
   render() {
     let { user } = this.props;
 
@@ -57,11 +61,14 @@ class Menu extends Component {
         <LoginModal
           ref={component => this._loginModal = component}
           visible={false}
+          menus={menus}
+          cleanCache={() => this.cleanCache()}
           {...this.props} />
         <MenuProfile
           authrization={user.authrization}
           loginModal={this._loginModal}
           menus={menus}
+          cleanCache={() => this.cleanCache()}
           {...this.props} />
         <MenuItem
           menu={menus['home']}
@@ -95,9 +102,9 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   getUserFromStorage,
   userLogin,
-  userLogout,
   resetAuthrization,
   resetAuthrizationResult,
+  cleanCache,
   invalidateTopicList,
   fetchTopicListIfNeeded
 })(Menu);
