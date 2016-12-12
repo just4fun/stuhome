@@ -10,7 +10,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Screenshot
 
-![](https://cloud.githubusercontent.com/assets/7512625/18613430/5a6e4700-7dad-11e6-9f17-2a94d1b38768.gif)
+![](https://cloud.githubusercontent.com/assets/7512625/21095744/dc193e2c-c097-11e6-8632-ffcc6927b4f4.gif)
 
 ## Try it out
 
@@ -50,9 +50,11 @@ Now it's still being built, and it maybe buggy honestly.
 - [x] ~~Reply a comment~~
 - [x] ~~Publish a topic~~
 - [x] ~~Search in whole site~~
+- [x] ~~Read notifications~~
+- [ ] Reply notifications
 - [ ] Read private messages
 - [ ] Reply private messages
-- [ ] Personal settings
+- [ ] Personal information
 
 ## Todo list
 
