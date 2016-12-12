@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   Image,
   AsyncStorage,
   ActionSheetIOS,
@@ -40,24 +41,46 @@ export default class MenuProfile extends Component {
 
   render() {
     let { authrization, loginModal } = this.props;
+    let {
+      token,
+      avatar,
+      userName,
+      userTitle,
+      creditShowList
+    } = authrization;
+
     let source = require('../images/noavatar.jpg');
     let action = () => loginModal._openLoginModal();
 
-    if (authrization.token) {
-      source = { uri: authrization.avatar };
+    if (token) {
+      source = { uri: avatar };
       action = () => this._showLogout();
     }
 
     return (
       <View style={styles.menuHeader}>
-        <TouchableHighlight
-          style={styles.avatar}
-          underlayColor={colors.underlay}
-          onPress={action}>
-          <Image
-           style={styles.avatar}
-           source={source} />
-        </TouchableHighlight>
+        <View>
+          <TouchableHighlight
+            style={styles.avatar}
+            underlayColor={colors.underlay}
+            onPress={action}>
+            <Image
+             style={styles.avatar}
+             source={source} />
+          </TouchableHighlight>
+          {token && <Text style={styles.name}>{userName}</Text>}
+        </View>
+        {token &&
+          <View style={styles.infoWrapper}>
+            <Text style={[styles.info, styles.level]}>级别：{userTitle}</Text>
+            {creditShowList &&
+              <View>
+                <Text style={styles.info}>{creditShowList[0].title}：{creditShowList[0].data}</Text>
+                <Text style={styles.info}>{creditShowList[1].title}：{creditShowList[1].data}</Text>
+              </View>
+            }
+          </View>
+        }
       </View>
     );
   }

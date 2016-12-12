@@ -3,10 +3,11 @@ import colors from '../common/_colors';
 
 export default StyleSheet.create({
   menuHeader: {
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
-    paddingLeft: 30,
-    paddingBottom: 15
+    paddingHorizontal: 30,
+    paddingBottom: 12
   },
   avatar: {
     height: 70,
@@ -17,4 +18,23 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  name: {
+    width: 70,
+    textAlign: 'center',
+    color: colors.mainField,
+    marginTop: 5
+  },
+  infoWrapper: {
+    marginLeft: 10,
+    marginTop: 5
+  },
+  info: {
+    fontSize: 12,
+    marginBottom: 3,
+    color: colors.mainField,
+  },
+  level: {
+    color: colors.userLevel,
+    marginBottom: 10
+  }
 });
