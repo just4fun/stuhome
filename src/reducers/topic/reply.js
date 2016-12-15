@@ -1,7 +1,8 @@
 import {
   START_REPLY,
   FINISH_REPLY,
-  RESET_REPLY
+  RESET_REPLY,
+  FAILURE
 } from '../../constants/ActionTypes';
 
 const defaultState = {
@@ -22,6 +23,7 @@ export default function reply(state = defaultState, action) {
         isPublishing: false,
         response: action.response
       };
+    case FAILURE:
     case RESET_REPLY:
       return defaultState;
     default:

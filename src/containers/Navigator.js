@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Navigator } from 'react-native';
+import { View, Navigator } from 'react-native';
+import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import SideMenu from 'react-native-side-menu';
 import Router from '../router';
 import Menu from './Menu';
@@ -12,6 +13,14 @@ export default class RNavigator extends Component {
     this.state = {
       isOpen: false
     };
+  }
+
+  componentDidMount() {
+    MessageBarManager.registerMessageBar(this.refs.alert);
+  }
+
+  componentWillUnmount() {
+    MessageBarManager.unregisterMessageBar();
   }
 
   configureScene(route) {
@@ -65,6 +74,7 @@ export default class RNavigator extends Component {
             title: '最新',
             component: Home
           }} />
+        <MessageBar ref="alert" />
       </SideMenu>
     );
   }

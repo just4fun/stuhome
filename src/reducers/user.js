@@ -1,6 +1,7 @@
 import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
+  FAILURE,
   SET_AUTHRIZATION,
   REMOVE_CACHE,
   RESET_AUTHRIZATION,
@@ -36,6 +37,11 @@ export default function user(state = defaultUserState, action) {
         authrization: action.user,
         hasError: !!action.user.errcode,
         result: !!action.user.rs
+      };
+    case FAILURE:
+      return {
+        ...state,
+        isFetching: false
       };
     case REMOVE_CACHE:
       if (!action.isLogin) {

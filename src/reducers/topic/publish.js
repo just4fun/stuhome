@@ -1,7 +1,8 @@
 import {
   START_PUBLISH,
   FINISH_PUBLISH,
-  RESET_PUBLISH
+  RESET_PUBLISH,
+  FAILURE
 } from '../../constants/ActionTypes';
 
 const defaultState = {
@@ -22,6 +23,7 @@ export default function publish(state = defaultState, action) {
         isPublishing: false,
         response: action.response
       };
+    case FAILURE:
     case RESET_PUBLISH:
       return defaultState;
     default:

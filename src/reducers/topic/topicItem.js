@@ -1,7 +1,8 @@
 import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC,
-  RESET_TOPIC
+  RESET_TOPIC,
+  FAILURE
 } from '../../constants/ActionTypes';
 
 const defaultTopicState = {
@@ -43,6 +44,12 @@ export default function topicItem(state = defaultTopicState, action) {
       };
     case RESET_TOPIC:
       return defaultTopicState;
+    case FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isEndReached: false
+      };
     default:
       return state;
   }

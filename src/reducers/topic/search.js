@@ -2,7 +2,8 @@ import {
   INVALIDATE_SEARCH,
   REQUEST_SEARCH,
   RECEIVE_SEARCH,
-  RESET_SEARCH
+  RESET_SEARCH,
+  FAILURE
 } from '../../constants/ActionTypes';
 
 const defaultSearchState = {
@@ -52,6 +53,13 @@ export default function search(state = defaultSearchState, action) {
       };
     case RESET_SEARCH:
       return defaultSearchState;
+    case FAILURE:
+      return {
+        ...state,
+        isRefreshing: false,
+        isEndReached: false,
+        didInvalidate: false
+      };
     default:
       return state;
   }

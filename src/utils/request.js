@@ -1,6 +1,6 @@
-import {
-  AsyncStorage
-} from 'react-native';
+import { AsyncStorage } from 'react-native';
+import { MessageBarManager } from 'react-native-message-bar';
+import { failure } from '../actions/appAction';
 
 export function fetchWithToken(
   requestUrl,
@@ -18,6 +18,16 @@ export function fetchWithToken(
 
       return fetch(requestUrl, fetchOptions)
         .then(response => response.json())
-        .then(json => dispatch(fetchSuccessCallbackAction(json, fetchSuccessCallbackParameter)));
+        .then(json => dispatch(fetchSuccessCallbackAction(json, fetchSuccessCallbackParameter)))
+        .catch(error => {
+          MessageBarManager.showAlert({
+            viewTopOffset: 60,
+            message: '同学，网络出错啦！',
+            alertType: 'warning',
+            messageStyle: { textAlign: 'center', color: 'white', fontSize: 16 }
+          });
+
+          dispatch(failure());
+        });
     });
 }

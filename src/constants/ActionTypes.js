@@ -43,4 +43,6 @@ module.exports = {
   RECEIVE_LOGIN: 'RECEIVE_LOGIN',
 
   REMOVE_CACHE: 'REMOVE_CACHE',
+
+  FAILURE: 'FAILURE'
 };
