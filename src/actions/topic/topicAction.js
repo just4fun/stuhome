@@ -1,22 +1,26 @@
 import { API_ROOT, PLAT_TYPE } from '../../config';
 import { getAppHashValue } from '../../utils/app';
-import { fetchWithToken } from '../../utils/request';
+import request from '../../utils/request';
 import {
   REQUEST_TOPIC,
   RECEIVE_TOPIC,
   RESET_TOPIC,
+  FAILURE_TOPIC,
 
   START_PUBLISH,
   FINISH_PUBLISH,
   RESET_PUBLISH,
+  FAILURE_PUBLISH,
 
   START_REPLY,
   FINISH_REPLY,
   RESET_REPLY,
+  FAILURE_REPLY,
 
   START_VOTE,
   FINISH_VOTE,
-  RESET_VOTE
+  RESET_VOTE,
+  FAILURE_VOTE
 } from '../../constants/ActionTypes';
 
 const TOPIC_FETCH_API_PATH = 'forum/postlist';
@@ -42,17 +46,27 @@ function receiveTopic(topicItem) {
   };
 }
 
+function failureTopic() {
+  return {
+    type: FAILURE_TOPIC
+  };
+}
+
 export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestTopic(isEndReached));
 
-    let requestUrl = API_ROOT +
-                     TOPIC_FETCH_API_PATH +
-                     `&topicId=${topicId}` +
-                     `&page=${page}` +
-                     `&pageSize=${pageSize}`;
+    let url = API_ROOT +
+              TOPIC_FETCH_API_PATH +
+              `&topicId=${topicId}` +
+              `&page=${page}` +
+              `&pageSize=${pageSize}`;
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveTopic);
+    return request({
+      url,
+      successCallback: data => dispatch(receiveTopic(data)),
+      failureCallback: () => dispatch(failureTopic())
+    });
   };
 }
 
@@ -107,10 +121,12 @@ export function submit(boardId, topicId, replyId, typeId, title, content) {
   return dispatch => {
     let startAction = null;
     let finishAction = null;
-    let requestUrl = API_ROOT +
-                     TOPIC_POST_API_PATH +
-                     `&apphash=${getAppHashValue()}` +
-                     `&platType=${PLAT_TYPE}`;
+    let failureAction = null;
+
+    let url = API_ROOT +
+              TOPIC_POST_API_PATH +
+              `&apphash=${getAppHashValue()}` +
+              `&platType=${PLAT_TYPE}`;
     let payload = assemblePayload(boardId, topicId, replyId, typeId, title, content);
     // check `tid` (aka `topicId`) for obtaining `action`
     let action = payload.body.json.tid ? ACTIONS.REPLY : ACTIONS.NEW;
@@ -118,15 +134,22 @@ export function submit(boardId, topicId, replyId, typeId, title, content) {
     if (action === ACTIONS.REPLY) {
       startAction = startReply;
       finishAction = finishReply;
+      failureAction = failureReply;
     } else {
       startAction = startPublish;
       finishAction = finishPublish;
+      failureAction = failurePublish;
     }
     dispatch(startAction());
     let body = `act=${action}&json=${JSON.stringify(payload)}`;
-    let fetchOptions = getFetchOptions(body);
+    let options = getFetchOptions(body);
 
-    return fetchWithToken(requestUrl, fetchOptions, dispatch, finishAction);
+    return request({
+      url,
+      options,
+      successCallback: data => dispatch(finishAction(data)),
+      failureCallback: () => dispatch(failureAction())
+    });
   };
 }
 
@@ -143,6 +166,12 @@ function finishPublish(response) {
   };
 }
 
+function failurePublish() {
+  return {
+    type: FAILURE_PUBLISH
+  };
+}
+
 export function resetPublish() {
   return {
     type: RESET_PUBLISH
@@ -153,12 +182,16 @@ export function publishVote(topicId, voteIds) {
   return dispatch => {
     dispatch(startVote());
 
-    let requestUrl = API_ROOT +
-                     VOTE_API_PATH;
+    let url = API_ROOT + VOTE_API_PATH;
     let body = `tid=${topicId}&options=${voteIds}`;
-    let fetchOptions = getFetchOptions(body);
+    let options = getFetchOptions(body);
 
-    return fetchWithToken(requestUrl, fetchOptions, dispatch, finishVote);
+    return request({
+      url,
+      options,
+      successCallback: data => dispatch(finishVote(data)),
+      failureCallback: () => dispatch(failureVote())
+    });
   };
 }
 
@@ -172,6 +205,12 @@ function finishVote(response) {
   return {
     type: FINISH_VOTE,
     response
+  };
+}
+
+function failureVote() {
+  return {
+    type: FAILURE_VOTE
   };
 }
 
@@ -191,6 +230,12 @@ function finishReply(response) {
   return {
     type: FINISH_REPLY,
     response
+  };
+}
+
+function failureReply() {
+  return {
+    type: FAILURE_REPLY
   };
 }
 

@@ -2,7 +2,7 @@ import {
   START_REPLY,
   FINISH_REPLY,
   RESET_REPLY,
-  FAILURE
+  FAILURE_REPLY
 } from '../../constants/ActionTypes';
 
 const defaultState = {
@@ -23,7 +23,7 @@ export default function reply(state = defaultState, action) {
         isPublishing: false,
         response: action.response
       };
-    case FAILURE:
+    case FAILURE_REPLY:
     case RESET_REPLY:
       return defaultState;
     default:

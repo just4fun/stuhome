@@ -1,8 +1,10 @@
 import { AsyncStorage } from 'react-native';
 import { API_ROOT } from '../config';
+import request from '../utils/request';
 import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
+  FAILURE_LOGIN,
   SET_AUTHRIZATION,
   REMOVE_CACHE,
   RESET_AUTHRIZATION,
@@ -21,6 +23,12 @@ function receiveLogin(user) {
   return {
     type: RECEIVE_LOGIN,
     user
+  };
+}
+
+function failureLogin() {
+  return {
+    type: FAILURE_LOGIN
   };
 }
 
@@ -46,9 +54,12 @@ export function getUserFromStorage() {
 export function userLogin(userName, password) {
   return dispatch => {
     dispatch(requestLogin());
-    return fetch(`${API_ROOT}${API_PATH}&username=${userName}&password=${password}`)
-      .then(response => response.json())
-      .then(json => dispatch(receiveLogin(json)));
+
+    return request({
+      url: `${API_ROOT}${API_PATH}&username=${userName}&password=${password}`,
+      successCallback: data => dispatch(receiveLogin(data)),
+      failureCallback: () => dispatch(failureLogin())
+    });
   };
 }
 

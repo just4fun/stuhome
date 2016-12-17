@@ -1,10 +1,11 @@
 import { API_ROOT } from '../config';
-import { fetchWithToken } from '../utils/request';
+import request from '../utils/request';
 import {
   INVALIDATE_FORUMLIST,
   REQUEST_FORUMLIST,
   REQUEST_SUBFORUMLIST,
   RECEIVE_FORUMLIST,
+  FAILURE_FORUMLIST
 } from '../constants/ActionTypes';
 
 const API_PATH = 'forum/forumlist';
@@ -29,17 +30,27 @@ function receiveForumList(forumList, { boardId }) {
   };
 }
 
+function failureForumList() {
+  return {
+    type: FAILURE_FORUMLIST
+  };
+}
+
 function fetchForumList(boardId) {
   return dispatch => {
     let shouldFetchTopForumList = boardId === 'all';
     dispatch(shouldFetchTopForumList ? requestForumList() : requestSubForumList());
 
-    let requestUrl = API_ROOT + API_PATH;
+    let url = API_ROOT + API_PATH;
     if (boardId && boardId !== 'all') {
-      requestUrl += `&fid=${boardId}`;
+      url += `&fid=${boardId}`;
     }
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveForumList, { boardId });
+    return request({
+      url,
+      successCallback: data => dispatch(receiveForumList(data, { boardId })),
+      failureCallback: () => dispatch(failureForumList())
+    });
   };
 }
 

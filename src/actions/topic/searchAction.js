@@ -1,10 +1,11 @@
 import { API_ROOT } from '../../config';
-import { fetchWithToken } from '../../utils/request';
+import request from '../../utils/request';
 import {
   INVALIDATE_SEARCH,
   REQUEST_SEARCH,
   RECEIVE_SEARCH,
-  RESET_SEARCH
+  RESET_SEARCH,
+  FAILURE_SEARCH
 } from '../../constants/ActionTypes';
 
 const SEARCH_API_PATH = 'forum/search';
@@ -23,18 +24,28 @@ function receiveSearch(topicList) {
   };
 }
 
+function failureSearch() {
+  return {
+    type: FAILURE_SEARCH
+  };
+}
+
 export function fetchSearch(keyword, isEndReached = false, sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestSearch(isEndReached));
 
-    let requestUrl = API_ROOT +
+    let url = API_ROOT +
                      SEARCH_API_PATH +
                      `&keyword=${keyword}` +
                      `&sortby=${sortType}` +
                      `&page=${page}` +
                      `&pageSize=${pageSize}`;
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveSearch);
+    return request({
+      url,
+      successCallback: data => dispatch(receiveSearch(data)),
+      failureCallback: () => dispatch(failureSearch())
+    });
   };
 }
 

@@ -3,7 +3,7 @@ import {
   REQUEST_NOTIFYLIST_AT,
   REQUEST_NOTIFYLIST_REPLY,
   RECEIVE_NOTIFYLIST,
-  FAILURE,
+  FAILURE_NOTIFYLIST,
   REMOVE_CACHE
 } from '../../constants/ActionTypes';
 
@@ -60,7 +60,7 @@ export default function notifyList(state = defaultNotifyListState, action) {
         page: notifyList.page,
         errCode: notifyList.errcode
       };
-    case FAILURE:
+    case FAILURE_NOTIFYLIST:
       return {
         ...state,
         isFetchingAtList: false,

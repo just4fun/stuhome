@@ -2,7 +2,7 @@ import {
   START_VOTE,
   FINISH_VOTE,
   RESET_VOTE,
-  FAILURE
+  FAILURE_VOTE
 } from '../../constants/ActionTypes';
 
 const defaultState = {
@@ -23,7 +23,7 @@ export default function vote(state = defaultState, action) {
         isVoting: false,
         response: action.response
       };
-    case FAILURE:
+    case FAILURE_VOTE:
     case RESET_VOTE:
       return defaultState;
     default:

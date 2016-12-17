@@ -1,7 +1,7 @@
 import {
   REQUEST_LOGIN,
   RECEIVE_LOGIN,
-  FAILURE,
+  FAILURE_LOGIN,
   SET_AUTHRIZATION,
   REMOVE_CACHE,
   RESET_AUTHRIZATION,
@@ -38,7 +38,7 @@ export default function user(state = defaultUserState, action) {
         hasError: !!action.user.errcode,
         result: !!action.user.rs
       };
-    case FAILURE:
+    case FAILURE_LOGIN:
       return {
         ...state,
         isFetching: false

@@ -1,10 +1,11 @@
 import { API_ROOT } from '../../config';
-import { fetchWithToken } from '../../utils/request';
+import request from '../../utils/request';
 import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
   RECEIVE_TOPICLIST,
-  RESET_TOPICLIST
+  RESET_TOPICLIST,
+  FAILURE_TOPICLIST
 } from '../../constants/ActionTypes';
 
 const TOPICLIST_API_PATH = 'forum/topiclist';
@@ -24,18 +25,28 @@ function receiveTopicList(topicList, { boardId }) {
   };
 }
 
+function failureTopicList() {
+  return {
+    type: FAILURE_TOPICLIST
+  };
+}
+
 function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 1, pageSize = 20) {
   return dispatch => {
     dispatch(requestTopicList(isEndReached));
 
-    let requestUrl = API_ROOT +
-                     TOPICLIST_API_PATH +
-                     `&boardId=${boardId}` +
-                     `&sortby=${sortType}` +
-                     `&page=${page}` +
-                     `&pageSize=${pageSize}`;
+    let url = API_ROOT +
+              TOPICLIST_API_PATH +
+              `&boardId=${boardId}` +
+              `&sortby=${sortType}` +
+              `&page=${page}` +
+              `&pageSize=${pageSize}`;
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveTopicList, { boardId });
+    return request({
+      url,
+      successCallback: data => dispatch(receiveTopicList(data, { boardId })),
+      failureCallback: () => dispatch(failureTopicList())
+    });
   };
 }
 

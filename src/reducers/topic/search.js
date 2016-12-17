@@ -3,7 +3,7 @@ import {
   REQUEST_SEARCH,
   RECEIVE_SEARCH,
   RESET_SEARCH,
-  FAILURE
+  FAILURE_SEARCH
 } from '../../constants/ActionTypes';
 
 const defaultSearchState = {
@@ -53,7 +53,7 @@ export default function search(state = defaultSearchState, action) {
       };
     case RESET_SEARCH:
       return defaultSearchState;
-    case FAILURE:
+    case FAILURE_SEARCH:
       return {
         ...state,
         isRefreshing: false,

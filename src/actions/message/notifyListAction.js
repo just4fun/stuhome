@@ -1,10 +1,11 @@
 import { API_ROOT } from '../../config';
-import { fetchWithToken } from '../../utils/request';
+import request from '../../utils/request';
 import {
   INVALIDATE_NOTIFYLIST,
   REQUEST_NOTIFYLIST_AT,
   REQUEST_NOTIFYLIST_REPLY,
   RECEIVE_NOTIFYLIST,
+  FAILURE_NOTIFYLIST
 } from '../../constants/ActionTypes';
 
 const API_PATH = 'message/notifylist';
@@ -31,6 +32,12 @@ function receiveNotifyList(notifyList, { notifyType }) {
   };
 }
 
+function failureNotifyList() {
+  return {
+    type: FAILURE_NOTIFYLIST
+  };
+}
+
 function fetchNotifyList(notifyType, isEndReached = false, page = 1, pageSize = 20) {
   return dispatch => {
     if (notifyType === 'at') {
@@ -39,13 +46,17 @@ function fetchNotifyList(notifyType, isEndReached = false, page = 1, pageSize = 
       dispatch(requestNotifyReplyList(isEndReached));
     }
 
-    let requestUrl = API_ROOT +
-                     API_PATH +
-                     `&type=${notifyType}` +
-                     `&page=${page}` +
-                     `&pageSize=${pageSize}`;
+    let url = API_ROOT +
+              API_PATH +
+              `&type=${notifyType}` +
+              `&page=${page}` +
+              `&pageSize=${pageSize}`;
 
-    return fetchWithToken(requestUrl, null, dispatch, receiveNotifyList, { notifyType });
+    return request({
+      url,
+      successCallback: data => dispatch(receiveNotifyList(data, { notifyType })),
+      failureCallback: () => dispatch(failureNotifyList())
+    });
   };
 }
 

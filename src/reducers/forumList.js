@@ -3,7 +3,7 @@ import {
   REQUEST_FORUMLIST,
   REQUEST_SUBFORUMLIST,
   RECEIVE_FORUMLIST,
-  FAILURE,
+  FAILURE_FORUMLIST,
   REMOVE_CACHE
 } from '../constants/ActionTypes';
 
@@ -51,7 +51,7 @@ export default function forumList(state = defaultForumListState, action) {
         didInvalidate: false,
         list: getNewCache(state, forumList.list, boardId),
       };
-    case FAILURE:
+    case FAILURE_FORUMLIST:
       return {
         ...state,
         isFetching: false,

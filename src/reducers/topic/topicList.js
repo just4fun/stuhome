@@ -4,7 +4,7 @@ import {
   RECEIVE_TOPICLIST,
   RESET_TOPICLIST,
   REMOVE_CACHE,
-  FAILURE
+  FAILURE_TOPICLIST
 } from '../../constants/ActionTypes';
 
 const defaultTopicListState = {
@@ -59,7 +59,7 @@ export default function topicList(state = defaultTopicListState, action) {
         ...defaultTopicListState,
         list: getTopicListWithoutSpecificForum(state, action.forumId)
       };
-    case FAILURE:
+    case FAILURE_TOPICLIST:
       return {
         ...state,
         isRefreshing: false,
