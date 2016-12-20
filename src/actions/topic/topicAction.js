@@ -142,11 +142,11 @@ export function submit(boardId, topicId, replyId, typeId, title, content) {
     }
     dispatch(startAction());
     let body = `act=${action}&json=${JSON.stringify(payload)}`;
-    let options = getFetchOptions(body);
+    let fetchOptions = getFetchOptions(body);
 
     return request({
       url,
-      options,
+      fetchOptions,
       successCallback: data => dispatch(finishAction(data)),
       failureCallback: () => dispatch(failureAction())
     });
@@ -184,11 +184,11 @@ export function publishVote(topicId, voteIds) {
 
     let url = API_ROOT + VOTE_API_PATH;
     let body = `tid=${topicId}&options=${voteIds}`;
-    let options = getFetchOptions(body);
+    let fetchOptions = getFetchOptions(body);
 
     return request({
       url,
-      options,
+      fetchOptions,
       successCallback: data => dispatch(finishVote(data)),
       failureCallback: () => dispatch(failureVote())
     });

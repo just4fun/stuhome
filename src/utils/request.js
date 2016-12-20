@@ -12,7 +12,7 @@ export default function request(url, options) {
   options = options || {};
   requestUrl = url || options.url;
 
-  let { successCallback, failureCallback } = options;
+  let { successCallback, failureCallback, fetchOptions } = options;
 
   return AsyncStorage.getItem('authrization')
     .then(authrization => {
@@ -22,7 +22,7 @@ export default function request(url, options) {
                       `&accessSecret=${secret}`;
       }
 
-      return fetch(requestUrl, options)
+      return fetch(requestUrl, fetchOptions)
         .then(response => response.json())
         .then(json => successCallback(json))
         .catch(error => {
