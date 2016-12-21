@@ -5,6 +5,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
+import Button from 'apsl-react-native-button';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_NotifyItem';
@@ -49,6 +50,13 @@ export default class NotifyItem extends Component {
             <Text style={styles.replyContent}>{reply_content}</Text>
             <View style={styles.quote}>
               <Text style={styles.topicContent}>{topic_content}</Text>
+            </View>
+            <View style={styles.reply}>
+              <Button
+                style={styles.button}
+                textStyle={styles.buttonText}>
+                回复
+              </Button>
             </View>
           </View>
         </TouchableHighlight>

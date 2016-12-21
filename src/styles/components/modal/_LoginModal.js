@@ -30,8 +30,8 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   formSubmit: {
-    borderColor: '#2980b9',
-    backgroundColor: '#3498db',
+    borderColor: colors.buttonBorder,
+    backgroundColor: colors.buttonBackground,
     marginTop: 30,
   },
   formSubmitText: {

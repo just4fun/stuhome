@@ -38,12 +38,26 @@ export default StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: colors.underlay,
-    marginBottom: 5,
+    marginBottom: 20,
     padding: 5,
   },
   topicContent: {
     fontSize: 12,
     lineHeight: 14,
     color: colors.mainField,
-  }
+  },
+  reply: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    width: 50,
+    height: 30,
+    borderColor: colors.buttonBorder,
+    backgroundColor: colors.buttonBackground,
+  },
+  buttonText: {
+    fontSize: 14,
+    color: colors.white,
+  },
 });

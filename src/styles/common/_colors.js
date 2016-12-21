@@ -17,6 +17,10 @@ module.exports = {
 
   link: '#05a5d1',
 
+  buttonBorder: '#2980b9',
+
+  buttonBackground: '#3498db',
+
   /**
   * customized colors
   */
