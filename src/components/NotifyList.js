@@ -55,7 +55,7 @@ export default class NotifyList extends Component {
   }
 
   render() {
-    let { notifyList, notifyType } = this.props;
+    let { notifyList, notifyType, reply } = this.props;
     let { isFetchingAtList, isFetchingReplyList } = notifyList;
     let isRefreshing = this.isAtList ? isFetchingAtList : isFetchingReplyList;
     let realNotifyList = null;
@@ -82,7 +82,8 @@ export default class NotifyList extends Component {
             <NotifyItem
               key={notification.topic_id}
               notification={notification}
-              router={this.props.router} />
+              router={this.props.router}
+              openReplyModal={notification => this.props.openReplyModal(notification)} />
           );
         }}
         onEndReached={() => this._endReached()}

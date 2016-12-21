@@ -162,7 +162,7 @@ class TopicDetail extends Component {
     );
   }
 
-  _publish(content, replyId) {
+  _publish({ content, replyId }) {
     this.props.submit(
       this.boardId,
       this.topicId,
@@ -215,7 +215,8 @@ class TopicDetail extends Component {
           {...this.props}
           visible={false}
           reply={reply}
-          handlePublish={(content, replyId) => this._publish(content, replyId)}
+          isReplyInTopic={true}
+          handlePublish={comment => this._publish(comment)}
           fetchTopic={() => this.fetchTopic()} />
 
         <Header title={this.boardName}>

@@ -26,26 +26,37 @@ export default class ReplyModal extends Component {
     if (reply.response && reply.response.rs) {
       this.handleCancel();
       this.props.resetReply();
-      this.props.fetchTopic();
+
+      if (this.props.isReplyInTopic) {
+        this.props.fetchTopic();
+      }
     }
   }
 
   openReplyModal(content) {
+    let replyId = null;
+    let boardId = null;
+    let topicId = null;
+
+    if (content) {
+      let { reply_posts_id, board_id, topic_id } = content;
+      replyId = reply_posts_id;
+      boardId = board_id,
+      topicId = topic_id;
+    }
+
     this.setState({
       isModalOpen: true,
       title: this._getTitle(content),
-      replyId: content && content.reply_posts_id || null
+      replyId,
+      boardId,
+      topicId
     });
   }
 
   _getTitle(content) {
     if (content) {
-      // the topic author has no `position` field
-      if (!content.position) {
-        return `回复 ${content.user_nick_name}`;
-      }
-
-      return `回复 ${content.reply_name}`;
+      return `回复 ${content.user_nick_name || content.reply_name}`;
     } 
 
     return '评论';
@@ -58,14 +69,21 @@ export default class ReplyModal extends Component {
     });
   }
 
-  _handlePublish(content, replyId) {
+  _handlePublish(comment) {
     this.contentInput.blur();
-    this.props.handlePublish(content, replyId);
+    this.props.handlePublish(comment);
   }
 
   render() {
     let { reply } = this.props;
-    let { isModalOpen, title, replyContent, replyId } = this.state;
+    let {
+      isModalOpen,
+      title,
+      replyContent,
+      replyId,
+      boardId,
+      topicId
+    } = this.state;
 
     return (
       <Modal
@@ -83,7 +101,12 @@ export default class ReplyModal extends Component {
             {(replyContent.length && !reply.isPublishing ) &&
               <Text
                 style={modalStyles.button}
-                onPress={() => this._handlePublish(replyContent, replyId)}>
+                onPress={() => this._handlePublish({
+                  content: replyContent,
+                  replyId,
+                  boardId,
+                  topicId
+                })}>
                 发布
               </Text>
               ||
