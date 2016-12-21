@@ -42,7 +42,7 @@ class Message extends Component {
     return (
       <View style={mainStyles.container}>
         <ReplyModal
-          ref={component => this._replyModal = component}
+          ref={component => this._replyNotificationModal = component}
           visible={false}
           reply={reply}
           resetReply={() => this.props.resetReply()}
@@ -62,7 +62,7 @@ class Message extends Component {
             router={router}
             fetchNotifyList={(notifyType) => this._fetchNotifyList(notifyType)}
             refreshNotifyList={(notifyType, page, isEndReached) => this._refreshNotifyList(notifyType, page, isEndReached)}
-            openReplyModal={notification => this._replyModal.openReplyModal(notification)} />
+            openReplyModal={notification => this._replyNotificationModal.openReplyModal(notification)} />
           <NotifyList
             tabLabel='回复'
             notifyType='post'
@@ -70,7 +70,7 @@ class Message extends Component {
             router={router}
             fetchNotifyList={(notifyType) => this._fetchNotifyList(notifyType)}
             refreshNotifyList={(notifyType, page, isEndReached) => this._refreshNotifyList(notifyType, page, isEndReached)}
-            openReplyModal={notification => this._replyModal.openReplyModal(notification)} />
+            openReplyModal={notification => this._replyNotificationModal.openReplyModal(notification)} />
         </ScrollableTabView>
       </View>
     );
