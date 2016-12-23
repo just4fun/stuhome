@@ -39,7 +39,8 @@ class ForumDetail extends Component {
 
     if (topicList.errCode) {
       AlertIOS.alert('提示', topicList.errCode);
-      nextProps.resetTopicList(this.boardId);
+      // clean error message
+      nextProps.resetTopicList();
       nextProps.router.pop();
     }
   }
@@ -86,14 +87,11 @@ class ForumDetail extends Component {
       router
     } = this.props;
 
-    if (!topicList.list[this.boardId]) {
-      topicList.list[this.boardId] = {
-        typeList: [],
-        topicList: []
-      };
-    }
+    let realTypeList = [];
 
-    let typeList = topicList.list[this.boardId].typeList;
+    if (topicList.list[this.boardId]) {
+      realTypeList = topicList.list[this.boardId].typeList;
+    }
 
     return (
       <View style={mainStyles.container}>
@@ -102,7 +100,7 @@ class ForumDetail extends Component {
           {...this.props}
           visible={false}
           publish={publish}
-          types={typeList}
+          types={realTypeList}
           handlePublish={topic => this._publish(topic)} />
 
         <Header

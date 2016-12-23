@@ -22,13 +22,11 @@ export default class ForumItems extends Component {
 
   render() {
     let { forumList, boardId, isTopForumList } = this.props;
-    let realForumList = null;
+    let realForumList = [];
 
-    if (!forumList.list[boardId]) {
-      realForumList = [];
-    } else {
+    if (forumList.list[boardId]) {
       realForumList = forumList.list[boardId].forumList;
-    }
+    };
 
     let source = ds.cloneWithRows(realForumList);
 

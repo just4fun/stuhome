@@ -74,9 +74,8 @@ export function invalidateTopicList() {
   };
 }
 
-export function resetTopicList(forumId) {
+export function resetTopicList() {
   return {
-    type: RESET_TOPICLIST,
-    forumId
+    type: RESET_TOPICLIST
   };
 }

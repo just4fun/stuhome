@@ -49,15 +49,16 @@ export default function topicList(state = defaultTopicListState, action) {
         isEndReached: false,
         didInvalidate: false,
         boardId,
-        list: getNewCache(state, typeList, topicList.list, boardId, topicList.page),
+        list: getNewCache(state, typeList, topicList.list, boardId, topicList.page, topicList.rs),
         hasMore: !!topicList.has_next,
         page: topicList.page,
         errCode: topicList.errcode
       };
+    // in case there is forum or sub forum we have no access
     case RESET_TOPICLIST:
       return {
-        ...defaultTopicListState,
-        list: getTopicListWithoutSpecificForum(state, action.forumId)
+        ...state,
+        errCode: ''
       };
     case FAILURE_TOPICLIST:
       return {
@@ -86,7 +87,11 @@ function getMappedTypeList(typeList) {
 }
 
 // cache topic list and return
-function getNewCache(oldState, typeList, topicList, boardId, page) {
+function getNewCache(oldState, typeList, topicList, boardId, page, isSuccessful) {
+  // if we have no access to a forum or sub forum, we
+  // should return original forum groups.
+  if (!isSuccessful) { return oldState.list; }
+
   let newTopicList = [];
 
   if (page !== 1) {
@@ -102,10 +107,4 @@ function getNewCache(oldState, typeList, topicList, boardId, page) {
       topicList: newTopicList
     }
   };
-}
-
-function getTopicListWithoutSpecificForum(oldState, forumId) {
-  let newState = { ...oldState };
-  delete newState.list[forumId];
-  return newState.list;
 }

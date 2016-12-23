@@ -49,15 +49,13 @@ export default class TopicList extends Component {
 
   render() {
     let { topicList, boardId, isSearch } = this.props;
-    let realTopicList = null;
+    let realTopicList = [];
     let refreshControl = null;
 
     if (!isSearch) {
-      if (!topicList.list[boardId]) {
-        realTopicList = [];
-      } else {
+      if (topicList.list[boardId]) {
         realTopicList = topicList.list[boardId].topicList;
-      }
+      };
 
       refreshControl = <RefreshControl
                          title='正在加载...'

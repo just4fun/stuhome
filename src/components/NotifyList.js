@@ -58,13 +58,11 @@ export default class NotifyList extends Component {
     let { notifyList, notifyType, reply } = this.props;
     let { isFetchingAtList, isFetchingReplyList } = notifyList;
     let isRefreshing = this.isAtList ? isFetchingAtList : isFetchingReplyList;
-    let realNotifyList = null;
+    let realNotifyList = [];
 
-    if (!notifyList.list[notifyType]) {
-      realNotifyList = [];
-    } else {
+    if (notifyList.list[notifyType]) {
       realNotifyList = notifyList.list[notifyType].notifyList;
-    }
+    };
 
     let refreshControl = <RefreshControl
                        title='正在加载...'
