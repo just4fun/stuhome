@@ -248,9 +248,7 @@ class TopicDetail extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { topicItem, reply, vote, user } = state;
-
+function mapStateToProps({ topicItem, reply, vote, user }) {
   return {
     topicItem,
     reply,

@@ -70,9 +70,7 @@ class ForumList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { forumList } = state;
-
+function mapStateToProps({ forumList }) {
   return {
     forumList
   };

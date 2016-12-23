@@ -77,9 +77,7 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { notifyList, reply } = state;
-
+function mapStateToProps({ notifyList, reply }) {
   return {
     notifyList,
     reply

@@ -43,9 +43,7 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { topicList } = state;
-
+function mapStateToProps({ topicList }) {
   return {
     topicList
   };

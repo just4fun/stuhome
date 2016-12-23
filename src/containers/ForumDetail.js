@@ -137,9 +137,7 @@ class ForumDetail extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { topicList, publish, user } = state;
-
+function mapStateToProps({ topicList, publish, user }) {
   return {
     topicList,
     publish,

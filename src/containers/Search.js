@@ -65,9 +65,7 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { search } = state;
-
+function mapStateToProps({ search }) {
   return {
     search
   };

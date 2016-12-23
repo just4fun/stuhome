@@ -91,9 +91,7 @@ class Menu extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  let { user } = state;
-
+function mapStateToProps({ user }) {
   return {
     user
   };
