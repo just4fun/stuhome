@@ -67,7 +67,7 @@ export default function notifyList(state = defaultNotifyListState, action) {
         isFetchingReplyList: false,
         isEndReached: false,
         didInvalidate: false
-      }
+      };
     case REMOVE_CACHE:
       return defaultNotifyListState;
     default:

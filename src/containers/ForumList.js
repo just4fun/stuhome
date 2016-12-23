@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
-import ForumItem from '../components/ForumItem';
+import ForumItems from '../components/ForumItems';
 import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -31,40 +31,20 @@ class ForumList extends Component {
   }
 
   render() {
-    let { forumList } = this.props;
-    let realForumList = null;
-
-    if (!forumList.list[this.boardId]) {
-      realForumList = [];
-    } else {
-      realForumList = forumList.list[this.boardId].forumList;
-    }
-
-    let source = ds.cloneWithRows(realForumList);
+    let {
+      router,
+      forumList
+    } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        {this.isTopForumList &&
-          <Header title='版块' updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-        }
-        <ListView
-          dataSource={source}
-          enableEmptySections={true}
-          renderRow={forum => {
-            return (
-              <ForumItem
-                key={forum.board_category_id}
-                isTopForumList={this.isTopForumList}
-                forum={forum}
-                router={this.props.router} />
-            );
-          }}
-          refreshControl={
-            <RefreshControl
-              title='正在加载...'
-              onRefresh={() => this._refreshForumList()}
-              refreshing={this.isTopForumList ? forumList.isFetching : forumList.isSubFetching} />
-          } />
+        <Header title='版块' updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        <ForumItems
+          router={router}
+          boardId={this.boardId}
+          forumList={forumList}
+          isTopForumList={this.isTopForumList}
+          refreshForumList={() => this._refreshForumList()} />
       </View>
     );
   }

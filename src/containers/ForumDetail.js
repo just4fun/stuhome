@@ -11,11 +11,12 @@ import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
 import Header from '../components/Header';
 import TopicList from '../components/TopicList';
-import ForumList from './ForumList';
+import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';
 import { PopButton, PublishButton } from '../components/button';
 import { submit, resetPublish } from '../actions/topic/topicAction';
 import { invalidateTopicList, fetchTopicListIfNeeded, resetTopicList } from '../actions/topic/topicListAction';
+import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
 
 class ForumDetail extends Component {
   constructor(props) {
@@ -52,6 +53,15 @@ class ForumDetail extends Component {
     this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
   }
 
+  _fetchForumList() {
+    this.props.fetchForumListIfNeeded(this.boardId);;
+  }
+
+  _refreshForumList() {
+    this.props.invalidateForumList();
+    this.props._fetchForumList();
+  }
+
   _publish(topic) {
     let { typeId, title, content } = topic;
 
@@ -68,10 +78,12 @@ class ForumDetail extends Component {
   render() {
     let {
       topicList,
+      forumList,
       publish,
       user: {
         authrization: { token }
-      }
+      },
+      router
     } = this.props;
 
     if (!topicList.list[this.boardId]) {
@@ -95,7 +107,7 @@ class ForumDetail extends Component {
 
         <Header
           title={this.boardName}>
-          <PopButton router={this.props.router} />
+          <PopButton router={router} />
           {token &&
             <PublishButton
               onPress={() => this._publishModal.openPublishModal()} />
@@ -112,34 +124,43 @@ class ForumDetail extends Component {
             tabBarTextStyle={scrollableTabViewStyles.tabBarText}>
             <TopicList
               tabLabel='最新'
-              router={this.props.router}
+              router={router}
               boardId={this.boardId}
               topicList={topicList}
               refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
-            <ForumList
+            <ForumItems
               tabLabel='子版块'
+              router={router}
               boardId={this.boardId}
-              {...this.props} />
+              forumList={forumList}
+              shouldFetchDataInside={true}
+              fetchForumList={() => this._fetchForumList()}
+              refreshForumList={() => this._refreshForumList()} />
           </ScrollableTabView>
         }
         {this.boardContent && !this.boardChild &&
           <TopicList
-            router={this.props.router}
+            router={router}
             boardId={this.boardId}
             topicList={topicList}
             refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
         }
         {!this.boardContent && this.boardChild &&
-          <ForumList boardId={this.boardId} {...this.props} />
+          <ForumItems
+            router={router}
+            boardId={this.boardId}
+            forumList={forumList}
+            refreshForumList={() => this._refreshForumList()} />
         }
       </View>
     );
   }
 }
 
-function mapStateToProps({ topicList, publish, user }) {
+function mapStateToProps({ topicList, forumList, publish, user }) {
   return {
     topicList,
+    forumList,
     publish,
     user
   };
@@ -150,5 +171,7 @@ export default connect(mapStateToProps, {
   resetPublish,
   invalidateTopicList,
   fetchTopicListIfNeeded,
-  resetTopicList
+  resetTopicList,
+  invalidateForumList,
+  fetchForumListIfNeeded
 })(ForumDetail);
