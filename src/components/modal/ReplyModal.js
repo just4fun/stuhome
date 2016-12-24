@@ -4,7 +4,9 @@ import {
   Text,
   TextInput,
   Modal,
-  TouchableHighlight
+  AlertIOS,
+  TouchableHighlight,
+  ActivityIndicator
 } from 'react-native';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
@@ -23,13 +25,20 @@ export default class ReplyModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     const reply = nextProps.reply;
-    if (reply.response && reply.response.rs) {
-      this.handleCancel();
-      this.props.resetReply();
+    if (reply.response) {
+      if (reply.response.rs) {
+        this.handleCancel();
 
-      if (this.props.isReplyInTopic) {
-        this.props.fetchTopic();
+        // if we reply in `Message` page, there is
+        // no need to fetch topic.
+        if (this.props.isReplyInTopic) {
+          this.props.fetchTopic();
+        }
+      // I really hate the fields which mobcent API return
+      } else if (reply.response.errcode) {
+        AlertIOS.alert('提示', reply.response.errcode);
       }
+      this.props.resetReply();
     }
   }
 
@@ -98,17 +107,21 @@ export default class ReplyModal extends Component {
               onPress={() => this.handleCancel()}>
               取消
             </Text>
-            {(replyContent.length && !reply.isPublishing ) &&
-              <Text
-                style={modalStyles.button}
-                onPress={() => this._handlePublish({
-                  content: replyContent,
-                  replyId,
-                  boardId,
-                  topicId
-                })}>
-                发布
-              </Text>
+            {replyContent.length &&
+              (reply.isPublishing &&
+                <ActivityIndicator color='white' />
+                ||
+                <Text
+                  style={modalStyles.button}
+                  onPress={() => this._handlePublish({
+                    content: replyContent,
+                    replyId,
+                    boardId,
+                    topicId
+                  })}>
+                  发布
+                </Text>
+              )
               ||
               <Text
                 style={[modalStyles.button, modalStyles.disabled]}>
@@ -119,10 +132,11 @@ export default class ReplyModal extends Component {
           <TextInput
             ref={component => this.contentInput = component}
             placeholder='同学，请文明用语噢～'
-            style={styles.replyBox}
+            style={[styles.replyBox, reply.isPublishing && { backgroundColor: '#ddd' }]}
             onChangeText={(text) => this.setState({ replyContent: text })}
             autoFocus={true}
-            multiline={true} />
+            multiline={true}
+            editable={!reply.isPublishing} />
           </View>
       </Modal>
     );

@@ -3,7 +3,10 @@ import colors from '../../common/_colors';
 
 export default StyleSheet.create({
   form: {
-    margin: 10,
+    padding: 10,
+  },
+  disabledForm: {
+    backgroundColor: '#ddd',
   },
   formItem: {
     flexDirection: 'row',

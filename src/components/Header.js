@@ -23,7 +23,14 @@ export default class Header extends Component {
         break;
       case 2:
         leftTopButton = React.cloneElement(buttons[0], { style: [styles.left, buttons[0].props.style] });
-        rightTopButton = React.cloneElement(buttons[1], { style: [styles.right, buttons[1].props.style] });
+
+        const isActivityIndicator = buttons[1].type.displayName === 'ActivityIndicator';
+        rightTopButton = React.cloneElement(buttons[1], {
+          style: [
+            isActivityIndicator ? styles.rightIndicator : styles.right,
+            buttons[1].props.style
+          ]
+        });
         break;
     }
 

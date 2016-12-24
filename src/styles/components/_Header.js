@@ -30,5 +30,12 @@ export default StyleSheet.create({
     paddingRight: 15,
     paddingTop: 2,
     color: colors.white
+  },
+  rightIndicator: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 15,
+    height: 20,
   }
 });

@@ -5,7 +5,9 @@ import {
   TextInput,
   Modal,
   ScrollView,
-  TouchableHighlight
+  AlertIOS,
+  TouchableHighlight,
+  ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
@@ -29,11 +31,15 @@ export default class PublishModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     const publish = nextProps.publish;
-    if (publish.response && publish.response.rs) {
+    if (publish.response) {
+      if (publish.response.rs) {
+        this.handleCancel();
+        this.props.invalidateTopicList();
+        this.props.router.toHome();
+      } else if (publish.response.errcode) {
+        AlertIOS.alert('提示', publish.response.errcode);
+      }
       this.props.resetPublish();
-      this.props.invalidateTopicList();
-      this.props.router.toHome();
-      this.handleCancel();
     }
   }
 
@@ -54,15 +60,14 @@ export default class PublishModal extends Component {
 
   _isFormValid() {
     let { typeId, title, content } = this.state;
-    let { publish, types } = this.props;
+    let { types } = this.props;
 
     let hasNoTopicTypes = types.length === 0;
     let hasTypeId = hasNoTopicTypes && true || (typeId !== null);
 
     return hasTypeId
         && title.length
-        && content.length
-        && !publish.isPublishing;
+        && content.length;
   }
 
   _handlePublish(topic) {
@@ -73,7 +78,7 @@ export default class PublishModal extends Component {
 
   render() {
     let { typeId, title, content } = this.state;
-    let { types } = this.props;
+    let { publish, types } = this.props;
 
     return (
       <Modal
@@ -94,15 +99,19 @@ export default class PublishModal extends Component {
               取消
             </Text>
             {this._isFormValid() &&
-              <Text
-                style={modalStyles.button}
-                onPress={() => this._handlePublish({
-                  typeId,
-                  title,
-                  content
-                })}>
-                发布
-              </Text>
+              (publish.isPublishing &&
+                <ActivityIndicator color='white' />
+                ||
+                <Text
+                  style={modalStyles.button}
+                  onPress={() => this._handlePublish({
+                    typeId,
+                    title,
+                    content
+                  })}>
+                  发布
+                </Text>
+              )
               ||
               <Text
                 style={[modalStyles.button, modalStyles.disabled]}>
@@ -110,11 +119,15 @@ export default class PublishModal extends Component {
               </Text>
             }
           </Header>
-          <ScrollView style={styles.form}>
+          <ScrollView style={[styles.form, publish.isPublishing && styles.disabledForm]}>
             {types.length > 0 &&
               <TouchableHighlight
                 underlayColor={colors.underlay}
-                onPress={() => this._topicTypeModal.openTopicTypeModal()}>
+                onPress={() => {
+                  if (!publish.isPublishing) {
+                    this._topicTypeModal.openTopicTypeModal();
+                  }
+                }}>
                 <View style={styles.formItem}>
                   <Text
                     style={styles.topicType}>
@@ -132,6 +145,7 @@ export default class PublishModal extends Component {
                 ref={component => this.titleInput = component}
                 style={styles.topicTitle}
                 onChangeText={text => this.setState({ title: text })}
+                editable={!publish.isPublishing}
                 placeholder='请输入标题' />
             </View>
             <View style={styles.formItem}>
@@ -140,6 +154,7 @@ export default class PublishModal extends Component {
                 style={styles.topicContent}
                 onChangeText={text => this.setState({ content: text })}
                 multiline={true}
+                editable={!publish.isPublishing}
                 placeholder='请输入正文' />
             </View>
           </ScrollView>
