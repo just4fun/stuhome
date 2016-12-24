@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { MessageBarManager } from 'react-native-message-bar';
+import MessageBar from '../services/MessageBar';
 
 export default function request(url, options) {
   let requestUrl = null;
@@ -27,11 +27,9 @@ export default function request(url, options) {
         .then(json => successCallback(json))
         .catch(error => {
           if (error && error.message === 'Network request failed') {
-            MessageBarManager.showAlert({
-              viewTopOffset: 60,
+            MessageBar.show({
               message: '同学，网络出错啦！',
-              alertType: 'warning',
-              messageStyle: { textAlign: 'center', color: 'white', fontSize: 16 }
+              type: 'warning'
             });
           }
 

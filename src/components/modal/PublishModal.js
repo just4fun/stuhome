@@ -16,6 +16,7 @@ import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
 import Header from '../Header';
 import TopicTypeModal from './TopicTypeModal';
+import MessageBar from '../../services/MessageBar';
 
 export default class PublishModal extends Component {
   constructor(props) {
@@ -36,6 +37,10 @@ export default class PublishModal extends Component {
         this.handleCancel();
         this.props.invalidateTopicList();
         this.props.router.toHome();
+        MessageBar.show({
+          message: '发布成功',
+          type: 'success'
+        });
       } else if (publish.response.errcode) {
         AlertIOS.alert('提示', publish.response.errcode);
       }

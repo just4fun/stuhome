@@ -12,6 +12,7 @@ import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
+import MessageBar from '../../services/MessageBar';
 
 export default class ReplyModal extends Component {
   constructor(props) {
@@ -28,12 +29,15 @@ export default class ReplyModal extends Component {
     if (reply.response) {
       if (reply.response.rs) {
         this.handleCancel();
-
         // if we reply in `Message` page, there is
         // no need to fetch topic.
         if (this.props.isReplyInTopic) {
           this.props.fetchTopic();
         }
+        MessageBar.show({
+          message: '发布成功',
+          type: 'success'
+        });
       // I really hate the fields which mobcent API return
       } else if (reply.response.errcode) {
         AlertIOS.alert('提示', reply.response.errcode);
