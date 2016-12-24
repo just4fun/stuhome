@@ -75,11 +75,29 @@ export default class ReplyModal extends Component {
     return '评论';
   }
 
-  handleCancel() {
+  _cancel() {
     this.setState({
       isModalOpen: false,
       replyContent: ''
     });
+  }
+
+  handleCancel() {
+    if (this.state.replyContent.length) {
+      AlertIOS.alert(
+       '提示',
+       '信息尚未发送，取消会丢失信息。',
+       [
+         { text: '取消', style: 'cancel' },
+         { text: '确定', onPress: () => {
+           this._cancel();
+         }},
+       ],
+      );
+      return;
+    }
+
+    this._cancel();
   }
 
   _handlePublish(comment) {
