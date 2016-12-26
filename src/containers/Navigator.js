@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import AppState from 'AppState';
 import { View, Navigator } from 'react-native';
+import CodePush from 'react-native-code-push';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import SideMenu from 'react-native-side-menu';
 import Router from '../router';
@@ -16,11 +18,24 @@ export default class RNavigator extends Component {
   }
 
   componentDidMount() {
+    // hot push
+    AppState.addEventListener('change', this.handleAppStateChange);
+
     MessageBarManager.registerMessageBar(this.refs.alert);
+
+    CodePush.sync({ installMode: CodePush.InstallMode.ON_NEXT_RESUME });
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+
     MessageBarManager.unregisterMessageBar();
+  }
+
+  handleAppStateChange(appState) {
+    if (appState === 'active') {
+      CodePush.sync({ installMode: CodePush.InstallMode.ON_NEXT_RESUME });
+    }
   }
 
   configureScene(route) {
