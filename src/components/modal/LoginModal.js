@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Image,
   TextInput,
   AlertIOS,
   AsyncStorage,
@@ -11,6 +12,8 @@ import {
 import Button from 'apsl-react-native-button';
 import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
+import Header from '../Header';
+import { PopButton } from '../button';
 
 export default class Login extends Component {
   constructor(props) {
@@ -66,7 +69,9 @@ export default class Login extends Component {
   }
 
   render() {
-    let { isFetching } = this.props.user;
+    let logo = require('../../images/logo.png');
+    let { user, router } = this.props;
+    let { isFetching } = user;
     let { userName, password } = this.state;
     let isDisabled = !userName || !password || isFetching;
 
@@ -75,14 +80,15 @@ export default class Login extends Component {
         animationType='slide'
         transparent={false}
         visible={this.state.isModalOpen}>
+        <Header title='登陆'>
+          <PopButton router={router}
+                     action={() => this._closeLoginModal()} />
+        </Header>
         <View style={mainStyles.container}>
-          <Text
-            style={styles.close}
-            onPress={() => this._closeLoginModal()}>
-            &times;
-          </Text>
           <View style={styles.top}>
-            <Text style={styles.title}>清水河畔</Text>
+            <Image
+              style={styles.avatar}
+              source={logo} />
           </View>
           <View style={styles.form}>
             <TextInput

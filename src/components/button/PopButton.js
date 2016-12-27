@@ -4,12 +4,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class PopButton extends Component {
   render() {
+    let { action, style, router } = this.props;
+
     return (
       <Icon
-        style={this.props.style}
+        style={style}
         name='angle-left'
         size={18}
-        onPress={() => this.props.router.pop()} />
+        onPress={() => action ? action() : router.pop()} />
     );
   }
 }

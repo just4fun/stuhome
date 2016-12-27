@@ -2,18 +2,13 @@ import { StyleSheet } from 'react-native';
 import colors from '../../common/_colors';
 
 export default StyleSheet.create({
-  close: {
-    marginTop: 20,
-    marginLeft: 20,
-    fontSize: 40,
-  },
   top: {
     alignItems: 'center',
     marginTop: 20,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: 'bold',
+  avatar: {
+    height: 150,
+    width: 150,
   },
   form: {
     padding: 20,
