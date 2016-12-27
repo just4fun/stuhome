@@ -28,7 +28,7 @@ export default class ReplyModal extends Component {
     const reply = nextProps.reply;
     if (reply.response) {
       if (reply.response.rs) {
-        this.handleCancel();
+        this._cancel();
         // if we reply in `Message` page, there is
         // no need to fetch topic.
         if (this.props.isReplyInTopic) {
