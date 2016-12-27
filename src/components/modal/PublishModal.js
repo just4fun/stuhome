@@ -34,7 +34,7 @@ export default class PublishModal extends Component {
     const publish = nextProps.publish;
     if (publish.response) {
       if (publish.response.rs) {
-        this.handleCancel();
+        this._cancel();
         this.props.invalidateTopicList();
         this.props.router.toHome();
         MessageBar.show({
