@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native';
-import Dimensions from 'Dimensions';
-
-const window = Dimensions.get('window');
+import colors from '../../common/_colors';
 
 export default StyleSheet.create({
   replyBox: {
     padding: 10,
-    // window.height - header.height
-    height: window.height - 60,
+    height: 200,
     fontSize: 16,
   },
+  formItem: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.underlay,
+  }
 });

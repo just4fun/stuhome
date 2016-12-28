@@ -29,7 +29,7 @@ export default StyleSheet.create({
   },
   topicContent: {
     flex: 1,
-    height: 200,
+    height: 140,
     fontSize: 14,
   }
 });

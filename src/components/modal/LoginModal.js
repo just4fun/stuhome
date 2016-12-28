@@ -9,8 +9,8 @@ import {
   Navigator,
   Modal
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'apsl-react-native-button';
-import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
 import Header from '../Header';
 import { PopButton } from '../button';
@@ -80,39 +80,41 @@ export default class Login extends Component {
         animationType='slide'
         transparent={false}
         visible={this.state.isModalOpen}>
-        <Header title='登陆'>
+        <Header title='登录'>
           <PopButton router={router}
                      action={() => this._closeLoginModal()} />
         </Header>
-        <View style={mainStyles.container}>
-          <View style={styles.top}>
-            <Image
-              style={styles.avatar}
-              source={logo} />
+        <KeyboardAwareScrollView>
+          <View>
+            <View style={styles.top}>
+              <Image
+                style={styles.avatar}
+                source={logo} />
+            </View>
+            <View style={styles.form}>
+              <TextInput
+                ref={component => this.userNameInput = component}
+                style={[styles.formItem, styles.formInput]}
+                onChangeText={text => this.setState({ userName: text })}
+                placeholder='请输入用户名'
+                autoFocus={true} />
+              <TextInput
+                ref={component => this.passwordInput = component}
+                style={[styles.formItem, styles.formInput]}
+                onChangeText={text => this.setState({ password: text })}
+                placeholder='请输入密码'
+                secureTextEntry={true} />
+              <Button
+                style={[styles.formItem, styles.formSubmit]}
+                textStyle={styles.formSubmitText}
+                isDisabled={isDisabled}
+                isLoading={isFetching}
+                onPress={() => this._handleSubmit(userName, password)}>
+                登录
+              </Button>
+            </View>
           </View>
-          <View style={styles.form}>
-            <TextInput
-              ref={component => this.userNameInput = component}
-              style={[styles.formItem, styles.formInput]}
-              onChangeText={text => this.setState({ userName: text })}
-              placeholder='请输入用户名'
-              autoFocus={true} />
-            <TextInput
-              ref={component => this.passwordInput = component}
-              style={[styles.formItem, styles.formInput]}
-              onChangeText={text => this.setState({ password: text })}
-              placeholder='请输入密码'
-              secureTextEntry={true} />
-            <Button
-              style={[styles.formItem, styles.formSubmit]}
-              textStyle={styles.formSubmitText}
-              isDisabled={isDisabled}
-              isLoading={isFetching}
-              onPress={() => this._handleSubmit(userName, password)}>
-              登录
-            </Button>
-          </View>
-        </View>
+        </KeyboardAwareScrollView>
       </Modal>
     );
   }

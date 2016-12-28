@@ -149,15 +149,17 @@ export default class ReplyModal extends Component {
               </Text>
             }
           </Header>
-          <TextInput
-            ref={component => this.contentInput = component}
-            placeholder='同学，请文明用语噢～'
-            style={[styles.replyBox, reply.isPublishing && { backgroundColor: '#ddd' }]}
-            onChangeText={(text) => this.setState({ replyContent: text })}
-            autoFocus={true}
-            multiline={true}
-            editable={!reply.isPublishing} />
+          <View style={styles.formItem}>
+            <TextInput
+              ref={component => this.contentInput = component}
+              placeholder='同学，请文明用语噢～'
+              style={[styles.replyBox, reply.isPublishing && { backgroundColor: '#ddd' }]}
+              onChangeText={(text) => this.setState({ replyContent: text })}
+              autoFocus={true}
+              multiline={true}
+              editable={!reply.isPublishing} />
           </View>
+        </View>
       </Modal>
     );
   }
