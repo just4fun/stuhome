@@ -13,6 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Button from 'apsl-react-native-button';
 import styles from '../../styles/components/modal/_LoginModal';
 import Header from '../Header';
+import RegisterModal from './RegisterModal';
 import { PopButton } from '../button';
 
 export default class Login extends Component {
@@ -70,8 +71,7 @@ export default class Login extends Component {
 
   render() {
     let logo = require('../../images/logo.png');
-    let { user, router } = this.props;
-    let { isFetching } = user;
+    let { isFetching } = this.props.user;
     let { userName, password } = this.state;
     let isDisabled = !userName || !password || isFetching;
 
@@ -80,9 +80,15 @@ export default class Login extends Component {
         animationType='slide'
         transparent={false}
         visible={this.state.isModalOpen}>
+        <RegisterModal
+          ref={component => this._registerModal = component}
+          visible={false} />
         <Header title='登录'>
-          <PopButton router={router}
-                     action={() => this._closeLoginModal()} />
+          <PopButton action={() => this._closeLoginModal()} />
+          <Text style={styles.register}
+                onPress={() => this._registerModal.openRegisterModal()}>
+            注册
+          </Text>
         </Header>
         <KeyboardAwareScrollView>
           <View>

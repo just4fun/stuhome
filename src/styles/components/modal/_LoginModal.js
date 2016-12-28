@@ -31,5 +31,8 @@ export default StyleSheet.create({
   },
   formSubmitText: {
     color: colors.white,
+  },
+  register: {
+    fontSize: 16,
   }
 });
