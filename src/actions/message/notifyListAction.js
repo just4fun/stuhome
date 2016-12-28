@@ -1,4 +1,4 @@
-import { API_ROOT } from '../../config';
+import { HOST, API_PREFIX } from '../../config';
 import request from '../../utils/request';
 import {
   INVALIDATE_NOTIFYLIST,
@@ -46,7 +46,8 @@ function fetchNotifyList(notifyType, isEndReached = false, page = 1, pageSize = 
       dispatch(requestNotifyReplyList(isEndReached));
     }
 
-    let url = API_ROOT +
+    let url = HOST +
+              API_PREFIX +
               API_PATH +
               `&type=${notifyType}` +
               `&page=${page}` +

@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { API_ROOT } from '../config';
+import { HOST, API_PREFIX } from '../config';
 import request from '../utils/request';
 import {
   REQUEST_LOGIN,
@@ -56,7 +56,7 @@ export function userLogin(userName, password) {
     dispatch(requestLogin());
 
     return request({
-      url: `${API_ROOT}${API_PATH}&username=${userName}&password=${password}`,
+      url: `${HOST}${API_PREFIX}${API_PATH}&username=${userName}&password=${password}`,
       successCallback: data => dispatch(receiveLogin(data)),
       failureCallback: () => dispatch(failureLogin())
     });

@@ -1,4 +1,4 @@
-import { API_ROOT } from '../../config';
+import { HOST, API_PREFIX } from '../../config';
 import request from '../../utils/request';
 import {
   INVALIDATE_TOPICLIST,
@@ -35,7 +35,8 @@ function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 
   return dispatch => {
     dispatch(requestTopicList(isEndReached));
 
-    let url = API_ROOT +
+    let url = HOST +
+              API_PREFIX +
               TOPICLIST_API_PATH +
               `&boardId=${boardId}` +
               `&sortby=${sortType}` +

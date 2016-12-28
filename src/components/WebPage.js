@@ -19,7 +19,7 @@ export default class WebPage extends Component {
 
     return (
       <View style={mainStyles.container}>
-        <Header title={title || '浏览器'}>
+        <Header title={title || passProps.title || '浏览器'}>
           <PopButton router={router} action={action} />
         </Header>
         <WebView

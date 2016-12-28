@@ -40,8 +40,17 @@ const menus = {
     id: 'message',
     title: '消息',
     icon: 'at',
+    iconSize: '22',
     actionName: 'toMessage'
-  }
+  },
+
+  about: {
+    id: 'about',
+    title: '关于',
+    icon: 'user',
+    iconSize: '23',
+    actionName: 'toAbout'
+  },
 };
 
 class Menu extends Component {
@@ -86,6 +95,9 @@ class Menu extends Component {
               {...this.props} />
           </View>
         }
+        <MenuItem
+          menu={menus['about']}
+          {...this.props} />
       </View>
     );
   }

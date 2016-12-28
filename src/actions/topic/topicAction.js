@@ -1,4 +1,4 @@
-import { API_ROOT, PLAT_TYPE } from '../../config';
+import { HOST, API_PREFIX, PLAT_TYPE } from '../../config';
 import { getAppHashValue } from '../../utils/app';
 import request from '../../utils/request';
 import {
@@ -56,7 +56,8 @@ export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 2
   return dispatch => {
     dispatch(requestTopic(isEndReached));
 
-    let url = API_ROOT +
+    let url = HOST +
+              API_PREFIX +
               TOPIC_FETCH_API_PATH +
               `&topicId=${topicId}` +
               `&page=${page}` +
@@ -123,7 +124,8 @@ export function submit(boardId, topicId, replyId, typeId, title, content) {
     let finishAction = null;
     let failureAction = null;
 
-    let url = API_ROOT +
+    let url = HOST +
+              API_PREFIX +
               TOPIC_POST_API_PATH +
               `&apphash=${getAppHashValue()}` +
               `&platType=${PLAT_TYPE}`;
@@ -182,7 +184,7 @@ export function publishVote(topicId, voteIds) {
   return dispatch => {
     dispatch(startVote());
 
-    let url = API_ROOT + VOTE_API_PATH;
+    let url = HOST + API_PREFIX + VOTE_API_PATH;
     let body = `tid=${topicId}&options=${voteIds}`;
     let fetchOptions = getFetchOptions(body);
 

@@ -1,4 +1,4 @@
-import { API_ROOT } from '../config';
+import { HOST, API_PREFIX } from '../config';
 import request from '../utils/request';
 import {
   INVALIDATE_FORUMLIST,
@@ -41,7 +41,7 @@ function fetchForumList(boardId) {
     let shouldFetchTopForumList = boardId === 'all';
     dispatch(shouldFetchTopForumList ? requestForumList() : requestSubForumList());
 
-    let url = API_ROOT + API_PATH;
+    let url = HOST + API_PREFIX + API_PATH;
     if (boardId && boardId !== 'all') {
       url += `&fid=${boardId}`;
     }

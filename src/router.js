@@ -6,6 +6,7 @@ import ForumDetail from './containers/ForumDetail';
 import Search from './containers/Search';
 import Browser from './containers/Browser';
 import Message from './containers/Message';
+import About from './containers/About';
 
 let _navigator = null;
 
@@ -95,11 +96,11 @@ export default class Router {
     });
   }
 
-  toBrowser(url) {
+  toBrowser(url, title) {
     this._navigateTo({
       id: 'WebView',
       component: Browser,
-      passProps: { url }
+      passProps: { url, title }
     });
   }
 
@@ -108,6 +109,14 @@ export default class Router {
       id: 'message',
       title: '消息',
       component: Message
+    });
+  }
+
+  toAbout() {
+    this._navigateTo({
+      id: 'about',
+      title: '关于',
+      component: About
     });
   }
 }

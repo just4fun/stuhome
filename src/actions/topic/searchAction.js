@@ -1,4 +1,4 @@
-import { API_ROOT } from '../../config';
+import { HOST, API_PREFIX } from '../../config';
 import request from '../../utils/request';
 import {
   INVALIDATE_SEARCH,
@@ -34,12 +34,13 @@ export function fetchSearch(keyword, isEndReached = false, sortType = 'all', pag
   return dispatch => {
     dispatch(requestSearch(isEndReached));
 
-    let url = API_ROOT +
-                     SEARCH_API_PATH +
-                     `&keyword=${keyword}` +
-                     `&sortby=${sortType}` +
-                     `&page=${page}` +
-                     `&pageSize=${pageSize}`;
+    let url = HOST +
+              API_PREFIX +
+              SEARCH_API_PATH +
+              `&keyword=${keyword}` +
+              `&sortby=${sortType}` +
+              `&page=${page}` +
+              `&pageSize=${pageSize}`;
 
     return request({
       url,
