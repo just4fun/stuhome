@@ -37,7 +37,10 @@ export default class SearchInput extends Component {
           style={styles.input}
           onChangeText={keyword => handleChange(keyword)}
           placeholder='请输入关键字'
-          autoFocus={true} />
+          autoFocus={true}
+          enablesReturnKeyAutomatically={true}
+          returnKeyType='go'
+          onSubmitEditing={() => this.props.handleSearch()} />
         <Button
           style={styles.submit}
           isDisabled={isDisabled}

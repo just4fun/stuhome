@@ -168,6 +168,9 @@ export default class PublishModal extends Component {
                 style={styles.topicTitle}
                 onChangeText={text => this.setState({ title: text })}
                 editable={!publish.isPublishing}
+                returnKeyType='next'
+                onSubmitEditing={() => this.contentInput.focus()}
+                enablesReturnKeyAutomatically={true}
                 placeholder='请输入标题' />
             </View>
             <View style={styles.formItem}>

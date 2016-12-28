@@ -64,6 +64,16 @@ export default class Login extends Component {
   }
 
   _handleSubmit(userName, password) {
+    if (!userName.length) {
+      AlertIOS.alert('提示', '请输入用户名');
+      return;
+    }
+
+    if (!password.length) {
+      AlertIOS.alert('提示', '请输入密码');
+      return;
+    }
+
     this.userNameInput.blur();
     this.passwordInput.blur();
     this.props.userLogin(userName, password);
@@ -103,12 +113,18 @@ export default class Login extends Component {
                 style={[styles.formItem, styles.formInput]}
                 onChangeText={text => this.setState({ userName: text })}
                 placeholder='请输入用户名'
+                returnKeyType='next'
+                onSubmitEditing={() => this.passwordInput.focus()}
+                enablesReturnKeyAutomatically={true}
                 autoFocus={true} />
               <TextInput
                 ref={component => this.passwordInput = component}
                 style={[styles.formItem, styles.formInput]}
                 onChangeText={text => this.setState({ password: text })}
                 placeholder='请输入密码'
+                returnKeyType='go'
+                onSubmitEditing={() => this._handleSubmit(userName, password)}
+                enablesReturnKeyAutomatically={true}
                 secureTextEntry={true} />
               <Button
                 style={[styles.formItem, styles.formSubmit]}
