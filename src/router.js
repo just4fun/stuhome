@@ -71,7 +71,7 @@ export default class Router {
       id: 'search',
       title: '搜索',
       component: Search
-    });
+    }, true);
   }
 
   toTopic(topic) {
@@ -109,7 +109,7 @@ export default class Router {
       id: 'message',
       title: '消息',
       component: Message
-    });
+    }, true);
   }
 
   toAbout() {
@@ -117,6 +117,6 @@ export default class Router {
       id: 'about',
       title: '关于',
       component: About
-    });
+    }, true);
   }
 }
