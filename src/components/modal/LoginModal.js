@@ -21,9 +21,9 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      isModalOpen: !!this.props.visible,
       userName: '',
-      password: ''
+      password: '',
+      isRegisterModalOpen: false
     };
   }
 
@@ -49,18 +49,8 @@ export default class Login extends Component {
     }
   }
 
-  _openLoginModal() {
-    this.setState({
-      isModalOpen: true
-    });
-  }
-
   _closeLoginModal() {
-    this.setState({
-      isModalOpen: false,
-      userName: '',
-      password: ''
-    });
+    this.props.closeLoginModal();
   }
 
   _handleSubmit(userName, password) {
@@ -79,24 +69,32 @@ export default class Login extends Component {
     this.props.userLogin(userName, password);
   }
 
+  toggleRegisterModal(visible) {
+    this.setState({
+      isRegisterModalOpen: visible
+    });
+  }
+
   render() {
     let logo = require('../../images/logo.png');
     let { isFetching } = this.props.user;
-    let { userName, password } = this.state;
+    let { userName, password, isRegisterModalOpen } = this.state;
     let isDisabled = !userName || !password || isFetching;
 
     return (
       <Modal
         animationType='slide'
         transparent={false}
-        visible={this.state.isModalOpen}>
-        <RegisterModal
-          ref={component => this._registerModal = component}
-          visible={false} />
+        visible={this.props.visible}>
+        {isRegisterModalOpen &&
+          <RegisterModal
+            visible={isRegisterModalOpen}
+            closeRegisterModal={() => this.toggleRegisterModal(false)} />
+        }
         <Header title='登录'>
           <PopButton action={() => this._closeLoginModal()} />
           <Text style={styles.register}
-                onPress={() => this._registerModal.openRegisterModal()}>
+                onPress={() => this.toggleRegisterModal(true)}>
             注册
           </Text>
         </Header>

@@ -12,6 +12,15 @@ import { invalidateNotifyList, fetchNotifyListIfNeeded } from '../actions/messag
 import { submit, resetReply } from '../actions/topic/topicAction';
 
 class Message extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isReplyModalOpen: false,
+      currentNotification: null
+    };
+  }
+
   _fetchNotifyList(notifyType) {
     this.props.fetchNotifyListIfNeeded(notifyType);
   }
@@ -32,21 +41,32 @@ class Message extends Component {
     );
   }
 
+  toggleReplyModal(visible, notification) {
+    this.setState({
+      isReplyModalOpen: visible,
+      currentNotification: notification
+    });
+  }
+
   render() {
     let {
       notifyList,
       reply,
       router
     } = this.props;
+    let { isReplyModalOpen, currentNotification } = this.state;
 
     return (
       <View style={mainStyles.container}>
-        <ReplyModal
-          ref={component => this._replyNotificationModal = component}
-          visible={false}
-          reply={reply}
-          resetReply={() => this.props.resetReply()}
-          handlePublish={comment => this._publish(comment)} />
+        {isReplyModalOpen &&
+          <ReplyModal
+            visible={isReplyModalOpen}
+            content={currentNotification}
+            reply={reply}
+            resetReply={() => this.props.resetReply()}
+            closeReplyModal={() => this.toggleReplyModal(false)}
+            handlePublish={comment => this._publish(comment)} />
+        }
         <Header title='消息'
                 updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
@@ -62,7 +82,7 @@ class Message extends Component {
             router={router}
             fetchNotifyList={(notifyType) => this._fetchNotifyList(notifyType)}
             refreshNotifyList={(notifyType, page, isEndReached) => this._refreshNotifyList(notifyType, page, isEndReached)}
-            openReplyModal={notification => this._replyNotificationModal.openReplyModal(notification)} />
+            openReplyModal={notification => this.toggleReplyModal(true, notification)} />
           <NotifyList
             tabLabel='回复'
             notifyType='post'
@@ -70,7 +90,7 @@ class Message extends Component {
             router={router}
             fetchNotifyList={(notifyType) => this._fetchNotifyList(notifyType)}
             refreshNotifyList={(notifyType, page, isEndReached) => this._refreshNotifyList(notifyType, page, isEndReached)}
-            openReplyModal={notification => this._replyNotificationModal.openReplyModal(notification)} />
+            openReplyModal={notification => this.toggleReplyModal(true, notification)} />
         </ScrollableTabView>
       </View>
     );

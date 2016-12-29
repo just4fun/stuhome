@@ -54,6 +54,14 @@ const menus = {
 };
 
 class Menu extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoginModalOpen: false
+    };
+  }
+
   componentDidMount() {
     this.props.getUserFromStorage();
   }
@@ -62,20 +70,29 @@ class Menu extends Component {
     this.props.cleanCache();
   }
 
+  toggleLoginModal(visible) {
+    this.setState({
+      isLoginModalOpen: visible
+    });
+  }
+
   render() {
     let { user } = this.props;
+    let { isLoginModalOpen } = this.state;
 
     return (
       <View style={styles.container}>
-        <LoginModal
-          ref={component => this._loginModal = component}
-          visible={false}
-          menus={menus}
-          cleanCache={() => this.cleanCache()}
-          {...this.props} />
+        {isLoginModalOpen &&
+          <LoginModal
+            visible={isLoginModalOpen}
+            menus={menus}
+            cleanCache={() => this.cleanCache()}
+            closeLoginModal={() => this.toggleLoginModal(false)}
+            {...this.props} />
+        }
         <MenuProfile
           authrization={user.authrization}
-          loginModal={this._loginModal}
+          openLoginModal={() => this.toggleLoginModal(true)}
           menus={menus}
           cleanCache={() => this.cleanCache()}
           {...this.props} />

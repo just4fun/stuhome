@@ -17,10 +17,29 @@ import MessageBar from '../../services/MessageBar';
 export default class ReplyModal extends Component {
   constructor(props) {
     super(props);
+
+    this.initState();
+  }
+
+  initState() {
+    let { content } = this.props;
+    let replyId = null;
+    let boardId = null;
+    let topicId = null;
+
+    if (content) {
+      let { reply_posts_id, board_id, topic_id } = content;
+      replyId = reply_posts_id;
+      boardId = board_id,
+      topicId = topic_id;
+    }
+
     this.state = {
-      isModalOpen: !!this.props.visible,
+      title: this._getTitle(content),
       replyContent: '',
-      title: ''
+      replyId,
+      boardId,
+      topicId
     };
   }
 
@@ -46,27 +65,6 @@ export default class ReplyModal extends Component {
     }
   }
 
-  openReplyModal(content) {
-    let replyId = null;
-    let boardId = null;
-    let topicId = null;
-
-    if (content) {
-      let { reply_posts_id, board_id, topic_id } = content;
-      replyId = reply_posts_id;
-      boardId = board_id,
-      topicId = topic_id;
-    }
-
-    this.setState({
-      isModalOpen: true,
-      title: this._getTitle(content),
-      replyId,
-      boardId,
-      topicId
-    });
-  }
-
   _getTitle(content) {
     if (content) {
       return `回复 ${content.user_nick_name || content.reply_name}`;
@@ -76,10 +74,7 @@ export default class ReplyModal extends Component {
   }
 
   _cancel() {
-    this.setState({
-      isModalOpen: false,
-      replyContent: ''
-    });
+    this.props.closeReplyModal();
   }
 
   handleCancel() {
@@ -106,7 +101,6 @@ export default class ReplyModal extends Component {
   render() {
     let { reply } = this.props;
     let {
-      isModalOpen,
       title,
       replyContent,
       replyId,
@@ -119,7 +113,7 @@ export default class ReplyModal extends Component {
         animationType='slide'
         transparent={false}
         style={modalStyles.container}
-        visible={isModalOpen}>
+        visible={this.props.visible}>
         <View style={mainStyles.container}>
           <Header title={title}>
             <Text

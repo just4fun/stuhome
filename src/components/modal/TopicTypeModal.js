@@ -12,32 +12,26 @@ import Header from '../Header';
 export default class TopicTypeModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isModalOpen: !!this.props.visible,
-      typeId: null
-    };
+
+    this.initTypeId();
   }
 
-  openTopicTypeModal() {
-    this.setState({
-      isModalOpen: true
-    });
+  initTypeId() {
+    let { types, selectedTypeId } = this.props;
+    let typeId = selectedTypeId;
 
-    // set first type as default
-    if (!this.state.typeId && this.props.types.length) {
-      this.setState({ typeId: this.props.types[0].typeId });
+    if (!typeId && (types && types.length)) {
+      typeId = types[0].typeId;
     }
-  }
 
-  handleCancel() {
-    this.setState({
-      isModalOpen: false
-    });
+    this.state = {
+      typeId
+    };
   }
 
   _setTopicType() {
     this.props.setTopicType(this.state.typeId);
-    this.handleCancel();
+    this.props.closeTopicTypeModal();
   }
 
   render() {
@@ -47,7 +41,7 @@ export default class TopicTypeModal extends Component {
       <Modal
         animationType='none'
         transparent={true}
-        visible={this.state.isModalOpen}>
+        visible={this.props.visible}>
         <View
           style={[modalStyles.container, styles.backdrop]}>
           <View

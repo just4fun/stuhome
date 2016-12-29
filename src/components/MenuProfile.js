@@ -40,7 +40,7 @@ export default class MenuProfile extends Component {
   }
 
   render() {
-    let { authrization, loginModal } = this.props;
+    let { authrization, openLoginModal } = this.props;
     let {
       token,
       avatar,
@@ -50,7 +50,7 @@ export default class MenuProfile extends Component {
     } = authrization;
 
     let source = require('../images/noavatar.jpg');
-    let action = () => loginModal._openLoginModal();
+    let action = () => openLoginModal();
 
     if (token) {
       source = { uri: avatar };

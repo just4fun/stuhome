@@ -32,6 +32,10 @@ class ForumDetail extends Component {
     this.boardName = board_name;
     this.boardContent = !!board_content;
     this.boardChild = !!board_child;
+
+    this.state = {
+      isPublishModalOpen: false
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,6 +80,12 @@ class ForumDetail extends Component {
     );
   }
 
+  togglePublishModal(visible) {
+    this.setState({
+      isPublishModalOpen: visible
+    });
+  }
+
   render() {
     let {
       topicList,
@@ -86,7 +96,7 @@ class ForumDetail extends Component {
       },
       router
     } = this.props;
-
+    let { isPublishModalOpen } = this.state;
     let realTypeList = [];
 
     if (topicList.list[this.boardId]) {
@@ -95,20 +105,22 @@ class ForumDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
-        <PublishModal
-          ref={component => this._publishModal = component}
-          {...this.props}
-          visible={false}
-          publish={publish}
-          types={realTypeList}
-          handlePublish={topic => this._publish(topic)} />
+        {isPublishModalOpen &&
+          <PublishModal
+            {...this.props}
+            visible={isPublishModalOpen}
+            publish={publish}
+            types={realTypeList}
+            closePublishModal={() => this.togglePublishModal(false)}
+            handlePublish={topic => this._publish(topic)} />
+        }
 
         <Header
           title={this.boardName}>
           <PopButton router={router} />
           {token &&
             <PublishButton
-              onPress={() => this._publishModal.openPublishModal()} />
+              onPress={() => this.togglePublishModal(true)} />
             ||
             <Text></Text>
           }

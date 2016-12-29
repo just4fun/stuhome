@@ -38,6 +38,11 @@ class TopicDetail extends Component {
     this.topicId = props.passProps.topic_id;
     this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
+
+    this.state = {
+      isReplyModalOpen: false,
+      currentContent: null
+    };
   }
 
   componentDidMount() {
@@ -133,7 +138,7 @@ class TopicDetail extends Component {
             {token &&
               <CommentButton
                 style={styles.reply}
-                onPress={() => this._openReplyModal(topic)} />
+                onPress={() => this.toggleReplyModal(true, topic)} />
             }
           </View>
         </View>
@@ -184,12 +189,16 @@ class TopicDetail extends Component {
     this.props.resetVote();
   }
 
-  _openReplyModal(content) {
-    this._replyModal.openReplyModal(content);
+  toggleReplyModal(visible, content) {
+    this.setState({
+      isReplyModalOpen: visible,
+      currentContent: content
+    });
   }
 
   render() {
     let { topicItem, reply, vote, user } = this.props;
+    let { isReplyModalOpen, currentContent } = this.state;
 
     if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
       return (
@@ -210,19 +219,22 @@ class TopicDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
-        <ReplyModal
-          ref={component => this._replyModal = component}
-          {...this.props}
-          visible={false}
-          reply={reply}
-          isReplyInTopic={true}
-          handlePublish={comment => this._publish(comment)}
-          fetchTopic={() => this.fetchTopic()} />
+        {isReplyModalOpen &&
+          <ReplyModal
+            {...this.props}
+            visible={isReplyModalOpen}
+            content={currentContent}
+            reply={reply}
+            isReplyInTopic={true}
+            handlePublish={comment => this._publish(comment)}
+            closeReplyModal={() => this.toggleReplyModal(false)}
+            fetchTopic={() => this.fetchTopic()} />
+        }
 
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
           {token &&
-            <ReplyButton onPress={() => this._openReplyModal()} />
+            <ReplyButton onPress={() => this.toggleReplyModal(true)} />
             ||
             <Text></Text>
           }
@@ -237,7 +249,7 @@ class TopicDetail extends Component {
               comment={comment}
               token={token}
               router={this.props.router}
-              openReplyModal={() => this._openReplyModal(comment)} />
+              openReplyModal={() => this.toggleReplyModal(true, comment)} />
           }
           onEndReached={() => this._endReached()}
           onEndReachedThreshold={0}

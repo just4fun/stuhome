@@ -21,11 +21,12 @@ import MessageBar from '../../services/MessageBar';
 export default class PublishModal extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      isModalOpen: !!this.props.visible,
       typeId: null,
       title: '',
-      content: ''
+      content: '',
+      isTopicTypeModalOpen: false
     };
     this.title = this.props.title || '发表新主题';
   }
@@ -48,19 +49,8 @@ export default class PublishModal extends Component {
     }
   }
 
-  openPublishModal() {
-    this.setState({
-      isModalOpen: true
-    });
-  }
-
   _cancel() {
-    this.setState({
-      isModalOpen: false,
-      typeId: null,
-      title: '',
-      content: ''
-    });
+    this.props.closePublishModal();
   }
 
   handleCancel() {
@@ -98,8 +88,14 @@ export default class PublishModal extends Component {
     this.props.handlePublish(topic);
   }
 
+  toggleTopicTypeModal(visible) {
+    this.setState({
+      isTopicTypeModalOpen: visible
+    });
+  }
+
   render() {
-    let { typeId, title, content } = this.state;
+    let { typeId, title, content, isTopicTypeModalOpen } = this.state;
     let { publish, types } = this.props;
 
     return (
@@ -107,13 +103,16 @@ export default class PublishModal extends Component {
         animationType='slide'
         transparent={false}
         style={modalStyles.container}
-        visible={this.state.isModalOpen}>
+        visible={this.props.visible}>
         <View style={mainStyles.container}>
-          <TopicTypeModal
-            types={types}
-            ref={component => this._topicTypeModal = component}
-            visible={false}
-            setTopicType={typeId => this.setState({ typeId })} />
+          {isTopicTypeModalOpen &&
+            <TopicTypeModal
+              types={types}
+              selectedTypeId={typeId}
+              visible={isTopicTypeModalOpen}
+              closeTopicTypeModal={() => this.toggleTopicTypeModal(false)}
+              setTopicType={typeId => this.setState({ typeId })} />
+          }
           <Header title={this.title}>
             <Text
               style={modalStyles.button}
@@ -147,7 +146,7 @@ export default class PublishModal extends Component {
                 underlayColor={colors.underlay}
                 onPress={() => {
                   if (!publish.isPublishing) {
-                    this._topicTypeModal.openTopicTypeModal();
+                    this.toggleTopicTypeModal(true);
                   }
                 }}>
                 <View style={styles.formItem}>
