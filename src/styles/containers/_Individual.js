@@ -12,22 +12,12 @@ export default StyleSheet.create({
     paddingBottom: 10,
   },
   avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 50
+    height: 70,
+    width: 70,
+    borderRadius: 35
   },
   userName: {
     marginTop: 10,
     color: colors.white
-  },
-  level: {
-    color: colors.userLevel,
-    marginTop: 5,
-    fontSize: 12
-  },
-  info: {
-    color: colors.white,
-    marginTop: 5,
-    fontSize: 12
   }
 });

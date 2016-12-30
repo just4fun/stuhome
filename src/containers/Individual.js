@@ -70,8 +70,6 @@ class Individual extends Component {
         <View style={styles.header}>
           <Image style={styles.avatar} source={{ uri: avatar }} />
           <Text style={styles.userName}>{userName}</Text>
-          <Text style={styles.level}>{userTitle}</Text>
-          <Text style={styles.info}>积分：{creditShowList[0].data}  |  水滴：{creditShowList[1].data}</Text>
         </View>
         <ScrollableTabView
           tabBarActiveTextColor={colors.blue}

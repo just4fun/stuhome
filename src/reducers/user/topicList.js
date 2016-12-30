@@ -62,7 +62,7 @@ export default function userTopicList(state = defaultUserTopicListState, action)
         didInvalidate: false
       };
     case REMOVE_CACHE:
-      return defaultTopicListState;
+      return defaultUserTopicListState;
     default:
       return state;
   }

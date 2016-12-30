@@ -7,8 +7,8 @@ export default StyleSheet.create({
     marginTop: 20,
   },
   avatar: {
-    height: 150,
-    width: 150,
+    height: 120,
+    width: 120,
   },
   form: {
     padding: 20,
