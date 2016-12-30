@@ -6,6 +6,7 @@ import ForumDetail from './containers/ForumDetail';
 import Search from './containers/Search';
 import Browser from './containers/Browser';
 import Message from './containers/Message';
+import Individual from './containers/Individual';
 import About from './containers/About';
 
 let _navigator = null;
@@ -109,6 +110,14 @@ export default class Router {
       id: 'message',
       title: '消息',
       component: Message
+    }, true);
+  }
+
+  toIndividual() {
+    this._navigateTo({
+      id: 'individual',
+      title: '个人',
+      component: Individual
     }, true);
   }
 

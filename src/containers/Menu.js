@@ -72,6 +72,9 @@ class Menu extends Component {
             <MenuItem
               menu={menus['message']}
               {...this.props} />
+            <MenuItem
+              menu={menus['individual']}
+              {...this.props} />
           </View>
         }
         <MenuItem

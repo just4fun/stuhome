@@ -35,7 +35,7 @@ class Home extends Component {
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <TopicList
           router={router}
-          boardId={this.boardId}
+          typeId={this.boardId}
           topicList={topicList}
           refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
       </View>

@@ -28,11 +28,19 @@ export default {
     actionName: 'toMessage'
   },
 
+  individual: {
+    id: 'individual',
+    title: '个人',
+    icon: 'user',
+    iconSize: '23',
+    actionName: 'toIndividual'
+  },
+
   about: {
     id: 'about',
     title: '关于',
     icon: 'copyright',
-    iconSize: '23',
+    iconSize: '22',
     actionName: 'toAbout'
   },
 };

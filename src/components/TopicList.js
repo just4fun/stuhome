@@ -11,6 +11,12 @@ import TopicItem from './TopicItem';
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class TopicList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.type = this.props.individualType;
+  }
+
   _endReached() {
     const {
       hasMore,
@@ -29,7 +35,7 @@ export default class TopicList extends Component {
     */
     // if (!list[this.props.boardId].topicList.length) { return; }
 
-    this.props.refreshTopicList(page + 1, true);
+    this.props.refreshTopicList(page + 1, true, this.type);
   }
 
   _renderFooter() {
@@ -48,18 +54,24 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let { topicList, boardId, isSearch } = this.props;
+    let { topicList, typeId, isSearch, isIndividual, individualType } = this.props;
     let realTopicList = [];
     let refreshControl = null;
 
     if (!isSearch) {
-      if (topicList.list[boardId]) {
-        realTopicList = topicList.list[boardId].topicList;
-      };
+      if (isIndividual) {
+        if (topicList.list[typeId] && topicList.list[typeId][individualType]) {
+          realTopicList = topicList.list[typeId][individualType].topicList;
+        };
+      } else {
+        if (topicList.list[typeId]) {
+          realTopicList = topicList.list[typeId].topicList;
+        };
+      }
 
       refreshControl = <RefreshControl
                          title='正在加载...'
-                         onRefresh={() => this.props.refreshTopicList()}
+                         onRefresh={() => this.props.refreshTopicList(1, false, individualType)}
                          refreshing={topicList.isRefreshing} />;
     } else {
       realTopicList = topicList.list;

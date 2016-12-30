@@ -35,7 +35,7 @@ export default class Header extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         {leftTopButton}
         <Text
           style={styles.title}

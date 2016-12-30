@@ -40,21 +40,19 @@ Now it's still being built, and it maybe buggy honestly.
 
 ## Existing functionalities
 
-- [x] ~~Login/Logout~~
-- [x] ~~Read latest topics~~
-- [x] ~~Read forums~~
-- [x] ~~Read sub forums~~
-- [x] ~~Read topics in each forum~~
-- [x] ~~Read topic detail and comments~~
-- [x] ~~Reply a topic~~
-- [x] ~~Reply a comment~~
-- [x] ~~Publish a topic~~
-- [x] ~~Search in whole site~~
-- [x] ~~Read notifications~~
-- [x] ~~Reply notifications~~
-- [ ] Read private messages
-- [ ] Reply private messages
-- [ ] Personal information
+- [x] Login/Logout
+- [x] Read latest topics
+- [x] Read forums
+- [x] Read sub forums
+- [x] Read topics in each forum
+- [x] Read topic detail and comments
+- [x] Reply a topic
+- [x] Reply a comment
+- [x] Publish a topic
+- [x] Search in whole site
+- [x] Read notifications
+- [x] Reply notifications
+- [x] Personal information
 
 ## Todo list
 

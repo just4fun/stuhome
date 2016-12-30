@@ -135,7 +135,7 @@ class ForumDetail extends Component {
             <TopicList
               tabLabel='最新'
               router={router}
-              boardId={this.boardId}
+              typeId={this.boardId}
               topicList={topicList}
               refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
             <ForumItems
@@ -151,7 +151,7 @@ class ForumDetail extends Component {
         {this.boardContent && !this.boardChild &&
           <TopicList
             router={router}
-            boardId={this.boardId}
+            typeId={this.boardId}
             topicList={topicList}
             refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
         }

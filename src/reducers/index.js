@@ -8,6 +8,7 @@ import reply from './topic/reply';
 import search from './topic/search';
 import vote from './topic/vote';
 import notifyList from './message/notifyList';
+import userTopicList from './user/topicList';
 
 export default combineReducers({
   forumList,
@@ -19,5 +20,7 @@ export default combineReducers({
   publish,
   reply,
   search,
-  vote
+  vote,
+
+  userTopicList
 });
