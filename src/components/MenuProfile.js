@@ -49,25 +49,28 @@ export default class MenuProfile extends Component {
       creditShowList
     } = authrization;
 
-    let source = require('../images/noavatar.jpg');
-    let action = () => openLoginModal();
-
-    if (token) {
-      source = { uri: avatar };
-      action = () => this._showLogout();
-    }
-
     return (
       <View style={[styles.menuHeader, !token && styles.menuHeaderNoToken]}>
         <View>
-          <TouchableHighlight
-            style={styles.avatar}
-            underlayColor={colors.underlay}
-            onPress={action}>
-            <Image
-             style={styles.avatar}
-             source={source} />
-          </TouchableHighlight>
+          {token &&
+            <TouchableHighlight
+              style={styles.avatar}
+              underlayColor={colors.underlay}
+              onPress={() => this._showLogout()}>
+              <Image
+               style={styles.avatar}
+               source={{ uri: avatar }} />
+             </TouchableHighlight>
+            ||
+            <TouchableHighlight
+              style={styles.avatar}
+              underlayColor={colors.underlay}
+              onPress={() => openLoginModal()}>
+              <Image
+               style={styles.avatar}
+               source={require('../images/noavatar.jpg')} />
+             </TouchableHighlight>
+          }
           {token && <Text style={styles.name}>{userName}</Text>}
         </View>
         {token &&
