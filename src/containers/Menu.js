@@ -13,45 +13,7 @@ import {
   cleanCache
 } from '../actions/authorizeAction';
 import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
-
-const menus = {
-  home: {
-    id: 'home',
-    title: '最新',
-    icon: 'commenting',
-    actionName: 'toHome'
-  },
-
-  forumList: {
-    id: 'forumList',
-    title: '版块',
-    icon: 'comments',
-    actionName: 'toForumList'
-  },
-
-  search: {
-    id: 'search',
-    title: '搜索',
-    icon: 'search',
-    actionName: 'toSearch'
-  },
-
-  message: {
-    id: 'message',
-    title: '消息',
-    icon: 'at',
-    iconSize: '22',
-    actionName: 'toMessage'
-  },
-
-  about: {
-    id: 'about',
-    title: '关于',
-    icon: 'user',
-    iconSize: '23',
-    actionName: 'toAbout'
-  },
-};
+import menus from '../constants/menus';
 
 class Menu extends Component {
   constructor(props) {
