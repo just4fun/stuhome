@@ -10,7 +10,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Screenshot
 
-![](https://cloud.githubusercontent.com/assets/7512625/21095744/dc193e2c-c097-11e6-8632-ffcc6927b4f4.gif)
+![](https://cloud.githubusercontent.com/assets/7512625/21566137/dc08dc48-ceda-11e6-86f7-6e63ad8a8270.gif)
 
 ## Try it out
 
