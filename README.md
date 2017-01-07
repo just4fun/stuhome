@@ -42,19 +42,39 @@ npm run eslint
 
 ## Existing functionalities
 
-- [x] Login/Logout
-- [x] Read latest topics
-- [x] Read forums
-- [x] Read sub forums
-- [x] Read topics in each forum
-- [x] Read topic detail and comments
-- [x] Reply a topic
-- [x] Reply a comment
-- [x] Publish a topic
-- [x] Search in whole site
-- [x] Read notifications
-- [x] Reply notifications
-- [x] Personal information
+- [x] Authentication
+  - [x] Sign up (Webview)
+  - [x] Sign in
+  - [x] Sign out
+- [x] Forum
+  - [x] View forums
+  - [x] View sub forums
+- [ ] Topic
+  - [x] View latest topics
+  - [ ] View hot topics
+  - [x] View topics in each forum
+  - [x] View topic detail and comments
+  - [x] Publish topic
+  - [x] Reply topic
+  - [x] Reply comment
+  - [ ] Upload images
+  - [ ] Report objectionable content
+- [ ] Vote
+  - [ ] Create vote
+  - [x] Join in vote
+  - [x] View vote results
+- [x] Search
+- [ ] Notifications
+  - [x] View list mentioned(@) me
+  - [x] View list replied me
+  - [ ] View private messages
+  - [ ] Notification alert
+- [ ] Individual
+  - [x] View latest published topics
+  - [x] View latest replied topics
+  - [ ] View favorite topics
+  - [ ] Update password
+  - [ ] Upload avatar
 
 ## Todo list
 
