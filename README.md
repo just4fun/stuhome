@@ -6,6 +6,12 @@
 
 An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://facebook.github.io/react-native/) with [Redux](http://redux.js.org/). APIs are provided by [UESTC-BBS](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
+## Status
+
+Now it's ready on App Store.
+
+https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355
+
 ![](https://cloud.githubusercontent.com/assets/7512625/12371330/88981098-bc6a-11e5-8511-6e02c5233006.gif)
 
 ## Screenshot
@@ -34,10 +40,6 @@ Then use Xcode to open this project and simply click **Run**.
 npm run eslint
 ```
 
-## Status
-
-Now it's still being built, and it maybe buggy honestly.
-
 ## Existing functionalities
 
 - [x] Login/Logout
@@ -56,10 +58,10 @@ Now it's still being built, and it maybe buggy honestly.
 
 ## Todo list
 
-- [x] ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/uestc-bbs-react-native/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
-- [ ] Submit to App Store
-- [ ] Fixture data (aka `mock data`)
-- [ ] Unit Testing (refer this [article](http://www.schibsted.pl/2015/10/testing-react-native-components-with-jest/))
+- ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/uestc-bbs-react-native/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
+- ~~Submit to App Store~~ ([link](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355))
+- Fixture data (aka `mock data`)
+- Unit Testing (refer this [article](http://www.schibsted.pl/2015/10/testing-react-native-components-with-jest/))
 
 ## Known issues
 
