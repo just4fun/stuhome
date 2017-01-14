@@ -19,6 +19,7 @@ import ReplyModal from '../components/modal/ReplyModal';
 import Comment from '../components/Comment';
 import Content from '../components/Content';
 import VoteList from '../components/VoteList';
+import RewardList from '../components/RewardList';
 import { PopButton, ReplyButton, CommentButton } from '../components/button';
 import {
   fetchTopic,
@@ -127,6 +128,9 @@ class TopicDetail extends Component {
                 fetchTopic={() => this.fetchTopic()} />
             }
           </View>
+          {topic.reward &&
+            <RewardList reward={topic.reward}
+                        router={this.props.router} />}
           <View style={styles.other}>
             <Text style={styles.date}>{create_date}</Text>
             {!!topic.mobileSign &&
