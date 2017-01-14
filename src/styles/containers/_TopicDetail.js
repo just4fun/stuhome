@@ -64,9 +64,7 @@ export default StyleSheet.create({
     marginVertical: 10,
   },
   commentHeader: {
-    position: 'absolute',
-    left: -10,
-    right: -10,
+    marginHorizontal: -10,
     marginVertical: 10,
     height: 20,
     backgroundColor: colors.lightBlue,
@@ -76,9 +74,6 @@ export default StyleSheet.create({
     marginLeft: 10,
     marginTop: 3,
     color: colors.white,
-  },
-  commentHeaderSpace: {
-    height: 40,
   },
   commentList: {
     padding: 10,

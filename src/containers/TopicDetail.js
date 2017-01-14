@@ -151,7 +151,6 @@ class TopicDetail extends Component {
             {commentHeaderText}
           </Text>
         </View>
-        <View style={styles.commentHeaderSpace}></View>
       </View>
     );
   }
