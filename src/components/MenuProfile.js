@@ -58,6 +58,7 @@ export default class MenuProfile extends Component {
               underlayColor={colors.underlay}
               onPress={() => this._showLogout()}>
               <Image
+               key={avatar}
                style={styles.avatar}
                source={{ uri: avatar }} />
              </TouchableHighlight>
@@ -67,6 +68,7 @@ export default class MenuProfile extends Component {
               underlayColor={colors.underlay}
               onPress={() => openLoginModal()}>
               <Image
+               key='noavatar'
                style={styles.avatar}
                source={require('../images/noavatar.jpg')} />
              </TouchableHighlight>
