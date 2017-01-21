@@ -22,7 +22,11 @@ export default class RewardList extends Component {
         <View style={styles.rewardHeader}>
           <Text style={styles.rewardHeaderText}>
             {`共 ${userNumber} 人评分${score.map(({info, value}) => {
-              return `， ${info} +${value}`;
+              if (value >= 0) {
+                value = `+${value}`;
+              }
+
+              return `， ${info} ${value}`;
             })}`}
           </Text>
         </View>
