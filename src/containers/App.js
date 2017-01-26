@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
-import rootReducer from '../reducers';
+import configureStore from '../store/configureStore';
 import Navigator from './Navigator';
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware
-)(createStore);
-const store = createStoreWithMiddleware(rootReducer);
+const store = configureStore();
 
 export default class App extends Component {
   render() {
