@@ -1,5 +1,6 @@
 import { HOST, API_PREFIX } from '../../config';
 import request from '../../utils/request';
+import cacheManager from '../../services/cacheManager';
 import {
   INVALIDATE_TOPICLIST,
   REQUEST_TOPICLIST,
@@ -51,19 +52,9 @@ function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 
   };
 }
 
-function shouldFetchTopicList(boardId, state) {
-  let { topicList } = state;
-
-  if (!topicList.list[boardId] || !topicList.list[boardId].topicList.length) { return true; }
-
-  if (topicList.isRefreshing || topicList.isEndReached) { return false; }
-
-  return topicList.didInvalidate;
-}
-
 export function fetchTopicListIfNeeded(boardId, isEndReached, sortType, page, pageSize) {
   return (dispatch, getState) => {
-    if (shouldFetchTopicList(boardId, getState())) {
+    if (cacheManager.shouldFetchList(getState(), 'topicList', boardId)) {
       return dispatch(fetchTopicList(boardId, isEndReached, sortType, page, pageSize));
     }
   };

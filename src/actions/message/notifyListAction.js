@@ -1,5 +1,6 @@
 import { HOST, API_PREFIX } from '../../config';
 import request from '../../utils/request';
+import cacheManager from '../../services/cacheManager';
 import {
   INVALIDATE_NOTIFYLIST,
   REQUEST_NOTIFYLIST_AT,
@@ -61,26 +62,9 @@ function fetchNotifyList(notifyType, isEndReached = false, page = 1, pageSize = 
   };
 }
 
-function shouldFetchNotifyList(notifyType, state) {
-  const { notifyList, didInvalidate } = state;
-  let isRefreshing = false;
-
-  if (!notifyList.list[notifyType] || !notifyList.list[notifyType].notifyList.length) { return true; }
-
-  if (notifyType === 'at') {
-    isRefreshing = notifyList.isFetchingAtList;
-  } {
-    isRefreshing = notifyList.isFetchingReplyList;
-  }
-
-  if (notifyList.isRefreshing) { return false; }
-
-  return notifyList.didInvalidate;
-}
-
 export function fetchNotifyListIfNeeded(notifyType, isEndReached, page, pageSize) {
   return (dispatch, getState) => {
-    if (shouldFetchNotifyList(notifyType, getState())) {
+    if (cacheManager.shouldFetchList(getState(), 'notifyList', notifyType)) {
       return dispatch(fetchNotifyList(notifyType, isEndReached, page, pageSize));
     }
   };

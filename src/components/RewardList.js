@@ -21,7 +21,7 @@ export default class RewardList extends Component {
       <View style={styles.reward}>
         <View style={styles.rewardHeader}>
           <Text style={styles.rewardHeaderText}>
-            {`共 ${userNumber} 人评分${score.map(({info, value}) => {
+            {`共 ${userNumber} 人评分${score.map(({ info, value }) => {
               if (value >= 0) {
                 value = `+${value}`;
               }

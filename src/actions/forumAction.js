@@ -1,5 +1,6 @@
 import { HOST, API_PREFIX } from '../config';
 import request from '../utils/request';
+import cacheManager from '../services/cacheManager';
 import {
   INVALIDATE_FORUMLIST,
   REQUEST_FORUMLIST,
@@ -54,19 +55,9 @@ function fetchForumList(boardId) {
   };
 }
 
-function shouldFetchForumList(boardId, state) {
-  const { forumList, didInvalidate } = state;
-
-  if (!forumList.list[boardId] || !forumList.list[boardId].forumList.length) { return true; }
-
-  if (forumList.isFetching) { return false; }
-
-  return forumList.didInvalidate;
-}
-
 export function fetchForumListIfNeeded(boardId) {
   return (dispatch, getState) => {
-    if (shouldFetchForumList(boardId, getState())) {
+    if (cacheManager.shouldFetchList(getState(), 'forumList', boardId)) {
       return dispatch(fetchForumList(boardId));
     }
   };
