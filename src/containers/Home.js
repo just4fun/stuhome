@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import TopicList from '../components/TopicList';
-import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
+import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 
 class Home extends Component {
   constructor(props) {
@@ -14,12 +14,21 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTopicListIfNeeded(this.boardId, false, 'all');
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached: false,
+      sortType: 'all'
+    });
   }
 
   _refreshTopicList(page, isEndReached) {
     this.props.invalidateTopicList();
-    this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached,
+      sortType: 'all',
+      page
+    });
   }
 
   render() {
@@ -51,5 +60,5 @@ function mapStateToProps({ topicList }) {
 
 export default connect(mapStateToProps, {
   invalidateTopicList,
-  fetchTopicListIfNeeded
+  fetchTopicList
 })(Home);

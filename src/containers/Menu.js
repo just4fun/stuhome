@@ -12,7 +12,7 @@ import {
   resetAuthrizationResult,
   cleanCache
 } from '../actions/authorizeAction';
-import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
+import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import menus from '../constants/menus';
 
 class Menu extends Component {
@@ -98,5 +98,5 @@ export default connect(mapStateToProps, {
   resetAuthrizationResult,
   cleanCache,
   invalidateTopicList,
-  fetchTopicListIfNeeded
+  fetchTopicList
 })(Menu);

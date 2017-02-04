@@ -33,6 +33,8 @@
     "react-native-vector-icons": "2.0.3",
     "react-redux": "4.4.1",
     "redux": "3.3.1",
+    "redux-actions": "1.2.1",
+    "redux-saga": "0.14.3",
     "redux-thunk": "2.0.1"
   },
   "devDependencies": {

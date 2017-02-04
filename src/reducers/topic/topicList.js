@@ -1,11 +1,11 @@
 import {
-  INVALIDATE_TOPICLIST,
-  REQUEST_TOPICLIST,
-  RECEIVE_TOPICLIST,
-  RESET_TOPICLIST,
+  INVALIDATE,
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  RESET,
   REMOVE_CACHE,
-  FAILURE_TOPICLIST
-} from '../../constants/ActionTypes';
+  REQUEST_FAILED
+} from '../../actions/topic/topicListAction';
 
 const defaultTopicListState = {
   // indicate fetching via pull to refresh
@@ -23,24 +23,25 @@ const defaultTopicListState = {
 
 export default function topicList(state = defaultTopicListState, action) {
   switch (action.type) {
-    case INVALIDATE_TOPICLIST:
+    case INVALIDATE:
       return {
         ...state,
         didInvalidate: true
       };
-    case REQUEST_TOPICLIST:
+    case REQUEST_STARTED:
       return {
         ...state,
-        isRefreshing: !action.isEndReached,
-        isEndReached: action.isEndReached,
+        isRefreshing: !action.payload.isEndReached,
+        isEndReached: action.payload.isEndReached,
         didInvalidate: false
       };
-    case RECEIVE_TOPICLIST:
+    case REQUEST_COMPELTED:
       let {
-        boardId,
-        topicList
+        payload: topicList,
+        meta: {
+          boardId
+        }
       } = action;
-
       let typeList = getMappedTypeList(topicList.classificationType_list);
 
       return {
@@ -55,12 +56,12 @@ export default function topicList(state = defaultTopicListState, action) {
         errCode: topicList.errcode
       };
     // in case there is forum or sub forum we have no access
-    case RESET_TOPICLIST:
+    case RESET:
       return {
         ...state,
         errCode: ''
       };
-    case FAILURE_TOPICLIST:
+    case REQUEST_FAILED:
       return {
         ...state,
         isRefreshing: false,

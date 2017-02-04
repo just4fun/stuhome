@@ -15,7 +15,7 @@ import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';
 import { PopButton, PublishButton } from '../components/button';
 import { submit, resetPublish } from '../actions/topic/topicAction';
-import { invalidateTopicList, fetchTopicListIfNeeded, resetTopicList } from '../actions/topic/topicListAction';
+import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/topic/topicListAction';
 import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
 
 class ForumDetail extends Component {
@@ -50,12 +50,21 @@ class ForumDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTopicListIfNeeded(this.boardId, false, 'all');
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached: false,
+      sortType: 'all'
+    });
   }
 
   _refreshTopicList(page, isEndReached) {
     this.props.invalidateTopicList();
-    this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached,
+      sortType: 'all',
+      page
+    });
   }
 
   _fetchForumList() {
@@ -180,7 +189,7 @@ export default connect(mapStateToProps, {
   submit,
   resetPublish,
   invalidateTopicList,
-  fetchTopicListIfNeeded,
+  fetchTopicList,
   resetTopicList,
   invalidateForumList,
   fetchForumListIfNeeded
