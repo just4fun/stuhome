@@ -9,7 +9,7 @@ import {
 import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import ForumItems from '../components/ForumItems';
-import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
+import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -22,12 +22,16 @@ class ForumList extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchForumListIfNeeded(this.boardId);
+    this.props.fetchForumList({
+      boardId: this.boardId
+    });
   }
 
   _refreshForumList() {
     this.props.invalidateForumList();
-    this.props.fetchForumListIfNeeded(this.boardId);
+    this.props.fetchForumList({
+      boardId: this.boardId
+    });
   }
 
   render() {
@@ -58,5 +62,5 @@ function mapStateToProps({ forumList }) {
 
 export default connect(mapStateToProps, {
   invalidateForumList,
-  fetchForumListIfNeeded
+  fetchForumList
 })(ForumList);

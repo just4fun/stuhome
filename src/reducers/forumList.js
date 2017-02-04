@@ -1,11 +1,11 @@
 import {
-  INVALIDATE_FORUMLIST,
-  REQUEST_FORUMLIST,
-  REQUEST_SUBFORUMLIST,
-  RECEIVE_FORUMLIST,
-  FAILURE_FORUMLIST,
+  INVALIDATE,
+  REQUEST_TOPFORUM_STARTED,
+  REQUEST_SUBFORUM_STARTED,
+  REQUEST_COMPELTED,
+  REQUEST_FAILED,
   REMOVE_CACHE
-} from '../constants/ActionTypes';
+} from '../actions/forumAction';
 
 const defaultForumListState = {
   // indicate fetching top forums
@@ -19,29 +19,31 @@ const defaultForumListState = {
 
 export default function forumList(state = defaultForumListState, action) {
   switch (action.type) {
-    case INVALIDATE_FORUMLIST:
+    case INVALIDATE:
       return {
         ...state,
         didInvalidate: true
       };
-    case REQUEST_FORUMLIST:
+    case REQUEST_TOPFORUM_STARTED:
       return {
         ...state,
         isFetching: true,
         isSubFetching: false,
         didInvalidate: false
       };
-    case REQUEST_SUBFORUMLIST:
+    case REQUEST_SUBFORUM_STARTED:
       return {
         ...state,
         isFetching: false,
         isSubFetching: true,
         didInvalidate: false
       };
-    case RECEIVE_FORUMLIST:
+    case REQUEST_COMPELTED:
       let {
-        boardId,
-        forumList
+        payload: forumList,
+        meta: {
+          boardId
+        }
       } = action;
 
       return {
@@ -51,7 +53,7 @@ export default function forumList(state = defaultForumListState, action) {
         didInvalidate: false,
         list: getNewCache(state, forumList.list, boardId),
       };
-    case FAILURE_FORUMLIST:
+    case REQUEST_FAILED:
       return {
         ...state,
         isFetching: false,

@@ -1,70 +1,16 @@
-import { HOST, API_PREFIX } from '../config';
-import request from '../utils/request';
-import cacheManager from '../services/cacheManager';
-import {
-  INVALIDATE_FORUMLIST,
-  REQUEST_FORUMLIST,
-  REQUEST_SUBFORUMLIST,
-  RECEIVE_FORUMLIST,
-  FAILURE_FORUMLIST
-} from '../constants/ActionTypes';
+import { createAction } from 'redux-actions';
 
-const API_PATH = 'forum/forumlist';
+export const REQUEST = Symbol();
+export const INVALIDATE = Symbol();
+export const fetchForumList = createAction(REQUEST);
+export const invalidateForumList = createAction(INVALIDATE);
 
-function requestForumList() {
-  return {
-    type: REQUEST_FORUMLIST
-  };
-}
-
-function requestSubForumList() {
-  return {
-    type: REQUEST_SUBFORUMLIST
-  };
-}
-
-function receiveForumList(forumList, { boardId }) {
-  return {
-    type: RECEIVE_FORUMLIST,
-    forumList,
-    boardId
-  };
-}
-
-function failureForumList() {
-  return {
-    type: FAILURE_FORUMLIST
-  };
-}
-
-function fetchForumList(boardId) {
-  return dispatch => {
-    let shouldFetchTopForumList = boardId === 'all';
-    dispatch(shouldFetchTopForumList ? requestForumList() : requestSubForumList());
-
-    let url = HOST + API_PREFIX + API_PATH;
-    if (boardId && boardId !== 'all') {
-      url += `&fid=${boardId}`;
-    }
-
-    return request({
-      url,
-      successCallback: data => dispatch(receiveForumList(data, { boardId })),
-      failureCallback: () => dispatch(failureForumList())
-    });
-  };
-}
-
-export function fetchForumListIfNeeded(boardId) {
-  return (dispatch, getState) => {
-    if (cacheManager.shouldFetchList(getState(), 'forumList', boardId)) {
-      return dispatch(fetchForumList(boardId));
-    }
-  };
-}
-
-export function invalidateForumList() {
-  return {
-    type: INVALIDATE_FORUMLIST
-  };
-}
+export const REQUEST_TOPFORUM_STARTED = Symbol();
+export const REQUEST_SUBFORUM_STARTED = Symbol();
+export const REQUEST_COMPELTED = Symbol();
+export const REQUEST_FAILED = Symbol();
+export const requestTopForumList = createAction(REQUEST_TOPFORUM_STARTED);
+export const requestSubForumList = createAction(REQUEST_SUBFORUM_STARTED);
+// return 2nd argument as `meta` field
+export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
+export const failure = createAction(REQUEST_FAILED);
