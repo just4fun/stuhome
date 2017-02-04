@@ -75,7 +75,7 @@ class ForumDetail extends Component {
 
   _refreshForumList() {
     this.props.invalidateForumList();
-    this.props._fetchForumList();
+    this._fetchForumList();
   }
 
   _publish(topic) {
