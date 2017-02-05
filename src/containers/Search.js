@@ -5,7 +5,7 @@ import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import SearchInput from '../components/SearchInput';
-import { invalidateSearch, fetchSearch, resetSearch } from '../actions/topic/searchAction';
+import { fetchSearch, resetSearch } from '../actions/topic/searchAction';
 
 class Search extends Component {
   constructor(props) {
@@ -21,7 +21,9 @@ class Search extends Component {
   }
 
   _refreshTopicList(page, isEndReached) {
-    this.props.invalidateSearch();
+    // search topic list can not be pulled to refresh,
+    // so there is no need to invalidate topic list here,
+    // this method is only used for end reach refreshing.
     this.props.fetchSearch({
       keyword: this.state.keyword,
       isEndReached,
@@ -35,7 +37,7 @@ class Search extends Component {
   }
 
   _handleSearch() {
-    this.props.resetSearch();
+    this.searchList.scrollToTop();
     this._refreshTopicList();
   }
 
@@ -61,6 +63,7 @@ class Search extends Component {
           handleSearch={() => this._handleSearch()}
           resetSearch={() => this.props.resetSearch()} />
         <TopicList
+          ref={component => this.searchList = component}
           router={router}
           isSearch={true}
           topicList={search}
@@ -77,7 +80,6 @@ function mapStateToProps({ search }) {
 }
 
 export default connect(mapStateToProps, {
-  invalidateSearch,
   fetchSearch,
   resetSearch
 })(Search);

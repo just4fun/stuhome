@@ -1,9 +1,8 @@
 import {
-  INVALIDATE,
   REQUEST_STARTED,
   REQUEST_COMPELTED,
-  RESET,
-  REQUEST_FAILED
+  REQUEST_FAILED,
+  RESET
 } from '../../actions/topic/searchAction';
 
 const defaultSearchState = {
@@ -20,11 +19,6 @@ const defaultSearchState = {
 
 export default function search(state = defaultSearchState, action) {
   switch (action.type) {
-    case INVALIDATE:
-      return {
-        ...state,
-        didInvalidate: true
-      };
     case REQUEST_STARTED:
       return {
         ...state,
@@ -53,8 +47,6 @@ export default function search(state = defaultSearchState, action) {
         page: topicList.page,
         errCode: topicList.errcode
       };
-    case RESET:
-      return defaultSearchState;
     case REQUEST_FAILED:
       return {
         ...state,
@@ -62,6 +54,8 @@ export default function search(state = defaultSearchState, action) {
         isEndReached: false,
         didInvalidate: false
       };
+    case RESET:
+      return defaultSearchState;
     default:
       return state;
   }

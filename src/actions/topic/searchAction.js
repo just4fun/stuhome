@@ -1,10 +1,8 @@
 import { createAction } from 'redux-actions';
 
 export const REQUEST = Symbol();
-export const INVALIDATE = Symbol();
 export const RESET = Symbol();
 export const fetchSearch = createAction(REQUEST);
-export const invalidateSearch = createAction(INVALIDATE);
 export const resetSearch = createAction(RESET);
 
 export const REQUEST_STARTED = Symbol();
