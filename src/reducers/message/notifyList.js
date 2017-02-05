@@ -1,11 +1,11 @@
 import {
-  INVALIDATE_NOTIFYLIST,
-  REQUEST_NOTIFYLIST_AT,
-  REQUEST_NOTIFYLIST_REPLY,
-  RECEIVE_NOTIFYLIST,
-  FAILURE_NOTIFYLIST,
+  INVALIDATE,
+  REQUEST_AT_STARTED,
+  REQUEST_REPLY_STARTED,
+  REQUEST_COMPELTED,
+  REQUEST_FAILED,
   REMOVE_CACHE
-} from '../../constants/ActionTypes';
+} from '../../actions/message/notifyListAction';
 
 const defaultNotifyListState = {
   isFetchingAtList: false,
@@ -21,31 +21,33 @@ const defaultNotifyListState = {
 
 export default function notifyList(state = defaultNotifyListState, action) {
   switch (action.type) {
-    case INVALIDATE_NOTIFYLIST:
+    case INVALIDATE:
       return {
         ...state,
         didInvalidate: true
       };
-    case REQUEST_NOTIFYLIST_AT:
+    case REQUEST_AT_STARTED:
       return {
         ...state,
-        isFetchingAtList: !action.isEndReached,
+        isFetchingAtList: !action.payload.isEndReached,
         isFetchingReplyList: false,
-        isEndReached: action.isEndReached,
+        isEndReached: action.payload.isEndReached,
         didInvalidate: false
       };
-    case REQUEST_NOTIFYLIST_REPLY:
+    case REQUEST_REPLY_STARTED:
       return {
         ...state,
         isFetchingAtList: false,
-        isFetchingReplyList: !action.isEndReached,
-        isEndReached: action.isEndReached,
+        isFetchingReplyList: !action.payload.isEndReached,
+        isEndReached: action.payload.isEndReached,
         didInvalidate: false
       };
-    case RECEIVE_NOTIFYLIST:
+    case REQUEST_COMPELTED:
       let {
-        notifyType,
-        notifyList
+        payload: notifyList,
+        meta: {
+          notifyType
+        }
       } = action;
 
       return {
@@ -60,7 +62,7 @@ export default function notifyList(state = defaultNotifyListState, action) {
         page: notifyList.page,
         errCode: notifyList.errcode
       };
-    case FAILURE_NOTIFYLIST:
+    case REQUEST_FAILED:
       return {
         ...state,
         isFetchingAtList: false,

@@ -8,7 +8,7 @@ import colors from '../styles/common/_colors';
 import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
 import ReplyModal from '../components/modal/ReplyModal';
-import { invalidateNotifyList, fetchNotifyListIfNeeded } from '../actions/message/notifyListAction';
+import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { submit, resetReply } from '../actions/topic/topicAction';
 
 class Message extends Component {
@@ -22,12 +22,16 @@ class Message extends Component {
   }
 
   _fetchNotifyList(notifyType) {
-    this.props.fetchNotifyListIfNeeded(notifyType);
+    this.props.fetchNotifyList({ notifyType });
   }
 
   _refreshNotifyList(notifyType, page, isEndReached) {
     this.props.invalidateNotifyList();
-    this.props.fetchNotifyListIfNeeded(notifyType, isEndReached, page);
+    this.props.fetchNotifyList({
+      notifyType,
+      isEndReached,
+      page
+    });
   }
 
   _publish({ boardId, topicId, replyId, content }) {
@@ -106,7 +110,7 @@ function mapStateToProps({ notifyList, reply }) {
 
 export default connect(mapStateToProps, {
   invalidateNotifyList,
-  fetchNotifyListIfNeeded,
+  fetchNotifyList,
   submit,
   resetReply
 })(Message);

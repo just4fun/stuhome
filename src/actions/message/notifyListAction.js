@@ -1,77 +1,16 @@
-import { HOST, API_PREFIX } from '../../config';
-import request from '../../utils/request';
-import cacheManager from '../../services/cacheManager';
-import {
-  INVALIDATE_NOTIFYLIST,
-  REQUEST_NOTIFYLIST_AT,
-  REQUEST_NOTIFYLIST_REPLY,
-  RECEIVE_NOTIFYLIST,
-  FAILURE_NOTIFYLIST
-} from '../../constants/ActionTypes';
+import { createAction } from 'redux-actions';
 
-const API_PATH = 'message/notifylist';
+export const REQUEST = Symbol();
+export const INVALIDATE = Symbol();
+export const fetchNotifyList = createAction(REQUEST);
+export const invalidateNotifyList = createAction(INVALIDATE);
 
-function requestNotifyAtList(isEndReached) {
-  return {
-    type: REQUEST_NOTIFYLIST_AT,
-    isEndReached
-  };
-}
-
-function requestNotifyReplyList(isEndReached) {
-  return {
-    type: REQUEST_NOTIFYLIST_REPLY,
-    isEndReached
-  };
-}
-
-function receiveNotifyList(notifyList, { notifyType }) {
-  return {
-    type: RECEIVE_NOTIFYLIST,
-    notifyList,
-    notifyType
-  };
-}
-
-function failureNotifyList() {
-  return {
-    type: FAILURE_NOTIFYLIST
-  };
-}
-
-function fetchNotifyList(notifyType, isEndReached = false, page = 1, pageSize = 20) {
-  return dispatch => {
-    if (notifyType === 'at') {
-      dispatch(requestNotifyAtList(isEndReached));
-    } else {
-      dispatch(requestNotifyReplyList(isEndReached));
-    }
-
-    let url = HOST +
-              API_PREFIX +
-              API_PATH +
-              `&type=${notifyType}` +
-              `&page=${page}` +
-              `&pageSize=${pageSize}`;
-
-    return request({
-      url,
-      successCallback: data => dispatch(receiveNotifyList(data, { notifyType })),
-      failureCallback: () => dispatch(failureNotifyList())
-    });
-  };
-}
-
-export function fetchNotifyListIfNeeded(notifyType, isEndReached, page, pageSize) {
-  return (dispatch, getState) => {
-    if (cacheManager.shouldFetchList(getState(), 'notifyList', notifyType)) {
-      return dispatch(fetchNotifyList(notifyType, isEndReached, page, pageSize));
-    }
-  };
-}
-
-export function invalidateNotifyList() {
-  return {
-    type: INVALIDATE_NOTIFYLIST
-  };
-}
+export const REQUEST_AT_STARTED = Symbol();
+export const REQUEST_REPLY_STARTED = Symbol();
+export const REQUEST_COMPELTED = Symbol();
+export const REQUEST_FAILED = Symbol();
+export const requestAtList = createAction(REQUEST_AT_STARTED);
+export const requestReplyList = createAction(REQUEST_REPLY_STARTED);
+// return 2nd argument as `meta` field
+export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
+export const failure = createAction(REQUEST_FAILED);

@@ -1,6 +1,7 @@
 import { take, fork, select } from 'redux-saga/effects';
 import * as topicListActions from '../actions/topic/topicListAction';
 import * as forumListActions from '../actions/forumAction';
+import * as notifyListActions from '../actions/message/notifyListAction';
 import * as searchActions from '../actions/topic/searchAction';
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -8,6 +9,7 @@ import api from '../services/api';
 
 const fetchTopicListApi = fetchResource.bind(null, topicListActions, api.fetchTopicList);
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
+const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
 
 // topic list sagas
@@ -47,6 +49,26 @@ function* fetchForumList(payload) {
   }
 }
 
+// notify list sagas
+
+function* watchNotifyList() {
+  while(true) {
+    const { payload } = yield take(notifyListActions.REQUEST);
+    yield fork(fetchNotifyList, payload);
+  }
+}
+
+function* fetchNotifyList(payload) {
+  const state = yield select();
+
+  if (cacheManager.shouldFetchList(state, 'notifyList', payload.notifyType)) {
+    notifyListActions.request = payload.notifyType === 'at'
+                              ? notifyListActions.requestAtList
+                              : notifyListActions.requestReplyList;
+    yield fork(fetchNotifyListApi, payload);
+  }
+}
+
 // search list sagas
 
 function* watchSearchList() {
@@ -59,5 +81,6 @@ function* watchSearchList() {
 export default function* rootSaga() {
   yield fork(watchTopicList);
   yield fork(watchForumList);
+  yield fork(watchNotifyList);
   yield fork(watchSearchList);
 }
