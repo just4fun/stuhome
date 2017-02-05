@@ -22,7 +22,12 @@ class Search extends Component {
 
   _refreshTopicList(page, isEndReached) {
     this.props.invalidateSearch();
-    this.props.fetchSearch(this.state.keyword, isEndReached, 'all', page);
+    this.props.fetchSearch({
+      keyword: this.state.keyword,
+      isEndReached,
+      sortType: 'all',
+      page
+    });
   }
 
   _handleChange(keyword) {

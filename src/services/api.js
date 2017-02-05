@@ -1,6 +1,10 @@
 import request from '../utils/request';
 import { API_ROOT } from '../config';
 
+const DEFAULT_SORTTYPE = 'all';
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGESIZE = 20;
+
 function callApi(endpoint) {
   return request(`${API_ROOT}${endpoint}`);
 }
@@ -8,9 +12,9 @@ function callApi(endpoint) {
 export default {
   fetchTopicList: ({
     boardId,
-    sortType = 'all',
-    page = 1,
-    pageSize = 20
+    sortType = DEFAULT_SORTTYPE,
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
   }) => {
     return callApi(`forum/topiclist&boardId=${boardId}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
   },
@@ -28,9 +32,18 @@ export default {
 
   fetchNotifyList: ({
     notifyType,
-    page = 1,
-    pageSize = 20
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
   }) => {
     return callApi(`message/notifylist&type=${notifyType}&page=${page}&pageSize=${pageSize}`);
+  },
+
+  fetchSearchList: ({
+    keyword,
+    sortType = DEFAULT_SORTTYPE,
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
+  }) => {
+    return callApi(`forum/search&keyword=${keyword}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
   }
 };
