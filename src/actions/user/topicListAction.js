@@ -1,74 +1,16 @@
-import { HOST, API_PREFIX } from '../../config';
-import request from '../../utils/request';
-import cacheManager from '../../services/cacheManager';
-import {
-  INVALIDATE_USER_TOPICLIST,
-  REQUEST_USER_TOPICLIST,
-  RECEIVE_USER_TOPICLIST,
-  RESET_USER_TOPICLIST,
-  FAILURE_USER_TOPICLIST
-} from '../../constants/ActionTypes';
+import { createAction } from 'redux-actions';
 
-const USER_TOPICLIST_API_PATH = 'user/topiclist';
+export const REQUEST = Symbol();
+export const INVALIDATE = Symbol();
+export const RESET = Symbol();
+export const fetchUserTopicList = createAction(REQUEST);
+export const invalidateUserTopicList = createAction(INVALIDATE);
+export const resetUserTopicList = createAction(RESET);
 
-function requestUserTopicList(isEndReached) {
-  return {
-    type: REQUEST_USER_TOPICLIST,
-    isEndReached
-  };
-}
-
-function receiveUserTopicList(userTopicList, { userId, type }) {
-  return {
-    type: RECEIVE_USER_TOPICLIST,
-    userTopicList,
-    userId,
-    individualType: type
-  };
-}
-
-function failureUserTopicList() {
-  return {
-    type: FAILURE_USER_TOPICLIST
-  };
-}
-
-function fetchUserTopicList(userId, isEndReached = false, type = 'topic', page = 1, pageSize = 20) {
-  return dispatch => {
-    dispatch(requestUserTopicList(isEndReached));
-
-    let url = HOST +
-              API_PREFIX +
-              USER_TOPICLIST_API_PATH +
-              `&uid=${userId}` +
-              `&type=${type}` +
-              `&page=${page}` +
-              `&pageSize=${pageSize}`;
-
-    return request({
-      url,
-      successCallback: data => dispatch(receiveUserTopicList(data, { userId, type })),
-      failureCallback: () => dispatch(failureUserTopicList())
-    });
-  };
-}
-
-export function fetchUserTopicListIfNeeded(userId, isEndReached, type, page, pageSize) {
-  return (dispatch, getState) => {
-    if (cacheManager.shouldFetchList(getState(), 'userTopicList', userId, type)) {
-      return dispatch(fetchUserTopicList(userId, isEndReached, type, page, pageSize));
-    }
-  };
-}
-
-export function invalidateUserTopicList() {
-  return {
-    type: INVALIDATE_USER_TOPICLIST
-  };
-}
-
-export function resetUserTopicList() {
-  return {
-    type: RESET_USER_TOPICLIST
-  };
-}
+export const REQUEST_STARTED = Symbol();
+export const REQUEST_COMPELTED = Symbol();
+export const REQUEST_FAILED = Symbol();
+export const request = createAction(REQUEST_STARTED);
+// return 2nd argument as `meta` field
+export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
+export const failure = createAction(REQUEST_FAILED);

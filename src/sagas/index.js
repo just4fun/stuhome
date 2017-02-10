@@ -1,5 +1,6 @@
 import { take, fork, select } from 'redux-saga/effects';
 import * as topicListActions from '../actions/topic/topicListAction';
+import * as userTopicListActions from '../actions/user/topicListAction';
 import * as forumListActions from '../actions/forumAction';
 import * as notifyListActions from '../actions/message/notifyListAction';
 import * as searchActions from '../actions/topic/searchAction';
@@ -8,6 +9,7 @@ import { fetchResource } from '../utils/sagaHelper';
 import api from '../services/api';
 
 const fetchTopicListApi = fetchResource.bind(null, topicListActions, api.fetchTopicList);
+const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
@@ -26,6 +28,24 @@ function* fetchTopicList(payload) {
 
   if (cacheManager.shouldFetchList(state, 'topicList', payload.boardId)) {
     yield fork(fetchTopicListApi, payload);
+  }
+}
+
+// user topic list sags
+
+function* watchUserTopicList() {
+  while(true) {
+    const { payload } = yield take(userTopicListActions.REQUEST);
+    yield fork(fetchUserTopicList, payload);
+  }
+}
+
+function* fetchUserTopicList(payload) {
+  const state = yield select();
+  const { userId, type } = payload;
+
+  if (cacheManager.shouldFetchList(state, 'userTopicList', userId, type)) {
+    yield fork(fetchUserTopicListApi, payload);
   }
 }
 
@@ -80,6 +100,7 @@ function* watchSearchList() {
 
 export default function* rootSaga() {
   yield fork(watchTopicList);
+  yield fork(watchUserTopicList);
   yield fork(watchForumList);
   yield fork(watchNotifyList);
   yield fork(watchSearchList);

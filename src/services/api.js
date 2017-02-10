@@ -19,6 +19,15 @@ export default {
     return callApi(`forum/topiclist&boardId=${boardId}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
   },
 
+  fetchUserTopicList: ({
+    userId,
+    type = 'topic',
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
+  }) => {
+    return callApi(`user/topiclist&uid=${userId}&type=${type}&page=${page}&pageSize=${pageSize}`);
+  },
+
   fetchForumList: ({
     boardId
   }) => {
