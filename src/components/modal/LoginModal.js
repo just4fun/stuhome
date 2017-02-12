@@ -41,7 +41,7 @@ export default class Login extends Component {
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
           // remove all cache except authrization
-          this.props.cleanCache(true);
+          this.props.cleanCache({ isLogin: true });
           // force replace Home route
           this.props.selectMenuItem(this.props.menus['home'], true);
           this._closeLoginModal();
@@ -66,7 +66,10 @@ export default class Login extends Component {
 
     this.userNameInput.blur();
     this.passwordInput.blur();
-    this.props.userLogin(userName, password);
+    this.props.userLogin({
+      userName,
+      password
+    });
   }
 
   toggleRegisterModal(visible) {

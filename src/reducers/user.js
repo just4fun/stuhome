@@ -1,12 +1,12 @@
 import {
-  REQUEST_LOGIN,
-  RECEIVE_LOGIN,
-  FAILURE_LOGIN,
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  REQUEST_FAILED,
   SET_AUTHRIZATION,
   REMOVE_CACHE,
   RESET_AUTHRIZATION,
   RESET_AUTHRIZATION_RESULT
-} from '../constants/ActionTypes';
+} from '../actions/authorizeAction';
 
 const defaultUserState = {
   isFetching: false,
@@ -20,9 +20,9 @@ export default function user(state = defaultUserState, action) {
     case SET_AUTHRIZATION:
       return {
         ...state,
-        authrization: action.user
+        authrization: action.payload
       };
-    case REQUEST_LOGIN:
+    case REQUEST_STARTED:
       return {
         ...state,
         isFetching: true,
@@ -30,21 +30,21 @@ export default function user(state = defaultUserState, action) {
         hasError: false,
         result: false
       };
-    case RECEIVE_LOGIN:
+    case REQUEST_COMPELTED:
       return {
         ...state,
         isFetching: false,
-        authrization: action.user,
-        hasError: !!action.user.errcode,
-        result: !!action.user.rs
+        authrization: action.payload,
+        hasError: !!action.payload.errcode,
+        result: !!action.payload.rs
       };
-    case FAILURE_LOGIN:
+    case REQUEST_FAILED:
       return {
         ...state,
         isFetching: false
       };
     case REMOVE_CACHE:
-      if (!action.isLogin) {
+      if (!action.payload.isLogin) {
         return defaultUserState;
       }
       return state;

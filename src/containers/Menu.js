@@ -28,10 +28,6 @@ class Menu extends Component {
     this.props.getUserFromStorage();
   }
 
-  cleanCache() {
-    this.props.cleanCache();
-  }
-
   toggleLoginModal(visible) {
     this.setState({
       isLoginModalOpen: visible
@@ -48,7 +44,6 @@ class Menu extends Component {
           <LoginModal
             visible={isLoginModalOpen}
             menus={menus}
-            cleanCache={() => this.cleanCache()}
             closeLoginModal={() => this.toggleLoginModal(false)}
             {...this.props} />
         }
@@ -56,7 +51,6 @@ class Menu extends Component {
           authrization={user.authrization}
           openLoginModal={() => this.toggleLoginModal(true)}
           menus={menus}
-          cleanCache={() => this.cleanCache()}
           {...this.props} />
         <MenuItem
           menu={menus['home']}

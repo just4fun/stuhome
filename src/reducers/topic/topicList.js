@@ -3,9 +3,9 @@ import {
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   RESET,
-  REMOVE_CACHE,
   REQUEST_FAILED
 } from '../../actions/topic/topicListAction';
+import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
 const defaultTopicListState = {
   // indicate fetching via pull to refresh

@@ -3,9 +3,9 @@ import {
   REQUEST_AT_STARTED,
   REQUEST_REPLY_STARTED,
   REQUEST_COMPELTED,
-  REQUEST_FAILED,
-  REMOVE_CACHE
+  REQUEST_FAILED
 } from '../../actions/message/notifyListAction';
+import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
 const defaultNotifyListState = {
   isFetchingAtList: false,

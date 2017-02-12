@@ -3,9 +3,9 @@ import {
   REQUEST_TOPFORUM_STARTED,
   REQUEST_SUBFORUM_STARTED,
   REQUEST_COMPELTED,
-  REQUEST_FAILED,
-  REMOVE_CACHE
+  REQUEST_FAILED
 } from '../actions/forumAction';
+import { REMOVE_CACHE } from '../actions/authorizeAction';
 
 const defaultForumListState = {
   // indicate fetching top forums

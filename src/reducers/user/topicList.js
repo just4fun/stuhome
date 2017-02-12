@@ -3,9 +3,9 @@ import {
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   RESET,
-  REMOVE_CACHE,
   REQUEST_FAILED
 } from '../../actions/user/topicListAction';
+import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
 const defaultUserTopicListState = {
   isRefreshing: false,

@@ -1,4 +1,7 @@
-import { take, fork, select } from 'redux-saga/effects';
+import { AsyncStorage } from 'react-native';
+import { take, fork, select, put, call } from 'redux-saga/effects';
+
+import * as authorizeActions from '../actions/authorizeAction';
 import * as topicListActions from '../actions/topic/topicListAction';
 import * as userTopicListActions from '../actions/user/topicListAction';
 import * as forumListActions from '../actions/forumAction';
@@ -8,11 +11,39 @@ import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
 import api from '../services/api';
 
+const fetchLoginUserApi = fetchResource.bind(null, authorizeActions, api.fetchLoginUser);
 const fetchTopicListApi = fetchResource.bind(null, topicListActions, api.fetchTopicList);
 const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
+
+// user login sagas
+
+function* watchRetrieveUser() {
+  while(true) {
+    yield take(authorizeActions.RETRIEVE);
+    const authrization = yield call(getUserFromStorage);
+
+    if (authrization) {
+      const user = JSON.parse(authrization);
+      yield put(authorizeActions.setAuthrization(user));
+    }
+  }
+}
+
+// how to use `yield` inside callback?
+// https://github.com/redux-saga/redux-saga/issues/508
+function getUserFromStorage() {
+  return new Promise(resolve => AsyncStorage.getItem('authrization').then(resolve));
+}
+
+function* watchLogin() {
+  while(true) {
+    const { payload } = yield take(authorizeActions.REQUEST);
+    yield fork(fetchLoginUserApi, payload);
+  }
+}
 
 // topic list sagas
 
@@ -99,6 +130,8 @@ function* watchSearchList() {
 }
 
 export default function* rootSaga() {
+  yield fork(watchRetrieveUser);
+  yield fork(watchLogin);
   yield fork(watchTopicList);
   yield fork(watchUserTopicList);
   yield fork(watchForumList);

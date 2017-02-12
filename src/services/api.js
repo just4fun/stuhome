@@ -10,6 +10,13 @@ function callApi(endpoint) {
 }
 
 export default {
+  fetchLoginUser: ({
+    userName,
+    password
+  }) => {
+    return callApi(`user/login&username=${userName}&password=${password}`);
+  },
+
   fetchTopicList: ({
     boardId,
     sortType = DEFAULT_SORTTYPE,
