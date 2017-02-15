@@ -61,5 +61,13 @@ export default {
     pageSize = DEFAULT_PAGESIZE
   }) => {
     return callApi(`forum/search&keyword=${keyword}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
+  },
+
+  fetchTopic: ({
+    topicId,
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
+  }) => {
+    return callApi(`forum/postlist&topicId=${topicId}&page=${page}&pageSize=${pageSize}`);
   }
 };

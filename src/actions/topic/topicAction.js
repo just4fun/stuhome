@@ -1,12 +1,7 @@
 import { HOST, API_PREFIX, PLAT_TYPE } from '../../config';
 import { getAppHashValue } from '../../utils/app';
-import request from '../../utils/request';
+import _request from '../../utils/request';
 import {
-  REQUEST_TOPIC,
-  RECEIVE_TOPIC,
-  RESET_TOPIC,
-  FAILURE_TOPIC,
-
   START_PUBLISH,
   FINISH_PUBLISH,
   RESET_PUBLISH,
@@ -23,59 +18,32 @@ import {
   FAILURE_VOTE
 } from '../../constants/ActionTypes';
 
-const TOPIC_FETCH_API_PATH = 'forum/postlist';
 const TOPIC_POST_API_PATH = 'forum/topicadmin';
 const VOTE_API_PATH = 'forum/vote';
+
+// ****************************************************
+
+import { createAction } from 'redux-actions';
+
+export const REQUEST = Symbol();
+export const RESET = Symbol();
+export const fetchTopic = createAction(REQUEST);
+export const resetTopic = createAction(RESET);
+
+export const REQUEST_STARTED = Symbol();
+export const REQUEST_COMPELTED = Symbol();
+export const REQUEST_FAILED = Symbol();
+export const request = createAction(REQUEST_STARTED);
+// return 2nd argument as `meta` field
+export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
+export const failure = createAction(REQUEST_FAILED);
+
+// ****************************************************
 
 const ACTIONS = {
   REPLY: 'reply',
   NEW: 'new'
 };
-
-function requestTopic(isEndReached) {
-  return {
-    type: REQUEST_TOPIC,
-    isEndReached
-  };
-}
-
-function receiveTopic(topicItem) {
-  return {
-    type: RECEIVE_TOPIC,
-    topicItem
-  };
-}
-
-function failureTopic() {
-  return {
-    type: FAILURE_TOPIC
-  };
-}
-
-export function fetchTopic(topicId, isEndReached = false, page = 1, pageSize = 20) {
-  return dispatch => {
-    dispatch(requestTopic(isEndReached));
-
-    let url = HOST +
-              API_PREFIX +
-              TOPIC_FETCH_API_PATH +
-              `&topicId=${topicId}` +
-              `&page=${page}` +
-              `&pageSize=${pageSize}`;
-
-    return request({
-      url,
-      successCallback: data => dispatch(receiveTopic(data)),
-      failureCallback: () => dispatch(failureTopic())
-    });
-  };
-}
-
-export function resetTopic() {
-  return {
-    type: RESET_TOPIC
-  };
-}
 
 function assemblePayload(
   boardId,
@@ -146,7 +114,7 @@ export function submit(boardId, topicId, replyId, typeId, title, content) {
     let body = `act=${action}&json=${JSON.stringify(payload)}`;
     let fetchOptions = getFetchOptions(body);
 
-    return request({
+    return _request({
       url,
       fetchOptions,
       successCallback: data => dispatch(finishAction(data)),
@@ -188,7 +156,7 @@ export function publishVote(topicId, voteIds) {
     let body = `tid=${topicId}&options=${voteIds}`;
     let fetchOptions = getFetchOptions(body);
 
-    return request({
+    return _request({
       url,
       fetchOptions,
       successCallback: data => dispatch(finishVote(data)),

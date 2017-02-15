@@ -65,7 +65,9 @@ class TopicDetail extends Component {
   }
 
   fetchTopic() {
-    this.props.fetchTopic(this.topicId);
+    this.props.fetchTopic({
+      topicId: this.topicId
+    });
   }
 
   _endReached() {
@@ -78,7 +80,11 @@ class TopicDetail extends Component {
 
     if (!hasMore || isFetching || isEndReached) { return; }
 
-    this.props.fetchTopic(this.topicId, true, page + 1);
+    this.props.fetchTopic({
+      topicId: this.topicId,
+      isEndReached: true,
+      page: page + 1
+    });
   }
 
   _renderHeader(topic, token, vote) {

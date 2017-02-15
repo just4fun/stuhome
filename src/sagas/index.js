@@ -7,6 +7,8 @@ import * as userTopicListActions from '../actions/user/topicListAction';
 import * as forumListActions from '../actions/forumAction';
 import * as notifyListActions from '../actions/message/notifyListAction';
 import * as searchActions from '../actions/topic/searchAction';
+import * as topicActions from '../actions/topic/topicAction';
+
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
 import api from '../services/api';
@@ -17,6 +19,7 @@ const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
+const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 
 // user login sagas
 
@@ -129,6 +132,15 @@ function* watchSearchList() {
   }
 }
 
+// topic sagas
+
+function* watchTopic() {
+  while(true) {
+    const { payload } = yield take(topicActions.REQUEST);
+    yield fork(fetchTopicApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -137,4 +149,5 @@ export default function* rootSaga() {
   yield fork(watchForumList);
   yield fork(watchNotifyList);
   yield fork(watchSearchList);
+  yield fork(watchTopic);
 }
