@@ -10,16 +10,10 @@ import {
   START_REPLY,
   FINISH_REPLY,
   RESET_REPLY,
-  FAILURE_REPLY,
-
-  START_VOTE,
-  FINISH_VOTE,
-  RESET_VOTE,
-  FAILURE_VOTE
+  FAILURE_REPLY
 } from '../../constants/ActionTypes';
 
 const TOPIC_POST_API_PATH = 'forum/topicadmin';
-const VOTE_API_PATH = 'forum/vote';
 
 // ****************************************************
 
@@ -145,48 +139,6 @@ function failurePublish() {
 export function resetPublish() {
   return {
     type: RESET_PUBLISH
-  };
-}
-
-export function publishVote(topicId, voteIds) {
-  return dispatch => {
-    dispatch(startVote());
-
-    let url = HOST + API_PREFIX + VOTE_API_PATH;
-    let body = `tid=${topicId}&options=${voteIds}`;
-    let fetchOptions = getFetchOptions(body);
-
-    return _request({
-      url,
-      fetchOptions,
-      successCallback: data => dispatch(finishVote(data)),
-      failureCallback: () => dispatch(failureVote())
-    });
-  };
-}
-
-function startVote() {
-  return {
-    type: START_VOTE
-  };
-}
-
-function finishVote(response) {
-  return {
-    type: FINISH_VOTE,
-    response
-  };
-}
-
-function failureVote() {
-  return {
-    type: FAILURE_VOTE
-  };
-}
-
-export function resetVote() {
-  return {
-    type: RESET_VOTE
   };
 }
 

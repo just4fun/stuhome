@@ -5,8 +5,19 @@ const DEFAULT_SORTTYPE = 'all';
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGESIZE = 20;
 
-function callApi(endpoint) {
-  return request(`${API_ROOT}${endpoint}`);
+function callApi(endpoint, options) {
+  return request(`${API_ROOT}${endpoint}`, options);
+}
+
+function getFetchOptions(body) {
+  return {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body
+  };
 }
 
 export default {
@@ -69,5 +80,14 @@ export default {
     pageSize = DEFAULT_PAGESIZE
   }) => {
     return callApi(`forum/postlist&topicId=${topicId}&page=${page}&pageSize=${pageSize}`);
+  },
+
+  publishVote: ({
+    topicId,
+    voteIds
+  }) => {
+    let body = `tid=${topicId}&options=${voteIds}`;
+    let fetchOptions = getFetchOptions(body);
+    return callApi('forum/vote', fetchOptions);
   }
 };

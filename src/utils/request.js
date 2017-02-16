@@ -16,18 +16,6 @@ function checkStatus(response) {
 }
 
 export default function request(url, options) {
-  // let requestUrl = null;
-
-  // if (typeof url === 'object') {
-  //   options = url;
-  //   url = undefined;
-  // }
-
-  // options = options || {};
-  // requestUrl = url || options.url;
-
-  // let { successCallback, failureCallback, fetchOptions } = options;
-
   return AsyncStorage.getItem('authrization')
     .then(authrization => {
       if (authrization) {

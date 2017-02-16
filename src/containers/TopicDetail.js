@@ -25,10 +25,12 @@ import {
   fetchTopic,
   resetTopic,
   submit,
-  resetReply,
+  resetReply
+} from '../actions/topic/topicAction';
+import {
   publishVote,
   resetVote
-} from '../actions/topic/topicAction';
+} from '../actions/topic/voteAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -188,10 +190,10 @@ class TopicDetail extends Component {
   }
 
   _publishVote(voteIds) {
-    this.props.publishVote(
-      this.topicId,
+    this.props.publishVote({
+      topicId: this.topicId,
       voteIds
-    );
+    });
   }
 
   _resetVote() {
