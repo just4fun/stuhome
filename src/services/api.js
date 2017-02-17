@@ -1,9 +1,21 @@
 import request from '../utils/request';
-import { API_ROOT } from '../config';
+import { API_ROOT, PLAT_TYPE } from '../config';
+import { getAppHashValue } from '../utils/app';
 
 const DEFAULT_SORTTYPE = 'all';
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGESIZE = 20;
+
+const ACTIONS = {
+  REPLY: 'reply',
+  NEW: 'new'
+};
+
+/*********************************
+ *
+ * Private Help Methods
+ *
+ *********************************/
 
 function callApi(endpoint, options) {
   return request(`${API_ROOT}${endpoint}`, options);
@@ -19,6 +31,42 @@ function getFetchOptions(body) {
     body
   };
 }
+
+function assemblePayload(
+  boardId,
+  topicId,
+  replyId,
+  typeId,
+  title,
+  content
+) {
+  return {
+    body: {
+      json: {
+        fid: boardId,
+        tid: topicId,
+        isAnonymous: 0,
+        isOnlyAuthor: 0,
+        isQuote: +!!replyId,
+        replyId: replyId,
+        typeId: typeId,
+        title: title,
+        content: JSON.stringify([
+          {
+            type: 0,
+            infor: content
+          }
+        ])
+      }
+    }
+  };
+}
+
+/*********************************
+ *
+ * API Methods
+ *
+ *********************************/
 
 export default {
   fetchLoginUser: ({
@@ -89,5 +137,22 @@ export default {
     let body = `tid=${topicId}&options=${voteIds}`;
     let fetchOptions = getFetchOptions(body);
     return callApi('forum/vote', fetchOptions);
-  }
+  },
+
+  publishTopic: ({
+    boardId,
+    topicId,
+    replyId,
+    typeId,
+    title,
+    content
+  }) => {
+    // if there is `topicId`, it's `reply`, not `publish`
+    let action = topicId ? ACTIONS.REPLY : ACTIONS.NEW;
+    let payload = assemblePayload(boardId, topicId, replyId, typeId, title, content);
+    let body = `act=${action}&json=${JSON.stringify(payload)}`;
+    let fetchOptions = getFetchOptions(body);
+
+    return callApi(`forum/topicadmin&apphash=${getAppHashValue()}&platType=${PLAT_TYPE}`, fetchOptions);
+  },
 };

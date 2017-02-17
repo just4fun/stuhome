@@ -21,11 +21,11 @@ import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import { PopButton, ReplyButton, CommentButton } from '../components/button';
+import { submit } from '../actions/topic/publishAction';
+import { resetReply } from '../actions/topic/replyAction';
 import {
   fetchTopic,
-  resetTopic,
-  submit,
-  resetReply
+  resetTopic
 } from '../actions/topic/topicAction';
 import {
   publishVote,
@@ -179,14 +179,14 @@ class TopicDetail extends Component {
   }
 
   _publish({ content, replyId }) {
-    this.props.submit(
-      this.boardId,
-      this.topicId,
+    this.props.submit({
+      boardId: this.boardId,
+      topicId: this.topicId,
       replyId,
-      null,
-      null,
+      typeId: null,
+      title: null,
       content
-    );
+    });
   }
 
   _publishVote(voteIds) {

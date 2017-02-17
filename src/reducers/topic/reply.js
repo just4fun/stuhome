@@ -1,9 +1,9 @@
 import {
-  START_REPLY,
-  FINISH_REPLY,
-  RESET_REPLY,
-  FAILURE_REPLY
-} from '../../constants/ActionTypes';
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  RESET,
+  REQUEST_FAILED
+} from '../../actions/topic/replyAction';
 
 const defaultState = {
   isPublishing: false,
@@ -12,19 +12,19 @@ const defaultState = {
 
 export default function reply(state = defaultState, action) {
   switch (action.type) {
-    case START_REPLY:
+    case REQUEST_STARTED:
       return {
         ...state,
         isPublishing: true
       };
-    case FINISH_REPLY:
+    case REQUEST_COMPELTED:
       return {
         ...state,
         isPublishing: false,
-        response: action.response
+        response: action.payload
       };
-    case FAILURE_REPLY:
-    case RESET_REPLY:
+    case REQUEST_FAILED:
+    case RESET:
       return defaultState;
     default:
       return state;

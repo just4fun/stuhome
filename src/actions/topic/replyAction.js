@@ -1,9 +1,7 @@
 import { createAction } from 'redux-actions';
 
-export const REQUEST = Symbol();
 export const RESET = Symbol();
-export const fetchTopic = createAction(REQUEST);
-export const resetTopic = createAction(RESET);
+export const resetReply = createAction(RESET);
 
 export const REQUEST_STARTED = Symbol();
 export const REQUEST_COMPELTED = Symbol();

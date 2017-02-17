@@ -14,7 +14,7 @@ import TopicList from '../components/TopicList';
 import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';
 import { PopButton, PublishButton } from '../components/button';
-import { submit, resetPublish } from '../actions/topic/topicAction';
+import { submit, resetPublish } from '../actions/topic/publishAction';
 import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/topic/topicListAction';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
@@ -81,14 +81,14 @@ class ForumDetail extends Component {
   _publish(topic) {
     let { typeId, title, content } = topic;
 
-    this.props.submit(
-      this.boardId,
-      null,
-      null,
+    this.props.submit({
+      boardId: this.boardId,
+      topicId: null,
+      replyId: null,
       typeId,
       title,
       content
-    );
+    });
   }
 
   togglePublishModal(visible) {

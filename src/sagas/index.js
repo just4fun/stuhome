@@ -9,6 +9,8 @@ import * as notifyListActions from '../actions/message/notifyListAction';
 import * as searchActions from '../actions/topic/searchAction';
 import * as topicActions from '../actions/topic/topicAction';
 import * as voteActions from '../actions/topic/voteAction';
+import * as publishActions from '../actions/topic/publishAction';
+import * as replyActions from '../actions/topic/replyAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -22,6 +24,8 @@ const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetch
 const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
 const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const publishTopicVoteApi = fetchResource.bind(null, voteActions, api.publishVote);
+const publishTopicApi = fetchResource.bind(null, publishActions, api.publishTopic);
+const replyTopicApi = fetchResource.bind(null, replyActions, api.publishTopic);
 
 // user login sagas
 
@@ -152,6 +156,21 @@ function* watchTopicVote() {
   }
 }
 
+// topic publish sagas
+
+function* watchPublishTopic() {
+  while(true) {
+    const { payload } = yield take(publishActions.REQUEST);
+
+    // if there is `topicId`, it's `reply`, not `publish`
+    if (payload.topicId) {
+      yield fork(replyTopicApi, payload);
+    } else {
+      yield fork(publishTopicApi, payload);
+    }
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -162,4 +181,5 @@ export default function* rootSaga() {
   yield fork(watchSearchList);
   yield fork(watchTopic);
   yield fork(watchTopicVote);
+  yield fork(watchPublishTopic);
 }
