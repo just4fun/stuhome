@@ -16,6 +16,7 @@ import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
 import Header from '../Header';
 import TopicTypeModal from './TopicTypeModal';
+import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
 
 export default class PublishModal extends Component {
@@ -180,6 +181,9 @@ export default class PublishModal extends Component {
                 multiline={true}
                 editable={!publish.isPublishing}
                 placeholder='请输入正文' />
+            </View>
+            <View style={styles.upload}>
+              <ImageUploader />
             </View>
           </ScrollView>
         </View>
