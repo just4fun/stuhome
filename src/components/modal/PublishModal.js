@@ -27,7 +27,8 @@ export default class PublishModal extends Component {
       typeId: null,
       title: '',
       content: '',
-      isTopicTypeModalOpen: false
+      isTopicTypeModalOpen: false,
+      images: []
     };
     this.title = this.props.title || '发表新主题';
   }
@@ -95,8 +96,20 @@ export default class PublishModal extends Component {
     });
   }
 
+  addImage(image) {
+    this.setState({
+      images: this.state.images.concat(image)
+    });
+  }
+
+  removeImage(imageNameWithIndex) {
+    this.setState({
+      images: this.state.images.filter((image, index) => `${image.fileName}_${index}` !== imageNameWithIndex)
+    });
+  }
+
   render() {
-    let { typeId, title, content, isTopicTypeModalOpen } = this.state;
+    let { typeId, title, content, isTopicTypeModalOpen, images } = this.state;
     let { publish, types } = this.props;
 
     return (
@@ -183,7 +196,10 @@ export default class PublishModal extends Component {
                 placeholder='请输入正文' />
             </View>
             <View style={styles.upload}>
-              <ImageUploader />
+              <ImageUploader
+                images={this.state.images}
+                addImage={image => this.addImage(image)}
+                removeImage={imageNameWithIndex => this.removeImage(imageNameWithIndex)}/>
             </View>
           </ScrollView>
         </View>

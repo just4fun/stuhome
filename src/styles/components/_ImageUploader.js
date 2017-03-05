@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
+import Dimensions from 'Dimensions';
 import colors from '../common/_colors';
+
+const window = Dimensions.get('window');
+const IMAGE_WIDTH = (window.width - 10 * 5 - 12) / 4
 
 export default StyleSheet.create({
   container: {
@@ -14,13 +18,13 @@ export default StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: colors.underlay,
-    height: 80,
-    width: 80,
+    height: IMAGE_WIDTH,
+    width: IMAGE_WIDTH,
     borderStyle: 'dashed'
   },
   image: {
-    height: 80,
-    width: 80,
+    height: IMAGE_WIDTH,
+    width: IMAGE_WIDTH,
   },
   remove: {
     position: 'absolute',
