@@ -13,6 +13,8 @@ import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
+import ImageUploader from '../ImageUploader';
+import api from '../../services/api';
 
 export default class ReplyModal extends Component {
   constructor(props) {
@@ -39,7 +41,9 @@ export default class ReplyModal extends Component {
       replyContent: '',
       replyId,
       boardId,
-      topicId
+      topicId,
+      images: [],
+      isUploading: false
     };
   }
 
@@ -95,7 +99,29 @@ export default class ReplyModal extends Component {
 
   _handlePublish(comment) {
     this.contentInput.blur();
-    this.props.handlePublish(comment);
+
+    this.setState({ isUploading: true });
+    api.uploadImages(this.state.images).then(data => {
+      this.setState({ isUploading: false });
+
+      if (data) {
+        comment.images = data;
+      }
+
+      this.props.handlePublish(comment);
+    });
+  }
+
+  addImage(image) {
+    this.setState({
+      images: this.state.images.concat(image)
+    });
+  }
+
+  removeImage(imageNameWithIndex) {
+    this.setState({
+      images: this.state.images.filter((image, index) => `${image.fileName}_${index}` !== imageNameWithIndex)
+    });
   }
 
   render() {
@@ -107,6 +133,8 @@ export default class ReplyModal extends Component {
       boardId,
       topicId
     } = this.state;
+
+    let isPublishing = this.state.isUploading || reply.isPublishing;
 
     return (
       <Modal
@@ -122,7 +150,7 @@ export default class ReplyModal extends Component {
               取消
             </Text>
             {replyContent.length &&
-              (reply.isPublishing &&
+              (isPublishing &&
                 <ActivityIndicator color='white' />
                 ||
                 <Text
@@ -143,15 +171,23 @@ export default class ReplyModal extends Component {
               </Text>
             }
           </Header>
-          <View style={styles.formItem}>
-            <TextInput
-              ref={component => this.contentInput = component}
-              placeholder='同学，请文明用语噢～'
-              style={[styles.replyBox, reply.isPublishing && { backgroundColor: '#ddd' }]}
-              onChangeText={(text) => this.setState({ replyContent: text })}
-              autoFocus={true}
-              multiline={true}
-              editable={!reply.isPublishing} />
+          <View style={styles.form}>
+            <View style={styles.formItem}>
+              <TextInput
+                ref={component => this.contentInput = component}
+                placeholder='同学，请文明用语噢～'
+                style={[styles.replyBox, isPublishing && { backgroundColor: '#ddd' }]}
+                onChangeText={(text) => this.setState({ replyContent: text })}
+                autoFocus={true}
+                multiline={true}
+                editable={!isPublishing} />
+            </View>
+            <View style={styles.upload}>
+              <ImageUploader
+                images={this.state.images}
+                addImage={image => this.addImage(image)}
+                removeImage={imageNameWithIndex => this.removeImage(imageNameWithIndex)}/>
+            </View>
           </View>
         </View>
       </Modal>

@@ -35,13 +35,14 @@ class Message extends Component {
     });
   }
 
-  _publish({ boardId, topicId, replyId, content }) {
+  _publish({ boardId, topicId, replyId, images, content }) {
     this.props.submit({
       boardId,
       topicId,
       replyId,
       typeId: null,
       title: null,
+      images,
       content
     });
   }
