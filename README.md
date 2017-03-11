@@ -80,8 +80,10 @@ npm run eslint
 
 - ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/uestc-bbs-react-native/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
 - ~~Submit to App Store~~ ([link](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355))
+- Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)
 - Fixture data (aka `mock data`)
 - ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/uestc-bbs-react-native/pull/8))
+- Push notification
 
 ## Known issues
 
