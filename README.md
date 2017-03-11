@@ -81,7 +81,7 @@ npm run eslint
 - ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/uestc-bbs-react-native/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
 - ~~Submit to App Store~~ ([link](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355))
 - Fixture data (aka `mock data`)
-- Unit Testing (refer this [article](http://www.schibsted.pl/2015/10/testing-react-native-components-with-jest/))
+- ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/uestc-bbs-react-native/pull/8))
 
 ## Known issues
 
