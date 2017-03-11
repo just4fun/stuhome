@@ -5,7 +5,8 @@
   "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
-    "eslint": "eslint ./src"
+    "eslint": "eslint ./src",
+    "test": "mocha --require react-native-mock/mock.js tests/mocha-setup.js tests/**/*.js"
   },
   "homepage": "https://github.com/just4fun/uestc-bbs-react-native#readme",
   "repository": {
@@ -37,9 +38,16 @@
     "redux-saga": "0.14.3"
   },
   "devDependencies": {
+    "babel": "6.5.2",
+    "babel-core": "6.22.1",
     "babel-eslint": "6.0.0-beta.6",
+    "babel-preset-react-native": "1.9.1",
+    "chai": "3.5.0",
+    "enzyme": "2.7.0",
     "eslint": "2.4.0",
-    "eslint-plugin-react": "4.2.3"
+    "eslint-plugin-react": "4.2.3",
+    "mocha": "3.2.0",
+    "react-native-mock": "0.2.9"
   },
   "license": "MIT"
 }
