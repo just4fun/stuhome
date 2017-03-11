@@ -57,7 +57,7 @@ npm run eslint
   - [x] Publish topic
   - [x] Reply topic
   - [x] Reply comment
-  - [ ] Upload images
+  - [x] Upload images
   - [ ] Report objectionable content
 - [ ] Vote
   - [ ] Create vote
