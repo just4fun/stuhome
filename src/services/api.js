@@ -186,13 +186,14 @@ export default {
   uploadImages: (images) => {
     if (!images || images.length === 0) { return Promise.resolve(null); }
 
-    let promises = images.map(image => {
+    let promises = images.map((image, index) => {
       let formData = new FormData();
+      let pathParts = image.path.split('/');
 
       formData.append('uploadFile[]', {
         type: 'image/jpg',
-        name: image.fileName,
-        uri: image.uri
+        name: `upload_${index}.jpg`,
+        uri: image.path
       });
 
       let fetchOptions = getUploadFetchOptions(formData);

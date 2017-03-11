@@ -5,26 +5,20 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_ImageUploader';
 import colors from '../styles/common/_colors';
 
 export default class ImageUploader extends Component {
   launchImageLibrary() {
-    ImagePicker.launchImageLibrary(null, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        this.props.addImage(response);
-      }
+    ImagePicker.openPicker({
+      compressImageQuality: 0.5,
+      // mediaType: 'photo',
+      // loadingLabelText: '处理中...',
+      multiple: true
+    }).then(images => {
+      this.props.addImages(images);
     });
   }
 
@@ -37,11 +31,11 @@ export default class ImageUploader extends Component {
                                 key={index}
                                 underlayColor={colors.underlay}>
               <Image style={styles.image}
-                     source={{ uri: image.uri }}>
+                     source={{ uri: image.path }}>
                 <Icon style={styles.remove}
                       name='window-close'
                       size={16}
-                      onPress={() => this.props.removeImage(`${image.fileName}_${index}`)} />
+                      onPress={() => this.props.removeImage(index)} />
               </Image>
             </TouchableHighlight>
           );

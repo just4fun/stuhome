@@ -112,15 +112,15 @@ export default class ReplyModal extends Component {
     });
   }
 
-  addImage(image) {
+  addImages(images) {
     this.setState({
-      images: this.state.images.concat(image)
+      images: this.state.images.concat(images)
     });
   }
 
-  removeImage(imageNameWithIndex) {
+  removeImage(imageIndex) {
     this.setState({
-      images: this.state.images.filter((image, index) => `${image.fileName}_${index}` !== imageNameWithIndex)
+      images: this.state.images.filter((image, index) => index !== imageIndex)
     });
   }
 
@@ -185,8 +185,8 @@ export default class ReplyModal extends Component {
             <View style={styles.upload}>
               <ImageUploader
                 images={this.state.images}
-                addImage={image => this.addImage(image)}
-                removeImage={imageNameWithIndex => this.removeImage(imageNameWithIndex)}/>
+                addImages={images => this.addImages(images)}
+                removeImage={imageIndex => this.removeImage(imageIndex)}/>
             </View>
           </View>
         </View>
