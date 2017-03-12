@@ -56,8 +56,7 @@ export default StyleSheet.create({
     color: colors.userLevel,
   },
   floor: {
-    flex: 1,
-    textAlign: 'right',
+    marginBottom: 8,
     color: colors.mainField,
   },
   content: {
@@ -108,4 +107,13 @@ export default StyleSheet.create({
     marginTop: 2,
     color: colors.mainField,
   },
+  fullFavor: {
+    color: '#ffa447'
+  },
+  emptyFavor: {
+    color: colors.mainField,
+  },
+  favor: {
+    textAlign: 'center',
+  }
 });

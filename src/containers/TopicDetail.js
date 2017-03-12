@@ -122,7 +122,20 @@ class TopicDetail extends Component {
               <Text style={styles.name}>{topic.user_nick_name}</Text>
               <Text style={styles.level}>{topic.userTitle}</Text>
             </View>
-            <Text style={styles.floor}>楼主</Text>
+            <View>
+              <Text style={styles.floor}>楼主</Text>
+              {topic.is_favor &&
+                <Icon
+                  style={[styles.favor, styles.fullFavor]}
+                  size={18}
+                  name='star' />
+                ||
+                <Icon
+                  style={[styles.favor, styles.emptyFavor]}
+                  size={18}
+                  name='star-o' />
+              }
+            </View>
           </View>
           <View style={styles.content}>
             <Content content={topic.content}
