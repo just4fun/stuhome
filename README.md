@@ -57,6 +57,7 @@ npm run eslint
   - [x] Publish topic
   - [x] Reply topic
   - [x] Reply comment
+  - [x] Favor topic
   - [ ] Upload images
   - [ ] Report objectionable content
 - [ ] Vote
@@ -72,7 +73,7 @@ npm run eslint
 - [ ] Individual
   - [x] View latest published topics
   - [x] View latest replied topics
-  - [ ] View favorite topics
+  - [x] View favorite topics
   - [ ] Update password
   - [ ] Upload avatar
 
