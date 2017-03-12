@@ -51,13 +51,13 @@ class Individual extends Component {
   }
 
   changeTab(e) {
-    if (e.i === 1) {
-      this.props.fetchUserTopicList({
-        userId: this.userId,
-        isEndReached: false,
-        type: 'reply'
-      });
-    }
+    if (e.i === 0) { return; }
+
+    this.props.fetchUserTopicList({
+      userId: this.userId,
+      isEndReached: false,
+      type: e.i === 1 ? 'reply' : 'favorite'
+    });
   }
 
   render() {
@@ -104,6 +104,14 @@ class Individual extends Component {
             typeId={uid}
             isIndividual={true}
             individualType='reply'
+            topicList={userTopicList}
+            refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
+          <TopicList
+            tabLabel='我的收藏'
+            router={router}
+            typeId={uid}
+            isIndividual={true}
+            individualType='favorite'
             topicList={userTopicList}
             refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
         </ScrollableTabView>
