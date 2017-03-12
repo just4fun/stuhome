@@ -11,6 +11,7 @@ import * as topicActions from '../actions/topic/topicAction';
 import * as voteActions from '../actions/topic/voteAction';
 import * as publishActions from '../actions/topic/publishAction';
 import * as replyActions from '../actions/topic/replyAction';
+import * as favorActions from '../actions/topic/favorAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -26,6 +27,7 @@ const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const publishTopicVoteApi = fetchResource.bind(null, voteActions, api.publishVote);
 const publishTopicApi = fetchResource.bind(null, publishActions, api.publishTopic);
 const replyTopicApi = fetchResource.bind(null, replyActions, api.publishTopic);
+const favorTopicApi = fetchResource.bind(null, favorActions, api.favorTopic);
 
 // user login sagas
 
@@ -171,6 +173,15 @@ function* watchPublishTopic() {
   }
 }
 
+// favor topic sagas
+
+function* watchFavorTopic() {
+  while(true) {
+    const { payload } = yield take(favorActions.REQUEST);
+    yield fork(favorTopicApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -182,4 +193,5 @@ export default function* rootSaga() {
   yield fork(watchTopic);
   yield fork(watchTopicVote);
   yield fork(watchPublishTopic);
+  yield fork(watchFavorTopic);
 }

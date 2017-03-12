@@ -5,6 +5,7 @@ export topicListAction from './topic/topicListAction';
 export voteAction from './topic/voteAction';
 export publishAction from './topic/publishAction';
 export replyAction from './topic/replyAction';
+export favorAction from './topic/favorAction';
 export userTopicListAction from './user/topicListAction';
 export authorizeAction from './authorizeAction';
 export forumAction from './forumAction';
