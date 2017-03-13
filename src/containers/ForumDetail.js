@@ -18,6 +18,12 @@ import { submit, resetPublish } from '../actions/topic/publishAction';
 import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/topic/topicListAction';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
+const TABS = [
+  { label: '最新发表', type: 'publish' },
+  { label: '最新回复', type: 'all' },
+  { label: '精华', type: 'essence' }
+];
+
 class ForumDetail extends Component {
   constructor(props) {
     super(props);
@@ -53,18 +59,34 @@ class ForumDetail extends Component {
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
-      sortType: 'all'
+      sortType: 'publish'
     });
   }
 
-  _refreshTopicList(page, isEndReached) {
+  _refreshTopicList(page, isEndReached, sortType) {
     this.props.invalidateTopicList();
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached,
-      sortType: 'all',
+      sortType,
       page
     });
+  }
+
+  changeTab(e) {
+    if (e.i === 0) { return; }
+
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached: false,
+      sortType: this._getSortType(e.i)
+    });
+  }
+
+  _getSortType(tabIndex) {
+    if (tabIndex === 1) { return 'all'; }
+
+    if (tabIndex === 2) { return 'essence'; }
   }
 
   _fetchForumList() {
@@ -142,13 +164,22 @@ class ForumDetail extends Component {
             tabBarActiveTextColor={colors.white}
             tabBarInactiveTextColor={colors.white}
             tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
-            tabBarTextStyle={scrollableTabViewStyles.tabBarText}>
-            <TopicList
-              tabLabel='最新'
-              router={router}
-              typeId={this.boardId}
-              topicList={topicList}
-              refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
+            tabBarTextStyle={scrollableTabViewStyles.tabBarText}
+            onChangeTab={e => this.changeTab(e)}>
+            {TABS.map((tab, index) => {
+               return (
+                 <TopicList
+                   key={index}
+                   tabLabel={tab.label}
+                   router={router}
+                   hasType={true}
+                   typeId={this.boardId}
+                   type={tab.type}
+                   topicList={topicList}
+                   refreshTopicList={(page, isEndReached, sortType) => this._refreshTopicList(page, isEndReached, sortType)} />
+               );
+             })
+            }
             <ForumItems
               tabLabel='子版块'
               router={router}
@@ -160,11 +191,28 @@ class ForumDetail extends Component {
           </ScrollableTabView>
         }
         {this.boardContent && !this.boardChild &&
-          <TopicList
-            router={router}
-            typeId={this.boardId}
-            topicList={topicList}
-            refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
+          <ScrollableTabView
+            tabBarBackgroundColor={colors.lightBlue}
+            tabBarActiveTextColor={colors.white}
+            tabBarInactiveTextColor={colors.white}
+            tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
+            tabBarTextStyle={scrollableTabViewStyles.tabBarText}
+            onChangeTab={e => this.changeTab(e)}>
+            {TABS.map((tab, index) => {
+               return (
+                 <TopicList
+                   key={index}
+                   tabLabel={tab.label}
+                   router={router}
+                   hasType={true}
+                   typeId={this.boardId}
+                   type={tab.type}
+                   topicList={topicList}
+                   refreshTopicList={(page, isEndReached, sortType) => this._refreshTopicList(page, isEndReached, sortType)} />
+               );
+             })
+           }
+          </ScrollableTabView>
         }
         {!this.boardContent && this.boardChild &&
           <ForumItems

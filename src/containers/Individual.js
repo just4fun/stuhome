@@ -94,16 +94,16 @@ class Individual extends Component {
             tabLabel='最近发表'
             router={router}
             typeId={uid}
-            isIndividual={true}
-            individualType='topic'
+            hasType={true}
+            type='topic'
             topicList={userTopicList}
             refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
           <TopicList
             tabLabel='最近回复'
             router={router}
             typeId={uid}
-            isIndividual={true}
-            individualType='reply'
+            hasType={true}
+            type='reply'
             topicList={userTopicList}
             refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
         </ScrollableTabView>

@@ -70,13 +70,13 @@ export default function userTopicList(state = defaultUserTopicListState, action)
   }
 }
 
-function getNewCache(oldState, userTopicList, userId, type, page, isSuccessful) {
+function getNewCache(oldState, userTopicList, userId, individualType, page, isSuccessful) {
   if (!isSuccessful) { return oldState.list; }
 
   let newUserTopicList = [];
 
   if (page !== 1) {
-    newUserTopicList = oldState.list[userId][type].topicList.concat(userTopicList);
+    newUserTopicList = oldState.list[userId][individualType].topicList.concat(userTopicList);
   } else {
     newUserTopicList = userTopicList;
   }
@@ -85,7 +85,7 @@ function getNewCache(oldState, userTopicList, userId, type, page, isSuccessful) 
     ...oldState.list,
     [userId]: {
       ...oldState.list[userId],
-      [type]: {
+      [individualType]: {
         topicList: newUserTopicList
       }
     }

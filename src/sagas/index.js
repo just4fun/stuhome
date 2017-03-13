@@ -65,8 +65,9 @@ function* watchTopicList() {
 
 function* fetchTopicList(payload) {
   const state = yield select();
+  const { boardId, sortType } = payload;
 
-  if (cacheManager.shouldFetchList(state, 'topicList', payload.boardId)) {
+  if (cacheManager.shouldFetchList(state, 'topicList', boardId, sortType)) {
     yield fork(fetchTopicListApi, payload);
   }
 }

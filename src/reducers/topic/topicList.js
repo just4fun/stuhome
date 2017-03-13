@@ -39,7 +39,8 @@ export default function topicList(state = defaultTopicListState, action) {
       let {
         payload: topicList,
         meta: {
-          boardId
+          boardId,
+          sortType
         }
       } = action;
       let typeList = getMappedTypeList(topicList.classificationType_list);
@@ -50,7 +51,7 @@ export default function topicList(state = defaultTopicListState, action) {
         isEndReached: false,
         didInvalidate: false,
         boardId,
-        list: getNewCache(state, typeList, topicList.list, boardId, topicList.page, topicList.rs),
+        list: getNewCache(state, typeList, topicList.list, boardId, sortType, topicList.page, topicList.rs),
         hasMore: !!topicList.has_next,
         page: topicList.page,
         errCode: topicList.errcode
@@ -88,7 +89,7 @@ function getMappedTypeList(typeList) {
 }
 
 // cache topic list and return
-function getNewCache(oldState, typeList, topicList, boardId, page, isSuccessful) {
+function getNewCache(oldState, typeList, topicList, boardId, sortType, page, isSuccessful) {
   // if we have no access to a forum or sub forum, we
   // should return original forum groups.
   if (!isSuccessful) { return oldState.list; }
@@ -96,7 +97,7 @@ function getNewCache(oldState, typeList, topicList, boardId, page, isSuccessful)
   let newTopicList = [];
 
   if (page !== 1) {
-    newTopicList = oldState.list[boardId].topicList.concat(topicList);
+    newTopicList = oldState.list[boardId][sortType].topicList.concat(topicList);
   } else {
     newTopicList = topicList;
   }
@@ -104,8 +105,11 @@ function getNewCache(oldState, typeList, topicList, boardId, page, isSuccessful)
   return {
     ...oldState.list,
     [boardId]: {
+      ...oldState.list[boardId],
       typeList,
-      topicList: newTopicList
+      [sortType]: {
+        topicList: newTopicList
+      }
     }
   };
 }

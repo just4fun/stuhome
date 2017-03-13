@@ -14,7 +14,7 @@ export default class TopicList extends Component {
   constructor(props) {
     super(props);
 
-    this.type = this.props.individualType;
+    this.type = this.props.type;
   }
 
   scrollToTop() {
@@ -58,14 +58,14 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let { topicList, typeId, isSearch, isIndividual, individualType } = this.props;
+    let { topicList, typeId, isSearch, hasType, type } = this.props;
     let realTopicList = [];
     let refreshControl = null;
 
     if (!isSearch) {
-      if (isIndividual) {
-        if (topicList.list[typeId] && topicList.list[typeId][individualType]) {
-          realTopicList = topicList.list[typeId][individualType].topicList;
+      if (hasType) {
+        if (topicList.list[typeId] && topicList.list[typeId][type]) {
+          realTopicList = topicList.list[typeId][type].topicList;
         };
       } else {
         if (topicList.list[typeId]) {
@@ -75,7 +75,7 @@ export default class TopicList extends Component {
 
       refreshControl = <RefreshControl
                          title='正在加载...'
-                         onRefresh={() => this.props.refreshTopicList(1, false, individualType)}
+                         onRefresh={() => this.props.refreshTopicList(1, false, type)}
                          refreshing={topicList.isRefreshing} />;
     } else {
       realTopicList = topicList.list;
