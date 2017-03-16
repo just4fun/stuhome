@@ -155,4 +155,14 @@ export default {
 
     return callApi(`forum/topicadmin&apphash=${getAppHashValue()}&platType=${PLAT_TYPE}`, fetchOptions);
   },
+
+  favorTopic: ({
+    action,
+    id,
+    idType = 'tid',
+  }) => {
+    let body = `action=${action}&id=${id}&idType=${idType}`;
+    let fetchOptions = getFetchOptions(body);
+    return callApi('user/userfavorite', fetchOptions);
+  }
 };

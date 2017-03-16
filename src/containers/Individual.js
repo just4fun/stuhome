@@ -18,6 +18,13 @@ import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
 
+const TABS = [
+  { label: '最近发表', type: 'topic' },
+  { label: '最近回复', type: 'reply' },
+  { label: '我的收藏', type: 'favorite' }
+];
+
+
 class Individual extends Component {
   constructor(props) {
     super(props);
@@ -51,13 +58,13 @@ class Individual extends Component {
   }
 
   changeTab(e) {
-    if (e.i === 1) {
-      this.props.fetchUserTopicList({
-        userId: this.userId,
-        isEndReached: false,
-        type: 'reply'
-      });
-    }
+    if (e.i === 0) { return; }
+
+    this.props.fetchUserTopicList({
+      userId: this.userId,
+      isEndReached: false,
+      type: e.i === 1 ? 'reply' : 'favorite'
+    });
   }
 
   render() {
@@ -90,22 +97,19 @@ class Individual extends Component {
           tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
           tabBarTextStyle={scrollableTabViewStyles.tabBarText}
           onChangeTab={e => this.changeTab(e)}>
-          <TopicList
-            tabLabel='最近发表'
-            router={router}
-            typeId={uid}
-            isIndividual={true}
-            individualType='topic'
-            topicList={userTopicList}
-            refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
-          <TopicList
-            tabLabel='最近回复'
-            router={router}
-            typeId={uid}
-            isIndividual={true}
-            individualType='reply'
-            topicList={userTopicList}
-            refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
+          {TABS.map((tab, index) => {
+            return (
+              <TopicList
+                key={index}
+                tabLabel={tab.label}
+                router={router}
+                typeId={uid}
+                isIndividual={true}
+                individualType={tab.type}
+                topicList={userTopicList}
+                refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
+            );
+          })}
         </ScrollableTabView>
       </View>
     );
