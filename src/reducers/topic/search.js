@@ -1,10 +1,9 @@
 import {
-  INVALIDATE_SEARCH,
-  REQUEST_SEARCH,
-  RECEIVE_SEARCH,
-  RESET_SEARCH,
-  FAILURE_SEARCH
-} from '../../constants/ActionTypes';
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  REQUEST_FAILED,
+  RESET
+} from '../../actions/topic/searchAction';
 
 const defaultSearchState = {
   // indicate fetching via pull to refresh
@@ -20,20 +19,17 @@ const defaultSearchState = {
 
 export default function search(state = defaultSearchState, action) {
   switch (action.type) {
-    case INVALIDATE_SEARCH:
+    case REQUEST_STARTED:
       return {
         ...state,
-        didInvalidate: true
-      };
-    case REQUEST_SEARCH:
-      return {
-        ...state,
-        isRefreshing: !action.isEndReached,
-        isEndReached: action.isEndReached,
+        isRefreshing: !action.payload.isEndReached,
+        isEndReached: action.payload.isEndReached,
         didInvalidate: false
       };
-    case RECEIVE_SEARCH:
-      let { topicList } = action;
+    case REQUEST_COMPELTED:
+      let {
+        payload: topicList
+      } = action;
 
       // if there is no search result, both `page`
       // and `list` will return `undefined`.
@@ -51,15 +47,15 @@ export default function search(state = defaultSearchState, action) {
         page: topicList.page,
         errCode: topicList.errcode
       };
-    case RESET_SEARCH:
-      return defaultSearchState;
-    case FAILURE_SEARCH:
+    case REQUEST_FAILED:
       return {
         ...state,
         isRefreshing: false,
         isEndReached: false,
         didInvalidate: false
       };
+    case RESET:
+      return defaultSearchState;
     default:
       return state;
   }

@@ -8,8 +8,9 @@ import colors from '../styles/common/_colors';
 import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
 import ReplyModal from '../components/modal/ReplyModal';
-import { invalidateNotifyList, fetchNotifyListIfNeeded } from '../actions/message/notifyListAction';
-import { submit, resetReply } from '../actions/topic/topicAction';
+import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
+import { submit } from '../actions/topic/publishAction';
+import { resetReply } from '../actions/topic/replyAction';
 
 class Message extends Component {
   constructor(props) {
@@ -22,23 +23,27 @@ class Message extends Component {
   }
 
   _fetchNotifyList(notifyType) {
-    this.props.fetchNotifyListIfNeeded(notifyType);
+    this.props.fetchNotifyList({ notifyType });
   }
 
   _refreshNotifyList(notifyType, page, isEndReached) {
     this.props.invalidateNotifyList();
-    this.props.fetchNotifyListIfNeeded(notifyType, isEndReached, page);
+    this.props.fetchNotifyList({
+      notifyType,
+      isEndReached,
+      page
+    });
   }
 
   _publish({ boardId, topicId, replyId, content }) {
-    this.props.submit(
+    this.props.submit({
       boardId,
       topicId,
       replyId,
-      null,
-      null,
+      typeId: null,
+      title: null,
       content
-    );
+    });
   }
 
   toggleReplyModal(visible, notification) {
@@ -106,7 +111,7 @@ function mapStateToProps({ notifyList, reply }) {
 
 export default connect(mapStateToProps, {
   invalidateNotifyList,
-  fetchNotifyListIfNeeded,
+  fetchNotifyList,
   submit,
   resetReply
 })(Message);

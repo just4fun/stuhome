@@ -16,7 +16,7 @@ import colors from '../styles/common/_colors';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
-import { invalidateUserTopicList, fetchUserTopicListIfNeeded } from '../actions/user/topicListAction';
+import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
 
 class Individual extends Component {
   constructor(props) {
@@ -33,17 +33,30 @@ class Individual extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUserTopicListIfNeeded(this.userId, false, 'topic');
+    this.props.fetchUserTopicList({
+      userId: this.userId,
+      isEndReached: false,
+      type: 'topic'
+    });
   }
 
   _refreshUserTopicList(page, isEndReached, type) {
     this.props.invalidateUserTopicList();
-    this.props.fetchUserTopicListIfNeeded(this.userId, isEndReached, type, page);
+    this.props.fetchUserTopicList({
+      userId: this.userId,
+      isEndReached,
+      type,
+      page
+    });
   }
 
   changeTab(e) {
     if (e.i === 1) {
-      this.props.fetchUserTopicListIfNeeded(this.userId, false, 'reply');
+      this.props.fetchUserTopicList({
+        userId: this.userId,
+        isEndReached: false,
+        type: 'reply'
+      });
     }
   }
 
@@ -108,5 +121,5 @@ function mapStateToProps({ user, userTopicList }) {
 
 export default connect(mapStateToProps, {
   invalidateUserTopicList,
-  fetchUserTopicListIfNeeded
+  fetchUserTopicList
 })(Individual);

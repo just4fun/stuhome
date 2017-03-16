@@ -17,6 +17,10 @@ export default class TopicList extends Component {
     this.type = this.props.individualType;
   }
 
+  scrollToTop() {
+    this.topicList.scrollTo({ x: 0 });
+  }
+
   _endReached() {
     const {
       hasMore,
@@ -81,6 +85,7 @@ export default class TopicList extends Component {
 
     return (
       <ListView
+        ref={component => this.topicList = component}
         dataSource={source}
         enableEmptySections={true}
         renderRow={topic => {

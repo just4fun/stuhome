@@ -1,9 +1,9 @@
 import {
-  START_VOTE,
-  FINISH_VOTE,
-  RESET_VOTE,
-  FAILURE_VOTE
-} from '../../constants/ActionTypes';
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  RESET,
+  REQUEST_FAILED
+} from '../../actions/topic/voteAction';
 
 const defaultState = {
   isVoting: false,
@@ -12,19 +12,19 @@ const defaultState = {
 
 export default function vote(state = defaultState, action) {
   switch (action.type) {
-    case START_VOTE:
+    case REQUEST_STARTED:
       return {
         ...state,
         isVoting: true
       };
-    case FINISH_VOTE:
+    case REQUEST_COMPELTED:
       return {
         ...state,
         isVoting: false,
-        response: action.response
+        response: action.payload
       };
-    case FAILURE_VOTE:
-    case RESET_VOTE:
+    case REQUEST_FAILED:
+    case RESET:
       return defaultState;
     default:
       return state;

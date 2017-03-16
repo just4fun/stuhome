@@ -1,9 +1,9 @@
 import {
-  REQUEST_TOPIC,
-  RECEIVE_TOPIC,
-  RESET_TOPIC,
-  FAILURE_TOPIC
-} from '../../constants/ActionTypes';
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  RESET,
+  REQUEST_FAILED
+} from '../../actions/topic/topicAction';
 
 const defaultTopicState = {
   isFetching: false,
@@ -18,33 +18,35 @@ const defaultTopicState = {
 };
 
 export default function topicItem(state = defaultTopicState, action) {
+  const { payload } = action;
+
   switch (action.type) {
-    case REQUEST_TOPIC:
+    case REQUEST_STARTED:
       return {
         ...state,
-        isFetching: !action.isEndReached,
-        isEndReached: action.isEndReached
+        isFetching: !payload.isEndReached,
+        isEndReached: payload.isEndReached
       };
-    case RECEIVE_TOPIC:
-      if (action.topicItem.page !== 1) {
-        action.topicItem.list = state.list.concat(action.topicItem.list);
+    case REQUEST_COMPELTED:
+      if (payload.page !== 1) {
+        payload.list = state.list.concat(payload.list);
         // the API won't return `topic` field when `page` is not equal `1`
-        action.topicItem.topic = state.topic;
+        payload.topic = state.topic;
       }
 
       return {
         ...state,
         isFetching: false,
         isEndReached: false,
-        topic: action.topicItem.topic,
-        list: action.topicItem.list,
-        hasMore: !!action.topicItem.has_next,
-        page: action.topicItem.page,
-        errCode: action.topicItem.errcode
+        topic: payload.topic,
+        list: payload.list,
+        hasMore: !!payload.has_next,
+        page: payload.page,
+        errCode: payload.errcode
       };
-    case RESET_TOPIC:
+    case RESET:
       return defaultTopicState;
-    case FAILURE_TOPIC:
+    case REQUEST_FAILED:
       return {
         ...state,
         isFetching: false,

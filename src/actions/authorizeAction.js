@@ -1,83 +1,25 @@
-import { AsyncStorage } from 'react-native';
-import { HOST, API_PREFIX } from '../config';
-import request from '../utils/request';
-import {
-  REQUEST_LOGIN,
-  RECEIVE_LOGIN,
-  FAILURE_LOGIN,
-  SET_AUTHRIZATION,
-  REMOVE_CACHE,
-  RESET_AUTHRIZATION,
-  RESET_AUTHRIZATION_RESULT
-} from '../constants/ActionTypes';
+import { createAction } from 'redux-actions';
 
-const API_PATH = 'user/login';
+export const REQUEST = Symbol();
+export const userLogin = createAction(REQUEST);
 
-function requestLogin() {
-  return {
-    type: REQUEST_LOGIN
-  };
-}
+export const RETRIEVE = Symbol();
+export const getUserFromStorage = createAction(RETRIEVE);
 
-function receiveLogin(user) {
-  return {
-    type: RECEIVE_LOGIN,
-    user
-  };
-}
+export const REQUEST_STARTED = Symbol();
+export const REQUEST_COMPELTED = Symbol();
+export const REQUEST_FAILED = Symbol();
+export const request = createAction(REQUEST_STARTED);
+// return 2nd argument as `meta` field
+export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
+export const failure = createAction(REQUEST_FAILED);
 
-function failureLogin() {
-  return {
-    type: FAILURE_LOGIN
-  };
-}
+export const SET_AUTHRIZATION = Symbol();
+export const RESET_AUTHRIZATION = Symbol();
+export const RESET_AUTHRIZATION_RESULT = Symbol();
+export const setAuthrization = createAction(SET_AUTHRIZATION);
+export const resetAuthrization = createAction(RESET_AUTHRIZATION);
+export const resetAuthrizationResult = createAction(RESET_AUTHRIZATION_RESULT);
 
-function setAuthrization(user) {
-  return {
-    type: SET_AUTHRIZATION,
-    user
-  };
-}
-
-export function getUserFromStorage() {
-  return dispatch => {
-    AsyncStorage.getItem('authrization')
-      .then(authrization => {
-        if (authrization) {
-          authrization = JSON.parse(authrization);
-          dispatch(setAuthrization(authrization));
-        }
-      });
-  };
-}
-
-export function userLogin(userName, password) {
-  return dispatch => {
-    dispatch(requestLogin());
-
-    return request({
-      url: `${HOST}${API_PREFIX}${API_PATH}&username=${userName}&password=${password}`,
-      successCallback: data => dispatch(receiveLogin(data)),
-      failureCallback: () => dispatch(failureLogin())
-    });
-  };
-}
-
-export function resetAuthrization() {
-  return {
-    type: RESET_AUTHRIZATION
-  };
-}
-
-export function resetAuthrizationResult() {
-  return {
-    type: RESET_AUTHRIZATION_RESULT
-  };
-}
-
-export function cleanCache(isLogin) {
-  return {
-    type: REMOVE_CACHE,
-    isLogin
-  };
-}
+export const REMOVE_CACHE = Symbol();
+export const cleanCache = createAction(REMOVE_CACHE);

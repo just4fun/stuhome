@@ -1,9 +1,9 @@
 import {
-  START_PUBLISH,
-  FINISH_PUBLISH,
-  RESET_PUBLISH,
-  FAILURE_PUBLISH
-} from '../../constants/ActionTypes';
+  REQUEST_STARTED,
+  REQUEST_COMPELTED,
+  RESET,
+  REQUEST_FAILED
+} from '../../actions/topic/publishAction';
 
 const defaultState = {
   isPublishing: false,
@@ -12,19 +12,19 @@ const defaultState = {
 
 export default function publish(state = defaultState, action) {
   switch (action.type) {
-    case START_PUBLISH:
+    case REQUEST_STARTED:
       return {
         ...state,
         isPublishing: true
       };
-    case FINISH_PUBLISH:
+    case REQUEST_COMPELTED:
       return {
         ...state,
         isPublishing: false,
-        response: action.response
+        response: action.payload
       };
-    case FAILURE_PUBLISH:
-    case RESET_PUBLISH:
+    case REQUEST_FAILED:
+    case RESET:
       return defaultState;
     default:
       return state;

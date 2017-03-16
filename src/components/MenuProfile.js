@@ -33,7 +33,7 @@ export default class MenuProfile extends Component {
     AsyncStorage.removeItem('authrization')
                 .then(() => {
                   // remove all cache first
-                  this.props.cleanCache();
+                  this.props.cleanCache({ isLogin: false });
                   // force replace Home route
                   this.props.selectMenuItem(this.props.menus['home'], true);
                 });

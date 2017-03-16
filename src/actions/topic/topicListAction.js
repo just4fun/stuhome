@@ -1,82 +1,16 @@
-import { HOST, API_PREFIX } from '../../config';
-import request from '../../utils/request';
-import {
-  INVALIDATE_TOPICLIST,
-  REQUEST_TOPICLIST,
-  RECEIVE_TOPICLIST,
-  RESET_TOPICLIST,
-  FAILURE_TOPICLIST
-} from '../../constants/ActionTypes';
+import { createAction } from 'redux-actions';
 
-const TOPICLIST_API_PATH = 'forum/topiclist';
+export const REQUEST = Symbol();
+export const INVALIDATE = Symbol();
+export const RESET = Symbol();
+export const fetchTopicList = createAction(REQUEST);
+export const invalidateTopicList = createAction(INVALIDATE);
+export const resetTopicList = createAction(RESET);
 
-function requestTopicList(isEndReached) {
-  return {
-    type: REQUEST_TOPICLIST,
-    isEndReached
-  };
-}
-
-function receiveTopicList(topicList, { boardId }) {
-  return {
-    type: RECEIVE_TOPICLIST,
-    topicList,
-    boardId
-  };
-}
-
-function failureTopicList() {
-  return {
-    type: FAILURE_TOPICLIST
-  };
-}
-
-function fetchTopicList(boardId, isEndReached = false, sortType = 'all', page = 1, pageSize = 20) {
-  return dispatch => {
-    dispatch(requestTopicList(isEndReached));
-
-    let url = HOST +
-              API_PREFIX +
-              TOPICLIST_API_PATH +
-              `&boardId=${boardId}` +
-              `&sortby=${sortType}` +
-              `&page=${page}` +
-              `&pageSize=${pageSize}`;
-
-    return request({
-      url,
-      successCallback: data => dispatch(receiveTopicList(data, { boardId })),
-      failureCallback: () => dispatch(failureTopicList())
-    });
-  };
-}
-
-function shouldFetchTopicList(boardId, state) {
-  let { topicList } = state;
-
-  if (!topicList.list[boardId] || !topicList.list[boardId].topicList.length) { return true; }
-
-  if (topicList.isRefreshing || topicList.isEndReached) { return false; }
-
-  return topicList.didInvalidate;
-}
-
-export function fetchTopicListIfNeeded(boardId, isEndReached, sortType, page, pageSize) {
-  return (dispatch, getState) => {
-    if (shouldFetchTopicList(boardId, getState())) {
-      return dispatch(fetchTopicList(boardId, isEndReached, sortType, page, pageSize));
-    }
-  };
-}
-
-export function invalidateTopicList() {
-  return {
-    type: INVALIDATE_TOPICLIST
-  };
-}
-
-export function resetTopicList() {
-  return {
-    type: RESET_TOPICLIST
-  };
-}
+export const REQUEST_STARTED = Symbol();
+export const REQUEST_COMPELTED = Symbol();
+export const REQUEST_FAILED = Symbol();
+export const request = createAction(REQUEST_STARTED);
+// return 2nd argument as `meta` field
+export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
+export const failure = createAction(REQUEST_FAILED);

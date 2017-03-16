@@ -21,14 +21,16 @@ import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import { PopButton, ReplyButton, CommentButton } from '../components/button';
+import { submit } from '../actions/topic/publishAction';
+import { resetReply } from '../actions/topic/replyAction';
 import {
   fetchTopic,
-  resetTopic,
-  submit,
-  resetReply,
+  resetTopic
+} from '../actions/topic/topicAction';
+import {
   publishVote,
   resetVote
-} from '../actions/topic/topicAction';
+} from '../actions/topic/voteAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -65,7 +67,9 @@ class TopicDetail extends Component {
   }
 
   fetchTopic() {
-    this.props.fetchTopic(this.topicId);
+    this.props.fetchTopic({
+      topicId: this.topicId
+    });
   }
 
   _endReached() {
@@ -78,7 +82,11 @@ class TopicDetail extends Component {
 
     if (!hasMore || isFetching || isEndReached) { return; }
 
-    this.props.fetchTopic(this.topicId, true, page + 1);
+    this.props.fetchTopic({
+      topicId: this.topicId,
+      isEndReached: true,
+      page: page + 1
+    });
   }
 
   _renderHeader(topic, token, vote) {
@@ -171,21 +179,21 @@ class TopicDetail extends Component {
   }
 
   _publish({ content, replyId }) {
-    this.props.submit(
-      this.boardId,
-      this.topicId,
+    this.props.submit({
+      boardId: this.boardId,
+      topicId: this.topicId,
       replyId,
-      null,
-      null,
+      typeId: null,
+      title: null,
       content
-    );
+    });
   }
 
   _publishVote(voteIds) {
-    this.props.publishVote(
-      this.topicId,
+    this.props.publishVote({
+      topicId: this.topicId,
       voteIds
-    );
+    });
   }
 
   _resetVote() {

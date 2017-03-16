@@ -12,7 +12,7 @@ import {
   resetAuthrizationResult,
   cleanCache
 } from '../actions/authorizeAction';
-import { invalidateTopicList, fetchTopicListIfNeeded } from '../actions/topic/topicListAction';
+import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import menus from '../constants/menus';
 
 class Menu extends Component {
@@ -26,10 +26,6 @@ class Menu extends Component {
 
   componentDidMount() {
     this.props.getUserFromStorage();
-  }
-
-  cleanCache() {
-    this.props.cleanCache();
   }
 
   toggleLoginModal(visible) {
@@ -48,7 +44,6 @@ class Menu extends Component {
           <LoginModal
             visible={isLoginModalOpen}
             menus={menus}
-            cleanCache={() => this.cleanCache()}
             closeLoginModal={() => this.toggleLoginModal(false)}
             {...this.props} />
         }
@@ -56,7 +51,6 @@ class Menu extends Component {
           authrization={user.authrization}
           openLoginModal={() => this.toggleLoginModal(true)}
           menus={menus}
-          cleanCache={() => this.cleanCache()}
           {...this.props} />
         <MenuItem
           menu={menus['home']}
@@ -98,5 +92,5 @@ export default connect(mapStateToProps, {
   resetAuthrizationResult,
   cleanCache,
   invalidateTopicList,
-  fetchTopicListIfNeeded
+  fetchTopicList
 })(Menu);

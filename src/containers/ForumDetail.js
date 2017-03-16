@@ -14,9 +14,9 @@ import TopicList from '../components/TopicList';
 import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';
 import { PopButton, PublishButton } from '../components/button';
-import { submit, resetPublish } from '../actions/topic/topicAction';
-import { invalidateTopicList, fetchTopicListIfNeeded, resetTopicList } from '../actions/topic/topicListAction';
-import { invalidateForumList, fetchForumListIfNeeded } from '../actions/forumAction';
+import { submit, resetPublish } from '../actions/topic/publishAction';
+import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/topic/topicListAction';
+import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
 class ForumDetail extends Component {
   constructor(props) {
@@ -50,16 +50,27 @@ class ForumDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTopicListIfNeeded(this.boardId, false, 'all');
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached: false,
+      sortType: 'all'
+    });
   }
 
   _refreshTopicList(page, isEndReached) {
     this.props.invalidateTopicList();
-    this.props.fetchTopicListIfNeeded(this.boardId, isEndReached, 'all', page);
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached,
+      sortType: 'all',
+      page
+    });
   }
 
   _fetchForumList() {
-    this.props.fetchForumListIfNeeded(this.boardId);;
+    this.props.fetchForumList({
+      boardId: this.boardId
+    });;
   }
 
   _refreshForumList() {
@@ -70,14 +81,14 @@ class ForumDetail extends Component {
   _publish(topic) {
     let { typeId, title, content } = topic;
 
-    this.props.submit(
-      this.boardId,
-      null,
-      null,
+    this.props.submit({
+      boardId: this.boardId,
+      topicId: null,
+      replyId: null,
       typeId,
       title,
       content
-    );
+    });
   }
 
   togglePublishModal(visible) {
@@ -180,8 +191,8 @@ export default connect(mapStateToProps, {
   submit,
   resetPublish,
   invalidateTopicList,
-  fetchTopicListIfNeeded,
+  fetchTopicList,
   resetTopicList,
   invalidateForumList,
-  fetchForumListIfNeeded
+  fetchForumList
 })(ForumDetail);
