@@ -147,15 +147,16 @@ class TopicDetail extends Component {
             </View>
             <View>
               <Text style={styles.floor}>楼主</Text>
-              {this.props.topicFavor.isFavoring &&
-                <ActivityIndicator />
-                ||
-                <Icon
-                  style={[styles.favor, topic.is_favor ? styles.fullFavor : styles.emptyFavor]}
-                  size={18}
-                  name={topic.is_favor ? 'star' : 'star-o'}
-                  onPress={() => this.favorTopic(topic.is_favor)} />
-              }
+              {token && (
+                this.props.topicFavor.isFavoring &&
+                  <ActivityIndicator />
+                  ||
+                  <Icon
+                    style={[styles.favor, topic.is_favor ? styles.fullFavor : styles.emptyFavor]}
+                    size={18}
+                    name={topic.is_favor ? 'star' : 'star-o'}
+                    onPress={() => this.favorTopic(topic.is_favor)} />
+              )}
             </View>
           </View>
           <View style={styles.content}>
