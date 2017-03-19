@@ -20,6 +20,7 @@ import Comment from '../components/Comment';
 import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
+import MessageBar from '../services/MessageBar';
 import { PopButton, ReplyButton, CommentButton } from '../components/button';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
@@ -31,6 +32,10 @@ import {
   publishVote,
   resetVote
 } from '../actions/topic/voteAction';
+import {
+  favorTopic,
+  resetFavorTopic
+} from '../actions/topic/favorAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -57,18 +62,36 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { topicItem } = nextProps;
+    let { topicItem, topicFavor } = nextProps;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
       nextProps.resetTopic();
       nextProps.router.pop();
+      return;
+    }
+
+    if (topicFavor.response.rs) {
+      MessageBar.show({
+        message: '操作成功',
+        type: 'success'
+      });
+      nextProps.resetFavorTopic();
+      this.fetchTopic();
     }
   }
 
   fetchTopic() {
     this.props.fetchTopic({
       topicId: this.topicId
+    });
+  }
+
+  favorTopic(isFavorite) {
+    this.props.favorTopic({
+      action: isFavorite ? 'delfavorite' : 'favorite',
+      id: this.topicId,
+      idType: 'tid'
     });
   }
 
@@ -122,7 +145,19 @@ class TopicDetail extends Component {
               <Text style={styles.name}>{topic.user_nick_name}</Text>
               <Text style={styles.level}>{topic.userTitle}</Text>
             </View>
-            <Text style={styles.floor}>楼主</Text>
+            <View>
+              <Text style={styles.floor}>楼主</Text>
+              {token && (
+                this.props.topicFavor.isFavoring &&
+                  <ActivityIndicator />
+                  ||
+                  <Icon
+                    style={[styles.favor, topic.is_favor ? styles.fullFavor : styles.emptyFavor]}
+                    size={18}
+                    name={topic.is_favor ? 'star' : 'star-o'}
+                    onPress={() => this.favorTopic(topic.is_favor)} />
+              )}
+            </View>
           </View>
           <View style={styles.content}>
             <Content content={topic.content}
@@ -271,12 +306,13 @@ class TopicDetail extends Component {
   }
 }
 
-function mapStateToProps({ topicItem, reply, vote, user }) {
+function mapStateToProps({ topicItem, reply, vote, user, topicFavor }) {
   return {
     topicItem,
     reply,
     vote,
-    user
+    user,
+    topicFavor
   };
 }
 
@@ -286,5 +322,7 @@ export default connect(mapStateToProps, {
   fetchTopic,
   resetTopic,
   publishVote,
-  resetVote
+  resetVote,
+  favorTopic,
+  resetFavorTopic
 })(TopicDetail);
