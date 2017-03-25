@@ -7,6 +7,7 @@ import publish from './topic/publish';
 import reply from './topic/reply';
 import search from './topic/search';
 import vote from './topic/vote';
+import topicFavor from './topic/favor';
 import notifyList from './message/notifyList';
 import userTopicList from './user/topicList';
 
@@ -21,6 +22,7 @@ export default combineReducers({
   reply,
   search,
   vote,
+  topicFavor,
 
   userTopicList
 });
