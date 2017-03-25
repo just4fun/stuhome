@@ -51,7 +51,10 @@ class ForumDetail extends Component {
     if (errCode) {
       AlertIOS.alert('提示', errCode);
       // clean error message
-      nextProps.resetTopicList({ boardId: this.boardId });
+      nextProps.resetTopicList({
+        boardId: this.boardId,
+        sortType: 'publish'
+      });
       nextProps.router.pop();
     }
   }
