@@ -6,6 +6,7 @@ import {
   ListView,
   RefreshControl
 } from 'react-native';
+import _ from 'lodash';
 import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import ForumItems from '../components/ForumItems';
@@ -28,7 +29,9 @@ class ForumList extends Component {
   }
 
   _refreshForumList() {
-    this.props.invalidateForumList();
+    this.props.invalidateForumList({
+      boardId: this.boardId
+    });
     this.props.fetchForumList({
       boardId: this.boardId
     });
@@ -46,7 +49,7 @@ class ForumList extends Component {
         <ForumItems
           router={router}
           boardId={this.boardId}
-          forumList={forumList}
+          forumList={_.get(forumList, this.boardId, {})}
           isTopForumList={this.isTopForumList}
           refreshForumList={() => this._refreshForumList()} />
       </View>

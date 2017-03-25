@@ -5,6 +5,7 @@ import {
   Text,
   AlertIOS
 } from 'react-native';
+import _ from 'lodash';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
@@ -45,12 +46,12 @@ class ForumDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { topicList } = nextProps;
+    let errCode = _.get(nextProps, ['topicList', this.boardId, 'publish', 'errCode'], '');
 
-    if (topicList.errCode) {
-      AlertIOS.alert('提示', topicList.errCode);
+    if (errCode) {
+      AlertIOS.alert('提示', errCode);
       // clean error message
-      nextProps.resetTopicList();
+      nextProps.resetTopicList({ boardId: this.boardId });
       nextProps.router.pop();
     }
   }
@@ -63,8 +64,11 @@ class ForumDetail extends Component {
     });
   }
 
-  _refreshTopicList(page, isEndReached, sortType) {
-    this.props.invalidateTopicList();
+  _refreshTopicList({ page, isEndReached, sortType }) {
+    this.props.invalidateTopicList({
+      boardId: this.boardId,
+      sortType
+    });
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached,
@@ -74,7 +78,8 @@ class ForumDetail extends Component {
   }
 
   changeTab(e) {
-    if (e.i === 0) { return; }
+    // `子版块` has no need to fetch topic list
+    if (e.i === 3) { return; }
 
     this.props.fetchTopicList({
       boardId: this.boardId,
@@ -96,7 +101,9 @@ class ForumDetail extends Component {
   }
 
   _refreshForumList() {
-    this.props.invalidateForumList();
+    this.props.invalidateForumList({
+      boardId: this.boardId
+    });
     this._fetchForumList();
   }
 
@@ -130,11 +137,6 @@ class ForumDetail extends Component {
       router
     } = this.props;
     let { isPublishModalOpen } = this.state;
-    let realTypeList = [];
-
-    if (topicList.list[this.boardId]) {
-      realTypeList = topicList.list[this.boardId].typeList;
-    }
 
     return (
       <View style={mainStyles.container}>
@@ -143,7 +145,7 @@ class ForumDetail extends Component {
             {...this.props}
             visible={isPublishModalOpen}
             publish={publish}
-            types={realTypeList}
+            types={_.get(topicList, [this.boardId, 'typeList'], [])}
             closePublishModal={() => this.togglePublishModal(false)}
             handlePublish={topic => this._publish(topic)} />
         }
@@ -172,11 +174,9 @@ class ForumDetail extends Component {
                    key={index}
                    tabLabel={tab.label}
                    router={router}
-                   hasType={true}
-                   typeId={this.boardId}
                    type={tab.type}
-                   topicList={topicList}
-                   refreshTopicList={(page, isEndReached, sortType) => this._refreshTopicList(page, isEndReached, sortType)} />
+                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
+                   refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
                );
              })
             }
@@ -184,7 +184,7 @@ class ForumDetail extends Component {
               tabLabel='子版块'
               router={router}
               boardId={this.boardId}
-              forumList={forumList}
+              forumList={_.get(forumList, this.boardId, {})}
               shouldFetchDataInside={true}
               fetchForumList={() => this._fetchForumList()}
               refreshForumList={() => this._refreshForumList()} />
@@ -204,11 +204,9 @@ class ForumDetail extends Component {
                    key={index}
                    tabLabel={tab.label}
                    router={router}
-                   hasType={true}
-                   typeId={this.boardId}
                    type={tab.type}
-                   topicList={topicList}
-                   refreshTopicList={(page, isEndReached, sortType) => this._refreshTopicList(page, isEndReached, sortType)} />
+                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
+                   refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
                );
              })
            }
@@ -218,7 +216,7 @@ class ForumDetail extends Component {
           <ForumItems
             router={router}
             boardId={this.boardId}
-            forumList={forumList}
+            forumList={_.get(forumList, this.boardId, {})}
             refreshForumList={() => this._refreshForumList()} />
         }
       </View>

@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
+import _ from 'lodash';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Header from '../components/Header';
@@ -46,8 +47,11 @@ class Individual extends Component {
     });
   }
 
-  _refreshUserTopicList(page, isEndReached, type) {
-    this.props.invalidateUserTopicList();
+  _refreshUserTopicList({ page, isEndReached, type }) {
+    this.props.invalidateUserTopicList({
+      userId: this.userId,
+      type
+    });
     this.props.fetchUserTopicList({
       userId: this.userId,
       isEndReached,
@@ -57,8 +61,6 @@ class Individual extends Component {
   }
 
   changeTab(e) {
-    if (e.i === 0) { return; }
-
     this.props.fetchUserTopicList({
       userId: this.userId,
       isEndReached: false,
@@ -102,11 +104,9 @@ class Individual extends Component {
                 key={index}
                 tabLabel={tab.label}
                 router={router}
-                typeId={uid}
-                hasType={true}
                 type={tab.type}
-                topicList={userTopicList}
-                refreshTopicList={(page, isEndReached, type) => this._refreshUserTopicList(page, isEndReached, type)} />
+                topicList={_.get(userTopicList, [uid, tab.type], {})}
+                refreshTopicList={({ page, isEndReached }) => this._refreshUserTopicList({ page, isEndReached, type: tab.type })} />
             );
           })}
         </ScrollableTabView>

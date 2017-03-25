@@ -1,47 +1,50 @@
+import _ from 'lodash';
 import {
   INVALIDATE,
-  REQUEST_AT_STARTED,
-  REQUEST_REPLY_STARTED,
+  REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
 } from '../../actions/message/notifyListAction';
 import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
+const defaultState = {};
 const defaultNotifyListState = {
-  isFetchingAtList: false,
-  isFetchingReplyList: false,
+  isRefreshing: false,
   isEndReached: false,
   didInvalidate: false,
   notifyType: null,
-  list: {},
+  list: [],
   hasMore: false,
   page: 0,
   errCode: ''
 };
 
-export default function notifyList(state = defaultNotifyListState, action) {
+export default function notifyList(state = defaultState, action) {
   switch (action.type) {
-    case INVALIDATE:
+    case INVALIDATE: {
+      let { notifyType } = action.payload;
+
       return {
         ...state,
-        didInvalidate: true
+        [notifyType]: {
+          ..._.get(state, notifyType, defaultNotifyListState),
+          didInvalidate: true
+        }
       };
-    case REQUEST_AT_STARTED:
+    }
+    case REQUEST_STARTED: {
+      let { notifyType, isEndReached } = action.payload;
+
       return {
         ...state,
-        isFetchingAtList: !action.payload.isEndReached,
-        isFetchingReplyList: false,
-        isEndReached: action.payload.isEndReached,
-        didInvalidate: false
+        [notifyType]: {
+          ..._.get(state, notifyType, defaultNotifyListState),
+          isRefreshing: !isEndReached,
+          isEndReached: isEndReached,
+          didInvalidate: false
+        }
       };
-    case REQUEST_REPLY_STARTED:
-      return {
-        ...state,
-        isFetchingAtList: false,
-        isFetchingReplyList: !action.payload.isEndReached,
-        isEndReached: action.payload.isEndReached,
-        didInvalidate: false
-      };
+    }
     case REQUEST_COMPELTED:
       let {
         payload: notifyList,
@@ -52,26 +55,33 @@ export default function notifyList(state = defaultNotifyListState, action) {
 
       return {
         ...state,
-        isFetchingAtList: false,
-        isFetchingReplyList: false,
-        isEndReached: false,
-        didInvalidate: false,
-        notifyType,
-        list: getNewCache(state, notifyList.list, notifyType, notifyList.page),
-        hasMore: !!notifyList.has_next,
-        page: notifyList.page,
-        errCode: notifyList.errcode
+        [notifyType]: {
+          ..._.get(state, notifyType, defaultNotifyListState),
+          isRefreshing: false,
+          isEndReached: false,
+          didInvalidate: false,
+          notifyType,
+          list: getNewCache(state, notifyList.list, notifyType, notifyList.page),
+          hasMore: !!notifyList.has_next,
+          page: notifyList.page,
+          errCode: notifyList.errcode
+        }
       };
-    case REQUEST_FAILED:
+    case REQUEST_FAILED: {
+      let { notifyType } = action.meta;
+
       return {
         ...state,
-        isFetchingAtList: false,
-        isFetchingReplyList: false,
-        isEndReached: false,
-        didInvalidate: false
+        [notifyType]: {
+          ..._.get(state, notifyType, defaultNotifyListState),
+          isRefreshing: false,
+          isEndReached: false,
+          didInvalidate: false
+        }
       };
+    }
     case REMOVE_CACHE:
-      return defaultNotifyListState;
+      return defaultState;
     default:
       return state;
   }
@@ -81,15 +91,10 @@ function getNewCache(oldState, notifyList, notifyType, page) {
   let newNotifyList = [];
 
   if (page !== 1) {
-    newNotifyList = oldState.list[notifyType].notifyList.concat(notifyList);
+    newNotifyList = oldState[notifyType].list.concat(notifyList);
   } else {
     newNotifyList = notifyList;
   }
 
-  return {
-    ...oldState.list,
-    [notifyType]: {
-      notifyList: newNotifyList
-    }
-  };
+  return newNotifyList;
 }

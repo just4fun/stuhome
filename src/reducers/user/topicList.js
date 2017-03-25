@@ -1,93 +1,113 @@
+import _ from 'lodash';
 import {
   INVALIDATE,
   REQUEST_STARTED,
   REQUEST_COMPELTED,
-  RESET,
   REQUEST_FAILED
 } from '../../actions/user/topicListAction';
 import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
+const defaultState = {};
 const defaultUserTopicListState = {
   isRefreshing: false,
   isEndReached: false,
   didInvalidate: false,
-  // dictionary for cache
-  list: {},
+  list: [],
   hasMore: false,
   page: 0,
   errCode: ''
 };
 
-export default function userTopicList(state = defaultUserTopicListState, action) {
+export default function userTopicList(state = defaultState, action) {
   switch (action.type) {
-    case INVALIDATE:
+    case INVALIDATE: {
+      let { userId, type } = action.payload;
+
       return {
         ...state,
-        didInvalidate: true
+        [userId]: {
+          ..._.get(state, userId, {}),
+          [type]: {
+            ..._.get(state, [userId, type], defaultUserTopicListState),
+            didInvalidate: true
+          }
+        }
       };
-    case REQUEST_STARTED:
+    }
+    case REQUEST_STARTED: {
+      let { userId, type, isEndReached } = action.payload;
+
       return {
         ...state,
-        isRefreshing: !action.payload.isEndReached,
-        isEndReached: action.payload.isEndReached,
-        didInvalidate: false
+        [userId]: {
+          ..._.get(state, userId, {}),
+          [type]: {
+            ..._.get(state, [userId, type], defaultUserTopicListState),
+            isRefreshing: !isEndReached,
+            isEndReached: isEndReached,
+            didInvalidate: false
+          }
+        }
       };
+    }
     case REQUEST_COMPELTED:
       let {
         payload: userTopicList,
         meta: {
           userId,
-          type: individualType
+          type
         }
       } = action;
 
       return {
         ...state,
-        isRefreshing: false,
-        isEndReached: false,
-        didInvalidate: false,
-        list: getNewCache(state, userTopicList.list, userId, individualType, userTopicList.page, userTopicList.rs),
-        hasMore: !!userTopicList.has_next,
-        page: userTopicList.page,
-        errCode: userTopicList.errcode
+        [userId]: {
+          ..._.get(state, userId, {}),
+          [type]: {
+            ..._.get(state, [userId, type], defaultUserTopicListState),
+            isRefreshing: false,
+            isEndReached: false,
+            didInvalidate: false,
+            list: getNewCache(state, userTopicList.list, userId, type, userTopicList.page, userTopicList.rs),
+            hasMore: !!userTopicList.has_next,
+            page: userTopicList.page,
+            errCode: userTopicList.errcode
+          }
+        }
       };
-    case RESET:
+    case REQUEST_FAILED: {
+      let { userId, type } = action.meta;
+
       return {
         ...state,
-        errCode: ''
+        [userId]: {
+          ..._.get(state, userId, {}),
+          [type]: {
+            ..._.get(state, [userId, type], defaultUserTopicListState),
+            isRefreshing: false,
+            isEndReached: false,
+            didInvalidate: false
+          }
+        }
       };
-    case REQUEST_FAILED:
-      return {
-        ...state,
-        isRefreshing: false,
-        isEndReached: false,
-        didInvalidate: false
-      };
+    }
     case REMOVE_CACHE:
-      return defaultUserTopicListState;
+      return defaultState;
     default:
       return state;
   }
 }
 
-function getNewCache(oldState, userTopicList, userId, individualType, page, isSuccessful) {
+function getNewCache(oldState, userTopicList, userId, type, page, isSuccessful) {
   if (!isSuccessful) { return oldState.list; }
 
   let newUserTopicList = [];
 
   if (page !== 1) {
-    newUserTopicList = oldState.list[userId][individualType].topicList.concat(userTopicList);
+    newUserTopicList = oldState[userId][type].list.concat(userTopicList);
   } else {
     newUserTopicList = userTopicList;
   }
 
-  return {
-    ...oldState.list,
-    [userId]: {
-      ...oldState.list[userId],
-      [individualType]: {
-        topicList: newUserTopicList
-      }
-    }
-  };
+  return newUserTopicList;
 }

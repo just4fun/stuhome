@@ -9,7 +9,7 @@ const defaultTopicState = {
   isFetching: false,
   // indicate fetching via end reached
   isEndReached: false,
-  topic: {},
+  topic: null,
   // comment list
   list: [],
   hasMore: false,

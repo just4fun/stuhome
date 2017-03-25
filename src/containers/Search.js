@@ -20,7 +20,7 @@ class Search extends Component {
     this.props.resetSearch();
   }
 
-  _refreshTopicList(page, isEndReached) {
+  _refreshTopicList({ page, isEndReached }) {
     // search topic list can not be pulled to refresh,
     // so there is no need to invalidate topic list here,
     // this method is only used for end reach refreshing.
@@ -38,7 +38,7 @@ class Search extends Component {
 
   _handleSearch() {
     this.searchList.scrollToTop();
-    this._refreshTopicList();
+    this._refreshTopicList({});
   }
 
   render() {
@@ -67,7 +67,7 @@ class Search extends Component {
           router={router}
           isSearch={true}
           topicList={search}
-          refreshTopicList={(page, isEndReached) => this._refreshTopicList(page, isEndReached)} />
+          refreshTopicList={this._refreshTopicList.bind(this)} />
       </View>
     );
   }

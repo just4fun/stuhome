@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   INVALIDATE,
   REQUEST_STARTED,
@@ -7,6 +8,7 @@ import {
 } from '../../actions/topic/topicListAction';
 import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
+const defaultState = {};
 const defaultTopicListState = {
   // indicate fetching via pull to refresh
   isRefreshing: false,
@@ -14,27 +16,44 @@ const defaultTopicListState = {
   isEndReached: false,
   didInvalidate: false,
   boardId: null,
-  // dictionary for cache
-  list: {},
+  list: [],
   hasMore: false,
   page: 0,
   errCode: ''
 };
 
-export default function topicList(state = defaultTopicListState, action) {
+export default function topicList(state = defaultState, action) {
   switch (action.type) {
-    case INVALIDATE:
+    case INVALIDATE: {
+      let { boardId, sortType } = action.payload;
+
       return {
         ...state,
-        didInvalidate: true
+        [boardId]: {
+          ..._.get(state, boardId, {}),
+          [sortType]: {
+            ..._.get(state, [boardId, sortType], defaultTopicListState),
+            didInvalidate: true
+          }
+        }
       };
-    case REQUEST_STARTED:
+    }
+    case REQUEST_STARTED: {
+      let { boardId, sortType, isEndReached } = action.payload;
+
       return {
         ...state,
-        isRefreshing: !action.payload.isEndReached,
-        isEndReached: action.payload.isEndReached,
-        didInvalidate: false
+        [boardId]: {
+          ..._.get(state, boardId, {}),
+          [sortType]: {
+            ..._.get(state, [boardId, sortType], defaultTopicListState),
+            isRefreshing: !isEndReached,
+            isEndReached: isEndReached,
+            didInvalidate: false
+          }
+        }
       };
+    }
     case REQUEST_COMPELTED:
       let {
         payload: topicList,
@@ -43,34 +62,59 @@ export default function topicList(state = defaultTopicListState, action) {
           sortType
         }
       } = action;
-      let typeList = getMappedTypeList(topicList.classificationType_list);
 
       return {
         ...state,
-        isRefreshing: false,
-        isEndReached: false,
-        didInvalidate: false,
-        boardId,
-        list: getNewCache(state, typeList, topicList.list, boardId, sortType, topicList.page, topicList.rs),
-        hasMore: !!topicList.has_next,
-        page: topicList.page,
-        errCode: topicList.errcode
+        [boardId]: {
+          ..._.get(state, boardId, {}),
+          // all topic list of different sort type have same type list
+          typeList: getMappedTypeList(topicList.classificationType_list),
+          [sortType]: {
+            ..._.get(state, [boardId, sortType], defaultTopicListState),
+            isRefreshing: false,
+            isEndReached: false,
+            didInvalidate: false,
+            boardId,
+            list: getNewCache(state, topicList.list, boardId, sortType, topicList.page, topicList.rs),
+            hasMore: !!topicList.has_next,
+            page: topicList.page,
+            errCode: topicList.errcode
+          }
+        }
       };
     // in case there is forum or sub forum we have no access
-    case RESET:
+    case RESET: {
+      let { boardId, sortType } = action.payload;
+
       return {
         ...state,
-        errCode: ''
+        [boardId]: {
+          ..._.get(state, boardId, {}),
+          [sortType]: {
+            ..._.get(state, [boardId, sortType], defaultTopicListState),
+            errCode: ''
+          }
+        }
       };
-    case REQUEST_FAILED:
+    }
+    case REQUEST_FAILED: {
+      let { boardId, sortType } = action.meta;
+
       return {
         ...state,
-        isRefreshing: false,
-        isEndReached: false,
-        didInvalidate: false
+        [boardId]: {
+          ..._.get(state, boardId, {}),
+          [sortType]: {
+            ..._.get(state, [boardId, sortType], defaultTopicListState),
+            isRefreshing: false,
+            isEndReached: false,
+            didInvalidate: false
+          }
+        }
       };
+    }
     case REMOVE_CACHE:
-      return defaultTopicListState;
+      return defaultState;
     default:
       return state;
   }
@@ -89,7 +133,7 @@ function getMappedTypeList(typeList) {
 }
 
 // cache topic list and return
-function getNewCache(oldState, typeList, topicList, boardId, sortType, page, isSuccessful) {
+function getNewCache(oldState, topicList, boardId, sortType, page, isSuccessful) {
   // if we have no access to a forum or sub forum, we
   // should return original forum groups.
   if (!isSuccessful) { return oldState.list; }
@@ -97,19 +141,10 @@ function getNewCache(oldState, typeList, topicList, boardId, sortType, page, isS
   let newTopicList = [];
 
   if (page !== 1) {
-    newTopicList = oldState.list[boardId][sortType].topicList.concat(topicList);
+    newTopicList = oldState[boardId][sortType].list.concat(topicList);
   } else {
     newTopicList = topicList;
   }
 
-  return {
-    ...oldState.list,
-    [boardId]: {
-      ...oldState.list[boardId],
-      typeList,
-      [sortType]: {
-        topicList: newTopicList
-      }
-    }
-  };
+  return newTopicList;
 }

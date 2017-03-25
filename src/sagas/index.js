@@ -105,9 +105,6 @@ function* fetchForumList(payload) {
   const state = yield select();
 
   if (cacheManager.shouldFetchList(state, 'forumList', payload.boardId)) {
-    forumListActions.request = payload.boardId === 'all'
-                             ? forumListActions.requestTopForumList
-                             : forumListActions.requestSubForumList;
     yield fork(fetchForumListApi, payload);
   }
 }
@@ -125,9 +122,6 @@ function* fetchNotifyList(payload) {
   const state = yield select();
 
   if (cacheManager.shouldFetchList(state, 'notifyList', payload.notifyType)) {
-    notifyListActions.request = payload.notifyType === 'at'
-                              ? notifyListActions.requestAtList
-                              : notifyListActions.requestReplyList;
     yield fork(fetchNotifyListApi, payload);
   }
 }
