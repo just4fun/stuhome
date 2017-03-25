@@ -21,11 +21,13 @@ export default class ForumItems extends Component {
   }
 
   render() {
-    let { forumList, boardId, isTopForumList } = this.props;
+    let { forumList, isTopForumList } = this.props;
     let realForumList = [];
+    let isRefreshing = false;
 
-    if (forumList.list[boardId]) {
-      realForumList = forumList.list[boardId].forumList;
+    if (forumList.list) {
+      realForumList = forumList.list;
+      isRefreshing = forumList.isRefreshing;
     };
 
     let source = ds.cloneWithRows(realForumList);
@@ -47,7 +49,7 @@ export default class ForumItems extends Component {
           <RefreshControl
             title='正在加载...'
             onRefresh={() => this.props.refreshForumList()}
-            refreshing={isTopForumList ? forumList.isFetching : forumList.isSubFetching} />
+            refreshing={isRefreshing} />
         } />
     );
   }

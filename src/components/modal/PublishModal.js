@@ -36,7 +36,10 @@ export default class PublishModal extends Component {
     if (publish.response) {
       if (publish.response.rs) {
         this._cancel();
-        this.props.invalidateTopicList();
+        this.props.invalidateTopicList({
+          boardId: 'all',
+          sortType: 'publish'
+        });
         this.props.router.toHome();
         MessageBar.show({
           message: '发布成功',

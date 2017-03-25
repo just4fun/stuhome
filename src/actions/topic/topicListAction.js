@@ -13,4 +13,4 @@ export const REQUEST_FAILED = Symbol();
 export const request = createAction(REQUEST_STARTED);
 // return 2nd argument as `meta` field
 export const success = createAction(REQUEST_COMPELTED, null, (...args) => args[1]);
-export const failure = createAction(REQUEST_FAILED);
+export const failure = createAction(REQUEST_FAILED, null, (...args) => args[1]);

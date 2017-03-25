@@ -11,32 +11,25 @@ import NotifyItem from './NotifyItem';
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class NotifyList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.notifyType = this.props.notifyType;
-    this.isAtList = this.notifyType === 'at';
-  }
-
   componentDidMount() {
-    this.props.fetchNotifyList(this.notifyType);
+    this.props.fetchNotifyList();
   }
 
   _endReached() {
-    const {
+    let {
       hasMore,
-      isFetchingAtList,
-      isFetchingReplyList,
+      isRefreshing,
       isEndReached,
       page,
       list
     } = this.props.notifyList;
 
-    let isRefreshing = this.isAtList ? isFetchingAtList : isFetchingReplyList;
-
     if (!hasMore || isRefreshing || isEndReached) { return; }
 
-    this.props.refreshNotifyList(this.notifyType, page + 1, true);
+    this.props.refreshNotifyList({
+      page: page + 1,
+      isEndReached: true
+    });
   }
 
   _renderFooter() {
@@ -55,19 +48,14 @@ export default class NotifyList extends Component {
   }
 
   render() {
-    let { notifyList, notifyType, reply } = this.props;
-    let { isFetchingAtList, isFetchingReplyList } = notifyList;
-    let isRefreshing = this.isAtList ? isFetchingAtList : isFetchingReplyList;
+    let { notifyList } = this.props;
     let realNotifyList = [];
+    let isRefreshing = false;
 
-    if (notifyList.list[notifyType]) {
-      realNotifyList = notifyList.list[notifyType].notifyList;
+    if (notifyList.list) {
+      realNotifyList = notifyList.list;
+      isRefreshing = notifyList.isRefreshing;
     };
-
-    let refreshControl = <RefreshControl
-                       title='正在加载...'
-                       onRefresh={() => this.props.refreshNotifyList(this.notifyType)}
-                       refreshing={isRefreshing} />;
 
     let source = ds.cloneWithRows(realNotifyList);
 
@@ -87,7 +75,12 @@ export default class NotifyList extends Component {
         onEndReached={() => this._endReached()}
         onEndReachedThreshold={0}
         renderFooter={() => this._renderFooter()}
-        refreshControl={refreshControl} />
+        refreshControl={
+          <RefreshControl
+            title='正在加载...'
+            onRefresh={() => this.props.refreshNotifyList({})}
+            refreshing={isRefreshing} />
+        } />
     );
   }
 }

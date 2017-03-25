@@ -86,7 +86,7 @@ export default class RNavigator extends Component {
           renderScene={this.renderScene.bind(this)}
           initialRoute={{
             id: 'home',
-            title: '最新',
+            title: '首页',
             component: Home
           }} />
         <MessageBar ref="alert" />

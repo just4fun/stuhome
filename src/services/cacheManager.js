@@ -3,26 +3,15 @@ import _ from 'lodash';
 export default {
   shouldFetchList(state, stateKey, ...cacheKeys) {
     let stateForList = state[stateKey];
-    let realListObject = _.get(stateForList, ['list', ...cacheKeys]);
+    let realListObject = _.get(stateForList, [...cacheKeys]);
 
-    if (!realListObject) { return true; }
+    if (!realListObject ||
+        !realListObject.list ||
+        !realListObject.list.length) { return true; }
 
-    // the pages using <TopicList /> component will
-    // use `topicList` as resource key.
-    let resourceKey = stateKey;
-    if (stateKey === 'userTopicList') {
-      resourceKey = 'topicList';
-    }
+    if (realListObject.isRefreshing ||
+        realListObject.isEndReached) { return false; }
 
-    if (!realListObject[resourceKey].length) { return true; }
-
-    if (stateForList.isRefreshing ||
-        stateForList.isEndReached ||
-        stateForList.isFetching ||
-        stateForList.isSubFetching ||
-        stateForList.isFetchingAtList ||
-        stateForList.isFetchingReplyList) { return false; }
-
-    return stateForList.didInvalidate;
+    return realListObject.didInvalidate;
   }
 };
