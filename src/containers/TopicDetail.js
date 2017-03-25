@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   ListView
 } from 'react-native';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
@@ -247,7 +248,7 @@ class TopicDetail extends Component {
     let { topicItem, reply, vote, user } = this.props;
     let { isReplyModalOpen, currentContent } = this.state;
 
-    if (topicItem.isFetching || !topicItem.topic || !topicItem.topic.topic_id) {
+    if (topicItem.isFetching) {
       return (
         <View style={mainStyles.container}>
           <Header title={this.boardName}>
@@ -256,6 +257,16 @@ class TopicDetail extends Component {
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
+        </View>
+      );
+    }
+
+    if (!_.get(topicItem, ['topic', 'topic_id'])) {
+      return (
+        <View style={mainStyles.container}>
+          <Header title={this.boardName}>
+            <PopButton router={this.props.router} />
+          </Header>
         </View>
       );
     }

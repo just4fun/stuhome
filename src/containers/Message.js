@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
@@ -11,6 +12,11 @@ import ReplyModal from '../components/modal/ReplyModal';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
+
+const TABS = [
+  { label: '@', type: 'at' },
+  { label: '回复', type: 'post' }
+];
 
 class Message extends Component {
   constructor(props) {
@@ -26,8 +32,8 @@ class Message extends Component {
     this.props.fetchNotifyList({ notifyType });
   }
 
-  _refreshNotifyList(notifyType, page, isEndReached) {
-    this.props.invalidateNotifyList();
+  _refreshNotifyList({ page, isEndReached, notifyType }) {
+    this.props.invalidateNotifyList({ notifyType });
     this.props.fetchNotifyList({
       notifyType,
       isEndReached,
@@ -81,22 +87,18 @@ class Message extends Component {
           tabBarInactiveTextColor={colors.white}
           tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
           tabBarTextStyle={scrollableTabViewStyles.tabBarText}>
-          <NotifyList
-            tabLabel='@'
-            notifyType='at'
-            notifyList={notifyList}
-            router={router}
-            fetchNotifyList={(notifyType) => this._fetchNotifyList(notifyType)}
-            refreshNotifyList={(notifyType, page, isEndReached) => this._refreshNotifyList(notifyType, page, isEndReached)}
-            openReplyModal={notification => this.toggleReplyModal(true, notification)} />
-          <NotifyList
-            tabLabel='回复'
-            notifyType='post'
-            notifyList={notifyList}
-            router={router}
-            fetchNotifyList={(notifyType) => this._fetchNotifyList(notifyType)}
-            refreshNotifyList={(notifyType, page, isEndReached) => this._refreshNotifyList(notifyType, page, isEndReached)}
-            openReplyModal={notification => this.toggleReplyModal(true, notification)} />
+          {TABS.map((tab, index) => {
+            return (
+              <NotifyList
+                key={index}
+                tabLabel={tab.label}
+                notifyList={_.get(notifyList, tab.type, {})}
+                router={router}
+                fetchNotifyList={() => this._fetchNotifyList(tab.type)}
+                refreshNotifyList={({ page, isEndReached }) => this._refreshNotifyList({ page, isEndReached, notifyType: tab.type })}
+                openReplyModal={notification => this.toggleReplyModal(true, notification)} />
+            );
+          })}
         </ScrollableTabView>
       </View>
     );

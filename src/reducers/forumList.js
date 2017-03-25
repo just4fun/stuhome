@@ -1,43 +1,44 @@
+import _ from 'lodash';
 import {
   INVALIDATE,
-  REQUEST_TOPFORUM_STARTED,
-  REQUEST_SUBFORUM_STARTED,
+  REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
 } from '../actions/forumAction';
 import { REMOVE_CACHE } from '../actions/authorizeAction';
 
+const defaultState = {};
 const defaultForumListState = {
-  // indicate fetching top forums
-  isFetching: false,
-  // indicate fetching sub forums
-  isSubFetching: false,
+  isRefreshing: false,
   didInvalidate: false,
-  // dictionary for cache
-  list: {},
+  list: [],
 };
 
-export default function forumList(state = defaultForumListState, action) {
+export default function forumList(state = defaultState, action) {
   switch (action.type) {
-    case INVALIDATE:
+    case INVALIDATE: {
+      let { boardId } = action.payload;
+
       return {
         ...state,
-        didInvalidate: true
+        [boardId]: {
+          ..._.get(state, boardId, defaultForumListState),
+          didInvalidate: true
+        }
       };
-    case REQUEST_TOPFORUM_STARTED:
+    }
+    case REQUEST_STARTED: {
+      let { boardId } = action.payload;
+
       return {
         ...state,
-        isFetching: true,
-        isSubFetching: false,
-        didInvalidate: false
+        [boardId]: {
+          ..._.get(state, boardId, defaultForumListState),
+          isRefreshing: true,
+          didInvalidate: false
+        }
       };
-    case REQUEST_SUBFORUM_STARTED:
-      return {
-        ...state,
-        isFetching: false,
-        isSubFetching: true,
-        didInvalidate: false
-      };
+    }
     case REQUEST_COMPELTED:
       let {
         payload: forumList,
@@ -48,29 +49,28 @@ export default function forumList(state = defaultForumListState, action) {
 
       return {
         ...state,
-        isFetching: false,
-        isSubFetching: false,
-        didInvalidate: false,
-        list: getNewCache(state, forumList.list, boardId),
+        [boardId]: {
+          ..._.get(state, boardId, defaultForumListState),
+          isRefreshing: false,
+          didInvalidate: false,
+          list: forumList.list
+        }
       };
-    case REQUEST_FAILED:
+    case REQUEST_FAILED: {
+      let { boardId } = action.meta;
+
       return {
         ...state,
-        isFetching: false,
-        isSubFetching: false,
-        didInvalidate: false
+        [boardId]: {
+          ..._.get(state, boardId, defaultForumListState),
+          isRefreshing: false,
+          didInvalidate: false
+        }
       };
+    }
     case REMOVE_CACHE:
-      return defaultForumListState;
+      return defaultState;
     default:
       return state;
   }
-}
-
-// cache forum list and return
-function getNewCache(oldState, forumList, boardId) {
-  return {
-    ...oldState.list,
-    [boardId]: { forumList }
-  };
 }

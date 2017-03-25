@@ -8,6 +8,6 @@ export function* fetchResource(resource, api, payload) {
     // the 2nd argument will be treated as `meta` field
     yield put(resource.success(data, payload));
   } else {
-    yield put(resource.failure(error));
+    yield put(resource.failure(error, payload));
   }
 }
