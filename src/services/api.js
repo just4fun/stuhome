@@ -209,7 +209,7 @@ export default {
     idType = 'tid',
   }) => {
     let body = `action=${action}&id=${id}&idType=${idType}`;
-    let fetchOptions = getFetchOptions(body);
+    let fetchOptions = getPublishFetchOptions(body);
     return callApi('user/userfavorite', fetchOptions);
   }
 };

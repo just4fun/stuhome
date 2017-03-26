@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
@@ -171,7 +172,7 @@ export default class ReplyModal extends Component {
               </Text>
             }
           </Header>
-          <View style={styles.form}>
+          <KeyboardAwareScrollView style={styles.form}>
             <View style={styles.formItem}>
               <TextInput
                 ref={component => this.contentInput = component}
@@ -188,7 +189,7 @@ export default class ReplyModal extends Component {
                 addImages={images => this.addImages(images)}
                 removeImage={imageIndex => this.removeImage(imageIndex)}/>
             </View>
-          </View>
+          </KeyboardAwareScrollView>
         </View>
       </Modal>
     );

@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
@@ -171,7 +172,7 @@ export default class PublishModal extends Component {
               </Text>
             }
           </Header>
-          <ScrollView style={[styles.form, isPublishing && styles.disabledForm]}>
+          <KeyboardAwareScrollView style={[styles.form, isPublishing && styles.disabledForm]}>
             {types.length > 0 &&
               <TouchableHighlight
                 underlayColor={colors.underlay}
@@ -218,7 +219,7 @@ export default class PublishModal extends Component {
                 addImages={images => this.addImages(images)}
                 removeImage={imageIndex => this.removeImage(imageIndex)}/>
             </View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </View>
       </Modal>
     );
