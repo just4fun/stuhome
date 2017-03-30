@@ -11,11 +11,7 @@ const ACTIONS = {
   NEW: 'new'
 };
 
-/*********************************
- *
- * Private Help Methods
- *
- *********************************/
+// Private Help Methods
 
 function callApi(endpoint, options) {
   return request(`${API_ROOT}${endpoint}`, options);
@@ -96,11 +92,7 @@ function assemblePayload({
   };
 }
 
-/*********************************
- *
- * API Methods
- *
- *********************************/
+// API Methods
 
 export default {
   fetchLoginUser: ({

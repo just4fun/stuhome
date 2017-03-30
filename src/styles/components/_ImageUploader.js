@@ -3,7 +3,7 @@ import Dimensions from 'Dimensions';
 import colors from '../common/_colors';
 
 const window = Dimensions.get('window');
-const IMAGE_WIDTH = (window.width - 10 * 5 - 12) / 4
+const IMAGE_WIDTH = (window.width - 10 * 5 - 12) / 4;
 
 export default StyleSheet.create({
   container: {

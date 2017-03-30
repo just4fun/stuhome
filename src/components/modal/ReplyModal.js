@@ -188,7 +188,7 @@ export default class ReplyModal extends Component {
               <ImageUploader
                 images={this.state.images}
                 addImages={images => this.addImages(images)}
-                removeImage={imageIndex => this.removeImage(imageIndex)}/>
+                removeImage={imageIndex => this.removeImage(imageIndex)} />
             </View>
           </KeyboardAwareScrollView>
         </View>
