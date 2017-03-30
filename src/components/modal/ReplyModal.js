@@ -83,7 +83,8 @@ export default class ReplyModal extends Component {
   }
 
   handleCancel() {
-    if (this.state.replyContent.length) {
+    let { replyContent, images } = this.state;
+    if (replyContent.length || images.length) {
       AlertIOS.alert(
         '提示',
         '信息尚未发送，放弃会丢失信息。',

@@ -62,8 +62,8 @@ export default class PublishModal extends Component {
   }
 
   handleCancel() {
-    let { title, content } = this.state;
-    if (title.length || content.length) {
+    let { title, content, images } = this.state;
+    if (title.length || content.length || images.length) {
       AlertIOS.alert(
         '提示',
         '信息尚未发送，放弃会丢失信息。',
