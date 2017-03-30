@@ -31,5 +31,8 @@ export default StyleSheet.create({
     flex: 1,
     height: 140,
     fontSize: 14,
+  },
+  upload: {
+    paddingTop: 10,
   }
 });

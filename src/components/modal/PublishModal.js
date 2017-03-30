@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
@@ -16,7 +17,9 @@ import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
 import Header from '../Header';
 import TopicTypeModal from './TopicTypeModal';
+import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
+import api from '../../services/api';
 
 export default class PublishModal extends Component {
   constructor(props) {
@@ -26,7 +29,9 @@ export default class PublishModal extends Component {
       typeId: null,
       title: '',
       content: '',
-      isTopicTypeModalOpen: false
+      isTopicTypeModalOpen: false,
+      images: [],
+      isUploading: false
     };
     this.title = this.props.title || '发表新主题';
   }
@@ -88,7 +93,17 @@ export default class PublishModal extends Component {
   _handlePublish(topic) {
     this.titleInput.blur();
     this.contentInput.blur();
-    this.props.handlePublish(topic);
+
+    this.setState({ isUploading: true });
+    api.uploadImages(this.state.images).then(data => {
+      this.setState({ isUploading: false });
+
+      if (data) {
+        topic.images = data;
+      }
+
+      this.props.handlePublish(topic);
+    });
   }
 
   toggleTopicTypeModal(visible) {
@@ -97,9 +112,23 @@ export default class PublishModal extends Component {
     });
   }
 
+  addImages(images) {
+    this.setState({
+      images: this.state.images.concat(images)
+    });
+  }
+
+  removeImage(imageIndex) {
+    this.setState({
+      images: this.state.images.filter((image, index) => index !== imageIndex)
+    });
+  }
+
   render() {
-    let { typeId, title, content, isTopicTypeModalOpen } = this.state;
+    let { typeId, title, content, isTopicTypeModalOpen, images } = this.state;
     let { publish, types } = this.props;
+
+    let isPublishing = this.state.isUploading || publish.isPublishing;
 
     return (
       <Modal
@@ -123,7 +152,7 @@ export default class PublishModal extends Component {
               取消
             </Text>
             {this._isFormValid() &&
-              (publish.isPublishing &&
+              (isPublishing &&
                 <ActivityIndicator color='white' />
                 ||
                 <Text
@@ -143,12 +172,12 @@ export default class PublishModal extends Component {
               </Text>
             }
           </Header>
-          <ScrollView style={[styles.form, publish.isPublishing && styles.disabledForm]}>
+          <KeyboardAwareScrollView style={[styles.form, isPublishing && styles.disabledForm]}>
             {types.length > 0 &&
               <TouchableHighlight
                 underlayColor={colors.underlay}
                 onPress={() => {
-                  if (!publish.isPublishing) {
+                  if (!isPublishing) {
                     this.toggleTopicTypeModal(true);
                   }
                 }}>
@@ -169,7 +198,7 @@ export default class PublishModal extends Component {
                 ref={component => this.titleInput = component}
                 style={styles.topicTitle}
                 onChangeText={text => this.setState({ title: text })}
-                editable={!publish.isPublishing}
+                editable={!isPublishing}
                 returnKeyType='next'
                 onSubmitEditing={() => this.contentInput.focus()}
                 enablesReturnKeyAutomatically={true}
@@ -181,10 +210,16 @@ export default class PublishModal extends Component {
                 style={styles.topicContent}
                 onChangeText={text => this.setState({ content: text })}
                 multiline={true}
-                editable={!publish.isPublishing}
+                editable={!isPublishing}
                 placeholder='请输入正文' />
             </View>
-          </ScrollView>
+            <View style={styles.upload}>
+              <ImageUploader
+                images={this.state.images}
+                addImages={images => this.addImages(images)}
+                removeImage={imageIndex => this.removeImage(imageIndex)}/>
+            </View>
+          </KeyboardAwareScrollView>
         </View>
       </Modal>
     );

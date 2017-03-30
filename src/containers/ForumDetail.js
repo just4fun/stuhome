@@ -110,15 +110,14 @@ class ForumDetail extends Component {
     this._fetchForumList();
   }
 
-  _publish(topic) {
-    let { typeId, title, content } = topic;
-
+  _publish({ typeId, title, images, content }) {
     this.props.submit({
       boardId: this.boardId,
       topicId: null,
       replyId: null,
       typeId,
       title,
+      images,
       content
     });
   }

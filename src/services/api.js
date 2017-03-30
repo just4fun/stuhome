@@ -21,7 +21,7 @@ function callApi(endpoint, options) {
   return request(`${API_ROOT}${endpoint}`, options);
 }
 
-function getFetchOptions(body) {
+function getPublishFetchOptions(body) {
   return {
     method: 'POST',
     headers: {
@@ -32,14 +32,52 @@ function getFetchOptions(body) {
   };
 }
 
-function assemblePayload(
+function getUploadFetchOptions(body) {
+  return {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data;charset=UTF-8'
+    },
+    body
+  };
+}
+
+function getAid(images) {
+  if (!images) { return null; }
+
+  return images.map(image => image.data.body.attachment[0].id).join(',');
+}
+
+function getContent(content, images) {
+  let contents = [];
+
+  contents.push({
+    type: 0,
+    infor: content
+  });
+
+  if (images) {
+    images.forEach(image => {
+      contents.push({
+        type: 1,
+        infor: image.data.body.attachment[0].urlName
+      });
+    });
+  }
+
+  return JSON.stringify(contents);
+}
+
+function assemblePayload({
   boardId,
   topicId,
   replyId,
   typeId,
   title,
+  images,
   content
-) {
+}) {
   return {
     body: {
       json: {
@@ -51,12 +89,8 @@ function assemblePayload(
         replyId: replyId,
         typeId: typeId,
         title: title,
-        content: JSON.stringify([
-          {
-            type: 0,
-            infor: content
-          }
-        ])
+        aid: getAid(images),
+        content: getContent(content, images)
       }
     }
   };
@@ -135,25 +169,38 @@ export default {
     voteIds
   }) => {
     let body = `tid=${topicId}&options=${voteIds}`;
-    let fetchOptions = getFetchOptions(body);
+    let fetchOptions = getPublishFetchOptions(body);
     return callApi('forum/vote', fetchOptions);
   },
 
-  publishTopic: ({
-    boardId,
-    topicId,
-    replyId,
-    typeId,
-    title,
-    content
-  }) => {
+  publishTopic: (topic) => {
     // if there is `topicId`, it's `reply`, not `publish`
-    let action = topicId ? ACTIONS.REPLY : ACTIONS.NEW;
-    let payload = assemblePayload(boardId, topicId, replyId, typeId, title, content);
+    let action = topic.topicId ? ACTIONS.REPLY : ACTIONS.NEW;
+    let payload = assemblePayload(topic);
     let body = `act=${action}&json=${JSON.stringify(payload)}`;
-    let fetchOptions = getFetchOptions(body);
+    let fetchOptions = getPublishFetchOptions(body);
 
     return callApi(`forum/topicadmin&apphash=${getAppHashValue()}&platType=${PLAT_TYPE}`, fetchOptions);
+  },
+
+  uploadImages: (images) => {
+    if (!images || images.length === 0) { return Promise.resolve(null); }
+
+    let promises = images.map((image, index) => {
+      let formData = new FormData();
+      let pathParts = image.path.split('/');
+
+      formData.append('uploadFile[]', {
+        type: 'image/jpg',
+        name: `upload_${index}.jpg`,
+        uri: image.path
+      });
+
+      let fetchOptions = getUploadFetchOptions(formData);
+      return callApi(`forum/sendattachmentex&type=image&module=forum`, fetchOptions);
+    });
+
+    return Promise.all(promises);
   },
 
   favorTopic: ({
@@ -162,7 +209,7 @@ export default {
     idType = 'tid',
   }) => {
     let body = `action=${action}&id=${id}&idType=${idType}`;
-    let fetchOptions = getFetchOptions(body);
+    let fetchOptions = getPublishFetchOptions(body);
     return callApi('user/userfavorite', fetchOptions);
   }
 };
