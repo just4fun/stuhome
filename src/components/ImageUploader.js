@@ -14,8 +14,9 @@ export default class ImageUploader extends Component {
   launchImageLibrary() {
     ImagePicker.openPicker({
       compressImageQuality: 0.5,
-      // mediaType: 'photo',
-      // loadingLabelText: '处理中...',
+      maxFiles: 10,
+      mediaType: 'photo',
+      loadingLabelText: '处理中...',
       multiple: true
     }).then(images => {
       this.props.addImages(images);
