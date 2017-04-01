@@ -110,15 +110,14 @@ class ForumDetail extends Component {
     this._fetchForumList();
   }
 
-  _publish(topic) {
-    let { typeId, title, content } = topic;
-
+  _publish({ typeId, title, images, content }) {
     this.props.submit({
       boardId: this.boardId,
       topicId: null,
       replyId: null,
       typeId,
       title,
+      images,
       content
     });
   }
@@ -172,17 +171,16 @@ class ForumDetail extends Component {
             tabBarTextStyle={scrollableTabViewStyles.tabBarText}
             onChangeTab={e => this.changeTab(e)}>
             {TABS.map((tab, index) => {
-               return (
-                 <TopicList
-                   key={index}
-                   tabLabel={tab.label}
-                   router={router}
-                   type={tab.type}
-                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
-                   refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
-               );
-             })
-            }
+              return (
+                <TopicList
+                  key={index}
+                  tabLabel={tab.label}
+                  router={router}
+                  type={tab.type}
+                  topicList={_.get(topicList, [this.boardId, tab.type], {})}
+                  refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
+              );
+            })}
             <ForumItems
               tabLabel='子版块'
               router={router}
@@ -202,17 +200,16 @@ class ForumDetail extends Component {
             tabBarTextStyle={scrollableTabViewStyles.tabBarText}
             onChangeTab={e => this.changeTab(e)}>
             {TABS.map((tab, index) => {
-               return (
-                 <TopicList
-                   key={index}
-                   tabLabel={tab.label}
-                   router={router}
-                   type={tab.type}
-                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
-                   refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
-               );
-             })
-           }
+              return (
+                <TopicList
+                  key={index}
+                  tabLabel={tab.label}
+                  router={router}
+                  type={tab.type}
+                  topicList={_.get(topicList, [this.boardId, tab.type], {})}
+                  refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
+              );
+            })}
           </ScrollableTabView>
         }
         {!this.boardContent && this.boardChild &&

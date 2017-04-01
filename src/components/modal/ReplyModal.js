@@ -8,11 +8,14 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
+import ImageUploader from '../ImageUploader';
+import api from '../../services/api';
 
 export default class ReplyModal extends Component {
   constructor(props) {
@@ -39,7 +42,9 @@ export default class ReplyModal extends Component {
       replyContent: '',
       replyId,
       boardId,
-      topicId
+      topicId,
+      images: [],
+      isUploading: false
     };
   }
 
@@ -78,7 +83,8 @@ export default class ReplyModal extends Component {
   }
 
   handleCancel() {
-    if (this.state.replyContent.length) {
+    let { replyContent, images } = this.state;
+    if (replyContent.length || images.length) {
       AlertIOS.alert(
         '提示',
         '信息尚未发送，放弃会丢失信息。',
@@ -95,7 +101,29 @@ export default class ReplyModal extends Component {
 
   _handlePublish(comment) {
     this.contentInput.blur();
-    this.props.handlePublish(comment);
+
+    this.setState({ isUploading: true });
+    api.uploadImages(this.state.images).then(data => {
+      this.setState({ isUploading: false });
+
+      if (data) {
+        comment.images = data;
+      }
+
+      this.props.handlePublish(comment);
+    });
+  }
+
+  addImages(images) {
+    this.setState({
+      images: this.state.images.concat(images)
+    });
+  }
+
+  removeImage(imageIndex) {
+    this.setState({
+      images: this.state.images.filter((image, index) => index !== imageIndex)
+    });
   }
 
   render() {
@@ -107,6 +135,8 @@ export default class ReplyModal extends Component {
       boardId,
       topicId
     } = this.state;
+
+    let isPublishing = this.state.isUploading || reply.isPublishing;
 
     return (
       <Modal
@@ -122,7 +152,7 @@ export default class ReplyModal extends Component {
               取消
             </Text>
             {replyContent.length &&
-              (reply.isPublishing &&
+              (isPublishing &&
                 <ActivityIndicator color='white' />
                 ||
                 <Text
@@ -143,16 +173,25 @@ export default class ReplyModal extends Component {
               </Text>
             }
           </Header>
-          <View style={styles.formItem}>
-            <TextInput
-              ref={component => this.contentInput = component}
-              placeholder='同学，请文明用语噢～'
-              style={[styles.replyBox, reply.isPublishing && { backgroundColor: '#ddd' }]}
-              onChangeText={(text) => this.setState({ replyContent: text })}
-              autoFocus={true}
-              multiline={true}
-              editable={!reply.isPublishing} />
-          </View>
+          <KeyboardAwareScrollView style={isPublishing && styles.disabledForm}>
+            <View style={styles.formItem}>
+              <TextInput
+                ref={component => this.contentInput = component}
+                placeholder='同学，请文明用语噢～'
+                style={styles.replyBox}
+                onChangeText={(text) => this.setState({ replyContent: text })}
+                autoFocus={true}
+                multiline={true}
+                editable={!isPublishing} />
+            </View>
+            <View style={styles.upload}>
+              <ImageUploader
+                disabled={isPublishing}
+                images={this.state.images}
+                addImages={images => this.addImages(images)}
+                removeImage={imageIndex => this.removeImage(imageIndex)} />
+            </View>
+          </KeyboardAwareScrollView>
         </View>
       </Modal>
     );
