@@ -1,6 +1,6 @@
 ![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
 
-[![React Native](https://img.shields.io/badge/react--native-v0.34.x-05A5D1.svg)](https://facebook.github.io/react-native)
+[![React Native](https://img.shields.io/badge/react--native-v0.42.2-05A5D1.svg)](https://facebook.github.io/react-native)
 [![GitHub issues](https://img.shields.io/github/issues/just4fun/uestc-bbs-react-native.svg)](https://github.com/just4fun/uestc-bbs-react-native/issues)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg)](http://opensource.org/licenses/MIT)
 
@@ -89,7 +89,7 @@ npm run eslint
 ## Known issues
 
 - ~~User avatar is not displayed sometimes: [RN/issue](https://github.com/facebook/react-native/issues/5616)~~ (Fixed by this [PR](https://github.com/facebook/react-native/pull/7262) for React Native, and the patch is released in `0.26.0`)
-- Switching between pages is not very smooth sometimes
+- ~~Switching between pages is not very smooth sometimes~~
 
 ## License
 
