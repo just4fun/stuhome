@@ -30,4 +30,6 @@ module.exports = {
   blue: '#4fa7ff',
 
   lightBlue: '#75baff',
+
+  disable: '#f1f1f1'
 };

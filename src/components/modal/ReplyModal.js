@@ -173,12 +173,12 @@ export default class ReplyModal extends Component {
               </Text>
             }
           </Header>
-          <KeyboardAwareScrollView style={styles.form}>
+          <KeyboardAwareScrollView style={isPublishing && styles.disabledForm}>
             <View style={styles.formItem}>
               <TextInput
                 ref={component => this.contentInput = component}
                 placeholder='同学，请文明用语噢～'
-                style={[styles.replyBox, isPublishing && { backgroundColor: '#ddd' }]}
+                style={styles.replyBox}
                 onChangeText={(text) => this.setState({ replyContent: text })}
                 autoFocus={true}
                 multiline={true}
@@ -186,6 +186,7 @@ export default class ReplyModal extends Component {
             </View>
             <View style={styles.upload}>
               <ImageUploader
+                disabled={isPublishing}
                 images={this.state.images}
                 addImages={images => this.addImages(images)}
                 removeImage={imageIndex => this.removeImage(imageIndex)} />

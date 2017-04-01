@@ -215,6 +215,7 @@ export default class PublishModal extends Component {
             </View>
             <View style={styles.upload}>
               <ImageUploader
+                disabled={isPublishing}
                 images={this.state.images}
                 addImages={images => this.addImages(images)}
                 removeImage={imageIndex => this.removeImage(imageIndex)} />

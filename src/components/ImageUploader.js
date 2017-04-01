@@ -21,6 +21,8 @@ export default class ImageUploader extends Component {
   }
 
   launchImageLibrary() {
+    if (this.props.disabled) { return; }
+
     ImagePicker.openPicker({
       compressImageQuality: 0.5,
       maxFiles: 10,
@@ -33,6 +35,8 @@ export default class ImageUploader extends Component {
   }
 
   previewImage(uri) {
+    if (this.props.disabled) { return; }
+
     this.setState({
       previewUri: uri
     });
@@ -40,6 +44,7 @@ export default class ImageUploader extends Component {
 
   render() {
     let { previewUri } = this.state;
+    let { disabled } = this.props;
 
     return (
       <View style={styles.container}>
@@ -56,21 +61,25 @@ export default class ImageUploader extends Component {
                                 onPress={() => this.previewImage(image.path)}>
               <Image style={styles.image}
                      source={{ uri: image.path }}>
-                <Icon style={styles.remove}
-                      name='window-close'
-                      size={16}
-                      onPress={() => this.props.removeImage(index)} />
+                {!disabled &&
+                  <Icon style={styles.remove}
+                    name='window-close'
+                    size={16}
+                    onPress={() => this.props.removeImage(index)} />
+                }
               </Image>
             </TouchableHighlight>
           );
         })}
-        <TouchableHighlight style={styles.block}
-                            underlayColor={colors.underlay}
-                            onPress={() => this.launchImageLibrary()}>
-          <Icon style={styles.uploader}
-                name='cloud-upload'
-                size={25} />
-        </TouchableHighlight>
+        {!disabled &&
+          <TouchableHighlight style={styles.block}
+                              underlayColor={colors.underlay}
+                              onPress={() => this.launchImageLibrary()}>
+            <Icon style={styles.uploader}
+                  name='cloud-upload'
+                  size={25} />
+          </TouchableHighlight>
+        }
       </View>
     );
   }

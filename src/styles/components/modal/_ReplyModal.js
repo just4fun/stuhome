@@ -2,10 +2,11 @@ import { StyleSheet } from 'react-native';
 import colors from '../../common/_colors';
 
 export default StyleSheet.create({
-  form: {
-    padding: 10,
+  disabledForm: {
+    backgroundColor: colors.disable,
   },
   replyBox: {
+    padding: 10,
     height: 200,
     fontSize: 16,
   },
@@ -14,6 +15,6 @@ export default StyleSheet.create({
     borderBottomColor: colors.underlay,
   },
   upload: {
-    paddingTop: 10,
+    padding: 10,
   }
 });

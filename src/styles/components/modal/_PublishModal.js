@@ -6,7 +6,7 @@ export default StyleSheet.create({
     padding: 10,
   },
   disabledForm: {
-    backgroundColor: '#ddd',
+    backgroundColor: colors.disable,
   },
   formItem: {
     flexDirection: 'row',
