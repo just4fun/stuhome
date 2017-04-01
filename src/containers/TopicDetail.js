@@ -214,13 +214,14 @@ class TopicDetail extends Component {
     );
   }
 
-  _publish({ content, replyId }) {
+  _publish({ content, replyId, images }) {
     this.props.submit({
       boardId: this.boardId,
       topicId: this.topicId,
       replyId,
       typeId: null,
       title: null,
+      images,
       content
     });
   }
