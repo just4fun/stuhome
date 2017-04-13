@@ -49,10 +49,10 @@ npm run eslint
 - [x] Forum
   - [x] View forums
   - [x] View sub forums
+  - [x] View topics in each forum
 - [ ] Topic
   - [x] View latest topics
-  - [ ] View hot topics
-  - [x] View topics in each forum
+  - [x] View hot topics
   - [x] View topic detail and comments
   - [x] Publish topic
   - [x] Reply topic
@@ -71,9 +71,8 @@ npm run eslint
   - [ ] View private messages
   - [ ] Notification alert
 - [ ] Individual
-  - [x] View latest published topics
-  - [x] View latest replied topics
-  - [x] View favorite topics
+  - [x] View my recent topics
+  - [x] View my favorite topics
   - [ ] Update password
   - [ ] Upload avatar
 
