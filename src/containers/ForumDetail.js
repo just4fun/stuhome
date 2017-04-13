@@ -87,14 +87,8 @@ class ForumDetail extends Component {
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
-      sortType: this._getSortType(e.i)
+      sortType: TABS[e.i].type
     });
-  }
-
-  _getSortType(tabIndex) {
-    if (tabIndex === 1) { return 'all'; }
-
-    if (tabIndex === 2) { return 'essence'; }
   }
 
   _fetchForumList() {

@@ -47,7 +47,7 @@ class Home extends Component {
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
-      sortType: e.i === 1 ? 'all' : 'publish'
+      sortType: TABS[e.i].type
     });
   }
 

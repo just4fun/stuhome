@@ -64,7 +64,7 @@ class Individual extends Component {
     this.props.fetchUserTopicList({
       userId: this.userId,
       isEndReached: false,
-      type: e.i === 1 ? 'reply' : 'favorite'
+      type: TABS[e.i].type
     });
   }
 
