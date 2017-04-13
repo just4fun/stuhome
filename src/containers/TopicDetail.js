@@ -44,7 +44,7 @@ class TopicDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.topicId = props.passProps.topic_id;
+    this.topicId = this.getTopicId(props.passProps);
     this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
 
@@ -52,6 +52,15 @@ class TopicDetail extends Component {
       isReplyModalOpen: false,
       currentContent: null
     };
+  }
+
+  getTopicId(topic) {
+    // for `hot(今日热门)` tab in Home page, each topic has
+    // not `topic_id` field, but they have `source_id` and
+    // `source_type` instead.
+    if (topic.source_id) { return topic.source_id; }
+
+    return topic.topic_id;
   }
 
   componentDidMount() {

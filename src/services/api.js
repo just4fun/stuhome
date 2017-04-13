@@ -108,6 +108,11 @@ export default {
     page = DEFAULT_PAGE,
     pageSize = DEFAULT_PAGESIZE
   }) => {
+    if (sortType === 'hot') {
+      // not sure what `moduleId=2` is, just capture the api from mobcent app.
+      return callApi(`portal/newslist&moduleId=2&page=${page}&pageSize=${pageSize}`);
+    }
+
     return callApi(`forum/topiclist&boardId=${boardId}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
   },
 

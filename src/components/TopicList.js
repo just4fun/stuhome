@@ -47,6 +47,15 @@ export default class TopicList extends Component {
     );
   }
 
+  getTopicId(topic) {
+    // for `hot(今日热门)` tab in Home page, each topic has
+    // not `topic_id` field, but they have `source_id` and
+    // `source_type` instead.
+    if (topic.source_id) { return topic.source_id; }
+
+    return topic.topic_id;
+  }
+
   render() {
     let { topicList, isSearch } = this.props;
     let realTopicList = [];
@@ -78,7 +87,7 @@ export default class TopicList extends Component {
         renderRow={topic => {
           return (
             <TopicItem
-              key={topic.topic_id}
+              key={this.getTopicId(topic)}
               topic={topic}
               router={this.props.router} />
           );

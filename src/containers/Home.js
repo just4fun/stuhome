@@ -12,7 +12,8 @@ import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListA
 
 const TABS = [
   { label: '最新发表', type: 'publish' },
-  { label: '最新回复', type: 'all' }
+  { label: '最新回复', type: 'all' },
+  { label: '今日热门', type: 'hot' }
 ];
 
 class Home extends Component {
