@@ -9,12 +9,14 @@ import search from './topic/search';
 import vote from './topic/vote';
 import topicFavor from './topic/favor';
 import notifyList from './message/notifyList';
+import pmSessionList from './message/pmSessionList';
 import userTopicList from './user/topicList';
 
 export default combineReducers({
   forumList,
   topicList,
   notifyList,
+  pmSessionList,
 
   user,
   topicItem,

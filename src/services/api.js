@@ -208,5 +208,13 @@ export default {
     let body = `action=${action}&id=${id}&idType=${idType}`;
     let fetchOptions = getPublishFetchOptions(body);
     return callApi('user/userfavorite', fetchOptions);
+  },
+
+  fetchPmSessionList: ({
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
+  }) => {
+    let json = `{'page': ${page}, 'pageSize': ${pageSize}}`;
+    return callApi(`message/pmsessionlist&json=${json}`);
   }
 };
