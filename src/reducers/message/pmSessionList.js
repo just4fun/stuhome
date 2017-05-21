@@ -63,7 +63,7 @@ export default function pmSessionList(state = defaultPmSessionListState, action)
       };
     }
     case REMOVE_CACHE:
-      return defaultState;
+      return defaultPmSessionListState;
     default:
       return state;
   }
