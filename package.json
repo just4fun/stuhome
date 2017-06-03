@@ -26,6 +26,7 @@
     "react-native": "0.42.2",
     "react-native-checkbox": "1.0.15",
     "react-native-code-push": "1.16.1-beta",
+    "react-native-gifted-chat": "0.1.4",
     "react-native-image-crop-picker": "0.12.9",
     "react-native-image-progress": "0.6.0",
     "react-native-keyboard-aware-scroll-view": "0.2.5",

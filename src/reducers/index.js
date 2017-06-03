@@ -11,12 +11,14 @@ import topicFavor from './topic/favor';
 import notifyList from './message/notifyList';
 import pmSessionList from './message/pmSessionList';
 import userTopicList from './user/topicList';
+import pmList from './message/pmList';
 
 export default combineReducers({
   forumList,
   topicList,
   notifyList,
   pmSessionList,
+  pmList,
 
   user,
   topicItem,

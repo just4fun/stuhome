@@ -15,6 +15,7 @@ export default class PmSessionItem extends Component {
     let {
       lastDateline,
       lastSummary,
+      toUserId,
       toUserName,
       toUserAvatar
     } = session;
@@ -25,7 +26,9 @@ export default class PmSessionItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => {}}>
+        onPress={() => router.toPmList({
+          userId: toUserId
+        })}>
         <View style={styles.item}>
           <View style={styles.authorInfo}>
             <Image

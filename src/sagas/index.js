@@ -13,6 +13,7 @@ import * as publishActions from '../actions/topic/publishAction';
 import * as replyActions from '../actions/topic/replyAction';
 import * as favorActions from '../actions/topic/favorAction';
 import * as pmSessionListActions from '../actions/message/pmSessionListAction';
+import * as pmListActions from '../actions/message/pmListAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -30,6 +31,7 @@ const publishTopicApi = fetchResource.bind(null, publishActions, api.publishTopi
 const replyTopicApi = fetchResource.bind(null, replyActions, api.publishTopic);
 const favorTopicApi = fetchResource.bind(null, favorActions, api.favorTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
+const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 
 // user login sagas
 
@@ -196,6 +198,15 @@ function* fetchPmSessionList(payload) {
   }
 }
 
+// pm list sagas
+
+function* watchPmList() {
+  while(true) {
+    const { payload } = yield take(pmListActions.REQUEST);
+    yield fork(fetchPmListApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -209,4 +220,5 @@ export default function* rootSaga() {
   yield fork(watchPublishTopic);
   yield fork(watchFavorTopic);
   yield fork(watchPmSessionList);
+  yield fork(watchPmList);
 }

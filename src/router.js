@@ -8,6 +8,7 @@ import Browser from './containers/Browser';
 import Message from './containers/Message';
 import Individual from './containers/Individual';
 import About from './containers/About';
+import PmList from './containers/PmList';
 
 let _navigator = null;
 
@@ -127,5 +128,14 @@ export default class Router {
       title: '关于',
       component: About
     }, true);
+  }
+
+  toPmList(userId) {
+    this._navigateTo({
+      id: 'pmList',
+      title: '私信',
+      component: PmList,
+      passProps: userId
+    });
   }
 }

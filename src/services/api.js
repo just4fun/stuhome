@@ -216,5 +216,28 @@ export default {
   }) => {
     let json = `{'page': ${page}, 'pageSize': ${pageSize}}`;
     return callApi(`message/pmsessionlist&json=${json}`);
+  },
+
+  fetchPmList: ({
+    userId
+  }) => {
+    let json = {
+      body: {
+        externInfo: {
+          onlyFromUid: 0
+        },
+        pmInfos: [{
+          startTime: 0,
+          stopTime: 0,
+          cacheCount: 1,
+          fromUid: userId,
+          pmLimit: 10
+        }]
+      }
+    };
+    let body = `pmlist=${JSON.stringify(json)}`;
+    let fetchOptions = getPublishFetchOptions(body);
+
+    return callApi(`message/pmlist`, fetchOptions);
   }
 };
