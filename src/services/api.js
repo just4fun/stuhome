@@ -219,7 +219,8 @@ export default {
   },
 
   fetchPmList: ({
-    userId
+    userId,
+    page = DEFAULT_PAGE
   }) => {
     let json = {
       body: {
@@ -228,10 +229,12 @@ export default {
         },
         pmInfos: [{
           startTime: 0,
-          stopTime: 0,
-          cacheCount: 1,
+          stopTime: + new Date(),
+          // `cacheCount` is used for calculating `page`, refer source code for more information:
+          // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/message/PMListAction.php#L105-L116
+          cacheCount: (page - 1) * DEFAULT_PAGESIZE,
           fromUid: userId,
-          pmLimit: 10
+          pmLimit: DEFAULT_PAGESIZE
         }]
       }
     };

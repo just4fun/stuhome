@@ -18,11 +18,9 @@ const defaultPmListState = {
 export default function pmList(state = defaultPmListState, action) {
   switch (action.type) {
     case REQUEST_STARTED: {
-      let { isRefreshing } = action.payload;
-
       return {
         ...state,
-        isRefreshing
+        isRefreshing: true
       };
     }
     case REQUEST_COMPELTED:
@@ -36,10 +34,18 @@ export default function pmList(state = defaultPmListState, action) {
         }
       } = action;
 
+      let msgList = null;
+
+      if (meta.page !== 1) {
+        msgList = state.list.concat(pmList[0].msgList.reverse());
+      } else {
+        msgList = pmList[0].msgList.reverse();
+      }
+
       return {
         ...state,
         isRefreshing: false,
-        list: pmList[0].msgList.reverse(),
+        list: msgList,
         hasPrev: !!pmList[0].hasPrev,
         page: meta.page,
         errCode: payload.errcode,
