@@ -242,5 +242,23 @@ export default {
     let fetchOptions = getPublishFetchOptions(body);
 
     return callApi(`message/pmlist`, fetchOptions);
+  },
+
+  sendMessage: ({
+    newMessage,
+    toUserId
+  }) => {
+    let payload = {
+      action: 'send',
+      toUid: toUserId,
+      msg: {
+        type: 'text',
+        content: newMessage.text
+      }
+    };
+    let body = `json=${JSON.stringify(payload)}`;
+    let fetchOptions = getPublishFetchOptions(body);
+
+    return callApi(`message/pmadmin`, fetchOptions);
   }
 };

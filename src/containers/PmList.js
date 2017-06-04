@@ -13,11 +13,16 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import Header from '../components/Header';
 import { PopButton } from '../components/button';
 import {
+  submit,
+  resetPublish
+} from '../actions/message/sendAction';
+import {
   fetchPmList,
   resetPmList
 } from '../actions/message/pmListAction';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
+import styles from '../styles/containers/_PmList';
 
 const LOGIN_USER_ID = Symbol();
 
@@ -39,10 +44,25 @@ class PmList extends Component {
     this.props.resetPmList();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { send } = nextProps;
+    if (send.response && send.response.rs) {
+      this.props.resetPublish();
+      this.componentDidMount();
+    }
+  }
+
   _loadEarlierMessages(page) {
     this.props.fetchPmList({
       userId: this.userId,
       page
+    });
+  }
+
+  _onSend({ messages, toUserId }) {
+    this.props.submit({
+      newMessage: messages[0],
+      toUserId
     });
   }
 
@@ -55,7 +75,8 @@ class PmList extends Component {
         hasPrev,
         user,
         page
-      }
+      },
+      send
     } = this.props;
 
     if (isRefreshing && page === 0) {
@@ -81,7 +102,7 @@ class PmList extends Component {
           avatar: (item.sender === user.id) && user.avatar
         }
       };
-    })
+    });
 
     return (
       <View style={mainStyles.container}>
@@ -91,10 +112,14 @@ class PmList extends Component {
         <GiftedChat
           style={mainStyles.container}
           locale={'zh-cn'}
-          isLoadingEarlier={isRefreshing}
+          isLoadingEarlier={isRefreshing && page > 1}
           loadEarlier={hasPrev}
           renderAvatarOnTop={true}
           onLoadEarlier={() => this._loadEarlierMessages(page + 1)}
+          onSend={messages => this._onSend({
+            messages,
+            toUserId: user.id
+          })}
           messages={messages}
           user={{ _id: LOGIN_USER_ID }}/>
       </View>
@@ -102,13 +127,16 @@ class PmList extends Component {
   }
 }
 
-function mapStateToProps({ pmList }) {
+function mapStateToProps({ pmList, send }) {
   return {
-    pmList
+    pmList,
+    send
   };
 }
 
 export default connect(mapStateToProps, {
   fetchPmList,
-  resetPmList
+  resetPmList,
+  submit,
+  resetPublish
 })(PmList);
