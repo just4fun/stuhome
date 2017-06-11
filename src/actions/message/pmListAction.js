@@ -2,8 +2,10 @@ import { createAction } from 'redux-actions';
 
 export const REQUEST = Symbol();
 export const RESET = Symbol();
+export const RESET_RESPONSE_STATUS = Symbol();
 export const fetchPmList = createAction(REQUEST);
 export const resetPmList = createAction(RESET);
+export const resetPmListResponseStatus = createAction(RESET_RESPONSE_STATUS);
 
 export const REQUEST_STARTED = Symbol();
 export const REQUEST_COMPELTED = Symbol();

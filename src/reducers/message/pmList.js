@@ -12,7 +12,8 @@ const defaultPmListState = {
   hasPrev: false,
   page: 0,
   errCode: '',
-  user: ''
+  user: '',
+  response: ''
 };
 
 export default function pmList(state = defaultPmListState, action) {
@@ -53,7 +54,8 @@ export default function pmList(state = defaultPmListState, action) {
           id: pmList[0].fromUid,
           name: pmList[0].name,
           avatar: pmList[0].avatar
-        }
+        },
+        response: payload
       };
     case REQUEST_FAILED: {
       return {

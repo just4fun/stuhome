@@ -18,7 +18,8 @@ import {
 } from '../actions/message/sendAction';
 import {
   fetchPmList,
-  resetPmList
+  resetPmList,
+  resetPmListResponseStatus
 } from '../actions/message/pmListAction';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
@@ -31,6 +32,9 @@ class PmList extends Component {
     super(props);
 
     this.userId = this.props.passProps.userId;
+    this.state = {
+      messages: []
+    };
   }
 
   componentDidMount() {
@@ -45,10 +49,30 @@ class PmList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { send } = nextProps;
+    let {
+      send,
+      pmList
+    } = nextProps;
+
+    if (send.isPublishing) { return; }
+
+    if (pmList.isRefreshing)　{ return; }
+
     if (send.response && send.response.rs) {
       this.props.resetPublish();
+      // if we just append new message into state without fetching from server,
+      // then if we want to load earlier messages, we will get warnings that
+      // we want to render messages which have same `_id`.
       this.componentDidMount();
+      return;
+    }
+
+    // translation from Redux store props to component state
+    if (pmList.response && pmList.response.rs) {
+      this.setState({
+        messages: pmList.list
+      });
+      this.props.resetPmListResponseStatus();
     }
   }
 
@@ -60,6 +84,12 @@ class PmList extends Component {
   }
 
   _onSend({ messages, toUserId }) {
+    this.setState(perviousState => {
+      return {
+        messages: GiftedChat.append(perviousState.messages, Object.assign({}, messages[0], { isNew: true }))
+      };
+    });
+
     this.props.submit({
       newMessage: messages[0],
       toUserId
@@ -70,7 +100,6 @@ class PmList extends Component {
     let {
       router,
       pmList: {
-        list,
         isRefreshing,
         hasPrev,
         user,
@@ -92,7 +121,9 @@ class PmList extends Component {
       );
     }
 
-    let messages = list.map(item => {
+    let messages = this.state.messages.map(item => {
+      if (item.isNew) { return item };
+
       return {
         _id: item.mid,
         text: item.content,
@@ -120,6 +151,15 @@ class PmList extends Component {
             messages,
             toUserId: user.id
           })}
+          renderTicks={message => {
+            if (!message.isNew) { return; }
+
+            return (
+              <View style={styles.tickView}>
+                {send.isPublishing && <Text style={styles.tick}>发布中...</Text>}
+              </View>
+            );
+          }}
           messages={messages}
           user={{ _id: LOGIN_USER_ID }}/>
       </View>
@@ -137,6 +177,7 @@ function mapStateToProps({ pmList, send }) {
 export default connect(mapStateToProps, {
   fetchPmList,
   resetPmList,
+  resetPmListResponseStatus,
   submit,
   resetPublish
 })(PmList);
