@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
   RESET,
+  RESET_RESPONSE_STATUS,
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
@@ -65,6 +66,11 @@ export default function pmList(state = defaultPmListState, action) {
     }
     case RESET:
       return defaultPmListState;
+    case RESET_RESPONSE_STATUS:
+      return {
+        ...state,
+        response: ''
+      };
     default:
       return state;
   }
