@@ -8,37 +8,13 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Status
 
-Now it's ready on App Store.
-
-https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355
+[<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 
 ![](https://cloud.githubusercontent.com/assets/7512625/12371330/88981098-bc6a-11e5-8511-6e02c5233006.gif)
 
 ## Screenshot
 
 ![](https://cloud.githubusercontent.com/assets/7512625/21566137/dc08dc48-ceda-11e6-86f7-6e63ad8a8270.gif)
-
-## Try it out
-
-#### Run in simulator
-
-```bash
-git clone git@github.com:just4fun/uestc-bbs-react-native.git
-cd uestc-bbs-react-native
-npm install
-```
-Then use Xcode to open this project and simply click **Run**.
-
-#### Run on your iOS device
-
-- Execute same commands as [Run in simulator](https://github.com/just4fun/uestc-bbs-react-native#run-in-simulator) except last step with Xcode, then follow this [official guide](http://facebook.github.io/react-native/docs/running-on-device-ios.html)
-  - **Tip**: JavaScript thread performance suffers greatly when running in dev mode (refer [here](https://facebook.github.io/react-native/docs/performance.html)), so it's best to change `Build Configuration` from `Debug` to `Release` when using offline bundle (refer [here](https://facebook.github.io/react-native/docs/running-on-device-ios.html#using-offline-bundle)).
-
-## Run ESlint
-
-```bash
-npm run eslint
-```
 
 ## Existing functionalities
 
@@ -76,6 +52,27 @@ npm run eslint
   - [x] View my favorite topics
   - [ ] Update password
   - [ ] Upload avatar
+
+## Try it out
+
+#### Run in simulator
+
+```bash
+git clone git@github.com:just4fun/uestc-bbs-react-native.git
+cd uestc-bbs-react-native
+npm install
+```
+Then use Xcode to open this project and simply click **Run**.
+
+#### Run on your iOS device
+
+http://facebook.github.io/react-native/docs/running-on-device.html#running-your-app-on-ios-devices
+
+## Run ESlint
+
+```bash
+npm run eslint
+```
 
 ## Todo list
 
