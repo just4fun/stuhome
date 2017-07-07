@@ -38,14 +38,24 @@ class PmList extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchPmList({
-      userId: this.userId,
-      page: 1
-    });
+    this._fetchPmList();
+
+    // fetch new private messages every 1 mins
+    this.timer = setInterval(() => { this._fetchPmList(); }, 1000 * 60);
   }
 
   componentWillUnmount() {
     this.props.resetPmList();
+
+    // tear down timer
+    this.timer && clearInterval(this.timer);
+  }
+
+  _fetchPmList() {
+    this.props.fetchPmList({
+      userId: this.userId,
+      page: 1
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,12 +68,18 @@ class PmList extends Component {
 
     if (pmList.isRefreshing)　{ return; }
 
-    if (send.response && send.response.rs) {
-      this.props.resetPublish();
+    if (send.response) {
+      let { rs, errcode } = send.response;
+      if (!rs && errcode) {
+        AlertIOS.alert('提示', send.response.errcode);
+      }
+
       // if we just append new message into state without fetching from server,
       // then if we want to load earlier messages, we will get warnings that
       // we want to render messages which have same `_id`.
-      this.componentDidMount();
+      this._fetchPmList();
+
+      this.props.resetPublish();
       return;
     }
 
