@@ -8,14 +8,17 @@ import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
 import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
+import PmSessionList from '../components/PmSessionList';
 import ReplyModal from '../components/modal/ReplyModal';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
+import { invalidatePmSessionList, fetchPmSessionList } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
 
 const TABS = [
   { label: '@', type: 'at' },
-  { label: '回复', type: 'post' }
+  { label: '回复', type: 'post' },
+  { label: '私信', type: 'private' }
 ];
 
 class Message extends Component {
@@ -36,6 +39,18 @@ class Message extends Component {
     this.props.invalidateNotifyList({ notifyType });
     this.props.fetchNotifyList({
       notifyType,
+      isEndReached,
+      page
+    });
+  }
+
+  _fetchPmSessionList() {
+    this.props.fetchPmSessionList({ page: 1 });
+  }
+
+  _refreshPmSessionList({ page, isEndReached }) {
+    this.props.invalidatePmSessionList();
+    this.props.fetchPmSessionList({
       isEndReached,
       page
     });
@@ -63,6 +78,7 @@ class Message extends Component {
   render() {
     let {
       notifyList,
+      pmSessionList,
       reply,
       router
     } = this.props;
@@ -88,6 +104,18 @@ class Message extends Component {
           tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
           tabBarTextStyle={scrollableTabViewStyles.tabBarText}>
           {TABS.map((tab, index) => {
+            if (tab.type === 'private') {
+              return (
+                <PmSessionList
+                  key={index}
+                  tabLabel={tab.label}
+                  pmSessionList={pmSessionList}
+                  router={router}
+                  fetchPmSessionList={() => this._fetchPmSessionList(tab.type)}
+                  refreshPmSessionList={({ page, isEndReached }) => this._refreshPmSessionList({ page, isEndReached })} />
+              );
+            }
+
             return (
               <NotifyList
                 key={index}
@@ -105,10 +133,11 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, reply }) {
+function mapStateToProps({ notifyList, reply, pmSessionList }) {
   return {
     notifyList,
-    reply
+    reply,
+    pmSessionList
   };
 }
 
@@ -116,5 +145,7 @@ export default connect(mapStateToProps, {
   invalidateNotifyList,
   fetchNotifyList,
   submit,
-  resetReply
+  resetReply,
+  fetchPmSessionList,
+  invalidatePmSessionList
 })(Message);

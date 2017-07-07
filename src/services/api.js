@@ -208,5 +208,57 @@ export default {
     let body = `action=${action}&id=${id}&idType=${idType}`;
     let fetchOptions = getPublishFetchOptions(body);
     return callApi('user/userfavorite', fetchOptions);
+  },
+
+  fetchPmSessionList: ({
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
+  }) => {
+    let json = `{'page': ${page}, 'pageSize': ${pageSize}}`;
+    return callApi(`message/pmsessionlist&json=${json}`);
+  },
+
+  fetchPmList: ({
+    userId,
+    page = DEFAULT_PAGE
+  }) => {
+    let json = {
+      body: {
+        externInfo: {
+          onlyFromUid: 0
+        },
+        pmInfos: [{
+          startTime: 0,
+          stopTime: + new Date(),
+          // `cacheCount` is used for calculating `page`, refer source code for more information:
+          // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/message/PMListAction.php#L105-L116
+          cacheCount: (page - 1) * DEFAULT_PAGESIZE,
+          fromUid: userId,
+          pmLimit: DEFAULT_PAGESIZE
+        }]
+      }
+    };
+    let body = `pmlist=${JSON.stringify(json)}`;
+    let fetchOptions = getPublishFetchOptions(body);
+
+    return callApi(`message/pmlist`, fetchOptions);
+  },
+
+  sendMessage: ({
+    newMessage,
+    toUserId
+  }) => {
+    let payload = {
+      action: 'send',
+      toUid: toUserId,
+      msg: {
+        type: 'text',
+        content: newMessage.text
+      }
+    };
+    let body = `json=${JSON.stringify(payload)}`;
+    let fetchOptions = getPublishFetchOptions(body);
+
+    return callApi(`message/pmadmin`, fetchOptions);
   }
 };

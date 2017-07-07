@@ -12,6 +12,9 @@ import * as voteActions from '../actions/topic/voteAction';
 import * as publishActions from '../actions/topic/publishAction';
 import * as replyActions from '../actions/topic/replyAction';
 import * as favorActions from '../actions/topic/favorAction';
+import * as pmSessionListActions from '../actions/message/pmSessionListAction';
+import * as pmListActions from '../actions/message/pmListAction';
+import * as sendActions from '../actions/message/sendAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -28,6 +31,9 @@ const publishTopicVoteApi = fetchResource.bind(null, voteActions, api.publishVot
 const publishTopicApi = fetchResource.bind(null, publishActions, api.publishTopic);
 const replyTopicApi = fetchResource.bind(null, replyActions, api.publishTopic);
 const favorTopicApi = fetchResource.bind(null, favorActions, api.favorTopic);
+const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
+const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
+const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
 
 // user login sagas
 
@@ -177,6 +183,41 @@ function* watchFavorTopic() {
   }
 }
 
+// pm session list sagas
+
+function* watchPmSessionList() {
+  while(true) {
+    const { payload } = yield take(pmSessionListActions.REQUEST);
+    yield fork(fetchPmSessionList, payload);
+  }
+}
+
+function* fetchPmSessionList(payload) {
+  const state = yield select();
+
+  if (cacheManager.shouldFetchList(state, 'pmSessionList')) {
+    yield fork(fetchPmSessionListApi, payload);
+  }
+}
+
+// pm list sagas
+
+function* watchPmList() {
+  while(true) {
+    const { payload } = yield take(pmListActions.REQUEST);
+    yield fork(fetchPmListApi, payload);
+  }
+}
+
+// send pm sagas
+
+function* watchSendMessage() {
+  while(true) {
+    const { payload } = yield take(sendActions.REQUEST);
+    yield fork(sendMessageApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -189,4 +230,7 @@ export default function* rootSaga() {
   yield fork(watchTopicVote);
   yield fork(watchPublishTopic);
   yield fork(watchFavorTopic);
+  yield fork(watchPmSessionList);
+  yield fork(watchPmList);
+  yield fork(watchSendMessage);
 }
