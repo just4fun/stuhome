@@ -55,6 +55,7 @@ npm run eslint
   - [x] View hot topics
   - [x] View topic detail and comments
   - [x] Publish topic
+  - [ ] Edit published topic
   - [x] Reply topic
   - [x] Reply comment
   - [x] Favor topic
@@ -68,7 +69,7 @@ npm run eslint
 - [ ] Notifications
   - [x] View list mentioned(@) me
   - [x] View list replied me
-  - [ ] View private messages
+  - [x] View private messages
   - [ ] Notification alert
 - [ ] Individual
   - [x] View my recent topics
