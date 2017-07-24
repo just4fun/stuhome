@@ -56,6 +56,14 @@ export default class TopicList extends Component {
     return topic.topic_id;
   }
 
+  isBadData(topic) {
+    if (!topic) { return true; }
+
+    if (topic.board_id === 0 || topic.user_id === 0) { return true; }
+
+    return false;
+  }
+
   render() {
     let { topicList, isSearch } = this.props;
     let realTopicList = [];
@@ -85,6 +93,9 @@ export default class TopicList extends Component {
         dataSource={source}
         enableEmptySections={true}
         renderRow={topic => {
+          // https://github.com/just4fun/uestc-bbs-react-native/issues/15
+          if (this.isBadData(topic)) { return null; }
+
           return (
             <TopicItem
               key={this.getTopicId(topic)}
