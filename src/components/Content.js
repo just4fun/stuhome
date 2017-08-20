@@ -21,7 +21,7 @@ export default class Content extends Component {
             case 0:
             default:
               return <Text key={index}
-                           style={styles.contentItem}>
+                           style={[styles.contentItem, styles.contentText]}>
                        {parseContentWithImage(content.infor)}
                      </Text>;
             // pic

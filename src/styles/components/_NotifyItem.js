@@ -26,6 +26,7 @@ export default StyleSheet.create({
   name: {
     fontSize: 14,
     marginBottom: 8,
+    color: colors.significantField,
   },
   date: {
     fontSize: 12,
@@ -33,6 +34,7 @@ export default StyleSheet.create({
   },
   replyContent: {
     marginVertical: 10,
+    color: colors.significantField,
   },
   quote: {
     borderRadius: 5,

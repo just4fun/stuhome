@@ -12,7 +12,8 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: colors.significantField,
   },
   info: {
     flexDirection: 'row',
