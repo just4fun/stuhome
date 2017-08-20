@@ -8,12 +8,12 @@ export default StyleSheet.create({
     borderBottomColor: colors.underlay,
   },
   icon: {
-    color: colors.mainField,
+    color: colors.white,
     paddingTop: 8,
     paddingLeft: 30,
   },
   item: {
-    color: colors.mainField,
+    color: colors.white,
     fontSize: 18,
     fontWeight: 'bold',
     paddingTop: 10,
@@ -21,7 +21,7 @@ export default StyleSheet.create({
     paddingBottom: 10,
   },
   selectedRow: {
-    backgroundColor: '#f5f5f5',
+    // backgroundColor: '#f5f5f5',
   },
   selectedItem: {
     color: colors.blue,

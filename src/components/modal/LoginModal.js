@@ -7,8 +7,10 @@ import {
   AlertIOS,
   AsyncStorage,
   Navigator,
-  Modal
+  Modal,
+  findNodeHandle
 } from 'react-native';
+import { BlurView } from 'react-native-blur';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'apsl-react-native-button';
 import styles from '../../styles/components/modal/_LoginModal';
@@ -23,7 +25,8 @@ export default class Login extends Component {
     this.state = {
       userName: '',
       password: '',
-      isRegisterModalOpen: false
+      isRegisterModalOpen: false,
+      viewRef: null
     };
   }
 
@@ -78,24 +81,41 @@ export default class Login extends Component {
     });
   }
 
+  imageLoaded() {
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  }
+
   render() {
-    let logo = require('../../images/logo.png');
+    let logo = require('../../images/logo_transparent.png');
     let { isFetching } = this.props.user;
     let { userName, password, isRegisterModalOpen } = this.state;
     let isDisabled = !userName || !password || isFetching;
 
     return (
       <Modal
+        style={styles.blurContainer}
         animationType='slide'
         transparent={false}
         visible={this.props.visible}>
+        <Image
+          ref={(img) => { this.backgroundImage = img; }}
+          source={require('../../images/gingko.jpeg')}
+          style={styles.blur}
+          onLoadEnd={this.imageLoaded.bind(this)}
+          resizeMode={'cover'} />
+        <BlurView
+          style={styles.blur}
+          viewRef={this.state.viewRef}
+          blurType="light"
+          blurAmount={5} />
         {isRegisterModalOpen &&
           <RegisterModal
             visible={isRegisterModalOpen}
             closeRegisterModal={() => this.toggleRegisterModal(false)} />
         }
-        <Header title='登录'>
-          <PopButton action={() => this._closeLoginModal()} />
+        <Header style={styles.header}>
+          <PopButton style={styles.left}
+                     action={() => this._closeLoginModal()} />
           <Text style={styles.register}
                 onPress={() => this.toggleRegisterModal(true)}>
             注册

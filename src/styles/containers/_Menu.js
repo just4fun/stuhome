@@ -9,9 +9,13 @@ export default StyleSheet.create({
     flex: 1,
     width: window.width * 2 / 3,
     height: window.height,
-    borderRightWidth: 1,
-    borderRightColor: colors.underlay,
-    backgroundColor: colors.white,
     paddingTop: 30,
   },
+  blur: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  }
 });

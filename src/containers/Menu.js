@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Image, findNodeHandle } from 'react-native';
+import { BlurView } from 'react-native-blur';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
@@ -20,7 +21,8 @@ class Menu extends Component {
     super(props);
 
     this.state = {
-      isLoginModalOpen: false
+      isLoginModalOpen: false,
+      viewRef: null
     };
   }
 
@@ -34,12 +36,26 @@ class Menu extends Component {
     });
   }
 
+  imageLoaded() {
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  }
+
   render() {
     let { user } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (
       <View style={styles.container}>
+        <Image
+          ref={(img) => { this.backgroundImage = img; }}
+          source={require('../images/gingko.jpeg')}
+          style={styles.blur}
+          onLoadEnd={this.imageLoaded.bind(this)} />
+        <BlurView
+          style={styles.blur}
+          viewRef={this.state.viewRef}
+          blurType="light"
+          blurAmount={5} />
         {isLoginModalOpen &&
           <LoginModal
             visible={isLoginModalOpen}

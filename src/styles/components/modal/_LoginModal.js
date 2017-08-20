@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   form: {
     padding: 20,
-    backgroundColor: colors.white,
+    backgroundColor: 'transparent',
   },
   formItem: {
     height: 40,
@@ -20,9 +20,10 @@ export default StyleSheet.create({
   },
   formInput: {
     borderWidth: 1,
-    borderColor: colors.underlay,
+    borderColor: colors.white,
     padding: 10,
     marginBottom: 10,
+    color: colors.white,
   },
   formSubmit: {
     borderColor: colors.buttonBorder,
@@ -34,5 +35,22 @@ export default StyleSheet.create({
   },
   register: {
     fontSize: 16,
+    color: colors.lightBlue,
+  },
+  blur: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height: null,
+    width: null,
+  },
+  header: {
+    backgroundColor: 'transparent',
+    borderBottomWidth: 0,
+  },
+  left: {
+    color: colors.lightBlue,
   }
 });

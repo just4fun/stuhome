@@ -53,5 +53,9 @@ fastlane/Preview.html
 fastlane/screenshots
 
 # Vim
-
+#
 *.swp
+
+# npm
+#
+package-lock.json

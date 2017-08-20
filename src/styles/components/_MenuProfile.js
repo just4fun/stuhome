@@ -10,14 +10,10 @@ export default StyleSheet.create({
     paddingBottom: 12
   },
   menuHeaderNoToken: {
-    paddingLeft: 30,
-    justifyContent: 'flex-start'
   },
   avatar: {
     height: 70,
     width: 70,
-    borderWidth: 1,
-    borderColor: colors.underlay,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -25,17 +21,19 @@ export default StyleSheet.create({
   name: {
     width: 70,
     textAlign: 'center',
-    color: colors.mainField,
-    marginTop: 5
+    color: colors.white,
+    marginTop: 10,
+    backgroundColor: 'transparent',
   },
   infoWrapper: {
     marginLeft: 10,
-    marginTop: 5
+    marginTop: 5,
+    backgroundColor: 'transparent',
   },
   info: {
     fontSize: 12,
     marginBottom: 3,
-    color: colors.mainField,
+    color: colors.white,
   },
   level: {
     color: colors.userLevel,

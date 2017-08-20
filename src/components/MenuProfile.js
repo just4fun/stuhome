@@ -73,7 +73,7 @@ export default class MenuProfile extends Component {
                source={require('../images/noavatar.jpg')} />
              </TouchableHighlight>
           }
-          {token && <Text style={styles.name}>{userName}</Text>}
+          <Text style={styles.name}>{token ? userName : '请先登录'}</Text>
         </View>
         {token &&
           <View style={styles.infoWrapper}>

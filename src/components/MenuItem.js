@@ -15,7 +15,7 @@ export default class MenuItem extends Component {
 
     return (
       <TouchableHighlight
-        underlayColor={colors.underlay}
+        underlayColor={colors.lightBlue}
         onPress={() => this.props.selectMenuItem(menu)}>
         <View style={[styles.row, isCurrentRoute(menu) && styles.selectedRow]}>
           <Icon style={[styles.icon, isCurrentRoute(menu) && styles.selectedItem]} name={icon} size={+iconSize || 20} />
