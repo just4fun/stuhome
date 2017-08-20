@@ -7,7 +7,9 @@ module.exports = {
 
   userLevel: '#f16f53',
 
-  mainField: '#b7b7b7',
+  mainField: '#696969',
+
+  significantField: '#3d3d3d',
 
   postNumber: '#21b6f2',
 

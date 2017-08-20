@@ -4,55 +4,66 @@ import colors from '../common/_colors';
 export default StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    borderBottomWidth: 1,
+    borderBottomWidth: 6,
     borderBottomColor: colors.underlay
   },
   item: {
-    margin: 10,
+    margin: 10
   },
-  title: {
-    fontSize: 18,
-    textAlign: 'left',
+  row: {
+    flexDirection: 'row',
   },
-  info: {
+  left: {
+    width: 40,
+    marginRight: 5
+  },
+  right: {
     flex: 1,
     flexDirection: 'row',
-    height: 25,
-    marginTop: 10,
-  },
-  forum: {
-    color: colors.mainField,
-  },
-  details: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 10,
-  },
-  date: {
-    flex: 1,
-    textAlign: 'left',
-    color: colors.mainField,
-    marginTop: 4,
-  },
-  avatar: {
-    height: 25,
-    width: 25,
-    marginLeft: 5,
-    borderRadius: 5,
   },
   name: {
+    color: colors.significantField,
+    fontWeight: '400',
+  },
+  date: {
+    fontSize: 11,
     color: colors.mainField,
     marginTop: 5,
   },
-  forumInfo: {
-    padding: 3,
-    borderRadius: 2,
+  title: {
+    marginTop: 8,
+    fontSize: 15,
+    color: colors.significantField,
+  },
+  subject: {
+    marginTop: 5,
+    fontSize: 12,
+    color: colors.mainField,
+  },
+  leftInfo: {
+    flex: 1,
+  },
+  rightInfo: {
+    flex: 1,
+  },
+  forumBorder: {
     backgroundColor: colors.lightBlue,
+    borderRadius: 2,
+    padding: 3,
+    marginBottom: 5,
   },
   forumName: {
     color: colors.white,
-    marginTop: 1
+    fontSize: 12,
+  },
+  metrics: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  avatar: {
+    height: 35,
+    width: 35,
+    borderRadius: 5,
   },
   viewsInfo: {
     color: colors.mainField,

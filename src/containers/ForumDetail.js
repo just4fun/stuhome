@@ -171,6 +171,7 @@ class ForumDetail extends Component {
                   tabLabel={tab.label}
                   router={router}
                   type={tab.type}
+                  accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
                   refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
               );
@@ -200,6 +201,7 @@ class ForumDetail extends Component {
                   tabLabel={tab.label}
                   router={router}
                   type={tab.type}
+                  accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
                   refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
               );

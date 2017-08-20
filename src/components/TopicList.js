@@ -65,7 +65,7 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let { topicList, isSearch } = this.props;
+    let { topicList, isSearch, accessTopicListFromForumItem } = this.props;
     let realTopicList = [];
     let isRefreshing = false;
     let refreshControl = null;
@@ -99,6 +99,7 @@ export default class TopicList extends Component {
           return (
             <TopicItem
               key={this.getTopicId(topic)}
+              accessTopicListFromForumItem={accessTopicListFromForumItem}
               topic={topic}
               router={this.props.router} />
           );
