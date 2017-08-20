@@ -11,9 +11,11 @@ module.exports = {
    */
   PLAT_TYPE: 5,
 
-  VERSION: 'v1.0.0',
+  VERSION: 'v1.1.0',
 
   AUTHOR_URL: 'https://github.com/just4fun',
 
-  SOURCE_URL: 'https://github.com/just4fun/uestc-bbs-react-native'
+  SOURCE_URL: 'https://github.com/just4fun/uestc-bbs-react-native',
+
+  COPY_RIGHT: '2015-2017 清水河畔@法律之光'
 };

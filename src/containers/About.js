@@ -11,7 +11,7 @@ import Header from '../components/Header';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import colors from '../styles/common/_colors';
-import { AUTHOR_URL, SOURCE_URL, VERSION } from '../config';
+import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT } from '../config';
 
 export default class About extends Component {
   render() {
@@ -50,7 +50,7 @@ export default class About extends Component {
           </TouchableHighlight>
         </View>
         <Text style={[styles.footer, styles.text]}>
-          2015-2016 清水河畔@法律之光
+          {COPY_RIGHT}
         </Text>
       </View>
     );
