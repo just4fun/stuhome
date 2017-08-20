@@ -7,26 +7,26 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  top: {
+    padding: 10,
+  },
   title: {
     fontSize: 16,
     fontWeight: 'bold'
   },
   info: {
     flexDirection: 'row',
-    marginVertical: 10,
+    marginTop: 10,
   },
   views: {
     color: colors.mainField,
-    textAlign: 'left',
   },
   comments: {
     marginLeft: 5,
     color: colors.mainField,
-    textAlign: 'left',
   },
   postContent: {
-    borderRadius: 5,
-    borderWidth: 1,
+    borderTopWidth: 1,
     borderColor: colors.underlay,
     padding: 10,
   },
@@ -34,77 +34,60 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10,
   },
-  avatarWapper: {
-    flex: 1,
-  },
   avatar: {
     height: 60,
     width: 60,
     borderRadius: 10,
   },
   author: {
-    flex: 3,
+    flex: 1,
     marginLeft: 10,
     marginTop: 3,
   },
   name: {
     fontSize: 14,
-    marginBottom: 5,
   },
   level: {
     fontSize: 12,
+    marginLeft: 5,
+    marginTop: 1,
     color: colors.userLevel,
   },
   floor: {
     marginBottom: 8,
     color: colors.mainField,
   },
-  content: {
-    marginVertical: 10,
-  },
   commentHeader: {
-    marginHorizontal: -10,
-    marginVertical: 10,
+    paddingHorizontal: 10,
     height: 20,
     backgroundColor: colors.lightBlue,
   },
   commentHeaderText: {
     fontSize: 12,
-    marginLeft: 10,
     marginTop: 3,
     color: colors.white,
   },
-  commentList: {
-    padding: 10,
-  },
-  other: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  reply: {
-    flex: 1,
-    textAlign: 'right',
-    fontSize: 20,
-    color: colors.mainField,
-  },
-  mobileWrapper: {
-    flex: 2,
+  row: {
     flexDirection: 'row',
   },
   mobileIcon: {
-    fontSize: 20,
+    fontSize: 15,
     color: colors.mobileSign,
   },
   mobileText: {
-    fontSize: 12,
+    fontSize: 10,
     color: colors.mobileSign,
     marginLeft: 3,
-    marginTop: 4,
+    marginTop: 2,
+  },
+  mobileWrapper: {
+    marginLeft: 5
+  },
+  dateArea: {
+    marginTop: 10,
   },
   date: {
-    flex: 1,
-    textAlign: 'left',
-    marginTop: 2,
+    fontSize: 12,
     color: colors.mainField,
   },
   fullFavor: {

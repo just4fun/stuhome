@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
+import modalStyles from '../styles/common/_Modal';
 import styles from '../styles/containers/_TopicDetail';
 import Header from '../components/Header';
 import ReplyModal from '../components/modal/ReplyModal';
@@ -129,7 +130,7 @@ class TopicDetail extends Component {
 
     return (
       <View>
-        <View>
+        <View style={styles.top}>
           <Text style={styles.title}>{topic.title}</Text>
           <View style={styles.info}>
             <Icon
@@ -139,21 +140,30 @@ class TopicDetail extends Component {
             </Icon>
             <Icon
               style={styles.comments}
-              name='comments'>
+              name='commenting'>
               {topic.replies}
             </Icon>
           </View>
         </View>
         <View style={styles.postContent}>
           <View style={styles.authorInfo}>
-            <View style={styles.avatarWapper}>
-              <Image
-               style={styles.avatar}
-               source={{ uri: topic.icon }} />
-            </View>
+            <Image
+             style={styles.avatar}
+             source={{ uri: topic.icon }} />
             <View style={styles.author}>
-              <Text style={styles.name}>{topic.user_nick_name}</Text>
-              <Text style={styles.level}>{topic.userTitle}</Text>
+              <View style={styles.row}>
+                <Text style={styles.name}>{topic.user_nick_name}</Text>
+                <Text style={styles.level}>{topic.userTitle}</Text>
+              </View>
+              <View style={[styles.row, styles.dateArea]}>
+                <Text style={styles.date}>{create_date}</Text>
+                {!!topic.mobileSign &&
+                  <View style={[styles.row, styles.mobileWrapper]}>
+                    <Icon style={styles.mobileIcon} name='mobile' />
+                    <Text style={styles.mobileText}>{topic.mobileSign}</Text>
+                  </View>
+                }
+              </View>
             </View>
             <View>
               <Text style={styles.floor}>楼主</Text>
@@ -163,13 +173,13 @@ class TopicDetail extends Component {
                   ||
                   <Icon
                     style={[styles.favor, topic.is_favor ? styles.fullFavor : styles.emptyFavor]}
-                    size={18}
+                    size={22}
                     name={topic.is_favor ? 'star' : 'star-o'}
                     onPress={() => this.favorTopic(topic.is_favor)} />
               )}
             </View>
           </View>
-          <View style={styles.content}>
+          <View>
             <Content content={topic.content}
                      router={this.props.router} />
             {topic.poll_info &&
@@ -184,20 +194,6 @@ class TopicDetail extends Component {
           {topic.reward &&
             <RewardList reward={topic.reward}
                         router={this.props.router} />}
-          <View style={styles.other}>
-            <Text style={styles.date}>{create_date}</Text>
-            {!!topic.mobileSign &&
-              <View style={styles.mobileWrapper}>
-                <Icon style={styles.mobileIcon} name='mobile' />
-                <Text style={styles.mobileText}>{topic.mobileSign}</Text>
-              </View>
-            }
-            {token &&
-              <CommentButton
-                style={styles.reply}
-                onPress={() => this.toggleReplyModal(true, topic)} />
-            }
-          </View>
         </View>
         <View style={styles.commentHeader}>
           <Text style={styles.commentHeaderText}>
@@ -301,13 +297,13 @@ class TopicDetail extends Component {
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
           {token &&
-            <ReplyButton onPress={() => this.toggleReplyModal(true)} />
+            <ReplyButton style={modalStyles.button}
+                         onPress={() => this.toggleReplyModal(true)} />
             ||
             <Text></Text>
           }
         </Header>
         <ListView
-          style={styles.commentList}
           dataSource={commentSource}
           enableEmptySections={true}
           renderRow={comment =>

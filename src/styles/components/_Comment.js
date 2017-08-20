@@ -3,13 +3,11 @@ import colors from '../common/_colors';
 
 export default StyleSheet.create({
   commentItem: {
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: colors.underlay,
-    marginBottom: 10,
     padding: 10,
+    borderBottomWidth: 1,
+    borderColor: colors.underlay,
   },
-  authorInfo: {
+  row: {
     flexDirection: 'row',
   },
   avatar: {
@@ -18,25 +16,25 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
   author: {
-    flex: 2,
+    flex: 1,
     marginLeft: 5,
     marginTop: 3,
   },
   name: {
     fontSize: 12,
-    marginBottom: 3,
   },
   level: {
     fontSize: 10,
+    marginLeft: 5,
+    marginTop: 1,
     color: colors.userLevel,
   },
   floor: {
-    flex: 1,
-    textAlign: 'right',
+    fontSize: 12,
     color: colors.mainField,
   },
   comment: {
-    marginVertical: 10,
+    marginTop: 10,
   },
   quote: {
     borderRadius: 5,
@@ -54,31 +52,23 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  reply: {
-    flex: 1,
-    textAlign: 'right',
-    color: colors.mainField,
-  },
   mobileWrapper: {
-    flex: 2,
-    flexDirection: 'row',
+    marginLeft: 5,
   },
   mobileIcon: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.mobileSign,
-    marginTop: 1,
+    marginTop: 2,
   },
   mobileText: {
-    fontSize: 12,
+    fontSize: 10,
     color: colors.mobileSign,
     marginLeft: 3,
     marginTop: 3,
   },
   date: {
-    flex: 1,
-    textAlign: 'left',
     marginTop: 2,
-    fontSize: 12,
+    fontSize: 10,
     color: colors.mainField,
   },
 });

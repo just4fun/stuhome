@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class ReplyButton extends Component {
   render() {
     return (
-      <Icon
+      <Text
         style={this.props.style}
-        name='reply'
-        size={18}
-        onPress={this.props.onPress} />
+        onPress={this.props.onPress}>
+        回复
+      </Text>
     );
   }
 }
