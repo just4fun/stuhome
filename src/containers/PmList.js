@@ -32,9 +32,6 @@ class PmList extends Component {
     super(props);
 
     this.userId = this.props.passProps.userId;
-    this.state = {
-      messages: []
-    };
   }
 
   componentDidMount() {
@@ -83,11 +80,7 @@ class PmList extends Component {
       return;
     }
 
-    // translation from Redux store props to component state
     if (pmList.response && pmList.response.rs) {
-      this.setState({
-        messages: pmList.list
-      });
       this.props.resetPmListResponseStatus();
     }
   }
@@ -100,12 +93,6 @@ class PmList extends Component {
   }
 
   _onSend({ messages, toUserId }) {
-    this.setState(perviousState => {
-      return {
-        messages: GiftedChat.append(perviousState.messages, Object.assign({}, messages[0], { isNew: true }))
-      };
-    });
-
     this.props.submit({
       newMessage: messages[0],
       toUserId
@@ -119,7 +106,8 @@ class PmList extends Component {
         isRefreshing,
         hasPrev,
         user,
-        page
+        page,
+        list
       },
       send
     } = this.props;
@@ -137,9 +125,7 @@ class PmList extends Component {
       );
     }
 
-    let messages = this.state.messages.map(item => {
-      if (item.isNew) { return item };
-
+    let messages = list.map(item => {
       return {
         _id: item.mid,
         text: item.content,
@@ -167,15 +153,6 @@ class PmList extends Component {
             messages,
             toUserId: user.id
           })}
-          renderTicks={message => {
-            if (!message.isNew) { return; }
-
-            return (
-              <View style={styles.tickView}>
-                {send.isPublishing && <Text style={styles.tick}>发布中...</Text>}
-              </View>
-            );
-          }}
           messages={messages}
           user={{ _id: LOGIN_USER_ID }}/>
       </View>
