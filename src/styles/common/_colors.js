@@ -5,6 +5,8 @@ module.exports = {
 
   underlay: '#ddd',
 
+  menuUnderlay: '#ccc356',
+
   userLevel: '#f16f53',
 
   mainField: '#696969',

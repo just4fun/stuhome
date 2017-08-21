@@ -4,26 +4,28 @@ import colors from '../common/_colors';
 export default StyleSheet.create({
   row: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.underlay,
   },
   icon: {
     color: colors.white,
     paddingTop: 8,
     paddingLeft: 30,
   },
-  item: {
+  text: {
     color: colors.white,
     fontSize: 18,
-    fontWeight: 'bold',
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingBottom: 10,
+    paddingVertical: 10,
+    paddingLeft: 25,
+    opacity: 1,
+  },
+  item: {
+    opacity: 0.9,
   },
   selectedRow: {
-    // backgroundColor: '#f5f5f5',
+    backgroundColor: colors.menuUnderlay,
   },
   selectedItem: {
+    opacity: 1,
+    fontWeight: 'bold',
     color: colors.blue,
   },
 });

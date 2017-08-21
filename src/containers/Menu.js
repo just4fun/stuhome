@@ -48,7 +48,7 @@ class Menu extends Component {
       <View style={styles.container}>
         <Image
           ref={(img) => { this.backgroundImage = img; }}
-          source={require('../images/gingko.jpeg')}
+          source={require('../images/shahe.jpg')}
           style={styles.blur}
           onLoadEnd={this.imageLoaded.bind(this)} />
         <BlurView
@@ -68,28 +68,30 @@ class Menu extends Component {
           openLoginModal={() => this.toggleLoginModal(true)}
           menus={menus}
           {...this.props} />
-        <MenuItem
-          menu={menus['home']}
-          {...this.props} />
-        <MenuItem
-          menu={menus['forumList']}
-          {...this.props} />
-        {user.authrization.token &&
-          <View>
-            <MenuItem
-              menu={menus['search']}
-              {...this.props} />
-            <MenuItem
-              menu={menus['message']}
-              {...this.props} />
-            <MenuItem
-              menu={menus['individual']}
-              {...this.props} />
-          </View>
-        }
-        <MenuItem
-          menu={menus['about']}
-          {...this.props} />
+        <View style={styles.menus}>
+          <MenuItem
+            menu={menus['home']}
+            {...this.props} />
+          <MenuItem
+            menu={menus['forumList']}
+            {...this.props} />
+          {user.authrization.token &&
+            <View>
+              <MenuItem
+                menu={menus['search']}
+                {...this.props} />
+              <MenuItem
+                menu={menus['message']}
+                {...this.props} />
+              <MenuItem
+                menu={menus['individual']}
+                {...this.props} />
+            </View>
+          }
+          <MenuItem
+            menu={menus['about']}
+            {...this.props} />
+        </View>
       </View>
     );
   }

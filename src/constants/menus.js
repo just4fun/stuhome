@@ -2,13 +2,13 @@ export default {
   home: {
     id: 'home',
     title: '首页',
-    icon: 'commenting',
+    icon: 'home',
     actionName: 'toHome'
   },
 
   forumList: {
     id: 'forumList',
-    title: '版块',
+    title: '版块列表',
     icon: 'comments',
     actionName: 'toForumList'
   },
@@ -22,7 +22,7 @@ export default {
 
   message: {
     id: 'message',
-    title: '消息',
+    title: '消息提醒',
     icon: 'at',
     iconSize: '22',
     actionName: 'toMessage'
@@ -30,9 +30,9 @@ export default {
 
   individual: {
     id: 'individual',
-    title: '个人',
+    title: '个人信息',
     icon: 'user',
-    iconSize: '23',
+    iconSize: '24',
     actionName: 'toIndividual'
   },
 
@@ -40,7 +40,7 @@ export default {
     id: 'about',
     title: '关于',
     icon: 'copyright',
-    iconSize: '22',
+    iconSize: '21',
     actionName: 'toAbout'
   },
 };

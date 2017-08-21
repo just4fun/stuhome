@@ -50,7 +50,7 @@ export default class MenuProfile extends Component {
     } = authrization;
 
     return (
-      <View style={[styles.menuHeader, !token && styles.menuHeaderNoToken]}>
+      <View style={styles.menuHeader}>
         <View>
           {token &&
             <TouchableHighlight
@@ -75,17 +75,6 @@ export default class MenuProfile extends Component {
           }
           <Text style={styles.name}>{token ? userName : '请先登录'}</Text>
         </View>
-        {token &&
-          <View style={styles.infoWrapper}>
-            <Text style={[styles.info, styles.level]}>级别：{userTitle}</Text>
-            {creditShowList &&
-              <View>
-                <Text style={styles.info}>{creditShowList[0].title}：{creditShowList[0].data}</Text>
-                <Text style={styles.info}>{creditShowList[1].title}：{creditShowList[1].data}</Text>
-              </View>
-            }
-          </View>
-        }
       </View>
     );
   }

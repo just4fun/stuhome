@@ -99,7 +99,7 @@ export default class Login extends Component {
         visible={this.props.visible}>
         <Image
           ref={(img) => { this.backgroundImage = img; }}
-          source={require('../../images/gingko.jpeg')}
+          source={require('../../images/shahe.jpg')}
           style={styles.blur}
           onLoadEnd={this.imageLoaded.bind(this)}
           resizeMode={'cover'} />

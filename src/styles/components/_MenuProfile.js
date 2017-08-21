@@ -4,12 +4,9 @@ import colors from '../common/_colors';
 export default StyleSheet.create({
   menuHeader: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.underlay,
     justifyContent: 'center',
-    paddingBottom: 12
-  },
-  menuHeaderNoToken: {
+    paddingTop: 15,
+    paddingBottom: 5
   },
   avatar: {
     height: 70,
@@ -22,7 +19,7 @@ export default StyleSheet.create({
     width: 70,
     textAlign: 'center',
     color: colors.white,
-    marginTop: 10,
+    marginTop: 15,
     backgroundColor: 'transparent',
   },
   infoWrapper: {
@@ -38,5 +35,5 @@ export default StyleSheet.create({
   level: {
     color: colors.userLevel,
     marginBottom: 10
-  }
+  },
 });
