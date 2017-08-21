@@ -145,6 +145,7 @@ class PmList extends Component {
         <GiftedChat
           style={mainStyles.container}
           locale={'zh-cn'}
+          placeholder='请输入私信内容'
           isLoadingEarlier={isRefreshing && page > 1}
           loadEarlier={hasPrev}
           renderAvatarOnTop={true}
