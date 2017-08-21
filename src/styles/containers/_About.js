@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
 export default StyleSheet.create({
+  container: {
+    backgroundColor: colors.background
+  },
   top: {
     alignItems: 'center',
     marginVertical: 20,
@@ -14,28 +17,15 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginBottom: 15,
   },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    height: 50,
-    borderTopWidth: 0.5,
-    borderTopColor: colors.underlay,
-  },
-  lastItem: {
+  group: {
+    marginTop: 20,
     borderBottomWidth: 0.5,
     borderBottomColor: colors.underlay,
   },
-  more: {
-    marginTop: 20,
-  },
-  info: {
-    marginLeft: 15
-  },
   avatar: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
   },
   footer: {
     position: 'absolute',

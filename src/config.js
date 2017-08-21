@@ -13,9 +13,13 @@ module.exports = {
 
   VERSION: 'v1.1.0',
 
-  AUTHOR_URL: 'https://github.com/just4fun',
+  AUTHOR_URL: 'http://just4fun.github.io/',
 
   SOURCE_URL: 'https://github.com/just4fun/uestc-bbs-react-native',
+
+  FEEDBACK: 'http://just4fun.github.io/uestc-bbs-react-native/',
+
+  APP_STORE: 'itms-apps://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355',
 
   COPY_RIGHT: '2015-2017 清水河畔@法律之光'
 };

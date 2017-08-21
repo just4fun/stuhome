@@ -25,6 +25,8 @@ module.exports = {
 
   buttonBackground: '#3498db',
 
+  background: '#f2f3f5',
+
   /**
   * customized colors
   */
