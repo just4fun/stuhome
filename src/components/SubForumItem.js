@@ -22,7 +22,7 @@ export default class SubForumItem extends Component {
       last_posts_date
     } = subForum;
 
-    let boardImage = FORUMS[board_id];
+    let boardImage = FORUMS[board_id] || require('../images/board_img/default.png');
 
     last_posts_date = moment(+last_posts_date).startOf('minute').fromNow();
 
