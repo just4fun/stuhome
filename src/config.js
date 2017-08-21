@@ -11,7 +11,7 @@ module.exports = {
    */
   PLAT_TYPE: 5,
 
-  VERSION: 'v1.1.0',
+  VERSION: 'v1.2.0',
 
   AUTHOR_URL: 'http://just4fun.github.io/',
 

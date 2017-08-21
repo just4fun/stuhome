@@ -10,8 +10,8 @@ export default StyleSheet.create({
     marginVertical: 20,
   },
   logo: {
-    height: 150,
-    width: 150,
+    height: 100,
+    width: 100,
   },
   description: {
     textAlign: 'center',

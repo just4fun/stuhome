@@ -35,7 +35,6 @@ export default StyleSheet.create({
   },
   register: {
     fontSize: 16,
-    color: colors.lightBlue,
   },
   blur: {
     position: "absolute",
@@ -50,7 +49,4 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     borderBottomWidth: 0,
   },
-  left: {
-    color: colors.lightBlue,
-  }
 });

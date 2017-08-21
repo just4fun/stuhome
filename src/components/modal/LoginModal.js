@@ -114,8 +114,7 @@ export default class Login extends Component {
             closeRegisterModal={() => this.toggleRegisterModal(false)} />
         }
         <Header style={styles.header}>
-          <PopButton style={styles.left}
-                     action={() => this._closeLoginModal()} />
+          <PopButton action={() => this._closeLoginModal()} />
           <Text style={styles.register}
                 onPress={() => this.toggleRegisterModal(true)}>
             注册
