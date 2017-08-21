@@ -13,7 +13,7 @@ module.exports = {
 
   significantField: '#3d3d3d',
 
-  postNumber: '#21b6f2',
+  todayNumber: '#f26c4f',
 
   mobileSign: '#d94600',
 
