@@ -14,7 +14,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Screenshot
 
-![](https://cloud.githubusercontent.com/assets/7512625/21566137/dc08dc48-ceda-11e6-86f7-6e63ad8a8270.gif)
+![](https://user-images.githubusercontent.com/7512625/29569829-4596c76e-8787-11e7-98d8-9bf904a052f0.gif)
 
 ## Existing functionalities
 
