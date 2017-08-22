@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   author: {
     flex: 1,
-    marginLeft: 5,
+    marginLeft: 10,
     marginTop: 3,
   },
   name: {
