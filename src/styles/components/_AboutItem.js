@@ -7,7 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     height: 50,
-    borderTopWidth: 0.5,
+    borderTopWidth: 1,
     borderTopColor: colors.underlay,
     backgroundColor: colors.white,
   },

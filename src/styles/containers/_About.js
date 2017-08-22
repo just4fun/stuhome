@@ -19,7 +19,7 @@ export default StyleSheet.create({
   },
   group: {
     marginTop: 20,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
   },
   avatar: {
