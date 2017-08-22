@@ -17,6 +17,7 @@ export default StyleSheet.create({
   topicType: {
     flex: 1,
     paddingTop: 1,
+    color: colors.significantField,
   },
   topicTypeIcon: {
     textAlign: 'right',
@@ -26,11 +27,13 @@ export default StyleSheet.create({
     paddingTop: 1,
     height: 20,
     fontSize: 14,
+    color: colors.significantField,
   },
   topicContent: {
     flex: 1,
     height: 140,
     fontSize: 14,
+    color: colors.significantField,
   },
   upload: {
     paddingTop: 10,

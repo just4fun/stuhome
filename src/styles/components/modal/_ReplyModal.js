@@ -9,6 +9,7 @@ export default StyleSheet.create({
     padding: 10,
     height: 200,
     fontSize: 16,
+    color: colors.significantField,
   },
   formItem: {
     borderBottomWidth: 1,
