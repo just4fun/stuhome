@@ -123,7 +123,7 @@ class TopicDetail extends Component {
     });
   }
 
-  _renderHeader(topic, token, vote) {
+  _renderHeader(topic, uid, vote) {
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -167,7 +167,7 @@ class TopicDetail extends Component {
             </View>
             <View>
               <Text style={styles.floor}>楼主</Text>
-              {token && (
+              {uid && (
                 this.props.topicFavor.isFavoring &&
                   <ActivityIndicator />
                   ||
@@ -277,7 +277,7 @@ class TopicDetail extends Component {
     }
 
     let topic = topicItem.topic;
-    let token = user.authrization.token;
+    let { uid } = user.authrization;
     let commentSource = ds.cloneWithRows(topicItem.list);
 
     return (
@@ -296,7 +296,7 @@ class TopicDetail extends Component {
 
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
-          {token &&
+          {uid &&
             <ReplyButton style={modalStyles.button}
                          onPress={() => this.toggleReplyModal(true)} />
             ||
@@ -310,13 +310,13 @@ class TopicDetail extends Component {
             <Comment
               key={comment.reply_posts_id}
               comment={comment}
-              token={token}
+              currentUserId={uid}
               router={this.props.router}
               openReplyModal={() => this.toggleReplyModal(true, comment)} />
           }
           onEndReached={() => this._endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this._renderHeader(topic, token, vote)}
+          renderHeader={() => this._renderHeader(topic, uid, vote)}
           renderFooter={() => this._renderFooter()} />
       </View>
     );

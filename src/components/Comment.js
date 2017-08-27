@@ -15,20 +15,32 @@ import { CommentButton } from './button';
 import { parseContentWithImage } from '../utils/contentParser';
 
 export default class Comment extends Component {
-  _showOptions() {
-    if (!this.props.token) { return; }
+  _showOptions(userId) {
+    let { currentUserId, router } = this.props;
+    if (!currentUserId) { return; }
+
+    let options = [
+      '回复',
+      '取消'
+    ];
+    let isCurrentUserSelf = currentUserId === userId;
+    if (!isCurrentUserSelf) {
+      options.splice(1, 0, '私信');
+    }
 
     ActionSheetIOS.showActionSheetWithOptions({
-      options: [
-        '回复',
-        '取消'
-      ],
-      cancelButtonIndex: 1
+      options,
+      cancelButtonIndex: options.length - 1
     },
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
           this.props.openReplyModal();
+          break;
+        case 1:
+          if (!isCurrentUserSelf) {
+            router.toPmList({ userId });
+          }
           break;
       }
     });
@@ -40,6 +52,7 @@ export default class Comment extends Component {
       userTitle,
       icon,
       position,
+      reply_id, // user id
       reply_content,
       posts_date,
       is_quote,
@@ -52,7 +65,7 @@ export default class Comment extends Component {
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => this._showOptions()}>
+        onPress={() => this._showOptions(reply_id)}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
             <Image
