@@ -70,14 +70,29 @@ class PmList extends Component {
 
     if (send.response) {
       let { rs, errcode } = send.response;
-      if (!rs && errcode) {
-        AlertIOS.alert('提示', send.response.errcode);
-      }
 
-      // if we just append new message into state without fetching from server,
-      // then if we want to load earlier messages, we will get warnings that
-      // we want to render messages which have same `_id`.
-      this._fetchPmList();
+      if (rs) {
+        // This is workaround to fix #14.
+        // In produciton, sometimes the new sent message can not be displayed
+        // in bubble list even it has been sent successfully, but it's very
+        // hard to be reproduced in development mode. As we know, JavaScript
+        // thread performance suffers greatly when running in development mode,
+        // so the workaround can not only fix the weird issue here, but also can
+        // give user a better ux with customized ticks `发送中...`, which seems
+        // like the best solustion now.
+        setTimeout(() => { this._fetchPmList(); }, 1000 * 3);
+      } else if (errcode) {
+        // the time between sending two messages is too short
+        this._fetchPmList();
+        AlertIOS.alert('提示', send.response.errcode);
+      } else {
+        // no network
+        this.setState(previousState => {
+          return {
+            messages: previousState.messages.filter(message => !message.isNew)
+          };
+        });
+      }
 
       this.props.resetPublish();
       return;
@@ -100,9 +115,9 @@ class PmList extends Component {
   }
 
   _onSend({ messages, toUserId }) {
-    this.setState(perviousState => {
+    this.setState(previousState => {
       return {
-        messages: GiftedChat.append(perviousState.messages, Object.assign({}, messages[0], { isNew: true }))
+        messages: GiftedChat.append(previousState.messages, Object.assign({}, messages[0], { isNew: true }))
       };
     });
 
