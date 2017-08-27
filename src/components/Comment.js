@@ -16,6 +16,8 @@ import { parseContentWithImage } from '../utils/contentParser';
 
 export default class Comment extends Component {
   _showOptions() {
+    if (!this.props.token) { return; }
+
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
         '回复',
