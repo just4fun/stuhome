@@ -127,7 +127,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-blur')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-code-push')
     compile project(':react-native-vector-icons')

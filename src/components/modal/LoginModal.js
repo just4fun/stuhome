@@ -10,7 +10,6 @@ import {
   Modal,
   findNodeHandle
 } from 'react-native';
-import { BlurView } from 'react-native-blur';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'apsl-react-native-button';
 import styles from '../../styles/components/modal/_LoginModal';
@@ -25,8 +24,7 @@ export default class Login extends Component {
     this.state = {
       userName: '',
       password: '',
-      isRegisterModalOpen: false,
-      viewRef: null
+      isRegisterModalOpen: false
     };
   }
 
@@ -81,10 +79,6 @@ export default class Login extends Component {
     });
   }
 
-  imageLoaded() {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  }
-
   render() {
     let logo = require('../../images/logo_transparent.png');
     let { isFetching } = this.props.user;
@@ -93,21 +87,12 @@ export default class Login extends Component {
 
     return (
       <Modal
-        style={styles.blurContainer}
         animationType='slide'
         transparent={false}
         visible={this.props.visible}>
         <Image
-          ref={(img) => { this.backgroundImage = img; }}
           source={require('../../images/shahe.jpg')}
-          style={styles.blur}
-          onLoadEnd={this.imageLoaded.bind(this)}
-          resizeMode={'cover'} />
-        <BlurView
-          style={styles.blur}
-          viewRef={this.state.viewRef}
-          blurType="light"
-          blurAmount={5} />
+          style={styles.blur} />
         {isRegisterModalOpen &&
           <RegisterModal
             visible={isRegisterModalOpen}
