@@ -8,13 +8,13 @@
     "eslint": "eslint ./src",
     "test": "mocha --require react-native-mock/mock.js tests/mocha-setup.js tests/**/*.js"
   },
-  "homepage": "https://github.com/just4fun/uestc-bbs-react-native#readme",
+  "homepage": "https://github.com/just4fun/stuhome#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/just4fun/uestc-bbs-react-native.git"
+    "url": "git+https://github.com/just4fun/stuhome.git"
   },
   "bugs": {
-    "url": "https://github.com/just4fun/uestc-bbs-react-native/issues"
+    "url": "https://github.com/just4fun/stuhome/issues"
   },
   "dependencies": {
     "apsl-react-native-button": "3.0.1",

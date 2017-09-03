@@ -93,7 +93,7 @@ export default class TopicList extends Component {
         dataSource={source}
         enableEmptySections={true}
         renderRow={topic => {
-          // https://github.com/just4fun/uestc-bbs-react-native/issues/15
+          // https://github.com/just4fun/stuhome/issues/15
           if (this.isBadData(topic)) { return null; }
 
           return (

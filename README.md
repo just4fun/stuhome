@@ -1,7 +1,7 @@
 ![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
 
 [![React Native](https://img.shields.io/badge/react--native-v0.42.2-05A5D1.svg)](https://facebook.github.io/react-native)
-[![GitHub issues](https://img.shields.io/github/issues/just4fun/uestc-bbs-react-native.svg)](https://github.com/just4fun/uestc-bbs-react-native/issues)
+[![GitHub issues](https://img.shields.io/github/issues/just4fun/stuhome.svg)](https://github.com/just4fun/stuhome/issues)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg)](http://opensource.org/licenses/MIT)
 
 An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://facebook.github.io/react-native/) with [Redux](http://redux.js.org/). APIs are provided by [UESTC-BBS](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
@@ -58,8 +58,8 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 #### Run in simulator
 
 ```bash
-git clone git@github.com:just4fun/uestc-bbs-react-native.git
-cd uestc-bbs-react-native
+git clone git@github.com:just4fun/stuhome.git
+cd stuhome
 npm install
 ```
 Then use Xcode to open this project and simply click **Run**.
@@ -76,11 +76,11 @@ npm run eslint
 
 ## Todo list
 
-- ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/uestc-bbs-react-native/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
+- ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/stuhome/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
 - ~~Submit to App Store~~ ([link](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355))
-- ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/uestc-bbs-react-native/pull/7))
+- ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/stuhome/pull/7))
 - Fixture data (aka `mock data`)
-- ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/uestc-bbs-react-native/pull/8))
+- ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/stuhome/pull/8))
 - Push notification
 
 ## Known issues

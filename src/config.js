@@ -15,9 +15,9 @@ module.exports = {
 
   AUTHOR_URL: 'http://just4fun.github.io/',
 
-  SOURCE_URL: 'https://github.com/just4fun/uestc-bbs-react-native',
+  SOURCE_URL: 'https://github.com/just4fun/stuhome',
 
-  FEEDBACK: 'http://just4fun.github.io/uestc-bbs-react-native/',
+  FEEDBACK: 'http://just4fun.github.io/stuhome/',
 
   APP_STORE: 'itms-apps://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355',
 
