@@ -35,7 +35,7 @@ class Menu extends Component {
   }
 
   render() {
-    let { user } = this.props;
+    let { user, alertCount } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (
@@ -68,6 +68,8 @@ class Menu extends Component {
                 menu={menus['search']}
                 {...this.props} />
               <MenuItem
+                showAlert={true}
+                alertCount={alertCount}
                 menu={menus['message']}
                 {...this.props} />
               <MenuItem
@@ -84,9 +86,16 @@ class Menu extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ user, alert }) {
+  let alertCount = 0;
+  if (alert.response) {
+    let { atMeInfo, pmInfos, replyInfo } = alert.response;
+    alertCount = atMeInfo.count + pmInfos.length + replyInfo.count;
+  }
+
   return {
-    user
+    user,
+    alertCount
   };
 }
 

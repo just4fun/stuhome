@@ -260,5 +260,9 @@ export default {
     let fetchOptions = getPublishFetchOptions(body);
 
     return callApi(`message/pmadmin`, fetchOptions);
+  },
+
+  fetchAlerts: () => {
+    return callApi('message/heart');
   }
 };

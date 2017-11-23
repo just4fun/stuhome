@@ -27,6 +27,8 @@ module.exports = {
 
   background: '#f2f3f5',
 
+  alert: '#fb0d1b',
+
   /**
   * customized colors
   */

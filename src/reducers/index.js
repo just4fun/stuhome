@@ -13,6 +13,7 @@ import pmSessionList from './message/pmSessionList';
 import userTopicList from './user/topicList';
 import pmList from './message/pmList';
 import send from './message/send';
+import alert from './message/alert';
 
 export default combineReducers({
   forumList,
@@ -21,6 +22,7 @@ export default combineReducers({
   pmSessionList,
   pmList,
   send,
+  alert,
 
   user,
   topicItem,

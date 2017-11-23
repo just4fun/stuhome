@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Navigator } from 'react-native';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import SideMenu from 'react-native-side-menu';
 import Router from '../router';
 import Menu from './Menu';
 import Home from './Home';
+import { fetchAlerts } from '../actions/message/alertAction';
 
-export default class RNavigator extends Component {
+class RNavigator extends Component {
   constructor(props) {
     super(props);
 
@@ -17,10 +19,16 @@ export default class RNavigator extends Component {
 
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
+    this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * 5);
   }
 
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
+    this.timer && clearInterval(this.timer);
+  }
+
+  _fetchAlerts() {
+    this.props.fetchAlerts();
   }
 
   configureScene(route) {
@@ -79,3 +87,7 @@ export default class RNavigator extends Component {
     );
   }
 }
+
+export default connect(null, {
+  fetchAlerts
+})(RNavigator);
