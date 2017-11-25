@@ -6,7 +6,6 @@ import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
 import MenuItem from '../components/MenuItem';
 import {
-  getUserFromStorage,
   userLogin,
   resetAuthrization,
   resetAuthrizationResult,
@@ -22,10 +21,6 @@ class Menu extends Component {
     this.state = {
       isLoginModalOpen: false
     };
-  }
-
-  componentDidMount() {
-    this.props.getUserFromStorage();
   }
 
   toggleLoginModal(visible) {
@@ -100,7 +95,6 @@ function mapStateToProps({ user, alert }) {
 }
 
 export default connect(mapStateToProps, {
-  getUserFromStorage,
   userLogin,
   resetAuthrization,
   resetAuthrizationResult,

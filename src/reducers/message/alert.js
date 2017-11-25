@@ -5,6 +5,7 @@ import {
   REQUEST_COMPELTED,
   REQUEST_FAILED
 } from '../../actions/message/alertAction';
+import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
 const defaultAlertState = {
   isFetching: false,
@@ -32,6 +33,7 @@ export default function alert(state = defaultAlertState, action) {
       };
     }
     case RESET:
+    case REMOVE_CACHE:
       return defaultAlertState;
     default:
       return state;

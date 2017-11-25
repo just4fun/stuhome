@@ -6,6 +6,7 @@ import SideMenu from 'react-native-side-menu';
 import Router from '../router';
 import Menu from './Menu';
 import Home from './Home';
+import { getUserFromStorage } from '../actions/authorizeAction';
 import { fetchAlerts } from '../actions/message/alertAction';
 
 class RNavigator extends Component {
@@ -19,7 +20,23 @@ class RNavigator extends Component {
 
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
-    this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * 5);
+    this.props.getUserFromStorage();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let currentToken = this.props.user.authrization.token;
+    let nextToken = nextProps.user.authrization.token;
+
+    if (currentToken === nextToken) { return; }
+
+    if (!nextToken) {
+      this.timer && clearInterval(this.timer);
+      return;
+    }
+
+    if (!this.timer) {
+      this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * 5);
+    }
   }
 
   componentWillUnmount() {
@@ -88,6 +105,7 @@ class RNavigator extends Component {
   }
 }
 
-export default connect(null, {
+export default connect(({ user }) => { return { user }; }, {
+  getUserFromStorage,
   fetchAlerts
 })(RNavigator);
