@@ -17,14 +17,6 @@ export default StyleSheet.create({
     paddingLeft: 25,
     opacity: 1,
   },
-  alert: {
-    backgroundColor: colors.alert,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginTop: 5,
-    marginLeft: -5
-  },
   item: {
     opacity: 0.9,
   },

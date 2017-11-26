@@ -9,6 +9,7 @@ import colors from '../styles/common/_colors';
 import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
 import PmSessionList from '../components/PmSessionList';
+import MessageTabBar from '../components/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList } from '../actions/message/pmSessionListAction';
@@ -75,6 +76,17 @@ class Message extends Component {
     });
   }
 
+  // this is a hacky way to allow customized tab label
+  // for each tab of <ScrollableTabView /> component.
+  _getTabsWithAlterCount(tabs) {
+    let newTabs = [];
+    let { atMeCount, replyCount, pmCount } = this.props;
+    newTabs.push({ name: tabs[0], count: atMeCount });
+    newTabs.push({ name: tabs[1], count: replyCount });
+    newTabs.push({ name: tabs[2], count: pmCount });
+    return newTabs;
+  }
+
   render() {
     let {
       notifyList,
@@ -98,6 +110,7 @@ class Message extends Component {
         <Header title='消息'
                 updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
+          renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlterCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
           tabBarActiveTextColor={colors.white}
           tabBarInactiveTextColor={colors.white}
