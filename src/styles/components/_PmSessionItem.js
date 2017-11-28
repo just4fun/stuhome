@@ -26,25 +26,28 @@ export default StyleSheet.create({
     width: 45,
     borderRadius: 10,
   },
+  content: {
+    flex: 1,
+    marginLeft: 10,
+  },
   author: {
     flex: 2,
-    marginLeft: 8,
-    marginTop: 3,
+    marginTop: 1,
   },
   name: {
     fontSize: 14,
-    marginBottom: 8,
     color: colors.significantField,
   },
   bold: {
     fontWeight: 'bold',
   },
   date: {
+    flex: 1,
+    textAlign: 'right',
     fontSize: 12,
     color: colors.mainField,
   },
   replyContent: {
-    marginTop: 10,
     color: colors.significantField,
   }
 });

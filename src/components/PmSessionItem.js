@@ -30,20 +30,20 @@ export default class PmSessionItem extends Component {
         onPress={() => router.toPmList({
           userId: toUserId
         })}>
-        <View style={styles.item}>
-          <View style={styles.row}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: toUserAvatar }} />
-            <View style={styles.author}>
+        <View style={[styles.item, styles.row]}>
+          <Image
+           style={styles.avatar}
+           source={{ uri: toUserAvatar }} />
+          <View style={styles.content}>
+            <View style={[styles.author, styles.row]}>
               <View style={styles.row}>
                 {!!isNew && <View style={styles.alert}></View>}
                 <Text style={[styles.name, !!isNew && styles.bold]}>{toUserName}</Text>
               </View>
               <Text style={styles.date}>{lastDateline}</Text>
             </View>
+            <Text style={styles.replyContent} numberOfLines={1}>{lastSummary}</Text>
           </View>
-          <Text style={styles.replyContent}>{lastSummary}</Text>
         </View>
       </TouchableHighlight>
     );
