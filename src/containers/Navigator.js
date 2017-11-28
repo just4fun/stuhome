@@ -31,6 +31,9 @@ class RNavigator extends Component {
 
     if (!nextToken) {
       this.timer && clearInterval(this.timer);
+      // `clearInterval` will not remove the value of `this.timer`,
+      // we need to remove it manually for the next if condition.
+      this.timer = null;
       return;
     }
 
