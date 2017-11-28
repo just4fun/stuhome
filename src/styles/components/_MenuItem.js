@@ -28,4 +28,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: colors.blue,
   },
+  alert: {
+    marginLeft: -5,
+  }
 });

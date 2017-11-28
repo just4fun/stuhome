@@ -60,7 +60,10 @@ const MessageTabBar = React.createClass({
         <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
           {tab.name}
         </Text>
-        {!!tab.count && <AlertCount count={tab.count} />}
+        {!!tab.count &&
+          <View style={styles.alert}>
+            <AlertCount count={tab.count} />
+          </View>}
       </View>
     </Button>;
   },

@@ -18,5 +18,8 @@ export default StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderColor: '#ccc',
-  }
+  },
+  alert: {
+    marginLeft: -5,
+  },
 });

@@ -21,7 +21,11 @@ export default class MenuItem extends Component {
         <View style={[styles.row, style, isCurrentRoute(menu) && styles.selectedRow]}>
           <Icon style={[styles.icon, styles.item, isCurrentRoute(menu) && styles.selectedItem]} name={icon} size={+iconSize || 20} />
           <Text style={[styles.text, styles.item, isCurrentRoute(menu) && styles.selectedItem]}>{title}</Text>
-          {showAlert && !!alertCount && <AlertCount count={alertCount} />}
+          {showAlert && !!alertCount &&
+            <View style={styles.alert}>
+              <AlertCount count={alertCount} />
+            </View>
+          }
         </View>
       </TouchableHighlight>
     );
