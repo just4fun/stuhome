@@ -17,7 +17,8 @@ export default class PmSessionItem extends Component {
       lastSummary,
       toUserId,
       toUserName,
-      toUserAvatar
+      toUserAvatar,
+      isNew
     } = session;
 
     lastDateline = moment(+lastDateline).startOf('minute').fromNow();
@@ -30,12 +31,15 @@ export default class PmSessionItem extends Component {
           userId: toUserId
         })}>
         <View style={styles.item}>
-          <View style={styles.authorInfo}>
+          <View style={styles.row}>
             <Image
              style={styles.avatar}
              source={{ uri: toUserAvatar }} />
             <View style={styles.author}>
-              <Text style={styles.name}>{toUserName}</Text>
+              <View style={styles.row}>
+                {!!isNew && <View style={styles.alert}></View>}
+                <Text style={[styles.name, !!isNew && styles.bold]}>{toUserName}</Text>
+              </View>
               <Text style={styles.date}>{lastDateline}</Text>
             </View>
           </View>

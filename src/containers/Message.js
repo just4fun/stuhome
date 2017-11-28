@@ -78,7 +78,7 @@ class Message extends Component {
 
   // this is a hacky way to allow customized tab label
   // for each tab of <ScrollableTabView /> component.
-  _getTabsWithAlterCount(tabs) {
+  _getTabsWithAlertCount(tabs) {
     let newTabs = [];
     let { atMeCount, replyCount, pmCount } = this.props;
     newTabs.push({ name: tabs[0], count: atMeCount });
@@ -110,7 +110,7 @@ class Message extends Component {
         <Header title='消息'
                 updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
-          renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlterCount(props.tabs)} />}
+          renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlertCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
           tabBarActiveTextColor={colors.white}
           tabBarInactiveTextColor={colors.white}

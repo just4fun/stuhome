@@ -10,8 +10,16 @@ export default StyleSheet.create({
   item: {
     margin: 10,
   },
-  authorInfo: {
+  row: {
     flexDirection: 'row',
+  },
+  alert: {
+    backgroundColor: colors.alertBlue,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginTop: 2,
+    marginRight: 4
   },
   avatar: {
     height: 45,
@@ -27,6 +35,9 @@ export default StyleSheet.create({
     fontSize: 14,
     marginBottom: 8,
     color: colors.significantField,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
   date: {
     fontSize: 12,

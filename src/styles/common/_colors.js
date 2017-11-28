@@ -39,5 +39,7 @@ module.exports = {
 
   lightBlue: '#75baff',
 
+  alertBlue: '#439fea',
+
   disable: '#f1f1f1'
 };
