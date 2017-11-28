@@ -92,7 +92,8 @@ class Message extends Component {
       notifyList,
       pmSessionList,
       reply,
-      router
+      router,
+      alertCount
     } = this.props;
     let { isReplyModalOpen, currentNotification } = this.state;
 
@@ -108,6 +109,7 @@ class Message extends Component {
             handlePublish={comment => this._publish(comment)} />
         }
         <Header title='消息'
+                alertCount={alertCount}
                 updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
           renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlertCount(props.tabs)} />}
@@ -150,6 +152,7 @@ function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
   let atMeCount = 0;
   let replyCount = 0;
   let pmCount = 0;
+  let alertCount = 0;
 
   if (alert.response) {
     let { atMeInfo, pmInfos, replyInfo } = alert.response;
@@ -164,7 +167,8 @@ function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
     pmSessionList,
     atMeCount,
     replyCount,
-    pmCount
+    pmCount,
+    alertCount: atMeCount + replyCount + pmCount
   };
 }
 

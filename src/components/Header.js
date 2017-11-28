@@ -11,12 +11,15 @@ export default class Header extends Component {
   render() {
     let leftTopButton = null;
     let rightTopButton = null;
+    let alertCount = this.props.alertCount;
     const buttons = this.props.children;
     const count = React.Children.count(buttons);
 
     switch (count) {
       case 0:
-        leftTopButton = <MenuButton updateMenuState={isOpen => this.props.updateMenuState(isOpen)} style={styles.left} />;
+        leftTopButton = <MenuButton style={styles.left}
+                                    alertCount={alertCount}
+                                    updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />;
         break;
       case 1:
         leftTopButton = React.cloneElement(buttons, { style: [styles.left, buttons.props.style] });

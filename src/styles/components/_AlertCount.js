@@ -2,17 +2,26 @@ import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
 export default StyleSheet.create({
-  alertBackground: {
+  alertCommonBackground: {
     backgroundColor: colors.alert,
-    minWidth: 16,
-    height: 16,
     borderWidth: 1,
-    borderRadius: 8,
     borderColor: colors.alert,
-    marginTop: 2,
     overflow: 'hidden'
   },
-  alert: {
+  alertBackground: {
+    minWidth: 10,
+    height: 10,
+    borderRadius: 5,
+    marginTop: -2,
+    marginLeft: -5,
+  },
+  alertBackgroundWithCount: {
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    marginTop: 2,
+  },
+  alertCount: {
     textAlign: 'center',
     color: colors.white,
     fontSize: 12,
