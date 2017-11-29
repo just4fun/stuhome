@@ -9,7 +9,11 @@ import { REMOVE_CACHE } from '../../actions/authorizeAction';
 
 const defaultAlertState = {
   isFetching: false,
-  response: null
+  response: {
+    atMeInfo: { count: 0 },
+    replyInfo: { count: 0 },
+    pmInfos: []
+  }
 };
 
 export default function alert(state = defaultAlertState, action) {

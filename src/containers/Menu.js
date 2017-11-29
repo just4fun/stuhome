@@ -13,6 +13,7 @@ import {
 } from '../actions/authorizeAction';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import menus from '../constants/menus';
+import { getAlertCount } from '../selectors/alert';
 
 class Menu extends Component {
   constructor(props) {
@@ -82,15 +83,9 @@ class Menu extends Component {
 }
 
 function mapStateToProps({ user, alert }) {
-  let alertCount = 0;
-  if (alert.response) {
-    let { atMeInfo, pmInfos, replyInfo } = alert.response;
-    alertCount = atMeInfo.count + pmInfos.length + replyInfo.count;
-  }
-
   return {
     user,
-    alertCount
+    alertCount: getAlertCount(alert)
   };
 }
 

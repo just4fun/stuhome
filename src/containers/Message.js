@@ -15,6 +15,7 @@ import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notify
 import { invalidatePmSessionList, fetchPmSessionList } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
+import { getAtMeCount, getReplyCount, getPmCount, getAlertCount } from '../selectors/alert';
 
 const TABS = [
   { label: '@', type: 'at' },
@@ -149,26 +150,14 @@ class Message extends Component {
 }
 
 function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
-  let atMeCount = 0;
-  let replyCount = 0;
-  let pmCount = 0;
-  let alertCount = 0;
-
-  if (alert.response) {
-    let { atMeInfo, pmInfos, replyInfo } = alert.response;
-    atMeCount = atMeInfo.count;
-    replyCount = replyInfo.count;
-    pmCount = pmInfos.length;
-  }
-
   return {
     notifyList,
     reply,
     pmSessionList,
-    atMeCount,
-    replyCount,
-    pmCount,
-    alertCount: atMeCount + replyCount + pmCount
+    atMeCount: getAtMeCount(alert),
+    replyCount: getReplyCount(alert),
+    pmCount: getPmCount(alert),
+    alertCount: getAlertCount(alert)
   };
 }
 
