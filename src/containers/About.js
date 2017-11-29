@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -13,15 +14,20 @@ import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import colors from '../styles/common/_colors';
 import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, FEEDBACK, APP_STORE } from '../config';
+import { getAlertCount } from '../selectors/alert';
 
-export default class About extends Component {
+class About extends Component {
   render() {
-    let { router } = this.props;
+    let {
+      router,
+      alertCount
+    } = this.props;
 
     return (
       <View style={[mainStyles.container, styles.container]}>
         <Header
           title='关于'
+          alertCount={alertCount}
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <View style={styles.top}>
           <Image style={styles.logo} source={require('../images/logo_transparent.png')} />
@@ -57,3 +63,11 @@ export default class About extends Component {
     );
   }
 }
+
+function mapStateToProps({ alert }) {
+  return {
+    alertCount: getAlertCount(alert)
+  };
+}
+
+export default connect(mapStateToProps)(About);

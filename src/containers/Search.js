@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import SearchBar from 'react-native-search-bar';
 import { fetchSearch, resetSearch } from '../actions/topic/searchAction';
+import { getAlertCount } from '../selectors/alert';
 
 class Search extends Component {
   constructor(props) {
@@ -59,13 +60,15 @@ class Search extends Component {
   render() {
     let {
       router,
-      search
+      search,
+      alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
         <Header
           title='搜索'
+          alertCount={alertCount}
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <SearchBar
           ref='searchBar'
@@ -93,9 +96,10 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps({ search }) {
+function mapStateToProps({ search, alert }) {
   return {
-    search
+    search,
+    alertCount: getAlertCount(alert)
   };
 }
 

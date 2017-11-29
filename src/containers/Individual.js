@@ -18,6 +18,7 @@ import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
+import { getAlertCount } from '../selectors/alert';
 
 const TABS = [
   { label: '最近发表', type: 'topic' },
@@ -80,13 +81,15 @@ class Individual extends Component {
           creditShowList
         }
       },
-      userTopicList
+      userTopicList,
+      alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
         <Header
           style={styles.nav}
+          alertCount={alertCount}
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <View style={styles.header}>
           <Image style={styles.avatar} source={{ uri: avatar }} />
@@ -115,10 +118,11 @@ class Individual extends Component {
   }
 }
 
-function mapStateToProps({ user, userTopicList }) {
+function mapStateToProps({ user, userTopicList, alert }) {
   return {
     user,
-    userTopicList
+    userTopicList,
+    alertCount: getAlertCount(alert)
   };
 }
 
