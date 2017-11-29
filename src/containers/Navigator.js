@@ -8,6 +8,7 @@ import Menu from './Menu';
 import Home from './Home';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { fetchAlerts } from '../actions/message/alertAction';
+import { PollFrequency } from '../config';
 
 class RNavigator extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class RNavigator extends Component {
     }
 
     if (!this.timer) {
-      this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * 5);
+      this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * PollFrequency);
     }
   }
 
