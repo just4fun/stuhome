@@ -9,11 +9,13 @@ import colors from '../styles/common/_colors';
 import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
 import PmSessionList from '../components/PmSessionList';
+import MessageTabBar from '../components/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
-import { invalidatePmSessionList, fetchPmSessionList } from '../actions/message/pmSessionListAction';
+import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
+import { getAtMeCount, getReplyCount, getPmCount, getAlertCount } from '../selectors/alert';
 
 const TABS = [
   { label: '@', type: 'at' },
@@ -75,12 +77,24 @@ class Message extends Component {
     });
   }
 
+  // this is a hacky way to allow customized tab label
+  // for each tab of <ScrollableTabView /> component.
+  _getTabsWithAlertCount(tabs) {
+    let newTabs = [];
+    let { atMeCount, replyCount, pmCount } = this.props;
+    newTabs.push({ name: tabs[0], count: atMeCount });
+    newTabs.push({ name: tabs[1], count: replyCount });
+    newTabs.push({ name: tabs[2], count: pmCount });
+    return newTabs;
+  }
+
   render() {
     let {
       notifyList,
       pmSessionList,
       reply,
-      router
+      router,
+      alertCount
     } = this.props;
     let { isReplyModalOpen, currentNotification } = this.state;
 
@@ -96,8 +110,10 @@ class Message extends Component {
             handlePublish={comment => this._publish(comment)} />
         }
         <Header title='消息'
+                alertCount={alertCount}
                 updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
+          renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlertCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
           tabBarActiveTextColor={colors.white}
           tabBarInactiveTextColor={colors.white}
@@ -111,6 +127,7 @@ class Message extends Component {
                   tabLabel={tab.label}
                   pmSessionList={pmSessionList}
                   router={router}
+                  markAsRead={({ plid }) => this.props.markAsRead({ plid })}
                   fetchPmSessionList={() => this._fetchPmSessionList(tab.type)}
                   refreshPmSessionList={({ page, isEndReached }) => this._refreshPmSessionList({ page, isEndReached })} />
               );
@@ -133,11 +150,15 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, reply, pmSessionList }) {
+function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
   return {
     notifyList,
     reply,
-    pmSessionList
+    pmSessionList,
+    atMeCount: getAtMeCount(alert),
+    replyCount: getReplyCount(alert),
+    pmCount: getPmCount(alert),
+    alertCount: getAlertCount(alert)
   };
 }
 
@@ -147,5 +168,6 @@ export default connect(mapStateToProps, {
   submit,
   resetReply,
   fetchPmSessionList,
-  invalidatePmSessionList
+  invalidatePmSessionList,
+  markAsRead
 })(Message);

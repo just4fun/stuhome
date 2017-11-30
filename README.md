@@ -42,11 +42,11 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
   - [x] Join in vote
   - [x] View vote results
 - [x] Search
-- [ ] Notifications
+- [x] Notifications
   - [x] View list mentioned(@) me
   - [x] View list replied me
   - [x] View private messages
-  - [ ] Notification alert
+  - [x] Notification alert
 - [ ] Individual
   - [x] View my recent topics
   - [x] View my favorite topics
@@ -76,8 +76,8 @@ npm run eslint
 
 ## Todo list
 
-- ~~Update UI per new design~~ ([30cec4](https://github.com/just4fun/stuhome/commit/30cec4f0aaf5db976666334106e8d466de05cb88))
-- ~~Submit to App Store~~ ([link](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355))
+- ~~Update UI per new design~~
+- ~~Submit to [App Store](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)~~
 - ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/stuhome/pull/7))
 - Fixture data (aka `mock data`)
 - ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/stuhome/pull/8))

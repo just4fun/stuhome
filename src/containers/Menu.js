@@ -6,7 +6,6 @@ import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
 import MenuItem from '../components/MenuItem';
 import {
-  getUserFromStorage,
   userLogin,
   resetAuthrization,
   resetAuthrizationResult,
@@ -14,6 +13,7 @@ import {
 } from '../actions/authorizeAction';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import menus from '../constants/menus';
+import { getAlertCount } from '../selectors/alert';
 
 class Menu extends Component {
   constructor(props) {
@@ -24,10 +24,6 @@ class Menu extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.getUserFromStorage();
-  }
-
   toggleLoginModal(visible) {
     this.setState({
       isLoginModalOpen: visible
@@ -35,7 +31,7 @@ class Menu extends Component {
   }
 
   render() {
-    let { user } = this.props;
+    let { user, alertCount } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (
@@ -68,6 +64,8 @@ class Menu extends Component {
                 menu={menus['search']}
                 {...this.props} />
               <MenuItem
+                showAlert={true}
+                alertCount={alertCount}
                 menu={menus['message']}
                 {...this.props} />
               <MenuItem
@@ -84,14 +82,14 @@ class Menu extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ user, alert }) {
   return {
-    user
+    user,
+    alertCount: getAlertCount(alert)
   };
 }
 
 export default connect(mapStateToProps, {
-  getUserFromStorage,
   userLogin,
   resetAuthrization,
   resetAuthrizationResult,

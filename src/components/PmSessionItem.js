@@ -10,6 +10,14 @@ import colors from '../styles/common/_colors';
 import styles from '../styles/components/_PmSessionItem';
 
 export default class PmSessionItem extends Component {
+  _handleOnPress(isNew, plid, userId) {
+    if (isNew) {
+      // mark message as read
+      this.props.markAsRead({ plid });
+    }
+    this.props.router.toPmList({ userId });
+  }
+
   render() {
     let { router, session } = this.props;
     let {
@@ -17,7 +25,9 @@ export default class PmSessionItem extends Component {
       lastSummary,
       toUserId,
       toUserName,
-      toUserAvatar
+      toUserAvatar,
+      isNew,
+      plid // to indicate current message session
     } = session;
 
     lastDateline = moment(+lastDateline).startOf('minute').fromNow();
@@ -26,20 +36,21 @@ export default class PmSessionItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => router.toPmList({
-          userId: toUserId
-        })}>
-        <View style={styles.item}>
-          <View style={styles.authorInfo}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: toUserAvatar }} />
-            <View style={styles.author}>
-              <Text style={styles.name}>{toUserName}</Text>
+        onPress={() => this._handleOnPress(isNew, plid, toUserId)}>
+        <View style={[styles.item, styles.row]}>
+          <Image
+           style={styles.avatar}
+           source={{ uri: toUserAvatar }} />
+          <View style={styles.content}>
+            <View style={[styles.author, styles.row]}>
+              <View style={styles.row}>
+                {!!isNew && <View style={styles.alert}></View>}
+                <Text style={[styles.name, !!isNew && styles.bold]}>{toUserName}</Text>
+              </View>
               <Text style={styles.date}>{lastDateline}</Text>
             </View>
+            <Text style={styles.replyContent} numberOfLines={1}>{lastSummary}</Text>
           </View>
-          <Text style={styles.replyContent}>{lastSummary}</Text>
         </View>
       </TouchableHighlight>
     );

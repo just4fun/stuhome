@@ -9,6 +9,7 @@ import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
+import { getAlertCount } from '../selectors/alert';
 
 const TABS = [
   { label: '最新发表', type: 'publish' },
@@ -55,13 +56,15 @@ class Home extends Component {
   render() {
     let {
       router,
-      topicList
+      topicList,
+      alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
         <Header
           title='首页'
+          alertCount={alertCount}
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
           tabBarActiveTextColor={colors.blue}
@@ -86,9 +89,10 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({ topicList }) {
+function mapStateToProps({ topicList, alert }) {
   return {
-    topicList
+    topicList,
+    alertCount: getAlertCount(alert)
   };
 }
 

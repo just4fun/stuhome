@@ -11,6 +11,7 @@ import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import ForumItems from '../components/ForumItems';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
+import { getAlertCount } from '../selectors/alert';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -40,12 +41,15 @@ class ForumList extends Component {
   render() {
     let {
       router,
-      forumList
+      forumList,
+      alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        <Header title='版块' updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        <Header title='版块'
+                alertCount={alertCount}
+                updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ForumItems
           router={router}
           boardId={this.boardId}
@@ -57,9 +61,10 @@ class ForumList extends Component {
   }
 }
 
-function mapStateToProps({ forumList }) {
+function mapStateToProps({ forumList, alert }) {
   return {
-    forumList
+    forumList,
+    alertCount: getAlertCount(alert)
   };
 }
 

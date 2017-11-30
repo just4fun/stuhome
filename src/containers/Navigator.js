@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Navigator } from 'react-native';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import SideMenu from 'react-native-side-menu';
 import Router from '../router';
 import Menu from './Menu';
 import Home from './Home';
+import { getUserFromStorage } from '../actions/authorizeAction';
+import { fetchAlerts } from '../actions/message/alertAction';
+import { PollFrequency } from '../config';
 
-export default class RNavigator extends Component {
+class RNavigator extends Component {
   constructor(props) {
     super(props);
 
@@ -17,10 +21,35 @@ export default class RNavigator extends Component {
 
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
+    this.props.getUserFromStorage();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let currentToken = this.props.user.authrization.token;
+    let nextToken = nextProps.user.authrization.token;
+
+    if (currentToken === nextToken) { return; }
+
+    if (!nextToken) {
+      this.timer && clearInterval(this.timer);
+      // `clearInterval` will not remove the value of `this.timer`,
+      // we need to remove it manually for the next if condition.
+      this.timer = null;
+      return;
+    }
+
+    if (!this.timer) {
+      this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * PollFrequency);
+    }
   }
 
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
+    this.timer && clearInterval(this.timer);
+  }
+
+  _fetchAlerts() {
+    this.props.fetchAlerts();
   }
 
   configureScene(route) {
@@ -79,3 +108,8 @@ export default class RNavigator extends Component {
     );
   }
 }
+
+export default connect(({ user }) => { return { user }; }, {
+  getUserFromStorage,
+  fetchAlerts
+})(RNavigator);
