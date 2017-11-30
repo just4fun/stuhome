@@ -12,7 +12,7 @@ import PmSessionList from '../components/PmSessionList';
 import MessageTabBar from '../components/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
-import { invalidatePmSessionList, fetchPmSessionList } from '../actions/message/pmSessionListAction';
+import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
 import { getAtMeCount, getReplyCount, getPmCount, getAlertCount } from '../selectors/alert';
@@ -127,6 +127,7 @@ class Message extends Component {
                   tabLabel={tab.label}
                   pmSessionList={pmSessionList}
                   router={router}
+                  markAsRead={({ plid }) => this.props.markAsRead({ plid })}
                   fetchPmSessionList={() => this._fetchPmSessionList(tab.type)}
                   refreshPmSessionList={({ page, isEndReached }) => this._refreshPmSessionList({ page, isEndReached })} />
               );
@@ -167,5 +168,6 @@ export default connect(mapStateToProps, {
   submit,
   resetReply,
   fetchPmSessionList,
-  invalidatePmSessionList
+  invalidatePmSessionList,
+  markAsRead
 })(Message);

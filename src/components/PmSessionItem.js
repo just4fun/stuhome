@@ -10,6 +10,14 @@ import colors from '../styles/common/_colors';
 import styles from '../styles/components/_PmSessionItem';
 
 export default class PmSessionItem extends Component {
+  _handleOnPress(isNew, plid, userId) {
+    if (isNew) {
+      // mark message as read
+      this.props.markAsRead({ plid });
+    }
+    this.props.router.toPmList({ userId });
+  }
+
   render() {
     let { router, session } = this.props;
     let {
@@ -18,7 +26,8 @@ export default class PmSessionItem extends Component {
       toUserId,
       toUserName,
       toUserAvatar,
-      isNew
+      isNew,
+      plid // to indicate current message session
     } = session;
 
     lastDateline = moment(+lastDateline).startOf('minute').fromNow();
@@ -27,9 +36,7 @@ export default class PmSessionItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => router.toPmList({
-          userId: toUserId
-        })}>
+        onPress={() => this._handleOnPress(isNew, plid, toUserId)}>
         <View style={[styles.item, styles.row]}>
           <Image
            style={styles.avatar}

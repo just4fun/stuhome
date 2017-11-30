@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
   INVALIDATE,
+  MARK_AS_READ,
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
@@ -23,6 +24,19 @@ export default function pmSessionList(state = defaultPmSessionListState, action)
       return {
         ...state,
         didInvalidate: true
+      };
+    }
+    case MARK_AS_READ: {
+      let { plid } = action.payload;
+
+      return {
+        ...state,
+        list: state.list.map(item => {
+          if (item.plid === plid) {
+            item.isNew = false;
+          }
+          return item;
+        })
       };
     }
     case REQUEST_STARTED: {

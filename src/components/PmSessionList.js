@@ -48,7 +48,12 @@ export default class PrivateList extends Component {
   }
 
   render() {
-    let { pmSessionList } = this.props;
+    let {
+      pmSessionList,
+      router,
+      refreshPmSessionList,
+      markAsRead
+    } = this.props;
     let realPmSessionList = [];
     let isRefreshing = false;
 
@@ -68,7 +73,8 @@ export default class PrivateList extends Component {
             <PmSessionItem
               key={session.topic_id}
               session={session}
-              router={this.props.router} />
+              router={router}
+              markAsRead={({ plid }) => markAsRead({ plid })}/>
           );
         }}
         onEndReached={() => this._endReached()}
@@ -77,7 +83,7 @@ export default class PrivateList extends Component {
         refreshControl={
           <RefreshControl
             title='正在加载...'
-            onRefresh={() => this.props.refreshPmSessionList({ page: 1 })}
+            onRefresh={() => refreshPmSessionList({ page: 1 })}
             refreshing={isRefreshing} />
         } />
     );
