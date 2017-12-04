@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Image
+  Image,
+  TouchableHighlight,
+  Linking
 } from 'react-native';
 import ImageWithProgress from 'react-native-image-progress';
 import Pie from 'react-native-progress/Pie';
@@ -26,9 +28,9 @@ export default class ProgressImage extends Component {
   }
 
   _getImageSize() {
-    let { uri } = this.props;
+    let { thumbUri } = this.props;
 
-    Image.getSize(uri, (originalWidth, originalHeight) => {
+    Image.getSize(thumbUri, (originalWidth, originalHeight) => {
       // `layoutWidth` may not be calculated in this time
       let height = originalHeight * (this.state.layoutWidth / originalWidth);
 
@@ -52,21 +54,25 @@ export default class ProgressImage extends Component {
   }
 
   render() {
-    let { style, uri } = this.props;
+    let { style, thumbUri, originalUri } = this.props;
 
     return (
-      <ImageWithProgress
-        source={{ uri }}
-        indicator={Pie}
-        indicatorProps={{
-          color: colors.imageProgress,
-          borderColor: colors.imageProgress,
-          unfilledColor: colors.white,
-        }}
-        onLayout={event => this._handleLayout(event)}
-        style={[{
-          height: this.state.height,
-        }, style]} />
+      <TouchableHighlight
+        underlayColor={colors.underlay}
+        onPress={() => Linking.openURL(originalUri)}>
+        <ImageWithProgress
+          source={{ uri: thumbUri }}
+          indicator={Pie}
+          indicatorProps={{
+            color: colors.imageProgress,
+            borderColor: colors.imageProgress,
+            unfilledColor: colors.white,
+          }}
+          onLayout={event => this._handleLayout(event)}
+          style={[{
+            height: this.state.height,
+          }, style]} />
+      </TouchableHighlight>
     );
   }
 }

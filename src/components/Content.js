@@ -30,7 +30,8 @@ export default class Content extends Component {
                                     style={styles.contentItem}
                                     // display thumb image to client
                                     // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L548
-                                    uri={content.infor} />;
+                                    thumbUri={content.infor}
+                                    originalUri={content.originalInfo} />;
             // link
             case 4:
               return (
