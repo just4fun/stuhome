@@ -28,7 +28,9 @@ export default class Content extends Component {
             case 1:
               return <ProgressImage key={index}
                                     style={styles.contentItem}
-                                    uri={content.originalInfo} />;
+                                    // display thumb image to client
+                                    // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L548
+                                    uri={content.infor} />;
             // link
             case 4:
               return (
