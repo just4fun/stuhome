@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
+  View,
   Image,
   TouchableHighlight,
   Linking
 } from 'react-native';
+import { CustomCachedImage } from "react-native-img-cache";
 import ImageWithProgress from 'react-native-image-progress';
 import Pie from 'react-native-progress/Pie';
 import colors from '../styles/common/_colors';
@@ -60,18 +62,21 @@ export default class ProgressImage extends Component {
       <TouchableHighlight
         underlayColor={colors.underlay}
         onPress={() => Linking.openURL(originalUri)}>
-        <ImageWithProgress
-          source={{ uri: thumbUri }}
-          indicator={Pie}
-          indicatorProps={{
-            color: colors.imageProgress,
-            borderColor: colors.imageProgress,
-            unfilledColor: colors.white,
-          }}
-          onLayout={event => this._handleLayout(event)}
-          style={[{
-            height: this.state.height,
-          }, style]} />
+        <View>
+          <CustomCachedImage
+            component={ImageWithProgress}
+            source={{ uri: thumbUri }}
+            indicator={Pie}
+            indicatorProps={{
+              color: colors.imageProgress,
+              borderColor: colors.imageProgress,
+              unfilledColor: colors.white,
+            }}
+            onLayout={event => this._handleLayout(event)}
+            style={[{
+              height: this.state.height,
+            }, style]} />
+        </View>
       </TouchableHighlight>
     );
   }
