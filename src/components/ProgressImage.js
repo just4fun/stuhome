@@ -26,7 +26,13 @@ export default class ProgressImage extends Component {
     // since the sequence between the callback of `Image.getSize` and
     // `_handleLayout` is not guaranteed, the lack of any of them may
     // lead `height: 0`.
-    this._getImageSize();
+
+    // Update: even we have already used `react-native-img-cache`, user will
+    // still can not see the cache image since `Image.getSize` still needs
+    // time to get completed. To be tradeoff, we will give images a static
+    // height instead of responsive height and width.
+
+    // this._getImageSize();
   }
 
   _getImageSize() {
@@ -72,9 +78,10 @@ export default class ProgressImage extends Component {
               borderColor: colors.imageProgress,
               unfilledColor: colors.white,
             }}
-            onLayout={event => this._handleLayout(event)}
+            // onLayout={event => this._handleLayout(event)}
             style={[{
-              height: this.state.height,
+              height: 250,
+              resizeMode: 'contain'
             }, style]} />
         </View>
       </TouchableHighlight>
