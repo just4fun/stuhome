@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableHighlight,
   ActionSheetIOS
 } from 'react-native';
 import Content from './Content';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { CachedImage } from "react-native-img-cache";
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
@@ -68,9 +68,9 @@ export default class Comment extends Component {
         onPress={() => this._showOptions(reply_id)}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: icon }} />
+            <CachedImage
+              style={styles.avatar}
+              source={{ uri: icon }} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{reply_name}</Text>

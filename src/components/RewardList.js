@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image
 } from 'react-native';
+import { CachedImage } from "react-native-img-cache";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_RewardList';
 
@@ -33,7 +33,7 @@ export default class RewardList extends Component {
         <View style={styles.rewardUserList}>
           {reward.userList.map((user, index) => {
             return (
-              <Image
+              <CachedImage
                 key={index}
                 source={{ uri: user.userIcon }}
                 style={styles.rewardUser} />

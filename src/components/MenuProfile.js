@@ -7,6 +7,7 @@ import {
   ActionSheetIOS,
   TouchableHighlight,
 } from 'react-native';
+import { CachedImage } from "react-native-img-cache";
 import styles from '../styles/components/_MenuProfile';
 import colors from '../styles/common/_colors';
 
@@ -57,10 +58,12 @@ export default class MenuProfile extends Component {
               style={styles.avatar}
               underlayColor={colors.underlay}
               onPress={() => this._showLogout()}>
-              <Image
-               key={avatar}
-               style={styles.avatar}
-               source={{ uri: avatar }} />
+              <View>
+                <CachedImage
+                  key={avatar}
+                  style={styles.avatar}
+                  source={{ uri: avatar }} />
+              </View>
              </TouchableHighlight>
             ||
             <TouchableHighlight
@@ -68,9 +71,9 @@ export default class MenuProfile extends Component {
               underlayColor={colors.underlay}
               onPress={() => openLoginModal()}>
               <Image
-               key='noavatar'
-               style={styles.avatar}
-               source={require('../images/noavatar.jpg')} />
+                key='noavatar'
+                style={styles.avatar}
+                source={require('../images/noavatar.jpg')} />
              </TouchableHighlight>
           }
           <Text style={styles.name}>{token ? userName : '请先登录'}</Text>

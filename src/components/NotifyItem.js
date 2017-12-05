@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableHighlight
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import { CachedImage } from "react-native-img-cache";
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_NotifyItem';
@@ -39,9 +39,9 @@ export default class NotifyItem extends Component {
         })}>
         <View style={styles.item}>
           <View style={styles.authorInfo}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: icon }} />
+            <CachedImage
+              style={styles.avatar}
+              source={{ uri: icon }} />
             <View style={styles.author}>
               <Text style={styles.name}>{reply_nick_name}</Text>
               <Text style={styles.date}>{replied_date}</Text>

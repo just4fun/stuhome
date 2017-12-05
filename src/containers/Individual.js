@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  Image,
   ScrollView,
   TouchableHighlight
 } from 'react-native';
 import _ from 'lodash';
+import { CachedImage } from "react-native-img-cache";
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Header from '../components/Header';
@@ -92,7 +92,9 @@ class Individual extends Component {
           alertCount={alertCount}
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <View style={styles.header}>
-          <Image style={styles.avatar} source={{ uri: avatar }} />
+          <CachedImage
+            style={styles.avatar}
+            source={{ uri: avatar }} />
           <Text style={styles.userName}>{userName}</Text>
         </View>
         <ScrollableTabView

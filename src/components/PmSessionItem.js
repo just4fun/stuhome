@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableHighlight
 } from 'react-native';
+import { CachedImage } from "react-native-img-cache";
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_PmSessionItem';
@@ -38,9 +38,9 @@ export default class PmSessionItem extends Component {
         underlayColor={colors.underlay}
         onPress={() => this._handleOnPress(isNew, plid, toUserId)}>
         <View style={[styles.item, styles.row]}>
-          <Image
-           style={styles.avatar}
-           source={{ uri: toUserAvatar }} />
+          <CachedImage
+            style={styles.avatar}
+            source={{ uri: toUserAvatar }} />
           <View style={styles.content}>
             <View style={[styles.author, styles.row]}>
               <View style={styles.row}>

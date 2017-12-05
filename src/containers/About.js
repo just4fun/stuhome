@@ -30,7 +30,9 @@ class About extends Component {
           alertCount={alertCount}
           updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <View style={styles.top}>
-          <Image style={styles.logo} source={require('../images/logo_transparent.png')} />
+          <Image
+            style={styles.logo}
+            source={require('../images/logo_transparent.png')} />
         </View>
         <Text style={[styles.description, styles.text]}>
           清水河畔 {VERSION}

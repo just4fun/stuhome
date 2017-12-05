@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Image
-} from 'react-native';
+import { CachedImage } from "react-native-img-cache";
 
 export function parseContentWithImage(content) {
   if (!content) { return ''; }
@@ -12,7 +10,7 @@ export function parseContentWithImage(content) {
   return contentEmoticonUrlArray.map((item, index) => {
     if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
       return (
-        <Image
+        <CachedImage
           key={index}
           source={{ uri: item }}
           style={{

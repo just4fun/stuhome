@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  Image,
   AlertIOS,
   ScrollView,
   ActivityIndicator,
   ListView
 } from 'react-native';
 import _ from 'lodash';
+import { CachedImage } from "react-native-img-cache";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
@@ -147,9 +147,9 @@ class TopicDetail extends Component {
         </View>
         <View style={styles.postContent}>
           <View style={styles.authorInfo}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: topic.icon }} />
+            <CachedImage
+              style={styles.avatar}
+              source={{ uri: topic.icon }} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableHighlight
 } from 'react-native';
+import { CachedImage } from "react-native-img-cache";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 // refer to this issue https://github.com/moment/momentjs.com/pull/241
@@ -45,7 +45,7 @@ export default class TopicItem extends Component {
           <View style={styles.item}>
             <View style={styles.row}>
               <View style={styles.left}>
-                <Image
+                <CachedImage
                   style={styles.avatar}
                   source={{ uri: userAvatar }} />
               </View>
