@@ -9,6 +9,7 @@ import { CustomCachedImage } from "react-native-img-cache";
 import ImageWithProgress from 'react-native-image-progress';
 import Pie from 'react-native-progress/Pie';
 import colors from '../styles/common/_colors';
+import styles from '../styles/components/_ProgressImage';
 
 export default class ProgressImage extends Component {
   constructor(props) {
@@ -79,10 +80,7 @@ export default class ProgressImage extends Component {
               unfilledColor: colors.white,
             }}
             // onLayout={event => this._handleLayout(event)}
-            style={[{
-              height: 250,
-              resizeMode: 'contain'
-            }, style]} />
+            style={[styles.image, { resizeMode: 'contain' }]} />
         </View>
       </TouchableHighlight>
     );

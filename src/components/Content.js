@@ -14,33 +14,41 @@ export default class Content extends Component {
     let { content } = this.props;
 
     return (
-      <View>
+      // Nested Text and Views
+      // https://facebook.github.io/react-native/docs/text.html
+      //
+      // Use <Text> here instead of <View> is to resolve that case 4
+      // will be isolated line which will lead bad UI experience.
+      <Text style={styles.container}>
         {content.map((content, index) => {
+          // $typeMaps = array('text' => 0, 'image' => 1, 'video' => 2, 'audio' => 3, 'url' => 4, 'attachment' => 5,);
+          // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L539
           switch (content.type) {
             // text
             case 0:
-            default:
-              return <Text key={index}
-                           style={[styles.contentItem, styles.contentText]}>
-                       {parseContentWithImage(content.infor)}
-                     </Text>;
-            // pic
+              return <Text key={index}>{parseContentWithImage(content.infor)}</Text>;
+            // image
             case 1:
-              return <ProgressImage key={index}
-                                    style={styles.contentItem}
-                                    // display thumb image to client
-                                    // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L548
-                                    thumbUri={content.infor}
-                                    originalUri={content.originalInfo} />;
-            // link
+              return (
+                <View style={styles.image}>
+                  <ProgressImage
+                    key={index}
+                    // display thumb image to client
+                    // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L548
+                    thumbUri={content.infor}
+                    originalUri={content.originalInfo} />
+                </View>
+              );
+            // url
             case 4:
               return (
-                <TouchableHighlight
-                  key={index}
-                  style={styles.contentItem}
-                  underlayColor={colors.underlay}
-                  onPress={() => this.props.router.toBrowser(content.url)}>
-                  <Text style={styles.url}>
+                // <TouchableHighlight
+                //   key={index}
+                //   underlayColor={colors.underlay}
+                //   onPress={() => this.props.router.toBrowser(content.url)}>
+                  <Text key={index}
+                        style={styles.url}
+                        onPress={() => this.props.router.toBrowser(content.url)}>
                     {
                       // if the link content is `@somebody`, `infor` is
                       // the text, while `url` is the link to his/her
@@ -53,11 +61,11 @@ export default class Content extends Component {
                       content.url
                     }
                   </Text>
-                </TouchableHighlight>
+                // </TouchableHighlight>
               );
           }
         })}
-      </View>
+      </Text>
     );
   }
 }
