@@ -69,7 +69,7 @@ export default class ProgressImage extends Component {
       <TouchableHighlight
         underlayColor={colors.underlay}
         onPress={() => Linking.openURL(originalUri)}>
-        <View>
+        <View style={style}>
           <CustomCachedImage
             component={ImageWithProgress}
             source={{ uri: thumbUri }}
