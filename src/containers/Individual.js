@@ -19,25 +19,52 @@ import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
 import { getAlertCount } from '../selectors/alert';
-
-const TABS = [
-  { label: '最近发表', type: 'topic' },
-  { label: '最近回复', type: 'reply' },
-  { label: '我的收藏', type: 'favorite' }
-];
+import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
   constructor(props) {
     super(props);
+    this.initTabsAndUserInformation();
+  }
 
-    let {
-      user: {
-        authrization: {
-          uid
-        }
-      },
-    } = this.props;
-    this.userId = uid;
+  initTabsAndUserInformation() {
+    this.TABS = [
+      { label: '最近发表', type: 'topic' },
+      { label: '最近回复', type: 'reply' }
+    ];
+
+    let { user, passProps } = this.props;
+    this.isLoginUser = !passProps || (+passProps.userId === user.authrization.uid);
+
+    if (this.isLoginUser) {
+      let {
+        user: {
+          authrization: {
+            uid,
+            userName,
+            avatar
+          }
+        },
+      } = this.props;
+      this.userId = uid;
+      this.userName = userName;
+      this.userAvatar = avatar;
+      // user could only see their own favorite topics since it's privacy
+      this.TABS.push({
+        label: '我的收藏',
+        type: 'favorite'
+      });
+    } else {
+      let {
+        userId,
+        userName,
+        userAvatar
+      } = passProps;
+      this.userId = userId;
+      this.userName = userName;
+      // if user comes from @somebody link, we could not get his/her avatar directly
+      this.userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${userId}`;
+    }
   }
 
   componentDidMount() {
@@ -65,37 +92,35 @@ class Individual extends Component {
     this.props.fetchUserTopicList({
       userId: this.userId,
       isEndReached: false,
-      type: TABS[e.i].type
+      type: this.TABS[e.i].type
     });
   }
 
   render() {
     let {
       router,
-      user: {
-        authrization: {
-          uid,
-          avatar,
-          userName,
-          userTitle,
-          creditShowList
-        }
-      },
       userTopicList,
       alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        <Header
-          style={styles.nav}
-          alertCount={alertCount}
-          updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        {!this.props.passProps &&
+          <Header
+            style={styles.nav}
+            alertCount={alertCount}
+            updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+          ||
+          <Header
+            style={styles.nav}>
+            <PopButton router={router} />
+          </Header>
+        }
         <View style={styles.header}>
           <CachedImage
             style={styles.avatar}
-            source={{ uri: avatar }} />
-          <Text style={styles.userName}>{userName}</Text>
+            source={{ uri: this.userAvatar }} />
+          <Text style={styles.userName}>{this.userName}</Text>
         </View>
         <ScrollableTabView
           tabBarActiveTextColor={colors.blue}
@@ -103,14 +128,14 @@ class Individual extends Component {
           tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
           tabBarTextStyle={scrollableTabViewStyles.tabBarText}
           onChangeTab={e => this.changeTab(e)}>
-          {TABS.map((tab, index) => {
+          {this.TABS.map((tab, index) => {
             return (
               <TopicList
                 key={index}
                 tabLabel={tab.label}
                 router={router}
                 type={tab.type}
-                topicList={_.get(userTopicList, [uid, tab.type], {})}
+                topicList={_.get(userTopicList, [this.userId, tab.type], {})}
                 refreshTopicList={({ page, isEndReached }) => this._refreshUserTopicList({ page, isEndReached, type: tab.type })} />
             );
           })}

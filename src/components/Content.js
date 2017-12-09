@@ -43,6 +43,18 @@ export default class Content extends Component {
     return newContent;
   }
 
+  getUserId(url) {
+    if (!url) { return null; }
+
+    return url.split('uid=')[1];
+  }
+
+  getUserName(content) {
+    if (!content) { return null; }
+
+    return content.slice(1);
+  }
+
   // We could use nested views(to wrap image) inside <Text>, to resolve that url content will be newline,
   // however, acoording to https://facebook.github.io/react-native/docs/text.html, elements inside of a
   // <Text> are no longer rectangles, which means we could not use something like margin or padding to
@@ -75,6 +87,7 @@ export default class Content extends Component {
   // adjust layout.
   render() {
     let newContent = this.getContentByGroup();
+    let { router } = this.props;
 
     return (
       <View style={styles.container}>
@@ -93,24 +106,28 @@ export default class Content extends Component {
                       style={[styles.item, styles.text]}>
                   {groupContent.map((item, index) => {
                     return (
-                      item.type === 0 &&
+                      item.type === 0 && (
                         <Text key={index}>{parseContentWithImage(item.infor)}</Text>
-                      ||
-                        <Text key={index}
-                              style={styles.url}
-                              onPress={() => this.props.router.toBrowser(item.url)}>
-                          {
-                            // if the url content is `@somebody`, `infor` is
-                            // the text, while `url` is the link to his/her
-                            // personal page.
-                          }
-                          {item.url !== item.infor
-                            &&
-                            item.infor
-                            ||
-                            item.url
-                          }
-                        </Text>
+                      ) || (
+                        // if the url content is `@somebody`, `infor` will be the text,
+                        // while `url` is the link to his/her personal page.
+                        item.url !== item.infor && (
+                          <Text key={index}
+                                style={styles.url}
+                                onPress={() => router.toIndividual({
+                                  userId: this.getUserId(item.url),
+                                  userName: this.getUserName(item.infor)
+                                })}>
+                            {item.infor}
+                          </Text>
+                        ) || (
+                          <Text key={index}
+                                style={styles.url}
+                                onPress={() => router.toBrowser(item.url)}>
+                            {item.url}
+                          </Text>
+                        )
+                      )
                     );
                   })}
                 </Text>
