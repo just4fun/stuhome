@@ -43,8 +43,36 @@ export default class Content extends Component {
     return newContent;
   }
 
-  // $typeMaps = array('text' => 0, 'image' => 1, 'video' => 2, 'audio' => 3, 'url' => 4, 'attachment' => 5,);
-  // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L539
+  // We could use nested views(to wrap image) inside <Text>, to resolve that url content will be newline,
+  // however, acoording to https://facebook.github.io/react-native/docs/text.html, elements inside of a
+  // <Text> are no longer rectangles, which means we could not use something like margin or padding to
+  // adjust layout.
+  //
+  // Here we classify different kinds of content into group, for example, if the content is
+  //
+  // 0: text
+  // 1: url
+  // 2: text
+  // 3: image
+  // 4: image
+  // 5: url
+  // 6: text
+  // 7: text
+  // 8: image
+  //
+  // the new content will be
+  //
+  // <View>
+  //   <Text> 0(text) + 1(url) + 2(text) </Text>
+  //   <View> 3(image) + 4(image) <View>
+  //   <Text> 5(url) + 6(text) + 7(text) </Text>
+  //   <View 8(image) </View>
+  // </View>
+  //
+  // To wrap both text content and url content into <Text>, the url content will wrap when they
+  // see the end of the line.
+  // To classify <Text> and <Image> into different wrappers, we could use margin or padding to
+  // adjust layout.
   render() {
     let newContent = this.getContentByGroup();
 
@@ -52,8 +80,11 @@ export default class Content extends Component {
       <View style={styles.container}>
         {newContent.map((groupContent, groupIndex) => {
           // just check first item in each array to identify what is the
-          // type of the array group.
+          // type of the content group.
           switch (groupContent[0].type) {
+            // $typeMaps = array('text' => 0, 'image' => 1, 'video' => 2, 'audio' => 3, 'url' => 4, 'attachment' => 5,);
+            // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L539
+            //
             // text and url
             case 0:
             case 4:
@@ -69,7 +100,7 @@ export default class Content extends Component {
                               style={styles.url}
                               onPress={() => this.props.router.toBrowser(item.url)}>
                           {
-                            // if the link content is `@somebody`, `infor` is
+                            // if the url content is `@somebody`, `infor` is
                             // the text, while `url` is the link to his/her
                             // personal page.
                           }
