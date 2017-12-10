@@ -1,4 +1,6 @@
 module.exports = {
+  DOMAIN_ROOT: 'http://bbs.uestc.edu.cn',
+
   API_ROOT: 'http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=',
 
   AVATAR_ROOT: 'http://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle',

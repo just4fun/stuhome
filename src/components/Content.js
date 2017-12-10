@@ -8,6 +8,7 @@ import ProgressImage from './ProgressImage';
 import styles from '../styles/components/_Content';
 import colors from '../styles/common/_colors';
 import { parseContentWithImage } from '../utils/contentParser';
+import { DOMAIN_ROOT } from '../config';
 
 export default class Content extends Component {
   isSameContentType(previous, current) {
@@ -45,14 +46,36 @@ export default class Content extends Component {
 
   getUserId(url) {
     if (!url) { return null; }
-
     return url.split('uid=')[1];
   }
 
   getUserName(content) {
     if (!content) { return null; }
-
     return content.slice(1);
+  }
+
+  // http://bbs.uestc.edu.cn/home.php?mod=space&uid=32044
+  isAtSomebody(url) {
+    if (!url) { return false; }
+
+    // if the url content is `@somebody`, `infor` will be the text,
+    // while `url` is the link to his/her personal page. but sometimes
+    // there is exception, we need to check whether the url contains `uid`,
+    // instead of checking `item.url !== item.infor` here.
+    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf('&uid') > -1;
+  }
+
+  // http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255
+  isTopicLink(url) {
+    if (!url) { return false; }
+    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf('&tid') > -1;
+  }
+
+  getTopicId(url) {
+    if (!url) { return null; }
+    let urlArr = url.split('&');
+    let urlChunk = urlArr.find(item => item.indexOf('tid=') > -1);
+    return urlChunk ? urlChunk.slice(4) : null;
   }
 
   // We could use nested views(to wrap image) inside <Text>, to resolve that url content will be newline,
@@ -109,9 +132,8 @@ export default class Content extends Component {
                       item.type === 0 && (
                         <Text key={index}>{parseContentWithImage(item.infor)}</Text>
                       ) || (
-                        // if the url content is `@somebody`, `infor` will be the text,
-                        // while `url` is the link to his/her personal page.
-                        item.url !== item.infor && (
+                        this.isAtSomebody(item.url) && (
+                          // @somebody
                           <Text key={index}
                                 style={styles.url}
                                 onPress={() => router.toIndividual({
@@ -121,11 +143,24 @@ export default class Content extends Component {
                             {item.infor}
                           </Text>
                         ) || (
-                          <Text key={index}
-                                style={styles.url}
-                                onPress={() => router.toBrowser(item.url)}>
-                            {item.url}
-                          </Text>
+                          // link
+                          //  1. common url
+                          //  2. topic
+                          this.isTopicLink(item.url) && (
+                            <Text key={index}
+                                  style={styles.url}
+                                  onPress={() => router.toTopic({
+                                    topic_id: this.getTopicId(item.url)
+                                  })}>
+                              {item.infor}
+                            </Text>
+                          ) || (
+                            <Text key={index}
+                                  style={styles.url}
+                                  onPress={() => router.toBrowser(item.url)}>
+                              {item.infor}
+                            </Text>
+                          )
                         )
                       )
                     );

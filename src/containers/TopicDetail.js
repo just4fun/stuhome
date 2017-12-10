@@ -220,6 +220,7 @@ class TopicDetail extends Component {
   }
 
   _publish({ content, replyId, images }) {
+    // If we reply a topic, there is no need to pass `boardId`.
     this.props.submit({
       boardId: this.boardId,
       topicId: this.topicId,
