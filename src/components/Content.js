@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Linking,
   TouchableHighlight
 } from 'react-native';
 import ProgressImage from './ProgressImage';
@@ -144,8 +145,8 @@ export default class Content extends Component {
                           </Text>
                         ) || (
                           // link
-                          //  1. common url
-                          //  2. topic
+                          //  1. topic
+                          //  2. common url
                           this.isTopicLink(item.url) && (
                             <Text key={index}
                                   style={styles.url}
@@ -157,7 +158,7 @@ export default class Content extends Component {
                           ) || (
                             <Text key={index}
                                   style={styles.url}
-                                  onPress={() => router.toBrowser(item.url)}>
+                                  onPress={() => Linking.openURL(item.url)}>
                               {item.infor}
                             </Text>
                           )

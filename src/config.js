@@ -5,6 +5,8 @@ module.exports = {
 
   AVATAR_ROOT: 'http://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle',
 
+  REGISTER_URL: 'http://bbs.uestc.edu.cn/member.php?mod=register',
+
   APP_AUTH_KEY: 'appbyme_key',
   
   /**

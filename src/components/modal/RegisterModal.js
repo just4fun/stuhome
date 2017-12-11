@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-native';
 import WebPage from '../WebPage';
+import { REGISTER_URL } from '../../config';
 
 export default class RegisterModal extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class RegisterModal extends Component {
         visible={this.props.visible}>
         <WebPage
           title='注册'
-          url='http://bbs.uestc.edu.cn/member.php?mod=register'
+          url={REGISTER_URL}
           action={() => this.props.closeRegisterModal()}
           {...this.props} />
       </Modal>
