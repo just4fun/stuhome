@@ -41,11 +41,22 @@ import {
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
+function getTopicId(topic) {
+  if (!topic) { return null; }
+
+  // for `hot(今日热门)` tab in Home page, each topic has
+  // not `topic_id` field, but they have `source_id` and
+  // `source_type` instead.
+  if (topic.source_id) { return topic.source_id; }
+
+  return topic.topic_id;
+}
+
 class TopicDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.topicId = this.getTopicId(props.passProps);
+    this.topicId = getTopicId(props.passProps);
     this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
 
@@ -55,21 +66,12 @@ class TopicDetail extends Component {
     };
   }
 
-  getTopicId(topic) {
-    // for `hot(今日热门)` tab in Home page, each topic has
-    // not `topic_id` field, but they have `source_id` and
-    // `source_type` instead.
-    if (topic.source_id) { return topic.source_id; }
-
-    return topic.topic_id;
-  }
-
   componentDidMount() {
     this.fetchTopic();
   }
 
   componentWillUnmount() {
-    this.props.resetTopic();
+    this.props.resetTopic({ topicId: this.topicId });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,7 +79,6 @@ class TopicDetail extends Component {
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
-      nextProps.resetTopic();
       nextProps.router.pop();
       return;
     }
@@ -324,9 +325,11 @@ class TopicDetail extends Component {
   }
 }
 
-function mapStateToProps({ topicItem, reply, vote, user, topicFavor }) {
+function mapStateToProps(state, ownProps) {
+  let { topicItem, reply, vote, user, topicFavor } = state;
+
   return {
-    topicItem,
+    topicItem: _.get(topicItem, getTopicId(ownProps.passProps), {}),
     reply,
     vote,
     user,
