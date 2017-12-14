@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Image,
+  Linking,
   ScrollView,
   TouchableHighlight
 } from 'react-native';
@@ -13,7 +14,7 @@ import AboutItem from '../components/AboutItem';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import colors from '../styles/common/_colors';
-import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, FEEDBACK, APP_STORE } from '../config';
+import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } from '../config';
 import { getAlertCount } from '../selectors/alert';
 
 class About extends Component {
@@ -42,21 +43,23 @@ class About extends Component {
         </Text>
         <View style={styles.group}>
           <AboutItem
-            url={APP_STORE}
-            text='去商店评分' />
+            text='去商店评分'
+            onPress={() => Linking.openURL(APP_STORE)} />
           <AboutItem
             style={styles.lastItem}
-            url={FEEDBACK}
-            text='BUG 上报或意见反馈' />
+            text='BUG 上报或意见反馈'
+            onPress={() => router.toPmList({
+              userId: AUTHOR_ID
+            })} />
           </View>
           <View style={styles.group}>
             <AboutItem
-              url={AUTHOR_URL}
-              text='关于作者' />
+              text='关于作者'
+              onPress={() => Linking.openURL(AUTHOR_URL)} />
             <AboutItem
-              style={styles.lastItem}
               url={SOURCE_URL}
-              text='关注源码' />
+              text='关注源码'
+              onPress={() => Linking.openURL(SOURCE_URL)} />
           </View>
         <Text style={[styles.footer, styles.text]}>
           {COPY_RIGHT}
