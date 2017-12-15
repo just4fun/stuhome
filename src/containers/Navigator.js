@@ -86,6 +86,7 @@ class RNavigator extends Component {
 
   render() {
     let menu = <Menu
+                 router={this.router}
                  selectMenuItem={(item, isForceReplace) => this._onMenuItemSelected(item, isForceReplace)}
                  isCurrentRoute={route => this._isCurrentRoute(route)} />;
 

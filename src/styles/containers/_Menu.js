@@ -23,4 +23,24 @@ export default StyleSheet.create({
   menus: {
     marginTop: 20
   },
+  menuFooter: {
+    flexDirection: 'row',
+    position: "absolute",
+    left: 30,
+    right: 30,
+    bottom: 0,
+    // borderTopWidth: 1,
+    // borderTopColor: colors.underlay,
+    justifyContent: 'center',
+  },
+  menuBottomItemWrapper: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  menuBottomSettings: {
+    justifyContent: 'flex-start',
+  },
+  menuBottomLogout: {
+    justifyContent: 'flex-end',
+  },
 });

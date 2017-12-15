@@ -43,4 +43,16 @@ export default {
     iconSize: '21',
     actionName: 'toAbout'
   },
+
+  settings: {
+    id: 'settings',
+    title: '设置',
+    icon: 'gear',
+    actionName: 'toSettings'
+  },
+
+  logout: {
+    title: '退出',
+    icon: 'sign-out',
+  },
 };

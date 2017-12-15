@@ -9,6 +9,7 @@ import Message from './containers/Message';
 import Individual from './containers/Individual';
 import About from './containers/About';
 import PmList from './containers/PmList';
+import Settings from './containers/Settings';
 
 let _navigator = null;
 
@@ -140,5 +141,13 @@ export default class Router {
       component: PmList,
       passProps: userId
     });
+  }
+
+  toSettings() {
+    this._navigateTo({
+      id: 'settings',
+      title: '设置',
+      component: Settings
+    }, true);
   }
 }

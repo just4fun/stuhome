@@ -5,6 +5,7 @@ import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
 import MenuItem from '../components/MenuItem';
+import MenuBottomItem from '../components/MenuBottomItem';
 import {
   userLogin,
   resetAuthrization,
@@ -31,7 +32,7 @@ class Menu extends Component {
   }
 
   render() {
-    let { user, alertCount } = this.props;
+    let { user, alertCount, router } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (
@@ -77,6 +78,20 @@ class Menu extends Component {
             menu={menus['about']}
             {...this.props} />
         </View>
+        {user.authrization.token &&
+          <View style={styles.menuFooter}>
+            <MenuBottomItem
+              menu={menus['settings']}
+              style={styles.menuBottomItemWrapper}
+              rowStyle={styles.menuBottomSettings}
+              {...this.props} />
+            <MenuBottomItem
+              menu={menus['logout']}
+              style={styles.menuBottomItemWrapper}
+              rowStyle={styles.menuBottomLogout}
+               />
+          </View>
+        }
       </View>
     );
   }
