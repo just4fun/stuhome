@@ -5,10 +5,10 @@ import {
   TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from '../styles/components/_AboutItem';
+import styles from '../styles/components/_SettingItem';
 import colors from '../styles/common/_colors';
 
-export default class AboutItem extends Component {
+export default class SettingItem extends Component {
   render() {
     let { text, style } = this.props;
 

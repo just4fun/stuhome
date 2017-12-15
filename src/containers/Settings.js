@@ -4,20 +4,31 @@ import {
   View,
   Text,
   Image,
-  Linking,
-  ScrollView,
-  TouchableHighlight
+  AlertIOS,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { ImageCache } from "react-native-img-cache";
+import { PopButton } from '../components/button';
 import Header from '../components/Header';
-import AboutItem from '../components/AboutItem';
+import SettingItem from '../components/SettingItem';
+import SettingSwitchItem from '../components/SettingSwitchItem';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
-import colors from '../styles/common/_colors';
-import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } from '../config';
-import { getAlertCount } from '../selectors/alert';
 
-class About extends Component {
+export default class Settings extends Component {
+  clearCache() {
+    AlertIOS.alert(
+      '提示',
+      '确定清理图片缓存？',
+      [
+        { text: '取消', style: 'cancel' },
+        { text: '清除', onPress: () => ImageCache.get().clear().then(() => {
+          AlertIOS.alert('提示', '清理成功');
+        }) },
+      ],
+    );
+  }
+
   render() {
     let {
       router,
@@ -26,20 +37,19 @@ class About extends Component {
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        <Header
-          title='设置'
-          alertCount={alertCount}
-          updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-        
+        <Header title='设置'>
+          <PopButton router={this.props.router} />
+        </Header>
+        <View style={styles.group}>
+          <SettingItem
+            text='清理缓存'
+            onPress={() => this.clearCache()}/>
+        </View>
+        <View style={styles.group}>
+          <SettingSwitchItem
+            text='消息提醒' />
+        </View>
       </View>
     );
   }
 }
-
-function mapStateToProps({ alert }) {
-  return {
-    alertCount: getAlertCount(alert)
-  };
-}
-
-export default connect(mapStateToProps)(About);

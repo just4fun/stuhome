@@ -148,6 +148,6 @@ export default class Router {
       id: 'settings',
       title: '设置',
       component: Settings
-    }, true);
+    });
   }
 }
