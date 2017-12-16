@@ -16,6 +16,7 @@ import * as pmSessionListActions from '../actions/message/pmSessionListAction';
 import * as pmListActions from '../actions/message/pmListAction';
 import * as sendActions from '../actions/message/sendAction';
 import * as alertActions from '../actions/message/alertAction';
+import * as settingsActions from '../actions/settingsAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -62,6 +63,42 @@ function* watchLogin() {
     const { payload } = yield take(authorizeActions.REQUEST);
     yield fork(fetchLoginUserApi, payload);
   }
+}
+
+// settings sagas
+
+function* watchRetrieveSettings() {
+  while(true) {
+    yield take(settingsActions.RETRIEVE);
+    let settings = yield call(getSettingsFromStorage);
+
+    if (settings) {
+      settings = JSON.parse(settings);
+      yield put(settingsActions.done(settings));
+    }
+  }
+}
+
+function getSettingsFromStorage() {
+  return new Promise(resolve => AsyncStorage.getItem('settings').then(resolve));
+}
+
+function* watchStoreSettings() {
+  while(true) {
+    const { payload } = yield take(settingsActions.STORE);
+    // get old settings
+    let settings = yield call(getSettingsFromStorage);
+    // merge with new settings
+    let newSettings = Object.assign({}, JSON.parse(settings), payload);
+    // store new settings in storage
+    yield call(putSettingsToStorage, JSON.stringify(newSettings));
+    // update redux store
+    yield put(settingsActions.done(newSettings));
+  }
+}
+
+function putSettingsToStorage(settings) {
+  return new Promise(resolve => AsyncStorage.setItem('settings', settings).then(resolve));
 }
 
 // topic list sagas
@@ -245,4 +282,6 @@ export default function* rootSaga() {
   yield fork(watchPmList);
   yield fork(watchSendMessage);
   yield fork(watchAlerts);
+  yield fork(watchRetrieveSettings);
+  yield fork(watchStoreSettings);
 }

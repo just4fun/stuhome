@@ -7,6 +7,7 @@ import Router from '../router';
 import Menu from './Menu';
 import Home from './Home';
 import { getUserFromStorage } from '../actions/authorizeAction';
+import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
 import { PollFrequency } from '../config';
 
@@ -21,16 +22,21 @@ class RNavigator extends Component {
 
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
+
     this.props.getUserFromStorage();
+    this.props.getSettingsFromStorage();
   }
 
   componentWillReceiveProps(nextProps) {
     let currentToken = this.props.user.authrization.token;
     let nextToken = nextProps.user.authrization.token;
 
-    if (currentToken === nextToken) { return; }
+    let currentEnableNotification = this.props.settings.enableNotification;
+    let nextEnableNotification = nextProps.settings.enableNotification;
 
-    if (!nextToken) {
+    if (currentToken === nextToken && currentEnableNotification === nextEnableNotification) { return; }
+
+    if (!nextToken || !nextEnableNotification) {
       this.timer && clearInterval(this.timer);
       // `clearInterval` will not remove the value of `this.timer`,
       // we need to remove it manually for the next if condition.
@@ -38,7 +44,7 @@ class RNavigator extends Component {
       return;
     }
 
-    if (!this.timer) {
+    if (!this.timer && nextEnableNotification) {
       this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * PollFrequency);
     }
   }
@@ -110,7 +116,15 @@ class RNavigator extends Component {
   }
 }
 
-export default connect(({ user }) => { return { user }; }, {
+function mapStateToProps({ user, settings }) {
+  return {
+    user,
+    settings
+  };
+}
+
+export default connect(mapStateToProps, {
   getUserFromStorage,
+  getSettingsFromStorage,
   fetchAlerts
 })(RNavigator);

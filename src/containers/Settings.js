@@ -15,25 +15,9 @@ import SettingItem from '../components/SettingItem';
 import SettingSwitchItem from '../components/SettingSwitchItem';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
+import { getSettingsFromStorage, putSettingsToStorage } from '../actions/settingsAction';
 
-export default class Settings extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      enableNotification: false
-    };
-  }
-
-  componentDidMount() {
-    AsyncStorage.getItem('settings.notification')
-                // The value stored in AsyncStorage is string.
-                .then(value => {
-                  debugger;
-                  this.setState({ enableNotification: value === 'true' })
-                });
-  }
-
+class Settings extends Component {
   clearCache() {
     AlertIOS.alert(
       '提示',
@@ -48,16 +32,11 @@ export default class Settings extends Component {
   }
 
   handleNotificationValueChange(value) {
-    // The value to store should be string, hence `toString()` here.
-    AsyncStorage.setItem('settings.notification', value.toString())
-                .then(() => {
-                  debugger;
-                  this.setState({ enableNotification: value })
-                });
+    this.props.putSettingsToStorage({ enableNotification: value });
   }
 
   render() {
-    let { router } = this.props;
+    let { router, settings } = this.props;
 
     return (
       <View style={[mainStyles.container, styles.container]}>
@@ -73,9 +52,23 @@ export default class Settings extends Component {
           <SettingSwitchItem
             text='消息提醒'
             onValueChange={(value) => this.handleNotificationValueChange(value)}
-            value={this.state.enableNotification} />
+            value={settings.enableNotification} />
         </View>
+        <Text style={[styles.explanation, styles.text]}>
+          开启“消息提醒”，每15s会自动获取“提到我的”、“回复”、“私信”，并在有新信息时在根目录左上角显示小红点，并在侧边栏显示未读消息数字。
+        </Text>
       </View>
     );
   }
 }
+
+function mapStateToProps({ settings }) {
+  return {
+    settings
+  };
+}
+
+export default connect(mapStateToProps, {
+  getSettingsFromStorage,
+  putSettingsToStorage
+})(Settings);

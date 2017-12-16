@@ -13,7 +13,7 @@ export default StyleSheet.create({
     height: 100,
     width: 100,
   },
-  description: {
+  information: {
     textAlign: 'center',
     marginBottom: 15,
   },
@@ -37,4 +37,9 @@ export default StyleSheet.create({
   text: {
     color: colors.mainField,
   },
+  explanation: {
+    marginVertical: 5,
+    paddingHorizontal: 20,
+    fontSize: 13,
+  }
 });

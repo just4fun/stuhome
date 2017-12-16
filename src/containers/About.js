@@ -34,10 +34,10 @@ class About extends Component {
             style={styles.logo}
             source={require('../images/logo_transparent.png')} />
         </View>
-        <Text style={[styles.description, styles.text]}>
+        <Text style={[styles.information, styles.text]}>
           清水河畔 {VERSION}
         </Text>
-        <Text style={[styles.description, styles.text]}>
+        <Text style={[styles.information, styles.text]}>
           Powered by React Native with Redux
         </Text>
         <View style={styles.group}>
