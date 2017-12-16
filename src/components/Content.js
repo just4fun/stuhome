@@ -45,37 +45,30 @@ export default class Content extends Component {
     return newContent;
   }
 
-  getUserId(url) {
-    if (!url) { return null; }
-    return url.split('uid=')[1];
-  }
-
   getUserName(content) {
     if (!content) { return null; }
     return content.slice(1);
   }
 
-  // http://bbs.uestc.edu.cn/home.php?mod=space&uid=32044
-  isAtSomebody(url) {
-    if (!url) { return false; }
-
-    // if the url content is `@somebody`, `infor` will be the text,
-    // while `url` is the link to his/her personal page. but sometimes
-    // there is exception, we need to check whether the url contains `uid`,
-    // instead of checking `item.url !== item.infor` here.
-    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf('&uid') > -1;
+  // user link: http://bbs.uestc.edu.cn/home.php?mod=space&uid=32044
+  // topic link: http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255
+  // forum link: http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=55&page=1
+  //
+  // For user link,
+  //
+  // if the url content is `@somebody`, `infor` will be the text,
+  // while `url` is the link to his/her personal page. but sometimes
+  // there is exception, we need to check whether the url contains `uid`,
+  // instead of checking `item.url !== item.infor` here.
+  isSpecificLink(url, indicator) {
+    if (!url || !indicator) { return false; }
+    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf(indicator) > -1;
   }
 
-  // http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255
-  isTopicLink(url) {
-    if (!url) { return false; }
-    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf('&tid') > -1;
-  }
-
-  getTopicId(url) {
-    if (!url) { return null; }
+  getSpecificId(url, indicator) {
+    if (!url || !indicator) { return null; }
     let urlArr = url.split('&');
-    let urlChunk = urlArr.find(item => item.indexOf('tid=') > -1);
+    let urlChunk = urlArr.find(item => item.indexOf(indicator) > -1);
     return urlChunk ? urlChunk.slice(4) : null;
   }
 
@@ -130,37 +123,54 @@ export default class Content extends Component {
                       style={[styles.item, styles.text]}>
                   {groupContent.map((item, index) => {
                     return (
+                      // text
                       item.type === 0 && (
                         <Text key={index}>{parseContentWithImage(item.infor)}</Text>
                       ) || (
-                        this.isAtSomebody(item.url) && (
+                        this.isSpecificLink(item.url, '&uid') && (
                           // @somebody
                           <Text key={index}
                                 style={styles.url}
                                 onPress={() => router.toIndividual({
-                                  userId: this.getUserId(item.url),
+                                  userId: this.getSpecificId(item.url, 'uid='),
                                   userName: this.getUserName(item.infor)
                                 })}>
                             {item.infor}
                           </Text>
                         ) || (
-                          // link
-                          //  1. topic
-                          //  2. common url
-                          this.isTopicLink(item.url) && (
+                          // topic url
+                          this.isSpecificLink(item.url, '&tid') && (
                             <Text key={index}
                                   style={styles.url}
                                   onPress={() => router.toTopic({
-                                    topic_id: this.getTopicId(item.url)
+                                    topic_id: this.getSpecificId(item.url, 'tid=')
                                   })}>
                               {item.infor}
                             </Text>
                           ) || (
-                            <Text key={index}
-                                  style={styles.url}
-                                  onPress={() => Linking.openURL(item.url)}>
-                              {item.infor}
-                            </Text>
+                            // forum url
+                            //
+                            // For `ForumDetail` page, we should pass `board_id`, `board_name`,
+                            // `board_content` and `board_child`, but we could not get last three
+                            // properties via url. I used hacky way here to get `board_name`, regarding
+                            // last two properties, we need to fetch single forum information if
+                            // we really need them.
+                            this.isSpecificLink(item.url, '&fid') && (
+                              <Text key={index}
+                                    style={styles.url}
+                                    onPress={() => router.toForum({
+                                      board_id: this.getSpecificId(item.url, 'fid=')
+                                    })}>
+                                {item.infor}
+                              </Text>
+                            ) || (
+                              // common url
+                              <Text key={index}
+                                    style={styles.url}
+                                    onPress={() => Linking.openURL(item.url)}>
+                                {item.infor}
+                              </Text>
+                            )
                           )
                         )
                       )

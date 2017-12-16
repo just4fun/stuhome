@@ -35,7 +35,7 @@ class ForumDetail extends Component {
       board_content,
       board_child
     } = props.passProps;
-    this.boardId = board_id;
+    this.boardId = +board_id;
     this.boardName = board_name;
     this.boardContent = !!board_content;
     this.boardChild = !!board_child;
@@ -133,6 +133,11 @@ class ForumDetail extends Component {
       router
     } = this.props;
     let { isPublishModalOpen } = this.state;
+
+    if (!this.boardContent) {
+      let list = _.get(topicList, [this.boardId, TABS[0].type], {}).list;
+      this.boardContent = list && !!list.length;
+    }
 
     return (
       <View style={mainStyles.container}>
