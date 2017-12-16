@@ -3,8 +3,6 @@ import {
   View,
   Text,
   Image,
-  AsyncStorage,
-  ActionSheetIOS,
   TouchableHighlight,
 } from 'react-native';
 import { CachedImage } from "react-native-img-cache";
@@ -12,32 +10,8 @@ import styles from '../styles/components/_MenuProfile';
 import colors from '../styles/common/_colors';
 
 export default class MenuProfile extends Component {
-  _showLogout() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: [
-        '注销',
-        '取消'
-      ],
-      destructiveButtonIndex: 0,
-      cancelButtonIndex: 1
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          this._handleLogout();
-          break;
-      }
-    });
-  }
-
-  _handleLogout() {
-    AsyncStorage.removeItem('authrization')
-                .then(() => {
-                  // remove all cache first
-                  this.props.cleanCache({ isLogin: false });
-                  // force replace Home route
-                  this.props.selectMenuItem(this.props.menus['home'], true);
-                });
+  navigateToPersonalInformation() {
+    
   }
 
   render() {
@@ -57,7 +31,7 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => this._showLogout()}>
+              onPress={() => this.navigateToPersonalInformation()}>
               <View>
                 <CachedImage
                   key={avatar}

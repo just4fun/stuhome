@@ -21,7 +21,7 @@ export default class MenuBottomItem extends Component {
             onPress();
             return;
           }
-          this.props.selectMenuItem(menu)
+          this.props.selectMenuItem(menu);
         }}>
         <View style={[styles.row, rowStyle]}>
           <Icon style={[styles.icon, styles.item]} name={icon} size={+iconSize || 18} />
