@@ -36,7 +36,7 @@ class Menu extends Component {
     });
   }
 
-  showLogoutConfirmation() {
+  showLogoutDialog() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
         '确认退出',
@@ -81,9 +81,9 @@ class Menu extends Component {
             {...this.props} />
         }
         <MenuProfile
+          menu={menus['information']}
           authrization={user.authrization}
           openLoginModal={() => this.toggleLoginModal(true)}
-          menus={menus}
           {...this.props} />
         <View style={styles.menus}>
           <MenuItem
@@ -122,7 +122,7 @@ class Menu extends Component {
               menu={menus['logout']}
               style={styles.menuBottomItemWrapper}
               rowStyle={styles.menuBottomLogout}
-              onPress={() => this.showLogoutConfirmation()} />
+              onPress={() => this.showLogoutDialog()} />
           </View>
         }
       </View>

@@ -41,5 +41,8 @@ export default StyleSheet.create({
     marginVertical: 5,
     paddingHorizontal: 20,
     fontSize: 13,
+  },
+  informationAvatar: {
+    height: 60
   }
 });

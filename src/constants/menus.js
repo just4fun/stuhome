@@ -1,4 +1,10 @@
 export default {
+  information: {
+    id: 'information',
+    title: '资料',
+    actionName: 'toInformation'
+  },
+
   home: {
     id: 'home',
     title: '首页',

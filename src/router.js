@@ -10,6 +10,7 @@ import Individual from './containers/Individual';
 import About from './containers/About';
 import PmList from './containers/PmList';
 import Settings from './containers/Settings';
+import Information from './containers/Information';
 
 let _navigator = null;
 
@@ -148,6 +149,14 @@ export default class Router {
       id: 'settings',
       title: '设置',
       component: Settings
+    });
+  }
+
+  toInformation() {
+    this._navigateTo({
+      id: 'information',
+      title: '资料',
+      component: Information
     });
   }
 }

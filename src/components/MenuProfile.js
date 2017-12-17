@@ -5,17 +5,12 @@ import {
   Image,
   TouchableHighlight,
 } from 'react-native';
-import { CachedImage } from "react-native-img-cache";
 import styles from '../styles/components/_MenuProfile';
 import colors from '../styles/common/_colors';
 
 export default class MenuProfile extends Component {
-  navigateToPersonalInformation() {
-    
-  }
-
   render() {
-    let { authrization, openLoginModal } = this.props;
+    let { authrization, openLoginModal, menu } = this.props;
     let {
       token,
       avatar,
@@ -31,13 +26,12 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => this.navigateToPersonalInformation()}>
-              <View>
-                <CachedImage
-                  key={avatar}
-                  style={styles.avatar}
-                  source={{ uri: avatar }} />
-              </View>
+              onPress={() => this.props.selectMenuItem(menu)}>
+              <Image
+                // use timestamp here to aviod avatar cache
+                key={`${avatar}&timestamp=${+ new Date()}`}
+                style={styles.avatar}
+                source={{ uri: avatar }} />
              </TouchableHighlight>
             ||
             <TouchableHighlight
