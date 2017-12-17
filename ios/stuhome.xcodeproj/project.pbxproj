@@ -282,6 +282,13 @@
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
+		CC8B08C01FE67AFE0078887C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E187B2572B2A4B5094F6FF56 /* imageCropPicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3400A8081CEB54A6008A0BC7;
+			remoteInfo = imageCropPicker;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -659,6 +666,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CC8B08BC1FE67AFE0078887C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC8B08C11FE67AFE0078887C /* libimageCropPicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DDF072F4604744FFA11F9EA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +799,10 @@
 				{
 					ProductGroup = CB8B0D8C1E8CAEAF00276601 /* Products */;
 					ProjectRef = CB8B0D8B1E8CAEAF00276601 /* ART.xcodeproj */;
+				},
+				{
+					ProductGroup = CC8B08BC1FE67AFE0078887C /* Products */;
+					ProjectRef = E187B2572B2A4B5094F6FF56 /* imageCropPicker.xcodeproj */;
 				},
 				{
 					ProductGroup = CB57B9E21E8D13FD00B99DC9 /* Products */;
@@ -1065,6 +1084,13 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = CC2389211FD417DB00FB9E67 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CC8B08C11FE67AFE0078887C /* libimageCropPicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libimageCropPicker.a;
+			remoteRef = CC8B08C01FE67AFE0078887C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
