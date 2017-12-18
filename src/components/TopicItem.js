@@ -4,7 +4,7 @@ import {
   Text,
   TouchableHighlight
 } from 'react-native';
-import { CachedImage } from "react-native-img-cache";
+import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 // refer to this issue https://github.com/moment/momentjs.com/pull/241
@@ -45,9 +45,12 @@ export default class TopicItem extends Component {
           <View style={styles.item}>
             <View style={styles.row}>
               <View style={styles.left}>
-                <CachedImage
+                <Avatar
                   style={styles.avatar}
-                  source={{ uri: userAvatar }} />
+                  url={userAvatar}
+                  userId={user_id}
+                  userName={user_nick_name}
+                  router={router} />
               </View>
               <View style={styles.right}>
                 <View style={styles.leftInfo}>

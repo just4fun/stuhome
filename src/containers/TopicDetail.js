@@ -9,7 +9,7 @@ import {
   ListView
 } from 'react-native';
 import _ from 'lodash';
-import { CachedImage } from "react-native-img-cache";
+import Avatar from '../components/Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
@@ -148,9 +148,12 @@ class TopicDetail extends Component {
         </View>
         <View style={styles.postContent}>
           <View style={styles.authorInfo}>
-            <CachedImage
+            <Avatar
               style={styles.avatar}
-              source={{ uri: topic.icon }} />
+              url={topic.icon}
+              userId={topic.user_id}
+              userName={topic.user_nick_name}
+              router={this.props.router} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Content from './Content';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { CachedImage } from "react-native-img-cache";
+import Avatar from './Avatar';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
@@ -68,9 +68,12 @@ export default class Comment extends Component {
         onPress={() => this._showOptions(reply_id)}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
-            <CachedImage
+            <Avatar
               style={styles.avatar}
-              source={{ uri: icon }} />
+              url={icon}
+              userId={reply_id}
+              userName={reply_name}
+              router={this.props.router} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{reply_name}</Text>

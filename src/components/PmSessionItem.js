@@ -4,7 +4,7 @@ import {
   Text,
   TouchableHighlight
 } from 'react-native';
-import { CachedImage } from "react-native-img-cache";
+import Avatar from './Avatar';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_PmSessionItem';
@@ -38,9 +38,12 @@ export default class PmSessionItem extends Component {
         underlayColor={colors.underlay}
         onPress={() => this._handleOnPress(isNew, plid, toUserId)}>
         <View style={[styles.item, styles.row]}>
-          <CachedImage
+          <Avatar
             style={styles.avatar}
-            source={{ uri: toUserAvatar }} />
+            url={toUserAvatar}
+            userId={toUserId}
+            userName={toUserName}
+            router={router} />
           <View style={styles.content}>
             <View style={[styles.author, styles.row]}>
               <View style={styles.row}>
