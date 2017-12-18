@@ -28,10 +28,7 @@ class Individual extends Component {
   }
 
   initTabsAndUserInformation() {
-    this.TABS = [
-      { label: '最近发表', type: 'topic' },
-      { label: '最近回复', type: 'reply' }
-    ];
+    this.TABS = [];
 
     let { user, passProps } = this.props;
     this.isLoginUser = !passProps || (+passProps.userId === user.authrization.uid);
@@ -50,10 +47,11 @@ class Individual extends Component {
       this.userName = userName;
       this.userAvatar = avatar;
       // user could only see their own favorite topics since it's privacy
-      this.TABS.push({
-        label: '我的收藏',
-        type: 'favorite'
-      });
+      this.TABS = [
+        { label: '最近发表', type: 'topic' },
+        { label: '最近回复', type: 'reply' },
+        { label: '我的收藏', type: 'favorite' }
+      ]
     } else {
       let {
         userId,
@@ -64,6 +62,11 @@ class Individual extends Component {
       this.userName = userName;
       // if user comes from @somebody link, we could not get his/her avatar directly
       this.userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${userId}`;
+
+      this.TABS = [
+        { label: 'TA的发表', type: 'topic' },
+        { label: 'TA的回复', type: 'reply' },
+      ]
     }
   }
 
