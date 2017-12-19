@@ -16,6 +16,7 @@ import SettingSwitchItem from '../components/SettingSwitchItem';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import { getSettingsFromStorage, putSettingsToStorage } from '../actions/settingsAction';
+import { resetAlerts } from '../actions/message/alertAction';
 
 class Settings extends Component {
   clearCache() {
@@ -33,6 +34,8 @@ class Settings extends Component {
 
   handleNotificationValueChange(value) {
     this.props.putSettingsToStorage({ enableNotification: value });
+    // clear message alters
+    this.props.resetAlerts();
   }
 
   render() {
@@ -70,5 +73,6 @@ function mapStateToProps({ settings }) {
 
 export default connect(mapStateToProps, {
   getSettingsFromStorage,
-  putSettingsToStorage
+  putSettingsToStorage,
+  resetAlerts
 })(Settings);
