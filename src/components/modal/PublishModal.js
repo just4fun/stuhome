@@ -16,7 +16,7 @@ import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
 import Header from '../Header';
-import TopicTypeModal from './TopicTypeModal';
+import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
 import api from '../../services/api';
@@ -29,7 +29,7 @@ export default class PublishModal extends Component {
       typeId: null,
       title: '',
       content: '',
-      isTopicTypeModalOpen: false,
+      isPickerOpen: false,
       images: [],
       isUploading: false
     };
@@ -106,9 +106,9 @@ export default class PublishModal extends Component {
     });
   }
 
-  toggleTopicTypeModal(visible) {
+  togglePicker(visible) {
     this.setState({
-      isTopicTypeModalOpen: visible
+      isPickerOpen: visible
     });
   }
 
@@ -124,8 +124,17 @@ export default class PublishModal extends Component {
     });
   }
 
+  getNormalizedTopicTypesForPicker(types) {
+    return types.map(type => {
+      return {
+        id: type.typeId,
+        name: type.typeName
+      };
+    });
+  }
+
   render() {
-    let { typeId, title, content, isTopicTypeModalOpen, images } = this.state;
+    let { typeId, title, content, isPickerOpen, images } = this.state;
     let { publish, types } = this.props;
 
     let isPublishing = this.state.isUploading || publish.isPublishing;
@@ -137,13 +146,13 @@ export default class PublishModal extends Component {
         style={modalStyles.container}
         visible={this.props.visible}>
         <View style={mainStyles.container}>
-          {isTopicTypeModalOpen &&
-            <TopicTypeModal
-              types={types}
-              selectedTypeId={typeId}
-              visible={isTopicTypeModalOpen}
-              closeTopicTypeModal={() => this.toggleTopicTypeModal(false)}
-              setTopicType={typeId => this.setState({ typeId })} />
+          {isPickerOpen &&
+            <Picker
+              list={this.getNormalizedTopicTypesForPicker(types)}
+              selectedId={typeId}
+              visible={isPickerOpen}
+              closePicker={() => this.togglePicker(false)}
+              setSelection={typeId => this.setState({ typeId })} />
           }
           <Header title={this.title}>
             <Text
@@ -178,7 +187,7 @@ export default class PublishModal extends Component {
                 underlayColor={colors.underlay}
                 onPress={() => {
                   if (!isPublishing) {
-                    this.toggleTopicTypeModal(true);
+                    this.togglePicker(true);
                   }
                 }}>
                 <View style={styles.formItem}>
