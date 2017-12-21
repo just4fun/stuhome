@@ -117,6 +117,14 @@ class Individual extends Component {
           <Header
             style={styles.nav}>
             <PopButton router={router} />
+            {!this.isLoginUser &&
+              <Icon
+                name='envelope'
+                size={18}
+                onPress={() => router.toPmList({ userId: this.userId })} />
+              ||
+              <Text></Text>
+            }
           </Header>
         }
         <View style={styles.header}>
