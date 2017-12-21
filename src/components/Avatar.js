@@ -15,7 +15,8 @@ export default class Avatar extends Component {
       onPress,
       router,
       userId,
-      userName
+      userName,
+      currentUserId
     } = this.props;
 
     return (
@@ -28,7 +29,8 @@ export default class Avatar extends Component {
           }
           router.toIndividual({
             userId,
-            userName
+            userName,
+            currentUserId
           });
         }}>
         <View>

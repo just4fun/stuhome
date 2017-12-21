@@ -15,7 +15,7 @@ import colors from '../styles/common/_colors';
 
 export default class TopicItem extends Component {
   render() {
-    let { topic, router, accessTopicListFromForumItem } = this.props;
+    let { topic, router, accessTopicListFromForumItem, currentUserId } = this.props;
     let {
       title,
       subject,
@@ -50,6 +50,7 @@ export default class TopicItem extends Component {
                   url={userAvatar}
                   userId={user_id}
                   userName={user_nick_name}
+                  currentUserId={currentUserId}
                   router={router} />
               </View>
               <View style={styles.right}>

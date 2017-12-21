@@ -33,7 +33,10 @@ export default class Router {
 
     if (route.id !== currentRoute.id
         // We could navigate to another topic via a url within a topic.
-        || (route.id === 'topicDetail' && (route.passProps.currentTopicId !== +route.passProps.topic_id))) {
+        || (route.id === 'topicDetail' && (route.passProps.currentTopicId !== +route.passProps.topic_id))
+        // We could navigate to another user's personal page even we are in someone's personal page.
+        || (route.id === 'individual' && (route.passProps.currentUserId !== +route.passProps.userId))
+        ) {
       if (isReplace) {
         _navigator.replace(route);
         return;

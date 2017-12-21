@@ -143,6 +143,7 @@ class Individual extends Component {
             return (
               <TopicList
                 key={index}
+                currentUserId={this.userId}
                 tabLabel={tab.label}
                 router={router}
                 type={tab.type}
