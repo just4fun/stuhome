@@ -111,7 +111,7 @@ export default class Content extends Component {
   // adjust layout.
   render() {
     let newContent = this.getContentByGroup();
-    let { router } = this.props;
+    let { currentTopicId, router } = this.props;
 
     return (
       <View style={styles.container}>
@@ -151,6 +151,7 @@ export default class Content extends Component {
                             <Text key={index}
                                   style={styles.url}
                                   onPress={() => router.toTopic({
+                                    currentTopicId,
                                     topic_id: this.getTopicId(item.url)
                                   })}>
                               {item.infor}

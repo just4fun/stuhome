@@ -47,6 +47,7 @@ export default class Comment extends Component {
   }
 
   render() {
+    let { comment, currentTopicId } = this.props;
     let {
       reply_name,
       userTitle,
@@ -58,7 +59,7 @@ export default class Comment extends Component {
       is_quote,
       quote_content,
       mobileSign
-    } = this.props.comment;
+    } = comment;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 
@@ -100,6 +101,7 @@ export default class Comment extends Component {
               </View>
             }
             <Content content={reply_content}
+                     currentTopicId={currentTopicId}
                      router={this.props.router} />
           </View>
         </View>

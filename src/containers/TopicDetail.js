@@ -185,6 +185,7 @@ class TopicDetail extends Component {
           </View>
           <View>
             <Content content={topic.content}
+                     currentTopicId={this.topicId}
                      router={this.props.router} />
             {topic.poll_info &&
               <VoteList
@@ -316,6 +317,7 @@ class TopicDetail extends Component {
               key={comment.reply_posts_id}
               comment={comment}
               currentUserId={uid}
+              currentTopicId={this.topicId}
               router={this.props.router}
               openReplyModal={() => this.toggleReplyModal(true, comment)} />
           }

@@ -30,9 +30,10 @@ export default class Router {
     }
 
     let currentRoute = this.getCurrentRoute();
-    // if the route ids are same, check whether the route id is `topicDetail`,
-    // than means we could navigate to another topic via a url within a topic.
-    if (route.id !== currentRoute.id || route.id === 'topicDetail') {
+
+    if (route.id !== currentRoute.id
+        // We could navigate to another topic via a url within a topic.
+        || (route.id === 'topicDetail' && (route.passProps.currentTopicId !== +route.passProps.topic_id))) {
       if (isReplace) {
         _navigator.replace(route);
         return;
