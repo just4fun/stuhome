@@ -46,11 +46,13 @@ class Settings extends Component {
         <Header title='设置'>
           <PopButton router={router} />
         </Header>
-        <View style={styles.group}>
-          <SettingItem
-            text='清理缓存'
-            onPress={() => this.clearCache()}/>
-        </View>
+        {
+          // <View style={styles.group}>
+          //   <SettingItem
+          //     text='清理缓存'
+          //     onPress={() => this.clearCache()}/>
+          // </View>
+        }
         <View style={styles.group}>
           <SettingSwitchItem
             text='消息提醒'
