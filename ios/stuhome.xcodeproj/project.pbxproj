@@ -622,6 +622,7 @@
 				03D724FBBB1B41B69BEDF3BE /* libRNVectorIcons.a */,
 				26517FD5E41B49B48E79DBAD /* libimageCropPicker.a */,
 				F58D71D742A14A9B8D82258B /* libRNSearchBar.a */,
+				EDF644522BE847949E632896 /* libRNFetchBlob.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
