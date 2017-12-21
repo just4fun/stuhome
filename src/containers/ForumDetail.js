@@ -145,7 +145,6 @@ class ForumDetail extends Component {
             closePublishModal={() => this.togglePublishModal(false)}
             handlePublish={topic => this._publish(topic)} />
         }
-
         <Header
           title={this.boardName}>
           <PopButton router={router} />

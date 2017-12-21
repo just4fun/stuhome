@@ -13,7 +13,7 @@ export default class SubForumList extends Component {
             <SubForumItem
               key={subForum.board_id}
               subForum={subForum}
-              router={this.props.router} />
+              {...this.props} />
           );
         })}
       </View>
