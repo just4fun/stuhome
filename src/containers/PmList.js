@@ -10,6 +10,8 @@ import {
   ListView
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
+import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';
+import GiftedChatLoadEarlierButton from '../components/3rd_party/GiftedChatLoadEarlierButton';
 import Header from '../components/Header';
 import { PopButton } from '../components/button';
 import {
@@ -175,6 +177,8 @@ class PmList extends Component {
           style={mainStyles.container}
           locale={'zh-cn'}
           placeholder='请输入私信内容'
+          sendButtonLabel='发送'
+          loadEarlierLabel='点击加载较早的消息'
           isLoadingEarlier={isRefreshing && page > 1}
           loadEarlier={hasPrev}
           renderAvatarOnTop={true}
@@ -183,6 +187,8 @@ class PmList extends Component {
             messages,
             toUserId: user.id
           })}
+          renderSend={props => <GiftedChatSendButton {...props} />}
+          renderLoadEarlier={props => <GiftedChatLoadEarlierButton {...props} />}
           renderTicks={message => {
             if (!message.isNew) { return; }
 

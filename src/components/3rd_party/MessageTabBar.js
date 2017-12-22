@@ -1,4 +1,4 @@
-// this component is <DefaultTabBar /> from react-native-scrollable-tab-view 0.6.0,
+// This component is <DefaultTabBar /> from react-native-scrollable-tab-view 0.6.0,
 // just add an alert count for tabLabel for my <Message /> component.
 
 const React = require('react');
