@@ -62,6 +62,7 @@ export default class NotifyList extends Component {
     return (
       <ListView
         dataSource={source}
+        removeClippedSubviews={false}
         enableEmptySections={true}
         renderRow={notification => {
           return (

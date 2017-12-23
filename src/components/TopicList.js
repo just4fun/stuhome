@@ -91,6 +91,7 @@ export default class TopicList extends Component {
       <ListView
         ref={component => this.topicList = component}
         dataSource={source}
+        removeClippedSubviews={false}
         enableEmptySections={true}
         renderRow={topic => {
           // https://github.com/just4fun/stuhome/issues/15
