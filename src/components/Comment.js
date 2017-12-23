@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableHighlight,
   ActionSheetIOS
 } from 'react-native';
 import Content from './Content';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Avatar from './Avatar';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
@@ -47,6 +47,7 @@ export default class Comment extends Component {
   }
 
   render() {
+    let { comment, currentTopicId } = this.props;
     let {
       reply_name,
       userTitle,
@@ -58,7 +59,7 @@ export default class Comment extends Component {
       is_quote,
       quote_content,
       mobileSign
-    } = this.props.comment;
+    } = comment;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 
@@ -68,9 +69,12 @@ export default class Comment extends Component {
         onPress={() => this._showOptions(reply_id)}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: icon }} />
+            <Avatar
+              style={styles.avatar}
+              url={icon}
+              userId={reply_id}
+              userName={reply_name}
+              router={this.props.router} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{reply_name}</Text>
@@ -97,6 +101,7 @@ export default class Comment extends Component {
               </View>
             }
             <Content content={reply_content}
+                     currentTopicId={currentTopicId}
                      router={this.props.router} />
           </View>
         </View>

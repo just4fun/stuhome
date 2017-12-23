@@ -65,7 +65,7 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let { topicList, isSearch, accessTopicListFromForumItem } = this.props;
+    let { topicList, isSearch, accessTopicListFromForumItem, currentUserId } = this.props;
     let realTopicList = [];
     let isRefreshing = false;
     let refreshControl = null;
@@ -91,6 +91,7 @@ export default class TopicList extends Component {
       <ListView
         ref={component => this.topicList = component}
         dataSource={source}
+        removeClippedSubviews={false}
         enableEmptySections={true}
         renderRow={topic => {
           // https://github.com/just4fun/stuhome/issues/15
@@ -99,6 +100,7 @@ export default class TopicList extends Component {
           return (
             <TopicItem
               key={this.getTopicId(topic)}
+              currentUserId={currentUserId}
               accessTopicListFromForumItem={accessTopicListFromForumItem}
               topic={topic}
               router={this.props.router} />

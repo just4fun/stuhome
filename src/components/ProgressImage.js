@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import {
-  Image
+  View,
+  Image,
+  TouchableHighlight,
+  Linking
 } from 'react-native';
+import { CustomCachedImage } from "react-native-img-cache";
 import ImageWithProgress from 'react-native-image-progress';
 import Pie from 'react-native-progress/Pie';
 import colors from '../styles/common/_colors';
+import styles from '../styles/components/_ProgressImage';
 
 export default class ProgressImage extends Component {
   constructor(props) {
@@ -22,13 +27,19 @@ export default class ProgressImage extends Component {
     // since the sequence between the callback of `Image.getSize` and
     // `_handleLayout` is not guaranteed, the lack of any of them may
     // lead `height: 0`.
-    this._getImageSize();
+
+    // Update: even we have already used `react-native-img-cache`, user will
+    // still can not see the cache image since `Image.getSize` still needs
+    // time to get completed. To be tradeoff, we will give images a static
+    // height instead of responsive height and width.
+
+    // this._getImageSize();
   }
 
   _getImageSize() {
-    let { uri } = this.props;
+    let { thumbUri } = this.props;
 
-    Image.getSize(uri, (originalWidth, originalHeight) => {
+    Image.getSize(thumbUri, (originalWidth, originalHeight) => {
       // `layoutWidth` may not be calculated in this time
       let height = originalHeight * (this.state.layoutWidth / originalWidth);
 
@@ -52,21 +63,26 @@ export default class ProgressImage extends Component {
   }
 
   render() {
-    let { style, uri } = this.props;
+    let { style, thumbUri, originalUri } = this.props;
 
     return (
-      <ImageWithProgress
-        source={{ uri }}
-        indicator={Pie}
-        indicatorProps={{
-          color: colors.imageProgress,
-          borderColor: colors.imageProgress,
-          unfilledColor: colors.white,
-        }}
-        onLayout={event => this._handleLayout(event)}
-        style={[{
-          height: this.state.height,
-        }, style]} />
+      <TouchableHighlight
+        underlayColor={colors.underlay}
+        onPress={() => Linking.openURL(originalUri)}>
+        <View style={style}>
+          <CustomCachedImage
+            component={ImageWithProgress}
+            source={{ uri: thumbUri }}
+            indicator={Pie}
+            indicatorProps={{
+              color: colors.imageProgress,
+              borderColor: colors.imageProgress,
+              unfilledColor: colors.white,
+            }}
+            // onLayout={event => this._handleLayout(event)}
+            style={[styles.image, { resizeMode: 'contain' }]} />
+        </View>
+      </TouchableHighlight>
     );
   }
 }

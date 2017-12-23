@@ -21,7 +21,7 @@ export default class ForumItems extends Component {
   }
 
   render() {
-    let { forumList, isTopForumList } = this.props;
+    let { forumList } = this.props;
     let realForumList = [];
     let isRefreshing = false;
 
@@ -35,14 +35,14 @@ export default class ForumItems extends Component {
     return (
       <ListView
         dataSource={source}
+        removeClippedSubviews={false}
         enableEmptySections={true}
         renderRow={forum => {
           return (
             <ForumItem
               key={forum.board_category_id}
-              isTopForumList={isTopForumList}
               forum={forum}
-              router={this.props.router} />
+              {...this.props} />
           );
         }}
         refreshControl={

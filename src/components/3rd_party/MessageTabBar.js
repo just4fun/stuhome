@@ -1,4 +1,4 @@
-// this component is <DefaultTabBar /> from react-native-scrollable-tab-view 0.6.0,
+// This component is <DefaultTabBar /> from react-native-scrollable-tab-view 0.6.0,
 // just add an alert count for tabLabel for my <Message /> component.
 
 const React = require('react');
@@ -10,8 +10,7 @@ const {
   Animated,
   TouchableOpacity
 } = ReactNative;
-import AlertCount from './AlertCount';
-import styles from '../styles/components/_MessageTabBar';
+import AlertCount from '../AlertCount';
 const Button = (props) => {
   return <TouchableOpacity {...props}>
     {props.children}
@@ -93,6 +92,29 @@ const MessageTabBar = React.createClass({
         <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, ]} />
       </View>
     );
+  },
+});
+
+const styles = StyleSheet.create({
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 10,
+    flexDirection: 'row',
+  },
+  tabs: {
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderColor: '#ccc',
+  },
+  alert: {
+    marginLeft: -5,
   },
 });
 

@@ -12,7 +12,7 @@ import FORUMS from '../constants/forums';
 
 export default class SubForumItem extends Component {
   render() {
-    let { router, subForum } = this.props;
+    let { router, subForum, isForumListModal } = this.props;
     let {
       board_id,
       board_name,
@@ -30,7 +30,13 @@ export default class SubForumItem extends Component {
       <TouchableHighlight
         key={board_id}
         underlayColor={colors.underlay}
-        onPress={() => router.toForum(subForum)}>
+        onPress={() => {
+          if (isForumListModal) {
+            this.props.handleSelectForum(subForum);
+          } else {
+            router.toForum(subForum);
+          }
+        }}>
         <View style={styles.subForum}>
           <View style={styles.left}>
             <Image

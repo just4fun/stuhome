@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, findNodeHandle } from 'react-native';
+import {
+  View,
+  Image,
+  AsyncStorage,
+  ActionSheetIOS
+} from 'react-native';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
 import MenuItem from '../components/MenuItem';
+import MenuBottomItem from '../components/MenuBottomItem';
 import {
   userLogin,
   resetAuthrization,
@@ -30,8 +36,36 @@ class Menu extends Component {
     });
   }
 
+  showLogoutDialog() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        '确认退出',
+        '取消'
+      ],
+      destructiveButtonIndex: 0,
+      cancelButtonIndex: 1
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          this.handleLogout();
+          break;
+      }
+    });
+  }
+
+  handleLogout() {
+    AsyncStorage.removeItem('authrization')
+                .then(() => {
+                  // remove all cache first
+                  this.props.cleanCache({ isLogin: false });
+                  // force replace Home route
+                  this.props.selectMenuItem(menus['home'], true);
+                });
+  }
+
   render() {
-    let { user, alertCount } = this.props;
+    let { user, alertCount, router } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (
@@ -47,9 +81,9 @@ class Menu extends Component {
             {...this.props} />
         }
         <MenuProfile
+          menu={menus['information']}
           authrization={user.authrization}
           openLoginModal={() => this.toggleLoginModal(true)}
-          menus={menus}
           {...this.props} />
         <View style={styles.menus}>
           <MenuItem
@@ -77,6 +111,20 @@ class Menu extends Component {
             menu={menus['about']}
             {...this.props} />
         </View>
+        {user.authrization.token &&
+          <View style={styles.menuFooter}>
+            <MenuBottomItem
+              menu={menus['settings']}
+              style={styles.menuBottomItemWrapper}
+              rowStyle={styles.menuBottomSettings}
+              {...this.props} />
+            <MenuBottomItem
+              menu={menus['logout']}
+              style={styles.menuBottomItemWrapper}
+              rowStyle={styles.menuBottomLogout}
+              onPress={() => this.showLogoutDialog()} />
+          </View>
+        }
       </View>
     );
   }

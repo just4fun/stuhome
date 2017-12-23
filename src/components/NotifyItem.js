@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableHighlight
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import Avatar from './Avatar';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_NotifyItem';
@@ -17,10 +17,10 @@ export default class NotifyItem extends Component {
       topic_id,
       board_id,
       board_name,
-      topic_subject,
       topic_content,
       reply_content,
       icon,
+      user_id,
       reply_nick_name,
       reply_remind_id,
       replied_date
@@ -39,9 +39,12 @@ export default class NotifyItem extends Component {
         })}>
         <View style={styles.item}>
           <View style={styles.authorInfo}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: icon }} />
+            <Avatar
+              style={styles.avatar}
+              url={icon}
+              userId={user_id}
+              userName={reply_nick_name}
+              router={this.props.router} />
             <View style={styles.author}>
               <Text style={styles.name}>{reply_nick_name}</Text>
               <Text style={styles.date}>{replied_date}</Text>

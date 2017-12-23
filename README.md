@@ -36,6 +36,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
   - [x] Reply comment
   - [x] Favor topic
   - [x] Upload images
+  - [ ] Meme
   - [ ] Report objectionable content
 - [ ] Vote
   - [ ] Create vote
@@ -51,7 +52,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
   - [x] View my recent topics
   - [x] View my favorite topics
   - [ ] Update password
-  - [ ] Upload avatar
+  - [x] Upload avatar
 
 ## Try it out
 
@@ -79,9 +80,7 @@ npm run eslint
 - ~~Update UI per new design~~
 - ~~Submit to [App Store](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)~~
 - ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/stuhome/pull/7))
-- Fixture data (aka `mock data`)
 - ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/stuhome/pull/8))
-- Push notification
 
 ## Known issues
 

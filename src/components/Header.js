@@ -9,41 +9,48 @@ import { MenuButton } from './button';
 
 export default class Header extends Component {
   render() {
-    let leftTopButton = null;
-    let rightTopButton = null;
-    let alertCount = this.props.alertCount;
-    const buttons = this.props.children;
-    const count = React.Children.count(buttons);
+    let {
+      alertCount,
+      children,
+      style,
+      title,
+      isPublishFromHomePage
+    } = this.props;
 
-    switch (count) {
-      case 0:
-        leftTopButton = <MenuButton style={styles.left}
+    let leftTopButton = <MenuButton style={styles.left}
                                     alertCount={alertCount}
                                     updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />;
-        break;
+    let rightTopButton = null;
+    let count = React.Children.count(children);
+
+    switch (count) {
       case 1:
-        leftTopButton = React.cloneElement(buttons, { style: [styles.left, buttons.props.style] });
+        if (isPublishFromHomePage) {
+          rightTopButton = React.cloneElement(children, { style: [styles.right, children.props.style] });
+        } else {
+          leftTopButton = React.cloneElement(children, { style: [styles.left, children.props.style] });
+        }
         break;
       case 2:
-        leftTopButton = React.cloneElement(buttons[0], { style: [styles.left, buttons[0].props.style] });
+        leftTopButton = React.cloneElement(children[0], { style: [styles.left, children[0].props.style] });
 
-        const isActivityIndicator = buttons[1].type.displayName === 'ActivityIndicator';
-        rightTopButton = React.cloneElement(buttons[1], {
+        const isActivityIndicator = children[1].type.displayName === 'ActivityIndicator';
+        rightTopButton = React.cloneElement(children[1], {
           style: [
             isActivityIndicator ? styles.rightIndicator : styles.right,
-            buttons[1].props.style
+            children[1].props.style
           ]
         });
         break;
     }
 
     return (
-      <View style={[styles.container, this.props.style]}>
+      <View style={[styles.container, style]}>
         {leftTopButton}
         <Text
           style={styles.title}
           numberOfLines={1}>
-          {this.props.title}
+          {title}
         </Text>
         {rightTopButton || <Text style={styles.right}></Text>}
       </View>

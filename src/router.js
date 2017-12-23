@@ -9,6 +9,8 @@ import Message from './containers/Message';
 import Individual from './containers/Individual';
 import About from './containers/About';
 import PmList from './containers/PmList';
+import Settings from './containers/Settings';
+import Information from './containers/Information';
 
 let _navigator = null;
 
@@ -18,17 +20,27 @@ export default class Router {
   }
 
   _navigateTo(route, isReplace, isForceReplace) {
-    // this case is that if we are in Home page and
+    // This case is that if we are in Home page and
     // we want to login or logout, we need to replace
     // Home page as well since we want to fetch topic
     // list again with or without authrization.
+    //
+    // The second case is that we publish topic from
+    // home page, then we want to fetch topic list again
+    // to see the new topic.
     if (isForceReplace) {
       _navigator.replace(route);
       return;
     }
 
     let currentRoute = this.getCurrentRoute();
-    if (route.id !== currentRoute.id) {
+
+    if (route.id !== currentRoute.id
+        // We could navigate to another topic via a url within a topic.
+        || (route.id === 'topicDetail' && (route.passProps.currentTopicId !== +route.passProps.topic_id))
+        // We could navigate to another user's personal page even we are in someone's personal page.
+        || (route.id === 'individual' && (route.passProps.currentUserId !== +route.passProps.userId))
+        ) {
       if (isReplace) {
         _navigator.replace(route);
         return;
@@ -114,12 +126,13 @@ export default class Router {
     }, true);
   }
 
-  toIndividual() {
+  toIndividual(user) {
     this._navigateTo({
       id: 'individual',
       title: '个人',
-      component: Individual
-    }, true);
+      component: Individual,
+      passProps: user
+    }, !user);
   }
 
   toAbout() {
@@ -136,6 +149,22 @@ export default class Router {
       title: '私信',
       component: PmList,
       passProps: userId
+    });
+  }
+
+  toSettings() {
+    this._navigateTo({
+      id: 'settings',
+      title: '设置',
+      component: Settings
+    });
+  }
+
+  toInformation() {
+    this._navigateTo({
+      id: 'information',
+      title: '资料',
+      component: Information
     });
   }
 }

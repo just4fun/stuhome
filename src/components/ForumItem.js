@@ -22,8 +22,8 @@ export default class ForumItem extends Component {
           </View>
         }
         <SubForumList
-          forumList={board_list}
-          router={this.props.router} />
+          {...this.props}
+          forumList={board_list} />
       </View>
     );
   }

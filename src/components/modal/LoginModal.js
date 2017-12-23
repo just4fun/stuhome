@@ -80,7 +80,6 @@ export default class Login extends Component {
   }
 
   render() {
-    let logo = require('../../images/logo_transparent.png');
     let { isFetching } = this.props.user;
     let { userName, password, isRegisterModalOpen } = this.state;
     let isDisabled = !userName || !password || isFetching;
@@ -110,7 +109,7 @@ export default class Login extends Component {
             <View style={styles.top}>
               <Image
                 style={styles.avatar}
-                source={logo} />
+                source={require('../../images/logo_transparent.png')} />
             </View>
             <View style={styles.form}>
               <TextInput

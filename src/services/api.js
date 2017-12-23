@@ -178,6 +178,15 @@ export default {
     let fetchOptions = getPublishFetchOptions(body);
 
     return callApi(`forum/topicadmin&apphash=${getAppHashValue()}&platType=${PLAT_TYPE}`, fetchOptions);
+
+    // If we want to test publish topic functionality without posting any
+    // data, commment out callApi and use the code below.
+    //
+    // return Promise.resolve({
+    //   data: {
+    //     rs: 1
+    //   }
+    // });
   },
 
   uploadImages: (images) => {
@@ -185,19 +194,29 @@ export default {
 
     let promises = images.map((image, index) => {
       let formData = new FormData();
-      let pathParts = image.path.split('/');
-
       formData.append('uploadFile[]', {
         type: 'image/jpg',
         name: `upload_${index}.jpg`,
         uri: image.path
       });
-
       let fetchOptions = getUploadFetchOptions(formData);
       return callApi(`forum/sendattachmentex&type=image&module=forum`, fetchOptions);
     });
 
     return Promise.all(promises);
+  },
+
+  uploadAvatar: (image) => {
+    if (!image) { return Promise.resolve(null); }
+
+    let formData = new FormData();
+    formData.append('userAvatar', {
+      type: 'image/jpg',
+      name: `upload_avatar.jpg`,
+      uri: image.path
+    });
+    let fetchOptions = getUploadFetchOptions(formData);
+    return callApi(`user/uploadavatarex`, fetchOptions);
   },
 
   favorTopic: ({

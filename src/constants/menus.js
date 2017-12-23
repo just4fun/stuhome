@@ -1,4 +1,10 @@
 export default {
+  information: {
+    id: 'information',
+    title: '资料',
+    actionName: 'toInformation'
+  },
+
   home: {
     id: 'home',
     title: '首页',
@@ -23,16 +29,16 @@ export default {
   message: {
     id: 'message',
     title: '消息提醒',
-    icon: 'at',
-    iconSize: '22',
+    icon: 'envelope',
+    iconSize: '18',
     actionName: 'toMessage'
   },
 
   individual: {
     id: 'individual',
-    title: '个人信息',
-    icon: 'user',
-    iconSize: '24',
+    title: '我的帖子',
+    icon: 'file-text',
+    iconSize: '21',
     actionName: 'toIndividual'
   },
 
@@ -42,5 +48,17 @@ export default {
     icon: 'copyright',
     iconSize: '21',
     actionName: 'toAbout'
+  },
+
+  settings: {
+    id: 'settings',
+    title: '设置',
+    icon: 'gear',
+    actionName: 'toSettings'
+  },
+
+  logout: {
+    title: '退出',
+    icon: 'sign-out',
   },
 };

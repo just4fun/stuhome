@@ -3,44 +3,14 @@ import {
   View,
   Text,
   Image,
-  AsyncStorage,
-  ActionSheetIOS,
   TouchableHighlight,
 } from 'react-native';
 import styles from '../styles/components/_MenuProfile';
 import colors from '../styles/common/_colors';
 
 export default class MenuProfile extends Component {
-  _showLogout() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: [
-        '注销',
-        '取消'
-      ],
-      destructiveButtonIndex: 0,
-      cancelButtonIndex: 1
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          this._handleLogout();
-          break;
-      }
-    });
-  }
-
-  _handleLogout() {
-    AsyncStorage.removeItem('authrization')
-                .then(() => {
-                  // remove all cache first
-                  this.props.cleanCache({ isLogin: false });
-                  // force replace Home route
-                  this.props.selectMenuItem(this.props.menus['home'], true);
-                });
-  }
-
   render() {
-    let { authrization, openLoginModal } = this.props;
+    let { authrization, openLoginModal, menu } = this.props;
     let {
       token,
       avatar,
@@ -56,11 +26,12 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => this._showLogout()}>
+              onPress={() => this.props.selectMenuItem(menu)}>
               <Image
-               key={avatar}
-               style={styles.avatar}
-               source={{ uri: avatar }} />
+                // use timestamp here to aviod avatar cache
+                key={`${avatar}&timestamp=${+ new Date()}`}
+                style={styles.avatar}
+                source={{ uri: avatar }} />
              </TouchableHighlight>
             ||
             <TouchableHighlight
@@ -68,9 +39,9 @@ export default class MenuProfile extends Component {
               underlayColor={colors.underlay}
               onPress={() => openLoginModal()}>
               <Image
-               key='noavatar'
-               style={styles.avatar}
-               source={require('../images/noavatar.jpg')} />
+                key='noavatar'
+                style={styles.avatar}
+                source={require('../images/noavatar.jpg')} />
              </TouchableHighlight>
           }
           <Text style={styles.name}>{token ? userName : '请先登录'}</Text>

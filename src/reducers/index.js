@@ -14,6 +14,7 @@ import userTopicList from './user/topicList';
 import pmList from './message/pmList';
 import send from './message/send';
 import alert from './message/alert';
+import settings from './settings';
 
 export default combineReducers({
   forumList,
@@ -32,5 +33,7 @@ export default combineReducers({
   vote,
   topicFavor,
 
-  userTopicList
+  userTopicList,
+
+  settings
 });

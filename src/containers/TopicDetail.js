@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  Image,
   AlertIOS,
   ScrollView,
   ActivityIndicator,
   ListView
 } from 'react-native';
 import _ from 'lodash';
+import Avatar from '../components/Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
@@ -41,11 +41,22 @@ import {
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
+function getTopicId(topic) {
+  if (!topic) { return null; }
+
+  // for `hot(今日热门)` tab in Home page, each topic has
+  // not `topic_id` field, but they have `source_id` and
+  // `source_type` instead.
+  if (topic.source_id) { return topic.source_id; }
+
+  return topic.topic_id;
+}
+
 class TopicDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.topicId = this.getTopicId(props.passProps);
+    this.topicId = getTopicId(props.passProps);
     this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
 
@@ -55,21 +66,12 @@ class TopicDetail extends Component {
     };
   }
 
-  getTopicId(topic) {
-    // for `hot(今日热门)` tab in Home page, each topic has
-    // not `topic_id` field, but they have `source_id` and
-    // `source_type` instead.
-    if (topic.source_id) { return topic.source_id; }
-
-    return topic.topic_id;
-  }
-
   componentDidMount() {
     this.fetchTopic();
   }
 
   componentWillUnmount() {
-    this.props.resetTopic();
+    this.props.resetTopic({ topicId: this.topicId });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,7 +79,6 @@ class TopicDetail extends Component {
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
-      nextProps.resetTopic();
       nextProps.router.pop();
       return;
     }
@@ -147,9 +148,12 @@ class TopicDetail extends Component {
         </View>
         <View style={styles.postContent}>
           <View style={styles.authorInfo}>
-            <Image
-             style={styles.avatar}
-             source={{ uri: topic.icon }} />
+            <Avatar
+              style={styles.avatar}
+              url={topic.icon}
+              userId={topic.user_id}
+              userName={topic.user_nick_name}
+              router={this.props.router} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>
@@ -181,6 +185,7 @@ class TopicDetail extends Component {
           </View>
           <View>
             <Content content={topic.content}
+                     currentTopicId={this.topicId}
                      router={this.props.router} />
             {topic.poll_info &&
               <VoteList
@@ -220,6 +225,7 @@ class TopicDetail extends Component {
   }
 
   _publish({ content, replyId, images }) {
+    // If we reply a topic, there is no need to pass `boardId`.
     this.props.submit({
       boardId: this.boardId,
       topicId: this.topicId,
@@ -305,12 +311,14 @@ class TopicDetail extends Component {
         </Header>
         <ListView
           dataSource={commentSource}
+          removeClippedSubviews={false}
           enableEmptySections={true}
           renderRow={comment =>
             <Comment
               key={comment.reply_posts_id}
               comment={comment}
               currentUserId={uid}
+              currentTopicId={this.topicId}
               router={this.props.router}
               openReplyModal={() => this.toggleReplyModal(true, comment)} />
           }
@@ -323,9 +331,11 @@ class TopicDetail extends Component {
   }
 }
 
-function mapStateToProps({ topicItem, reply, vote, user, topicFavor }) {
+function mapStateToProps(state, ownProps) {
+  let { topicItem, reply, vote, user, topicFavor } = state;
+
   return {
-    topicItem,
+    topicItem: _.get(topicItem, getTopicId(ownProps.passProps), {}),
     reply,
     vote,
     user,
