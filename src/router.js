@@ -20,10 +20,14 @@ export default class Router {
   }
 
   _navigateTo(route, isReplace, isForceReplace) {
-    // this case is that if we are in Home page and
+    // This case is that if we are in Home page and
     // we want to login or logout, we need to replace
     // Home page as well since we want to fetch topic
     // list again with or without authrization.
+    //
+    // The second case is that we publish topic from
+    // home page, then we want to fetch topic list again
+    // to see the new topic.
     if (isForceReplace) {
       _navigator.replace(route);
       return;

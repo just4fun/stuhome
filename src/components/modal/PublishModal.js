@@ -40,12 +40,15 @@ export default class PublishModal extends Component {
     const publish = nextProps.publish;
     if (publish.response) {
       if (publish.response.rs) {
-        this._cancel();
+        this.cancel();
         this.props.invalidateTopicList({
           boardId: 'all',
           sortType: 'publish'
         });
-        this.props.router.toHome();
+        // The boolean here is to tell router we need to replace
+        // with home page by force to bypass same route check if
+        // we publish topic from home page.
+        this.props.router.toHome(true);
         MessageBar.show({
           message: '发布成功',
           type: 'success'
@@ -57,7 +60,7 @@ export default class PublishModal extends Component {
     }
   }
 
-  _cancel() {
+  cancel() {
     this.props.closePublishModal();
   }
 
@@ -69,13 +72,13 @@ export default class PublishModal extends Component {
         '信息尚未发送，放弃会丢失信息。',
         [
           { text: '继续', style: 'cancel' },
-          { text: '放弃', onPress: () => this._cancel() },
+          { text: '放弃', onPress: () => this.cancel() },
         ],
       );
       return;
     }
 
-    this._cancel();
+    this.cancel();
   }
 
   _isFormValid() {

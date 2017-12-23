@@ -143,6 +143,7 @@ class Home extends Component {
         }
         {isPublishModalOpen &&
           <PublishModal
+            {...this.props}
             visible={isPublishModalOpen}
             publish={publish}
             types={_.get(topicList, [selectedForumId, 'typeList'], [])}

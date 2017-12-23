@@ -178,6 +178,15 @@ export default {
     let fetchOptions = getPublishFetchOptions(body);
 
     return callApi(`forum/topicadmin&apphash=${getAppHashValue()}&platType=${PLAT_TYPE}`, fetchOptions);
+
+    // If we want to test publish topic functionality without posting any
+    // data, commment out callApi and use the code below.
+    //
+    // return Promise.resolve({
+    //   data: {
+    //     rs: 1
+    //   }
+    // });
   },
 
   uploadImages: (images) => {
