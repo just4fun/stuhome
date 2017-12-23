@@ -4,7 +4,7 @@
   "description": "An iOS client for http://bbs.uestc.edu.cn/ written in React Native with Redux.",
   "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh",
+    "start": "node_modules/react-native/scripts/packager.sh",
     "eslint": "eslint ./src",
     "test": "mocha --require react-native-mock/mock.js tests/mocha-setup.js tests/**/*.js"
   },
