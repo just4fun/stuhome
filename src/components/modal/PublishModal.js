@@ -6,8 +6,10 @@ import {
   Modal,
   ScrollView,
   AlertIOS,
+  Keyboard,
   TouchableHighlight,
-  ActivityIndicator
+  ActivityIndicator,
+  LayoutAnimation
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,6 +21,7 @@ import Header from '../Header';
 import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
+import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
 
 export default class PublishModal extends Component {
@@ -31,9 +34,25 @@ export default class PublishModal extends Component {
       content: '',
       isPickerOpen: false,
       images: [],
-      isUploading: false
+      isUploading: false,
+      keyboardAccessoryToBottom: 0
     };
     this.title = this.props.title || '发表新主题';
+  }
+
+  componentDidMount() {
+    Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+  }
+
+ keyboardWillShow(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ keyboardAccessoryToBottom: e.endCoordinates.height });
+  }
+
+  keyboardWillHide(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ keyboardAccessoryToBottom: 0 });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -233,6 +252,10 @@ export default class PublishModal extends Component {
                 removeImage={imageIndex => this.removeImage(imageIndex)} />
             </View>
           </KeyboardAwareScrollView>
+          <KeyboardAccessory
+            style={{ bottom: this.state.keyboardAccessoryToBottom }}>
+
+          </KeyboardAccessory>
         </View>
       </Modal>
     );
