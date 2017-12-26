@@ -35,6 +35,7 @@ export default class ForumItems extends Component {
     return (
       <ListView
         dataSource={source}
+        removeClippedSubviews={false}
         enableEmptySections={true}
         renderRow={forum => {
           return (

@@ -311,6 +311,7 @@ class TopicDetail extends Component {
         </Header>
         <ListView
           dataSource={commentSource}
+          removeClippedSubviews={false}
           enableEmptySections={true}
           renderRow={comment =>
             <Comment

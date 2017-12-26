@@ -29,16 +29,16 @@ export default {
   message: {
     id: 'message',
     title: '消息提醒',
-    icon: 'at',
-    iconSize: '22',
+    icon: 'envelope',
+    iconSize: '18',
     actionName: 'toMessage'
   },
 
   individual: {
     id: 'individual',
-    title: '个人信息',
-    icon: 'user',
-    iconSize: '24',
+    title: '我的帖子',
+    icon: 'file-text',
+    iconSize: '21',
     actionName: 'toIndividual'
   },
 

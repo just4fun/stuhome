@@ -67,6 +67,7 @@ export default class PrivateList extends Component {
     return (
       <ListView
         dataSource={source}
+        removeClippedSubviews={false}
         enableEmptySections={true}
         renderRow={session => {
           return (
