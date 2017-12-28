@@ -35,19 +35,28 @@ export default class PublishModal extends Component {
       isPickerOpen: false,
       images: [],
       isUploading: false,
+      selectedPanel: 'keyboard',
       keyboardAccessoryToBottom: 0
     };
     this.title = this.props.title || '发表新主题';
   }
 
   componentDidMount() {
-    Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
-    Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
   }
 
- keyboardWillShow(e) {
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow(e) {
     LayoutAnimation.easeInEaseOut();
-    this.setState({ keyboardAccessoryToBottom: e.endCoordinates.height });
+    this.setState({
+      selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: e.endCoordinates.height
+    });
   }
 
   keyboardWillHide(e) {
@@ -100,7 +109,7 @@ export default class PublishModal extends Component {
     this.cancel();
   }
 
-  _isFormValid() {
+  isFormValid() {
     let { typeId, title, content } = this.state;
     let { types } = this.props;
 
@@ -112,7 +121,7 @@ export default class PublishModal extends Component {
         && content.length;
   }
 
-  _handlePublish(topic) {
+  handlePublish(topic) {
     this.titleInput.blur();
     this.contentInput.blur();
 
@@ -126,6 +135,20 @@ export default class PublishModal extends Component {
 
       this.props.handlePublish(topic);
     });
+  }
+
+  handleSelect(item) {
+    if (item !== 'keyboard') {
+      // hide keyboard
+      this.titleInput.blur();
+      this.contentInput.blur();
+    } else {
+      // show keyboard
+      // todo: check which fields got focus before
+      this.titleInput.focus();
+    }
+
+    this.setState({ selectedPanel: item });
   }
 
   togglePicker(visible) {
@@ -182,13 +205,13 @@ export default class PublishModal extends Component {
               onPress={() => this.handleCancel()}>
               取消
             </Text>
-            {this._isFormValid() &&
+            {this.isFormValid() &&
               (isPublishing &&
                 <ActivityIndicator color='white' />
                 ||
                 <Text
                   style={modalStyles.button}
-                  onPress={() => this._handlePublish({
+                  onPress={() => this.handlePublish({
                     typeId,
                     title,
                     content
@@ -253,9 +276,9 @@ export default class PublishModal extends Component {
             </View>
           </KeyboardAwareScrollView>
           <KeyboardAccessory
-            style={{ bottom: this.state.keyboardAccessoryToBottom }}>
-
-          </KeyboardAccessory>
+            style={{ bottom: this.state.keyboardAccessoryToBottom }}
+            selectedPanel={this.state.selectedPanel}
+            handleSelect={(item) => this.handleSelect(item)} />
         </View>
       </Modal>
     );

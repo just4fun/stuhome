@@ -3,11 +3,21 @@ import colors from '../common/_colors';
 
 export default StyleSheet.create({
   container: {
+    backgroundColor: '#f6f6f6',
     position: 'absolute',
-    height: 40,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#f6f6f6',
+  },
+  selection: {
+    height: 40,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+  },
+  item: {
+    color: '#979797'
+  },
+  otherPanel: {
+    backgroundColor: 'red',
   }
 });
