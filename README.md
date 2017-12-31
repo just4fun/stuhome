@@ -1,4 +1,4 @@
-![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
+[<img width="200" alt="new_logo" src="https://user-images.githubusercontent.com/7512625/34460783-aaf95076-ee53-11e7-8699-3e94b6a0c270.png">](https://user-images.githubusercontent.com/7512625/34460783-aaf95076-ee53-11e7-8699-3e94b6a0c270.png)
 
 [![React Native](https://img.shields.io/badge/react--native-v0.42.2-05A5D1.svg)](https://facebook.github.io/react-native)
 [![GitHub issues](https://img.shields.io/github/issues/just4fun/stuhome.svg)](https://github.com/just4fun/stuhome/issues)
@@ -6,7 +6,11 @@
 
 An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://facebook.github.io/react-native/) with [Redux](http://redux.js.org/). APIs are provided by [UESTC-BBS](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
-## Status
+## Old logo (from v1.0.0 to v1.3.0)
+
+![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
+
+## Status (v1.4.0)
 
 [<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 
@@ -30,6 +34,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
   - [x] View latest topics
   - [x] View hot topics
   - [x] View topic detail and comments
+  - [ ] View specific comments (only from author, descending order, etc)
   - [x] Publish topic
   - [ ] Edit published topic
   - [x] Reply topic
@@ -81,6 +86,7 @@ npm run eslint
 - ~~Submit to [App Store](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)~~
 - ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/stuhome/pull/7))
 - ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/stuhome/pull/8))
+- Replace deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation)
 
 ## Known issues
 
