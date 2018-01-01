@@ -17,7 +17,12 @@ export default StyleSheet.create({
   item: {
     color: '#979797'
   },
-  otherPanel: {
-    backgroundColor: 'red',
+  groupMeme: {
+    height: 35,
+    width: 35
+  },
+  image: {
+    height: 50,
+    width: 50
   }
 });
