@@ -6,6 +6,7 @@ import {
   AlertIOS,
   ScrollView,
   ActivityIndicator,
+  TouchableHighlight,
   ListView
 } from 'react-native';
 import _ from 'lodash';
@@ -26,6 +27,7 @@ import MessageBar from '../services/MessageBar';
 import { PopButton, ReplyButton, CommentButton } from '../components/button';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
+import colors from '../styles/common/_colors';
 import {
   fetchTopic,
   resetTopic
@@ -299,15 +301,8 @@ class TopicDetail extends Component {
             closeReplyModal={() => this.toggleReplyModal(false)}
             fetchTopic={() => this.fetchTopic()} />
         }
-
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
-          {uid &&
-            <ReplyButton style={modalStyles.button}
-                         onPress={() => this.toggleReplyModal(true)} />
-            ||
-            <Text></Text>
-          }
         </Header>
         <ListView
           dataSource={commentSource}
@@ -326,6 +321,14 @@ class TopicDetail extends Component {
           onEndReachedThreshold={0}
           renderHeader={() => this._renderHeader(topic, uid, vote)}
           renderFooter={() => this._renderFooter()} />
+        {uid &&
+          <TouchableHighlight
+            style={styles.commentArea}
+            underlayColor={colors.underlay}
+            onPress={() => this.toggleReplyModal(true)}>
+            <Text style={styles.commentAreaText}>发表评论</Text>
+          </TouchableHighlight>
+        }
       </View>
     );
   }
