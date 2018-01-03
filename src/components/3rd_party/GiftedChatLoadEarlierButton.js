@@ -1,7 +1,8 @@
-// This component is <LoadEarlier /> from react-native-gifted-chat 0.1.4,
+// This component is <LoadEarlier /> from react-native-gifted-chat 0.3.0,
 // just change the `label` property to another name to distinguish
 // from the text for <Send />.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -10,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ViewPropTypes,
 } from 'react-native';
 
 export default class LoadEarlier extends React.Component {
@@ -95,11 +97,11 @@ LoadEarlier.defaultProps = {
 };
 
 LoadEarlier.propTypes = {
-  onLoadEarlier: React.PropTypes.func,
-  isLoadingEarlier: React.PropTypes.bool,
-  loadEarlierLabel: React.PropTypes.string,
-  containerStyle: View.propTypes.style,
-  wrapperStyle: View.propTypes.style,
+  onLoadEarlier: PropTypes.func,
+  isLoadingEarlier: PropTypes.bool,
+  loadEarlierLabel: PropTypes.string,
+  containerStyle: ViewPropTypes.style,
+  wrapperStyle: ViewPropTypes.style,
   textStyle: Text.propTypes.style,
-  activityIndicatorStyle: View.propTypes.style,
+  activityIndicatorStyle: ViewPropTypes.style,
 };
