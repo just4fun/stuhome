@@ -114,5 +114,5 @@ export default StyleSheet.create({
   },
   favor: {
     textAlign: 'center',
-  }
+  },
 });

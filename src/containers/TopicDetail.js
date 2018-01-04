@@ -7,7 +7,9 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableHighlight,
-  ListView
+  ListView,
+  ActionSheetIOS,
+  Clipboard
 } from 'react-native';
 import _ from 'lodash';
 import Avatar from '../components/Avatar';
@@ -61,6 +63,11 @@ class TopicDetail extends Component {
     this.topicId = getTopicId(props.passProps);
     this.boardId = props.passProps.board_id;
     this.boardName = props.passProps.board_name;
+    // `sourceWebUrl` could only be fetched in topic list
+    this.sourceWebUrl = props.passProps.sourceWebUrl;
+
+    this.authorId = 0;
+    this.order = 0;
 
     this.state = {
       isReplyModalOpen: false,
@@ -91,14 +98,23 @@ class TopicDetail extends Component {
         type: 'success'
       });
       nextProps.resetFavorTopic();
+      this.resetFilters();
       this.fetchTopic();
     }
   }
 
-  fetchTopic() {
+  fetchTopic(fields) {
     this.props.fetchTopic({
-      topicId: this.topicId
+      topicId: this.topicId,
+      authorId: this.authorId,
+      order: this.order,
+      ...fields
     });
+  }
+
+  resetFilters() {
+    this.authorId = 0;
+    this.order = 0;
   }
 
   favorTopic(isFavorite) {
@@ -109,7 +125,7 @@ class TopicDetail extends Component {
     });
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isFetching,
@@ -119,14 +135,13 @@ class TopicDetail extends Component {
 
     if (!hasMore || isFetching || isEndReached) { return; }
 
-    this.props.fetchTopic({
-      topicId: this.topicId,
+    this.fetchTopic({
       isEndReached: true,
       page: page + 1
     });
   }
 
-  _renderHeader(topic, uid, vote) {
+  renderHeader(topic, uid, vote) {
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -193,9 +208,12 @@ class TopicDetail extends Component {
               <VoteList
                 pollInfo={topic.poll_info}
                 vote={vote}
-                publishVote={voteIds => this._publishVote(voteIds)}
-                resetVote={() => this._resetVote()}
-                fetchTopic={() => this.fetchTopic()} />
+                publishVote={voteIds => this.publishVote(voteIds)}
+                resetVote={() => this.resetVote()}
+                fetchTopic={() => {
+                  this.resetFilters();
+                  this.fetchTopic();
+                }} />
             }
           </View>
           {topic.reward &&
@@ -211,7 +229,7 @@ class TopicDetail extends Component {
     );
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
@@ -226,7 +244,7 @@ class TopicDetail extends Component {
     );
   }
 
-  _publish({ content, replyId, images }) {
+  publish({ content, replyId, images }) {
     // If we reply a topic, there is no need to pass `boardId`.
     this.props.submit({
       boardId: this.boardId,
@@ -239,14 +257,14 @@ class TopicDetail extends Component {
     });
   }
 
-  _publishVote(voteIds) {
+  publishVote(voteIds) {
     this.props.publishVote({
       topicId: this.topicId,
       voteIds
     });
   }
 
-  _resetVote() {
+  resetVote() {
     this.props.resetVote();
   }
 
@@ -254,6 +272,62 @@ class TopicDetail extends Component {
     this.setState({
       isReplyModalOpen: visible,
       currentContent: content
+    });
+  }
+
+  getCopyContent(content) {
+    if (!content || content.length === 0) { return ''; }
+
+    // only copy text and link
+    return content.map(item => {
+      if (item.type === 0 || item.type === 4) {
+        return item.infor;
+      }
+    }).join('');
+  }
+
+  showOperationDialog(topic) {
+    let options = [
+      this.order === 0 ? '倒序查看' : '顺序查看',
+      this.authorId === 0 ? '只看楼主' : '查看全部',
+      '复制内容'
+    ];
+    if (this.sourceWebUrl) {
+      options.push('复制链接');
+    }
+    options.push('取消');
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      options,
+      cancelButtonIndex: options.length - 1
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          this.order = this.order === 0 ? 1 : 0;
+          this.fetchTopic();
+          break;
+        case 1:
+          this.authorId = this.authorId === 0 ? topic.user_id : 0;
+          this.fetchTopic();
+          break;
+        case 2:
+          Clipboard.setString(this.getCopyContent(topic.content));
+          MessageBar.show({
+            message: '复制内容成功',
+            type: 'success'
+          });
+          break;
+        case 3:
+          if (this.sourceWebUrl) {
+            Clipboard.setString(this.sourceWebUrl);
+            MessageBar.show({
+              message: '复制链接成功',
+              type: 'success'
+            });
+          }
+          break;
+      }
     });
   }
 
@@ -297,12 +371,21 @@ class TopicDetail extends Component {
             content={currentContent}
             reply={reply}
             isReplyInTopic={true}
-            handlePublish={comment => this._publish(comment)}
+            handlePublish={comment => this.publish(comment)}
             closeReplyModal={() => this.toggleReplyModal(false)}
-            fetchTopic={() => this.fetchTopic()} />
+            fetchTopic={() => {
+              this.resetFilters();
+              this.fetchTopic();
+            }} />
         }
         <Header title={this.boardName}>
           <PopButton router={this.props.router} />
+          {uid &&
+            <Icon
+              size={18}
+              name='ellipsis-h'
+              onPress={() => this.showOperationDialog(topic)}/>
+          }
         </Header>
         <ListView
           dataSource={commentSource}
@@ -315,12 +398,13 @@ class TopicDetail extends Component {
               currentUserId={uid}
               currentTopicId={this.topicId}
               router={this.props.router}
-              openReplyModal={() => this.toggleReplyModal(true, comment)} />
+              openReplyModal={() => this.toggleReplyModal(true, comment)}
+              getCopyContent={() => this.getCopyContent(comment.reply_content)}/>
           }
-          onEndReached={() => this._endReached()}
+          onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this._renderHeader(topic, uid, vote)}
-          renderFooter={() => this._renderFooter()} />
+          renderHeader={() => this.renderHeader(topic, uid, vote)}
+          renderFooter={() => this.renderFooter()} />
         {uid &&
           <TouchableHighlight
             style={styles.commentArea}

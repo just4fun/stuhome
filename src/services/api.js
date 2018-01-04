@@ -3,6 +3,8 @@ import { API_ROOT, PLAT_TYPE } from '../config';
 import { getAppHashValue } from '../utils/app';
 
 const DEFAULT_SORTTYPE = 'all';
+const DEFAULT_ORDER = 0;
+const DEFAULT_AUTHORID = 0;
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGESIZE = 20;
 
@@ -146,19 +148,20 @@ export default {
 
   fetchSearchList: ({
     keyword,
-    sortType = DEFAULT_SORTTYPE,
     page = DEFAULT_PAGE,
     pageSize = DEFAULT_PAGESIZE
   }) => {
-    return callApi(`forum/search&keyword=${keyword}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
+    return callApi(`forum/search&keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
   },
 
   fetchTopic: ({
     topicId,
+    authorId = DEFAULT_AUTHORID,
+    order = DEFAULT_ORDER,
     page = DEFAULT_PAGE,
     pageSize = DEFAULT_PAGESIZE
   }) => {
-    return callApi(`forum/postlist&topicId=${topicId}&page=${page}&pageSize=${pageSize}`);
+    return callApi(`forum/postlist&topicId=${topicId}&authorId=${authorId}&order=${order}&page=${page}&pageSize=${pageSize}`);
   },
 
   publishVote: ({

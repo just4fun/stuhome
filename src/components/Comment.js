@@ -3,7 +3,8 @@ import {
   View,
   Text,
   TouchableHighlight,
-  ActionSheetIOS
+  ActionSheetIOS,
+  Clipboard
 } from 'react-native';
 import Content from './Content';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,20 +14,22 @@ import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
 import { CommentButton } from './button';
 import { parseContentWithImage } from '../utils/contentParser';
+import MessageBar from '../services/MessageBar';
 
 export default class Comment extends Component {
-  _showOptions(userId) {
-    let { currentUserId, router } = this.props;
+  showOptions(userId) {
+    let { currentUserId, comment, router } = this.props;
     if (!currentUserId) { return; }
 
     let options = [
       '回复',
-      '取消'
+      '复制',
     ];
     let isCurrentUserSelf = currentUserId === userId;
     if (!isCurrentUserSelf) {
-      options.splice(1, 0, '私信');
+      options.push('私信');
     }
+    options.push('取消');
 
     ActionSheetIOS.showActionSheetWithOptions({
       options,
@@ -38,6 +41,13 @@ export default class Comment extends Component {
           this.props.openReplyModal();
           break;
         case 1:
+          Clipboard.setString(this.props.getCopyContent());
+          MessageBar.show({
+            message: '复制内容成功',
+            type: 'success'
+          });
+          break;
+        case 2:
           if (!isCurrentUserSelf) {
             router.toPmList({ userId });
           }
@@ -66,7 +76,7 @@ export default class Comment extends Component {
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => this._showOptions(reply_id)}>
+        onPress={() => this.showOptions(reply_id)}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
             <Avatar
