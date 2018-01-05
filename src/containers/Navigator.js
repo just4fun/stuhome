@@ -1,120 +1,130 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Navigator } from 'react-native';
+import { View } from 'react-native';
+import { DrawerNavigator } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
-import SideMenu from 'react-native-side-menu';
 import Router from '../router';
 import Menu from './Menu';
-import Home from './Home';
+import Home from '../screens/Home';
+import ForumListScreen from './ForumList';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
 import { PollFrequency } from '../config';
 
-class RNavigator extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: false
-    };
+const AppNavigator = DrawerNavigator({
+  Home: {
+    screen: Home,
+  },
+  ForumList: {
+    screen: ForumListScreen
   }
+});
 
-  componentDidMount() {
-    MessageBarManager.registerMessageBar(this.refs.alert);
+// class RNavigator extends Component {
+//   constructor(props) {
+//     super(props);
 
-    this.props.getUserFromStorage();
-    this.props.getSettingsFromStorage();
-  }
+//     this.state = {
+//       isOpen: false
+//     };
+//   }
 
-  componentWillReceiveProps(nextProps) {
-    let currentToken = this.props.user.authrization.token;
-    let nextToken = nextProps.user.authrization.token;
+//   componentDidMount() {
+//     MessageBarManager.registerMessageBar(this.refs.alert);
 
-    let currentEnableNotification = this.props.settings.enableNotification;
-    let nextEnableNotification = nextProps.settings.enableNotification;
+//     this.props.getUserFromStorage();
+//     this.props.getSettingsFromStorage();
+//   }
 
-    if (currentToken === nextToken && currentEnableNotification === nextEnableNotification) { return; }
+//   componentWillReceiveProps(nextProps) {
+//     let currentToken = this.props.user.authrization.token;
+//     let nextToken = nextProps.user.authrization.token;
 
-    if (!nextToken || !nextEnableNotification) {
-      this.timer && clearInterval(this.timer);
-      // `clearInterval` will not remove the value of `this.timer`,
-      // we need to remove it manually for the next if condition.
-      this.timer = null;
-      return;
-    }
+//     let currentEnableNotification = this.props.settings.enableNotification;
+//     let nextEnableNotification = nextProps.settings.enableNotification;
 
-    if (!this.timer && nextEnableNotification) {
-      this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * PollFrequency);
-    }
-  }
+//     if (currentToken === nextToken && currentEnableNotification === nextEnableNotification) { return; }
 
-  componentWillUnmount() {
-    MessageBarManager.unregisterMessageBar();
-    this.timer && clearInterval(this.timer);
-  }
+//     if (!nextToken || !nextEnableNotification) {
+//       this.timer && clearInterval(this.timer);
+//       // `clearInterval` will not remove the value of `this.timer`,
+//       // we need to remove it manually for the next if condition.
+//       this.timer = null;
+//       return;
+//     }
 
-  _fetchAlerts() {
-    this.props.fetchAlerts();
-  }
+//     if (!this.timer && nextEnableNotification) {
+//       this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * PollFrequency);
+//     }
+//   }
 
-  configureScene(route) {
-    if (route.sceneConfig) {
-      return route.sceneConfig;
-    }
+//   componentWillUnmount() {
+//     MessageBarManager.unregisterMessageBar();
+//     this.timer && clearInterval(this.timer);
+//   }
 
-    return Navigator.SceneConfigs.FloatFromRight;
-  }
+//   _fetchAlerts() {
+//     this.props.fetchAlerts();
+//   }
 
-  renderScene(route, navigator) {
-    if (!this.router) {
-      this.router = new Router(navigator);
-    }
+//   configureScene(route) {
+//     if (route.sceneConfig) {
+//       return route.sceneConfig;
+//     }
 
-    return <route.component
-             router={this.router}
-             updateMenuState={isOpen => this._updateMenuState(isOpen)}
-             passProps={route.passProps} />;
-  }
+//     return Navigator.SceneConfigs.FloatFromRight;
+//   }
 
-  _updateMenuState(isOpen) {
-    this.setState({ isOpen });
-  }
+//   renderScene(route, navigator) {
+//     if (!this.router) {
+//       this.router = new Router(navigator);
+//     }
 
-  _onMenuItemSelected(item, isForceReplace) {
-    this._updateMenuState(false);
-    this.router[item.actionName](isForceReplace);
-  }
+//     return <route.component
+//              router={this.router}
+//              updateMenuState={isOpen => this._updateMenuState(isOpen)}
+//              passProps={route.passProps} />;
+//   }
 
-  _isCurrentRoute(route) {
-    return this.router && this.router.isCurrentRoute(route.id);
-  }
+//   _updateMenuState(isOpen) {
+//     this.setState({ isOpen });
+//   }
 
-  render() {
-    let menu = <Menu
-                 router={this.router}
-                 selectMenuItem={(item, isForceReplace) => this._onMenuItemSelected(item, isForceReplace)}
-                 isCurrentRoute={route => this._isCurrentRoute(route)} />;
+//   _onMenuItemSelected(item, isForceReplace) {
+//     this._updateMenuState(false);
+//     this.router[item.actionName](isForceReplace);
+//   }
 
-    return (
-      <SideMenu
-        menu={menu}
-        disableGestures={true}
-        isOpen={this.state.isOpen}>
-        <Navigator
-          ref='navigator'
-          configureScene={this.configureScene}
-          renderScene={this.renderScene.bind(this)}
-          initialRoute={{
-            id: 'home',
-            title: '首页',
-            component: Home
-          }} />
-        <MessageBar ref="alert" />
-      </SideMenu>
-    );
-  }
-}
+//   _isCurrentRoute(route) {
+//     return this.router && this.router.isCurrentRoute(route.id);
+//   }
+
+//   render() {
+//     let menu = <Menu
+//                  router={this.router}
+//                  selectMenuItem={(item, isForceReplace) => this._onMenuItemSelected(item, isForceReplace)}
+//                  isCurrentRoute={route => this._isCurrentRoute(route)} />;
+
+//     return (
+//       <SideMenu
+//         menu={menu}
+//         disableGestures={true}
+//         isOpen={this.state.isOpen}>
+//         <Navigator
+//           ref='navigator'
+//           configureScene={this.configureScene}
+//           renderScene={this.renderScene.bind(this)}
+//           initialRoute={{
+//             id: 'home',
+//             title: '首页',
+//             component: Home
+//           }} />
+//         <MessageBar ref="alert" />
+//       </SideMenu>
+//     );
+//   }
+// }
 
 function mapStateToProps({ user, settings }) {
   return {
@@ -127,4 +137,4 @@ export default connect(mapStateToProps, {
   getUserFromStorage,
   getSettingsFromStorage,
   fetchAlerts
-})(RNavigator);
+})(AppNavigator);

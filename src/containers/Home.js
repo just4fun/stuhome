@@ -9,11 +9,10 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
 import mainStyles from '../styles/components/_Main';
-import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import PublishModal from '../components/modal/PublishModal';
 import ForumListModal from '../components/modal/ForumListModal';
-import { PublishButton } from '../components/button';
+import { MenuButton, PublishButton } from '../components/button';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import { getAlertCount } from '../selectors/alert';
 import { submit, resetPublish } from '../actions/topic/publishAction';
@@ -26,6 +25,15 @@ const TABS = [
 ];
 
 class Home extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: '首页',
+    drawerLockMode: 'locked-closed',
+    headerLeft: (
+      <MenuButton
+        navigation={navigation} />
+    )
+  })
+
   constructor(props) {
     super(props);
 
@@ -42,6 +50,12 @@ class Home extends Component {
       boardId: this.boardId,
       isEndReached: false,
       sortType: 'publish'
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.props.navigation.setParams({
+      alertAcount: nextProps.alertAcount
     });
   }
 
@@ -117,10 +131,9 @@ class Home extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       topicList,
       forumList,
-      alertCount,
       token,
       publish
     } = this.props;
@@ -150,18 +163,20 @@ class Home extends Component {
             closePublishModal={() => this.togglePublishModal(false)}
             handlePublish={topic => this.publish(topic)} />
         }
-        <Header
-          title='首页'
-          alertCount={alertCount}
-          isPublishFromHomePage={true}
-          updateMenuState={isOpen => this.props.updateMenuState(isOpen)}>
-          {token &&
-            <PublishButton
-              onPress={() => this.toggleForumListModal(true)} />
-            ||
-            <Text></Text>
-          }
-        </Header>
+        {
+          // <Header
+          //   title='首页'
+          //   alertCount={alertCount}
+          //   isPublishFromHomePage={true}
+          //   updateMenuState={isOpen => this.props.updateMenuState(isOpen)}>
+          //   {token &&
+          //     <PublishButton
+          //       onPress={() => this.toggleForumListModal(true)} />
+          //     ||
+          //     <Text></Text>
+          //   }
+          // </Header>
+        }
         <ScrollableTabView
           tabBarActiveTextColor={colors.blue}
           tabBarInactiveTextColor={colors.lightBlue}
@@ -173,7 +188,7 @@ class Home extends Component {
               <TopicList
                 key={index}
                 tabLabel={tab.label}
-                router={router}
+                navigation={navigation}
                 type={tab.type}
                 topicList={_.get(topicList, [this.boardId, tab.type], {})}
                 refreshTopicList={({ page, isEndReached }) => this.refreshTopicList({ page, isEndReached, sortType: tab.type })} />

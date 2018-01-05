@@ -12,7 +12,7 @@ export default class AlertCount extends Component {
     return (
       <View style={[styles.alertCommonBackground,
                     doNotShowCount ? styles.alertBackground : styles.alertBackgroundWithCount]}>
-        {!doNotShowCount && <Text style={styles.alertCount}>{this.props.count}</Text>}
+        {!doNotShowCount && <Text style={styles.alertCount}>{count}</Text>}
       </View>
     );
   }

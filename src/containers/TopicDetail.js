@@ -16,7 +16,6 @@ import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import modalStyles from '../styles/common/_Modal';
 import styles from '../styles/containers/_TopicDetail';
-import Header from '../components/Header';
 import ReplyModal from '../components/modal/ReplyModal';
 import Comment from '../components/Comment';
 import Content from '../components/Content';
@@ -53,12 +52,18 @@ function getTopicId(topic) {
 }
 
 class TopicDetail extends Component {
+  static navigationOptions = {
+    title: '帖子详情',
+    drawerLockMode: 'locked-closed'
+  }
+
   constructor(props) {
     super(props);
 
-    this.topicId = getTopicId(props.passProps);
-    this.boardId = props.passProps.board_id;
-    this.boardName = props.passProps.board_name;
+    let passProps = props.navigation.state.params;
+    this.topicId = getTopicId(passProps);
+    this.boardId = passProps.board_id;
+    this.boardName = passProps.board_name;
 
     this.state = {
       isReplyModalOpen: false,
@@ -107,7 +112,7 @@ class TopicDetail extends Component {
     });
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isFetching,
@@ -124,7 +129,7 @@ class TopicDetail extends Component {
     });
   }
 
-  _renderHeader(topic, uid, vote) {
+  renderHeader(topic, uid, vote) {
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -209,7 +214,7 @@ class TopicDetail extends Component {
     );
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
@@ -262,9 +267,6 @@ class TopicDetail extends Component {
     if (topicItem.isFetching) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName}>
-            <PopButton router={this.props.router} />
-          </Header>
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -275,9 +277,6 @@ class TopicDetail extends Component {
     if (!_.get(topicItem, ['topic', 'topic_id'])) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName}>
-            <PopButton router={this.props.router} />
-          </Header>
         </View>
       );
     }
@@ -300,15 +299,17 @@ class TopicDetail extends Component {
             fetchTopic={() => this.fetchTopic()} />
         }
 
-        <Header title={this.boardName}>
-          <PopButton router={this.props.router} />
-          {uid &&
-            <ReplyButton style={modalStyles.button}
-                         onPress={() => this.toggleReplyModal(true)} />
-            ||
-            <Text></Text>
-          }
-        </Header>
+        {
+          // <Header title={this.boardName}>
+          //   <PopButton router={this.props.router} />
+          //   {uid &&
+          //     <ReplyButton style={modalStyles.button}
+          //                  onPress={() => this.toggleReplyModal(true)} />
+          //     ||
+          //     <Text></Text>
+          //   }
+          // </Header>
+        }
         <ListView
           dataSource={commentSource}
           removeClippedSubviews={false}
@@ -322,10 +323,10 @@ class TopicDetail extends Component {
               router={this.props.router}
               openReplyModal={() => this.toggleReplyModal(true, comment)} />
           }
-          onEndReached={() => this._endReached()}
+          onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this._renderHeader(topic, uid, vote)}
-          renderFooter={() => this._renderFooter()} />
+          renderHeader={() => this.renderHeader(topic, uid, vote)}
+          renderFooter={() => this.renderFooter()} />
       </View>
     );
   }
@@ -335,7 +336,7 @@ function mapStateToProps(state, ownProps) {
   let { topicItem, reply, vote, user, topicFavor } = state;
 
   return {
-    topicItem: _.get(topicItem, getTopicId(ownProps.passProps), {}),
+    topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
     reply,
     vote,
     user,
