@@ -137,7 +137,7 @@ export default class PublishModal extends Component {
     });
   }
 
-  handleSelect(item) {
+  handlePanelSelect(item) {
     if (item !== 'keyboard') {
       // hide keyboard
       this.titleInput.blur();
@@ -149,6 +149,12 @@ export default class PublishModal extends Component {
     }
 
     this.setState({ selectedPanel: item });
+  }
+
+  handleEmojiPress(emoji) {
+    this.setState((prevState) => {
+      return { content: prevState.content + emoji.code };
+    });
   }
 
   togglePicker(visible) {
@@ -261,6 +267,7 @@ export default class PublishModal extends Component {
             <View style={styles.formItem}>
               <TextInput
                 ref={component => this.contentInput = component}
+                value={this.state.content}
                 style={styles.topicContent}
                 onChangeText={text => this.setState({ content: text })}
                 multiline={true}
@@ -278,7 +285,8 @@ export default class PublishModal extends Component {
           <KeyboardAccessory
             style={{ bottom: this.state.keyboardAccessoryToBottom }}
             selectedPanel={this.state.selectedPanel}
-            handleSelect={(item) => this.handleSelect(item)} />
+            handlePanelSelect={(item) => this.handlePanelSelect(item)}
+            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
         </View>
       </Modal>
     );

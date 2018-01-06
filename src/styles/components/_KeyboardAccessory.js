@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
+import Dimensions from 'Dimensions';
+
+const window = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -17,12 +20,14 @@ export default StyleSheet.create({
   item: {
     color: '#979797'
   },
-  groupMeme: {
-    height: 35,
-    width: 35
-  },
   image: {
     height: 50,
-    width: 50
+    width: (window.width - 10) / 7,
+    padding: 5
+  },
+  pageView: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   }
 });
