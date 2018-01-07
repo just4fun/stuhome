@@ -54,9 +54,15 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.navigation.setParams({
-      alertAcount: nextProps.alertAcount
-    });
+    // this will lead infinite loop
+
+    // Unhandled JS Exception: Maximum update depth exceeded.
+    // This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate.
+    // React limits the number of nested updates to prevent infinite loops.
+
+    // this.props.navigation.setParams({
+    //   alertAcount: nextProps.alertAcount
+    // });
   }
 
   fetchForumList() {
