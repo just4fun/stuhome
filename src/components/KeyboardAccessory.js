@@ -54,7 +54,7 @@ export default class KeyboardAccessory extends Component {
           }
         </View>
         {selectedPanel === 'meme' &&
-          <Animated.View style={[styles.otherPanel, { height: this.state.otherPanelheight }]}>
+          <Animated.View style={{ height: this.state.otherPanelheight }}>
             <ScrollableTabView
               renderTabBar={(props) => <EmojiTabBar {...props} />}
               tabBarPosition='bottom'>
