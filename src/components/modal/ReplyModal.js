@@ -5,8 +5,10 @@ import {
   TextInput,
   Modal,
   AlertIOS,
+  Keyboard,
   TouchableHighlight,
-  ActivityIndicator
+  ActivityIndicator,
+  LayoutAnimation
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import mainStyles from '../../styles/components/_Main';
@@ -15,6 +17,7 @@ import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
 import ImageUploader from '../ImageUploader';
+import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
 
 export default class ReplyModal extends Component {
@@ -44,8 +47,37 @@ export default class ReplyModal extends Component {
       boardId,
       topicId,
       images: [],
-      isUploading: false
+      isUploading: false,
+      selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: 0,
+      isContentFocused: false
     };
+  }
+
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: e.endCoordinates.height
+    });
+  }
+
+  keyboardWillHide(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      keyboardAccessoryToBottom: 0,
+      isContentFocused: false
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -126,6 +158,40 @@ export default class ReplyModal extends Component {
     });
   }
 
+  handlePanelSelect(item) {
+    if (item !== 'keyboard') {
+      // hide keyboard
+      this.contentInput.blur();
+    } else {
+      // show keyboard
+      this.contentInput.focus();
+    }
+
+    this.setState({ selectedPanel: item });
+  }
+
+  handleEmojiPress(emoji) {
+    this.setState((prevState) => {
+      let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
+                     + emoji.code
+                     + prevState.replyContent.substr(this.contentCursorLocation)
+      return { replyContent: newContent };
+    });
+  }
+
+  handleContentSelectionChange(event) {
+    this.contentCursorLocation = event.nativeEvent.selection.start;
+  }
+
+  handleScroll() {
+    if (this.state.selectedPanel === 'meme') {
+      this.setState({
+        keyboardAccessoryToBottom: 0,
+        selectedPanel: 'keyboard'
+      });
+    }
+  }
+
   render() {
     let { reply } = this.props;
     let {
@@ -173,12 +239,17 @@ export default class ReplyModal extends Component {
               </Text>
             }
           </Header>
-          <KeyboardAwareScrollView style={isPublishing && styles.disabledForm}>
+          <KeyboardAwareScrollView
+            style={isPublishing && styles.disabledForm}
+            onScroll={() => this.handleScroll()}>
             <View style={styles.formItem}>
               <TextInput
                 ref={component => this.contentInput = component}
+                value={this.state.replyContent}
                 placeholder='同学，请文明用语噢～'
                 style={styles.replyBox}
+                onFocus={() => this.setState({ isContentFocused: true })}
+                onSelectionChange={(event) => this.handleContentSelectionChange(event)}
                 onChangeText={(text) => this.setState({ replyContent: text })}
                 autoFocus={true}
                 multiline={true}
@@ -192,6 +263,13 @@ export default class ReplyModal extends Component {
                 removeImage={imageIndex => this.removeImage(imageIndex)} />
             </View>
           </KeyboardAwareScrollView>
+          {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
+            <KeyboardAccessory
+              style={{ bottom: this.state.keyboardAccessoryToBottom }}
+              selectedPanel={this.state.selectedPanel}
+              handlePanelSelect={(item) => this.handlePanelSelect(item)}
+              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+          }
         </View>
       </Modal>
     );
