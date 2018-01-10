@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
 export default StyleSheet.create({
-  nav: {
-    backgroundColor: colors.lightBlue,
-    borderBottomWidth: 0,
-  },
+  // nav: {
+  //   backgroundColor: colors.lightBlue,
+  //   borderBottomWidth: 0,
+  // },
   header: {
     backgroundColor: colors.lightBlue,
     alignItems: 'center',

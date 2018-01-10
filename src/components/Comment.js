@@ -16,7 +16,7 @@ import { parseContentWithImage } from '../utils/contentParser';
 
 export default class Comment extends Component {
   _showOptions(userId) {
-    let { currentUserId, router } = this.props;
+    let { currentUserId, navigation } = this.props;
     if (!currentUserId) { return; }
 
     let options = [
@@ -39,7 +39,7 @@ export default class Comment extends Component {
           break;
         case 1:
           if (!isCurrentUserSelf) {
-            router.toPmList({ userId });
+            navigation.navigate('PrivateMessage', { userId });
           }
           break;
       }
@@ -47,7 +47,7 @@ export default class Comment extends Component {
   }
 
   render() {
-    let { comment, currentTopicId } = this.props;
+    let { comment, currentTopicId, navigation } = this.props;
     let {
       reply_name,
       userTitle,
@@ -74,7 +74,7 @@ export default class Comment extends Component {
               url={icon}
               userId={reply_id}
               userName={reply_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{reply_name}</Text>
@@ -100,9 +100,10 @@ export default class Comment extends Component {
                 <Text style={styles.quoteContent}>{quote_content}</Text>
               </View>
             }
-            <Content content={reply_content}
-                     currentTopicId={currentTopicId}
-                     router={this.props.router} />
+            <Content
+              content={reply_content}
+              currentTopicId={currentTopicId}
+              navigation={navigation} />
           </View>
         </View>
       </TouchableHighlight>

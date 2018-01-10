@@ -111,7 +111,7 @@ export default class Content extends Component {
   // adjust layout.
   render() {
     let newContent = this.getContentByGroup();
-    let { currentTopicId, router } = this.props;
+    let { currentTopicId, navigation } = this.props;
 
     return (
       <View style={styles.container}>
@@ -137,7 +137,7 @@ export default class Content extends Component {
                           // @somebody
                           <Text key={index}
                                 style={styles.url}
-                                onPress={() => router.toIndividual({
+                                onPress={() => navigation.navigate('Individual', {
                                   userId: this.getUserId(item.url),
                                   userName: this.getUserName(item.infor)
                                 })}>
@@ -150,7 +150,7 @@ export default class Content extends Component {
                           this.isTopicLink(item.url) && (
                             <Text key={index}
                                   style={styles.url}
-                                  onPress={() => router.toTopic({
+                                  onPress={() => navigation.navigate('Topic', {
                                     currentTopicId,
                                     topic_id: this.getTopicId(item.url)
                                   })}>

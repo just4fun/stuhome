@@ -9,7 +9,7 @@ import styles from '../styles/components/_RewardList';
 
 export default class RewardList extends Component {
   render() {
-    let { reward, router } = this.props;
+    let { reward, navigation } = this.props;
     let {
       score,
       userNumber,
@@ -43,7 +43,10 @@ export default class RewardList extends Component {
             style={[styles.rewardUser, styles.more]}
             name='ellipsis-h'
             size={14}
-            onPress={() => router.toBrowser(showAllUrl, '全部评分')} />
+            onPress={() => navigation.navigate('WebView', {
+              url: showAllUrl,
+              title: '全部评分'
+            })} />
         </View>
       </View>
     );

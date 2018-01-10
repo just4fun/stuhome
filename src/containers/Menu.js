@@ -65,7 +65,7 @@ class Menu extends Component {
   }
 
   render() {
-    let { user, alertCount, router } = this.props;
+    let { user, alertCount, navigation } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (

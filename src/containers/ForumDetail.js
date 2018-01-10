@@ -55,7 +55,7 @@ class ForumDetail extends Component {
         boardId: this.boardId,
         sortType: 'publish'
       });
-      nextProps.router.pop();
+      nextProps.navigation.goBack();
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Router from '../router';
@@ -19,7 +19,25 @@ const AppNavigator = DrawerNavigator({
   ForumList: {
     screen: ForumListScreen
   }
+}, {
+  initialRouteName: 'Home',
+  contentComponent: Menu,
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
 });
+
+class AppRoot extends Component {
+  componentDidMount() {
+    this.props.getUserFromStorage();
+  }
+
+  render() {
+    return (
+      <AppNavigator {...this.props} />
+    );
+  }
+}
 
 // class RNavigator extends Component {
 //   constructor(props) {
@@ -137,4 +155,4 @@ export default connect(mapStateToProps, {
   getUserFromStorage,
   getSettingsFromStorage,
   fetchAlerts
-})(AppNavigator);
+})(AppRoot);

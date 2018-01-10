@@ -53,7 +53,7 @@ function getTopicId(topic) {
 
 class TopicDetail extends Component {
   static navigationOptions = {
-    title: '帖子详情',
+    title: 'todo',
     drawerLockMode: 'locked-closed'
   }
 
@@ -84,7 +84,7 @@ class TopicDetail extends Component {
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
-      nextProps.router.pop();
+      nextProps.navigation.goBack();
       return;
     }
 
@@ -130,6 +130,7 @@ class TopicDetail extends Component {
   }
 
   renderHeader(topic, uid, vote) {
+    let { navigation, topicFavor } = this.props;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -158,7 +159,7 @@ class TopicDetail extends Component {
               url={topic.icon}
               userId={topic.user_id}
               userName={topic.user_nick_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>
@@ -177,7 +178,7 @@ class TopicDetail extends Component {
             <View>
               <Text style={styles.floor}>楼主</Text>
               {uid && (
-                this.props.topicFavor.isFavoring &&
+                topicFavor.isFavoring &&
                   <ActivityIndicator />
                   ||
                   <Icon
@@ -189,9 +190,10 @@ class TopicDetail extends Component {
             </View>
           </View>
           <View>
-            <Content content={topic.content}
-                     currentTopicId={this.topicId}
-                     router={this.props.router} />
+            <Content
+              content={topic.content}
+              currentTopicId={this.topicId}
+              navigation={navigation} />
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
@@ -202,8 +204,9 @@ class TopicDetail extends Component {
             }
           </View>
           {topic.reward &&
-            <RewardList reward={topic.reward}
-                        router={this.props.router} />}
+            <RewardList
+              reward={topic.reward}
+              navigation={navigation} />}
         </View>
         <View style={styles.commentHeader}>
           <Text style={styles.commentHeaderText}>
@@ -261,7 +264,7 @@ class TopicDetail extends Component {
   }
 
   render() {
-    let { topicItem, reply, vote, user } = this.props;
+    let { topicItem, reply, vote, user, navigation } = this.props;
     let { isReplyModalOpen, currentContent } = this.state;
 
     if (topicItem.isFetching) {
@@ -320,7 +323,7 @@ class TopicDetail extends Component {
               comment={comment}
               currentUserId={uid}
               currentTopicId={this.topicId}
-              router={this.props.router}
+              navigation={navigation}
               openReplyModal={() => this.toggleReplyModal(true, comment)} />
           }
           onEndReached={() => this.endReached()}

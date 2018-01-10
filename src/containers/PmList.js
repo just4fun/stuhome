@@ -12,8 +12,6 @@ import {
 import { GiftedChat } from 'react-native-gifted-chat';
 import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';
 import GiftedChatLoadEarlierButton from '../components/3rd_party/GiftedChatLoadEarlierButton';
-import Header from '../components/Header';
-import { PopButton } from '../components/button';
 import {
   submit,
   resetPublish
@@ -30,10 +28,15 @@ import styles from '../styles/containers/_PmList';
 const LOGIN_USER_ID = Symbol();
 
 class PmList extends Component {
+  static navigationOptions = {
+    title: 'todo',
+    drawerLockMode: 'locked-closed'
+  }
+
   constructor(props) {
     super(props);
 
-    this.userId = this.props.passProps.userId;
+    this.userId = this.props.navigation.state.params.userId;
     this.state = {
       messages: []
     };
@@ -131,7 +134,7 @@ class PmList extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       pmList: {
         isRefreshing,
         hasPrev,
@@ -144,9 +147,11 @@ class PmList extends Component {
     if (isRefreshing && page === 0) {
       return (
         <View style={mainStyles.container}>
-          <Header title={user.name}>
-            <PopButton router={router} />
-          </Header>
+          {
+            // <Header title={user.name}>
+            //   <PopButton router={router} />
+            // </Header>
+          }
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -170,9 +175,11 @@ class PmList extends Component {
 
     return (
       <View style={mainStyles.container}>
-        <Header title={user.name}>
-          <PopButton router={router} />
-        </Header>
+        {
+          // <Header title={user.name}>
+          //   <PopButton router={router} />
+          // </Header>
+        }
         <GiftedChat
           style={mainStyles.container}
           locale={'zh-cn'}

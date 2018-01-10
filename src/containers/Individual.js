@@ -22,6 +22,15 @@ import { getAlertCount } from '../selectors/alert';
 import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
+  static navigationOptions = {
+    title: '个人',
+    drawerLockMode: 'locked-closed',
+    headerStyle: {
+      backgroundColor: colors.lightBlue,
+      borderBottomWidth: 0
+    }
+  }
+
   constructor(props) {
     super(props);
     this.initTabsAndUserInformation();
@@ -30,7 +39,14 @@ class Individual extends Component {
   initTabsAndUserInformation() {
     this.TABS = [];
 
-    let { user, passProps } = this.props;
+    let {
+      user,
+      navigation: {
+        state: {
+          params: passProps
+        }
+      }
+    } = this.props;
     this.isLoginUser = !passProps || (+passProps.userId === user.authrization.uid);
 
     if (this.isLoginUser) {
@@ -101,31 +117,32 @@ class Individual extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       userTopicList,
       alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        {!this.props.passProps &&
-          <Header
-            style={styles.nav}
-            alertCount={alertCount}
-            updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-          ||
-          <Header
-            style={styles.nav}>
-            <PopButton router={router} />
-            {!this.isLoginUser &&
-              <Icon
-                name='envelope'
-                size={18}
-                onPress={() => router.toPmList({ userId: this.userId })} />
-              ||
-              <Text></Text>
-            }
-          </Header>
+        {
+          // !this.props.navigation.state.params &&
+          //   <Header
+          //     style={styles.nav}
+          //     alertCount={alertCount}
+          //     updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+          //   ||
+          //   <Header
+          //     style={styles.nav}>
+          //     <PopButton router={router} />
+          //     {!this.isLoginUser &&
+          //       <Icon
+          //         name='envelope'
+          //         size={18}
+          //         onPress={() => router.toPmList({ userId: this.userId })} />
+          //       ||
+          //       <Text></Text>
+          //     }
+          //   </Header>
         }
         <View style={styles.header}>
           <CachedImage
@@ -145,7 +162,7 @@ class Individual extends Component {
                 key={index}
                 currentUserId={this.userId}
                 tabLabel={tab.label}
-                router={router}
+                navigation={navigation}
                 type={tab.type}
                 topicList={_.get(userTopicList, [this.userId, tab.type], {})}
                 refreshTopicList={({ page, isEndReached }) => this._refreshUserTopicList({ page, isEndReached, type: tab.type })} />

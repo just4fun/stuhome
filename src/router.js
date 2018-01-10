@@ -56,13 +56,9 @@ export default class Router {
     return currentRoute;
   }
 
-  isCurrentRoute(routeId) {
-    return routeId === this.getCurrentRoute().id;
-  }
-
-  pop() {
-    _navigator.pop();
-  }
+  // pop() {
+  //   _navigator.pop();
+  // }
 
   toHome(isForceReplace) {
     this._navigateTo({
@@ -88,14 +84,14 @@ export default class Router {
     }, true);
   }
 
-  toTopic(topic) {
-    this._navigateTo({
-      id: 'topicDetail',
-      title: topic.board_name,
-      component: TopicDetail,
-      passProps: topic
-    });
-  }
+  // toTopic(topic) {
+  //   this._navigateTo({
+  //     id: 'topicDetail',
+  //     title: topic.board_name,
+  //     component: TopicDetail,
+  //     passProps: topic
+  //   });
+  // }
 
   toForum(forum) {
     this._navigateTo({
@@ -126,14 +122,14 @@ export default class Router {
     }, true);
   }
 
-  toIndividual(user) {
-    this._navigateTo({
-      id: 'individual',
-      title: '个人',
-      component: Individual,
-      passProps: user
-    }, !user);
-  }
+  // toIndividual(user) {
+  //   this._navigateTo({
+  //     id: 'individual',
+  //     title: '个人',
+  //     component: Individual,
+  //     passProps: user
+  //   }, !user);
+  // }
 
   toAbout() {
     this._navigateTo({
