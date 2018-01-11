@@ -50,7 +50,7 @@ export default class PrivateList extends Component {
   render() {
     let {
       pmSessionList,
-      router,
+      navigation,
       refreshPmSessionList,
       markAsRead
     } = this.props;
@@ -74,7 +74,7 @@ export default class PrivateList extends Component {
             <PmSessionItem
               key={session.topic_id}
               session={session}
-              router={router}
+              navigation={navigation}
               markAsRead={({ plid }) => markAsRead({ plid })}/>
           );
         }}

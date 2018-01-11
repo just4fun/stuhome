@@ -27,7 +27,7 @@ export default class MenuButton extends Component {
             style={styles.menu}
             name='reorder'
             size={18} />
-          {!!params.alertCount && <AlertCount style={styles.alert} doNotShowCount={true} />}
+          {!!params.alertCount && <AlertCount doNotShowCount={true} />}
         </View>
       </TouchableOpacity>
     );

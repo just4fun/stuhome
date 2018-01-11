@@ -6,7 +6,9 @@ import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Router from '../router';
 import Menu from './Menu';
 import Home from '../screens/Home';
-import ForumListScreen from './ForumList';
+import ForumList from '../screens/ForumList';
+import Search from '../screens/Search';
+import Message from '../screens/Message';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
@@ -14,10 +16,16 @@ import { PollFrequency } from '../config';
 
 const AppNavigator = DrawerNavigator({
   Home: {
-    screen: Home,
+    screen: Home
   },
   ForumList: {
-    screen: ForumListScreen
+    screen: ForumList
+  },
+  Search: {
+    screen: Search
+  },
+  Message: {
+    screen: Message
   }
 }, {
   initialRouteName: 'Home',

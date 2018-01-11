@@ -15,11 +15,11 @@ export default class PmSessionItem extends Component {
       // mark message as read
       this.props.markAsRead({ plid });
     }
-    this.props.router.toPmList({ userId });
+    this.props.navigation.navigate('PrivateMessage', { userId });
   }
 
   render() {
-    let { router, session } = this.props;
+    let { navigation, session } = this.props;
     let {
       lastDateline,
       lastSummary,
@@ -43,7 +43,7 @@ export default class PmSessionItem extends Component {
             url={toUserAvatar}
             userId={toUserId}
             userName={toUserName}
-            router={router} />
+            navigation={navigation} />
           <View style={styles.content}>
             <View style={[styles.author, styles.row]}>
               <View style={styles.row}>

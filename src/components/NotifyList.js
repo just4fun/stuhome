@@ -15,7 +15,7 @@ export default class NotifyList extends Component {
     this.props.fetchNotifyList();
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isRefreshing,
@@ -32,7 +32,7 @@ export default class NotifyList extends Component {
     });
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
@@ -48,7 +48,7 @@ export default class NotifyList extends Component {
   }
 
   render() {
-    let { notifyList } = this.props;
+    let { notifyList, navigation } = this.props;
     let realNotifyList = [];
     let isRefreshing = false;
 
@@ -69,13 +69,13 @@ export default class NotifyList extends Component {
             <NotifyItem
               key={notification.topic_id}
               notification={notification}
-              router={this.props.router}
+              navigation={navigation}
               openReplyModal={notification => this.props.openReplyModal(notification)} />
           );
         }}
-        onEndReached={() => this._endReached()}
+        onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()}
+        renderFooter={() => this.renderFooter()}
         refreshControl={
           <RefreshControl
             title='正在加载...'

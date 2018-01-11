@@ -52,18 +52,21 @@ function getTopicId(topic) {
 }
 
 class TopicDetail extends Component {
-  static navigationOptions = {
-    title: 'todo',
-    drawerLockMode: 'locked-closed'
+  static navigationOptions = ({ navigation }) => {
+    let { title } = navigation.state.params;
+    return {
+      title,
+      drawerLockMode: 'locked-closed'
+    };
   }
 
   constructor(props) {
     super(props);
 
-    let passProps = props.navigation.state.params;
-    this.topicId = getTopicId(passProps);
-    this.boardId = passProps.board_id;
-    this.boardName = passProps.board_name;
+    let { params } = props.navigation.state;
+    this.topicId = getTopicId(params);
+    this.boardId = params.board_id;
+    this.boardName = params.board_name;
 
     this.state = {
       isReplyModalOpen: false,
@@ -72,6 +75,7 @@ class TopicDetail extends Component {
   }
 
   componentDidMount() {
+    this.props.navigation.setParams({ title: this.boardName });
     this.fetchTopic();
   }
 

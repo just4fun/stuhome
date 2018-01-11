@@ -17,13 +17,13 @@ import colors from '../styles/common/_colors';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
+import menus from '../constants/menus';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
 import { getAlertCount } from '../selectors/alert';
 import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
   static navigationOptions = {
-    title: '个人',
     drawerLockMode: 'locked-closed',
     headerStyle: {
       backgroundColor: colors.lightBlue,

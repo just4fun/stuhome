@@ -28,15 +28,19 @@ import styles from '../styles/containers/_PmList';
 const LOGIN_USER_ID = Symbol();
 
 class PmList extends Component {
-  static navigationOptions = {
-    title: 'todo',
-    drawerLockMode: 'locked-closed'
+  static navigationOptions = ({ navigation }) => {
+    let { title } = navigation.state.params;
+    return {
+      title,
+      drawerLockMode: 'locked-closed'
+    };
   }
 
   constructor(props) {
     super(props);
 
-    this.userId = this.props.navigation.state.params.userId;
+    let { userId } = this.props.navigation.state.params;
+    this.userId = userId;
     this.state = {
       messages: []
     };
@@ -44,14 +48,12 @@ class PmList extends Component {
 
   componentDidMount() {
     this._fetchPmList();
-
     // fetch new private messages every 1 mins
     this.timer = setInterval(() => { this._fetchPmList(); }, 1000 * 60);
   }
 
   componentWillUnmount() {
     this.props.resetPmList();
-
     // tear down timer
     this.timer && clearInterval(this.timer);
   }
@@ -64,6 +66,15 @@ class PmList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // set up title
+    let userName = this.props.pmList.user.name;
+    let newUserName = nextProps.pmList.user.name;
+
+    if (userName !== newUserName) {
+      this.props.navigation.setParams({ title: newUserName });
+    }
+
+    // handle private messages
     let {
       send,
       pmList

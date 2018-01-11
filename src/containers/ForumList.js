@@ -9,15 +9,22 @@ import {
 import _ from 'lodash';
 import mainStyles from '../styles/components/_Main';
 import ForumItems from '../components/ForumItems';
+import menus from '../constants/menus';
+import { MenuButton } from '../components/button';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 import { getAlertCount } from '../selectors/alert';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
-  static navigationOptions = {
-    title: '版块'
-  }
+  static navigationOptions = ({ navigation }) => ({
+    title: menus.forumList.title,
+    drawerLockMode: 'locked-closed',
+    headerLeft: (
+      <MenuButton
+        navigation={navigation} />
+    )
+  })
 
   constructor(props) {
     super(props);
@@ -43,7 +50,7 @@ class ForumList extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       forumList,
       alertCount
     } = this.props;
@@ -56,7 +63,7 @@ class ForumList extends Component {
           //         updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         }
         <ForumItems
-          router={router}
+          navigation={navigation}
           boardId={this.boardId}
           forumList={_.get(forumList, this.boardId, {})}
           isTopForumList={this.isTopForumList}

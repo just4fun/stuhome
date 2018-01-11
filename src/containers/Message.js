@@ -6,11 +6,12 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
-import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
 import PmSessionList from '../components/PmSessionList';
 import MessageTabBar from '../components/3rd_party/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
+import menus from '../constants/menus';
+import { MenuButton } from '../components/button';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
@@ -24,6 +25,15 @@ const TABS = [
 ];
 
 class Message extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: menus.message.title,
+    drawerLockMode: 'locked-closed',
+    headerLeft: (
+      <MenuButton
+        navigation={navigation} />
+    )
+  })
+
   constructor(props) {
     super(props);
 
@@ -93,7 +103,7 @@ class Message extends Component {
       notifyList,
       pmSessionList,
       reply,
-      router,
+      navigation,
       alertCount
     } = this.props;
     let { isReplyModalOpen, currentNotification } = this.state;
@@ -109,9 +119,11 @@ class Message extends Component {
             closeReplyModal={() => this.toggleReplyModal(false)}
             handlePublish={comment => this._publish(comment)} />
         }
-        <Header title='消息'
-                alertCount={alertCount}
-                updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        {
+        // <Header title='消息'
+        //         alertCount={alertCount}
+        //         updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        }
         <ScrollableTabView
           renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlertCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
@@ -126,7 +138,7 @@ class Message extends Component {
                   key={index}
                   tabLabel={tab.label}
                   pmSessionList={pmSessionList}
-                  router={router}
+                  navigation={navigation}
                   markAsRead={({ plid }) => this.props.markAsRead({ plid })}
                   fetchPmSessionList={() => this._fetchPmSessionList(tab.type)}
                   refreshPmSessionList={({ page, isEndReached }) => this._refreshPmSessionList({ page, isEndReached })} />
@@ -138,7 +150,7 @@ class Message extends Component {
                 key={index}
                 tabLabel={tab.label}
                 notifyList={_.get(notifyList, tab.type, {})}
-                router={router}
+                navigation={navigation}
                 fetchNotifyList={() => this._fetchNotifyList(tab.type)}
                 refreshNotifyList={({ page, isEndReached }) => this._refreshNotifyList({ page, isEndReached, notifyType: tab.type })}
                 openReplyModal={notification => this.toggleReplyModal(true, notification)} />

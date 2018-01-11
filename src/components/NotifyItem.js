@@ -12,7 +12,7 @@ import styles from '../styles/components/_NotifyItem';
 
 export default class NotifyItem extends Component {
   render() {
-    let { router, notification } = this.props;
+    let { navigation, notification } = this.props;
     let {
       topic_id,
       board_id,
@@ -32,7 +32,7 @@ export default class NotifyItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => router.toTopic({
+        onPress={() => navigation.navigate('Topic', {
           topic_id,
           board_id,
           board_name
@@ -44,7 +44,7 @@ export default class NotifyItem extends Component {
               url={icon}
               userId={user_id}
               userName={reply_nick_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <Text style={styles.name}>{reply_nick_name}</Text>
               <Text style={styles.date}>{replied_date}</Text>

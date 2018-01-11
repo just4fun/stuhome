@@ -12,6 +12,7 @@ import mainStyles from '../styles/components/_Main';
 import TopicList from '../components/TopicList';
 import PublishModal from '../components/modal/PublishModal';
 import ForumListModal from '../components/modal/ForumListModal';
+import menus from '../constants/menus';
 import { MenuButton, PublishButton } from '../components/button';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import { getAlertCount } from '../selectors/alert';
@@ -26,7 +27,7 @@ const TABS = [
 
 class Home extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: '首页',
+    title: menus.home.title,
     drawerLockMode: 'locked-closed',
     headerLeft: (
       <MenuButton

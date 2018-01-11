@@ -12,12 +12,12 @@ import colors from '../styles/common/_colors';
 export default class MenuItem extends Component {
   render() {
     let { menu, navigation, style, showAlert, alertCount} = this.props;
-    let { title, icon, iconSize, actionName } = menu;
+    let { title, icon, iconSize, routeName } = menu;
 
     return (
       <TouchableHighlight
         underlayColor={colors.menuUnderlay}
-        onPress={() => this.props.selectMenuItem(menu)}>
+        onPress={() => navigation.navigate(routeName)}>
         <View style={[styles.row, style]}>
           <Icon style={[styles.icon, styles.item]} name={icon} size={+iconSize || 20} />
           <Text style={[styles.text, styles.item]}>{title}</Text>
