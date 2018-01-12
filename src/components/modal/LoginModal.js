@@ -15,7 +15,6 @@ import Button from 'apsl-react-native-button';
 import styles from '../../styles/components/modal/_LoginModal';
 import Header from '../Header';
 import RegisterModal from './RegisterModal';
-import { PopButton } from '../button';
 
 export default class Login extends Component {
   constructor(props) {
@@ -97,13 +96,15 @@ export default class Login extends Component {
             visible={isRegisterModalOpen}
             closeRegisterModal={() => this.toggleRegisterModal(false)} />
         }
-        <Header style={styles.header}>
-          <PopButton action={() => this._closeLoginModal()} />
-          <Text style={styles.register}
-                onPress={() => this.toggleRegisterModal(true)}>
-            注册
-          </Text>
-        </Header>
+        {
+          // <Header style={styles.header}>
+          //   <PopButton action={() => this._closeLoginModal()} />
+          //   <Text style={styles.register}
+          //         onPress={() => this.toggleRegisterModal(true)}>
+          //     注册
+          //   </Text>
+          // </Header>
+        }
         <KeyboardAwareScrollView>
           <View>
             <View style={styles.top}>

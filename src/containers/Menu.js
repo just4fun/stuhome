@@ -65,7 +65,7 @@ class Menu extends Component {
   }
 
   render() {
-    let { user, alertCount, navigation } = this.props;
+    let { user, alertCount } = this.props;
     let { isLoginModalOpen } = this.state;
 
     return (
@@ -81,7 +81,6 @@ class Menu extends Component {
             {...this.props} />
         }
         <MenuProfile
-          menu={menus['information']}
           authrization={user.authrization}
           openLoginModal={() => this.toggleLoginModal(true)}
           {...this.props} />

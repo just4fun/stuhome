@@ -22,7 +22,7 @@ import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
-import { PopButton, ReplyButton, CommentButton } from '../components/button';
+import { ReplyButton, CommentButton } from '../components/button';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
 import {

@@ -10,7 +10,6 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
-// import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';

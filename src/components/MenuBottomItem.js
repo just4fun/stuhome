@@ -10,18 +10,20 @@ import colors from '../styles/common/_colors';
 
 export default class MenuBottomItem extends Component {
   render() {
-    let { menu, router, style, rowStyle, onPress } = this.props;
-    let { title, icon, iconSize, actionName } = menu;
+    let { menu, navigation, style, rowStyle, onPress } = this.props;
+    let { title, icon, iconSize, routeName } = menu;
 
     return (
       <TouchableOpacity
         style={style}
         onPress={() => {
+          // The custom `onPress` event is used for logout button
+          // which would not navigate to other page.
           if (onPress) {
             onPress();
             return;
           }
-          this.props.selectMenuItem(menu);
+          navigation.navigate(routeName);
         }}>
         <View style={[styles.row, rowStyle]}>
           <Icon style={[styles.icon, styles.item]} name={icon} size={+iconSize || 18} />

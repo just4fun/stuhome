@@ -6,13 +6,13 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
+import { HeaderBackButton } from 'react-navigation';
 import _ from 'lodash';
 import { CachedImage } from "react-native-img-cache";
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Header from '../components/Header';
+import { MenuButton } from '../components/button';
 import TopicList from '../components/TopicList';
-import { PopButton } from '../components/button';
 import colors from '../styles/common/_colors';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import mainStyles from '../styles/components/_Main';
@@ -23,13 +23,18 @@ import { getAlertCount } from '../selectors/alert';
 import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     drawerLockMode: 'locked-closed',
     headerStyle: {
       backgroundColor: colors.lightBlue,
       borderBottomWidth: 0
-    }
-  }
+    },
+    headerLeft: (
+      !navigation.state.params &&
+        <MenuButton
+          navigation={navigation} />
+    )
+  })
 
   constructor(props) {
     super(props);

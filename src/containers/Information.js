@@ -9,15 +9,19 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ImageCache } from "react-native-img-cache";
-import { PopButton } from '../components/button';
 import { setAuthrization } from '../actions/authorizeAction';
-import Header from '../components/Header';
+import menus from '../constants/menus';
 import SettingItem from '../components/SettingItem';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import api from '../services/api';
 
 class Information extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: menus.information.title,
+    drawerLockMode: 'locked-closed'
+  })
+
   handleTakePhoto() {
     ImagePicker.openCamera({
       width: 500,
@@ -81,7 +85,6 @@ class Information extends Component {
 
   render() {
     let {
-      router,
       user: {
         authrization: {
           avatar,
@@ -95,9 +98,11 @@ class Information extends Component {
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        <Header title='资料'>
-          <PopButton router={router} />
-        </Header>
+        {
+          // <Header title='资料'>
+          //   <PopButton router={router} />
+          // </Header>
+        }
         <View style={styles.group}>
           <SettingItem
             text='头像'

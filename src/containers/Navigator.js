@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { View, ScrollView } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
-import Router from '../router';
 import Menu from './Menu';
 import Home from '../screens/Home';
 import ForumList from '../screens/ForumList';
 import Search from '../screens/Search';
 import Message from '../screens/Message';
+import Individual from '../screens/Individual';
+import About from '../screens/About';
+import Other from '../screens/Other';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
@@ -26,6 +28,16 @@ const AppNavigator = DrawerNavigator({
   },
   Message: {
     screen: Message
+  },
+  Individual: {
+    screen: Individual
+  },
+  About: {
+    screen: About
+  },
+  //
+  Other: {
+    screen: Other
   }
 }, {
   initialRouteName: 'Home',
