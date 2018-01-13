@@ -11,7 +11,6 @@ import PmSessionList from '../components/PmSessionList';
 import MessageTabBar from '../components/3rd_party/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
 import menus from '../constants/menus';
-import { MenuButton } from '../components/button';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
@@ -25,14 +24,10 @@ const TABS = [
 ];
 
 class Message extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     title: menus.message.title,
-    drawerLockMode: 'locked-closed',
-    headerLeft: (
-      <MenuButton
-        navigation={navigation} />
-    )
-  })
+    drawerLockMode: 'locked-closed'
+  }
 
   constructor(props) {
     super(props);

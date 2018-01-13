@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '../components/SettingItem';
-import { MenuButton } from '../components/button';
 import menus from '../constants/menus';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
@@ -18,14 +17,10 @@ import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } fro
 import { getAlertCount } from '../selectors/alert';
 
 class About extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     title: menus.about.title,
-    drawerLockMode: 'locked-closed',
-    headerLeft: (
-      <MenuButton
-        navigation={navigation} />
-    )
-  })
+    drawerLockMode: 'locked-closed'
+  }
 
   render() {
     let {

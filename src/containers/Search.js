@@ -6,19 +6,14 @@ import indicatorStyles from '../styles/common/_Indicator';
 import TopicList from '../components/TopicList';
 import SearchBar from 'react-native-search-bar';
 import menus from '../constants/menus';
-import { MenuButton } from '../components/button';
 import { fetchSearch, resetSearch } from '../actions/topic/searchAction';
 import { getAlertCount } from '../selectors/alert';
 
 class Search extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     title: menus.search.title,
-    drawerLockMode: 'locked-closed',
-    headerLeft: (
-      <MenuButton
-        navigation={navigation} />
-    )
-  })
+    drawerLockMode: 'locked-closed'
+  }
 
   constructor(props) {
     super(props);

@@ -18,10 +18,10 @@ import { getSettingsFromStorage, putSettingsToStorage } from '../actions/setting
 import { resetAlerts } from '../actions/message/alertAction';
 
 class Settings extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     title: menus.settings.title,
     drawerLockMode: 'locked-closed'
-  })
+  }
 
   clearCache() {
     AlertIOS.alert(

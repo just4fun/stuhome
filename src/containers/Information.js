@@ -17,10 +17,10 @@ import styles from '../styles/containers/_About';
 import api from '../services/api';
 
 class Information extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     title: menus.information.title,
     drawerLockMode: 'locked-closed'
-  })
+  }
 
   handleTakePhoto() {
     ImagePicker.openCamera({

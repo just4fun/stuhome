@@ -1,46 +1,77 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, ScrollView } from 'react-native';
-import { DrawerNavigator } from 'react-navigation';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Menu from './Menu';
-import Home from '../screens/Home';
-import ForumList from '../screens/ForumList';
-import Search from '../screens/Search';
-import Message from '../screens/Message';
-import Individual from '../screens/Individual';
-import About from '../screens/About';
-import Other from '../screens/Other';
+import HomeScreen from './Home';
+import ForumListScreen from './ForumList';
+import ForumScreen from './ForumDetail';
+import SearchScreen from './Search';
+import TopicScreen from './TopicDetail';
+import MessageScreen from './Message';
+import IndividualScreen from './Individual';
+import PrivateMessageScreen from './PmList';
+import AboutScreen from './About';
+import InformationScreen from './Information';
+import SettingsScreen from './Settings';
+import WebViewScreen from './Browser';
+import colors from '../styles/common/_colors';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
 import { PollFrequency } from '../config';
 
 const AppNavigator = DrawerNavigator({
-  Home: {
-    screen: Home
-  },
-  ForumList: {
-    screen: ForumList
-  },
-  Search: {
-    screen: Search
-  },
-  Message: {
-    screen: Message
-  },
-  Individual: {
-    screen: Individual
-  },
-  About: {
-    screen: About
-  },
-  //
-  Other: {
-    screen: Other
+  Main: {
+    screen: StackNavigator({
+      Home: {
+        screen: HomeScreen
+      },
+      ForumList: {
+        screen: ForumListScreen
+      },
+      Forum: {
+        screen: ForumScreen
+      },
+      Search: {
+        screen: SearchScreen
+      },
+      Topic: {
+        screen: TopicScreen
+      },
+      Individual: {
+        screen: IndividualScreen
+      },
+      Message: {
+        screen: MessageScreen
+      },
+      PrivateMessage: {
+        screen: PrivateMessageScreen
+      },
+      WebView: {
+        screen: WebViewScreen
+      },
+      About: {
+        screen: AboutScreen
+      },
+      Information: {
+        screen: InformationScreen
+      },
+      Settings: {
+        screen: SettingsScreen
+      }
+    }, {
+      navigationOptions: {
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: colors.blue
+        }
+      }
+    })
   }
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Main',
   contentComponent: Menu,
   drawerOpenRoute: 'DrawerOpen',
   drawerCloseRoute: 'DrawerClose',

@@ -10,21 +10,16 @@ import _ from 'lodash';
 import mainStyles from '../styles/components/_Main';
 import ForumItems from '../components/ForumItems';
 import menus from '../constants/menus';
-import { MenuButton } from '../components/button';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 import { getAlertCount } from '../selectors/alert';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     title: menus.forumList.title,
-    drawerLockMode: 'locked-closed',
-    headerLeft: (
-      <MenuButton
-        navigation={navigation} />
-    )
-  })
+    drawerLockMode: 'locked-closed'
+  }
 
   constructor(props) {
     super(props);

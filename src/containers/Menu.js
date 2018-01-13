@@ -86,9 +86,6 @@ class Menu extends Component {
           {...this.props} />
         <View style={styles.menus}>
           <MenuItem
-            menu={menus['home']}
-            {...this.props} />
-          <MenuItem
             menu={menus['forumList']}
             {...this.props} />
           {user.authrization.token &&

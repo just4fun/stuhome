@@ -11,30 +11,23 @@ import _ from 'lodash';
 import { CachedImage } from "react-native-img-cache";
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { MenuButton } from '../components/button';
 import TopicList from '../components/TopicList';
 import colors from '../styles/common/_colors';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
-import menus from '../constants/menus';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
 import { getAlertCount } from '../selectors/alert';
 import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     drawerLockMode: 'locked-closed',
     headerStyle: {
       backgroundColor: colors.lightBlue,
       borderBottomWidth: 0
-    },
-    headerLeft: (
-      !navigation.state.params &&
-        <MenuButton
-          navigation={navigation} />
-    )
-  })
+    }
+  }
 
   constructor(props) {
     super(props);
