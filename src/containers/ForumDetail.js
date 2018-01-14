@@ -32,7 +32,7 @@ class ForumDetail extends Component {
       drawerLockMode: 'locked-closed',
       headerRight: (
         <PublishButton
-          onPress={() => this.togglePublishModal(true)} />
+          onPress={() => navigation.navigate('PublishModal')} />
       )
     };
   }

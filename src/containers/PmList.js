@@ -47,9 +47,9 @@ class PmList extends Component {
   }
 
   componentDidMount() {
-    this._fetchPmList();
+    this.fetchPmList();
     // fetch new private messages every 1 mins
-    this.timer = setInterval(() => { this._fetchPmList(); }, 1000 * 60);
+    this.timer = setInterval(() => { this.fetchPmList(); }, 1000 * 60);
   }
 
   componentWillUnmount() {
@@ -58,21 +58,22 @@ class PmList extends Component {
     this.timer && clearInterval(this.timer);
   }
 
-  _fetchPmList() {
+  fetchPmList() {
     this.props.fetchPmList({
       userId: this.userId,
       page: 1
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // set up title
+  setUpTitle(newUserName) {
     let userName = this.props.pmList.user.name;
-    let newUserName = nextProps.pmList.user.name;
-
     if (userName !== newUserName) {
       this.props.navigation.setParams({ title: newUserName });
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setUpTitle(nextProps.pmList.user.name);
 
     // handle private messages
     let {
@@ -96,10 +97,10 @@ class PmList extends Component {
         // so the workaround can not only fix the weird issue here, but also can
         // give user a better ux with customized ticks `发送中...`, which seems
         // like the best solustion now.
-        setTimeout(() => { this._fetchPmList(); }, 1000 * 3);
+        setTimeout(() => { this.fetchPmList(); }, 1000 * 3);
       } else if (errcode) {
         // the time between sending two messages is too short
-        this._fetchPmList();
+        this.fetchPmList();
         AlertIOS.alert('提示', send.response.errcode);
       } else {
         // no network
@@ -123,14 +124,14 @@ class PmList extends Component {
     }
   }
 
-  _loadEarlierMessages(page) {
+  loadEarlierMessages(page) {
     this.props.fetchPmList({
       userId: this.userId,
       page
     });
   }
 
-  _onSend({ messages, toUserId }) {
+  onSend({ messages, toUserId }) {
     this.setState(previousState => {
       return {
         messages: GiftedChat.append(previousState.messages, Object.assign({}, messages[0], { isNew: true }))
@@ -200,8 +201,8 @@ class PmList extends Component {
           isLoadingEarlier={isRefreshing && page > 1}
           loadEarlier={hasPrev}
           renderAvatarOnTop={true}
-          onLoadEarlier={() => this._loadEarlierMessages(page + 1)}
-          onSend={messages => this._onSend({
+          onLoadEarlier={() => this.loadEarlierMessages(page + 1)}
+          onSend={messages => this.onSend({
             messages,
             toUserId: user.id
           })}

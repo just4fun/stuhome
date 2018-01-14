@@ -67,11 +67,6 @@ class TopicDetail extends Component {
     this.topicId = getTopicId(params);
     this.boardId = params.board_id;
     this.boardName = params.board_name;
-
-    this.state = {
-      isReplyModalOpen: false,
-      currentContent: null
-    };
   }
 
   componentDidMount() {
@@ -202,8 +197,8 @@ class TopicDetail extends Component {
               <VoteList
                 pollInfo={topic.poll_info}
                 vote={vote}
-                publishVote={voteIds => this._publishVote(voteIds)}
-                resetVote={() => this._resetVote()}
+                publishVote={voteIds => this.publishVote(voteIds)}
+                resetVote={() => this.resetVote()}
                 fetchTopic={() => this.fetchTopic()} />
             }
           </View>
@@ -236,40 +231,26 @@ class TopicDetail extends Component {
     );
   }
 
-  _publish({ content, replyId, images }) {
-    // If we reply a topic, there is no need to pass `boardId`.
-    this.props.submit({
-      boardId: this.boardId,
-      topicId: this.topicId,
-      replyId,
-      typeId: null,
-      title: null,
-      images,
-      content
-    });
-  }
-
-  _publishVote(voteIds) {
+  publishVote(voteIds) {
     this.props.publishVote({
       topicId: this.topicId,
       voteIds
     });
   }
 
-  _resetVote() {
+  resetVote() {
     this.props.resetVote();
   }
 
-  toggleReplyModal(visible, content) {
-    this.setState({
-      isReplyModalOpen: visible,
-      currentContent: content
-    });
-  }
+  // toggleReplyModal(visible, content) {
+  //   this.setState({
+  //     isReplyModalOpen: visible,
+  //     currentContent: content
+  //   });
+  // }
 
   render() {
     let { topicItem, reply, vote, user, navigation } = this.props;
-    let { isReplyModalOpen, currentContent } = this.state;
 
     if (topicItem.isFetching) {
       return (
@@ -294,18 +275,18 @@ class TopicDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {isReplyModalOpen &&
-          <ReplyModal
-            {...this.props}
-            visible={isReplyModalOpen}
-            content={currentContent}
-            reply={reply}
-            isReplyInTopic={true}
-            handlePublish={comment => this._publish(comment)}
-            closeReplyModal={() => this.toggleReplyModal(false)}
-            fetchTopic={() => this.fetchTopic()} />
+        {
+        // isReplyModalOpen &&
+        //   <ReplyModal
+        //     {...this.props}
+        //     visible={isReplyModalOpen}
+        //     content={currentContent}
+        //     reply={reply}
+        //     isReplyInTopic={true}
+        //     handlePublish={comment => this._publish(comment)}
+        //     closeReplyModal={() => this.toggleReplyModal(false)}
+        //     fetchTopic={() => this.fetchTopic()} />
         }
-
         {
           // <Header title={this.boardName}>
           //   <PopButton router={this.props.router} />
@@ -327,8 +308,7 @@ class TopicDetail extends Component {
               comment={comment}
               currentUserId={uid}
               currentTopicId={this.topicId}
-              navigation={navigation}
-              openReplyModal={() => this.toggleReplyModal(true, comment)} />
+              navigation={navigation} />
           }
           onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}

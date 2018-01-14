@@ -15,7 +15,6 @@ import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_PublishModal';
 import colors from '../../styles/common/_colors';
-import Header from '../Header';
 import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
@@ -157,33 +156,35 @@ export default class PublishModal extends Component {
               closePicker={() => this.togglePicker(false)}
               setSelection={typeId => this.setState({ typeId })} />
           }
-          <Header title={this.title}>
-            <Text
-              style={modalStyles.button}
-              onPress={() => this.handleCancel()}>
-              取消
-            </Text>
-            {this._isFormValid() &&
-              (isPublishing &&
-                <ActivityIndicator color='white' />
-                ||
-                <Text
-                  style={modalStyles.button}
-                  onPress={() => this._handlePublish({
-                    typeId,
-                    title,
-                    content
-                  })}>
-                  发布
-                </Text>
-              )
-              ||
-              <Text
-                style={[modalStyles.button, modalStyles.disabled]}>
-                发布
-              </Text>
-            }
-          </Header>
+          {
+            // <Header title={this.title}>
+            //   <Text
+            //     style={modalStyles.button}
+            //     onPress={() => this.handleCancel()}>
+            //     取消
+            //   </Text>
+            //   {this._isFormValid() &&
+            //     (isPublishing &&
+            //       <ActivityIndicator color='white' />
+            //       ||
+            //       <Text
+            //         style={modalStyles.button}
+            //         onPress={() => this._handlePublish({
+            //           typeId,
+            //           title,
+            //           content
+            //         })}>
+            //         发布
+            //       </Text>
+            //     )
+            //     ||
+            //     <Text
+            //       style={[modalStyles.button, modalStyles.disabled]}>
+            //       发布
+            //     </Text>
+            //   }
+            // </Header>
+          }
           <KeyboardAwareScrollView style={[styles.form, isPublishing && styles.disabledForm]}>
             {types.length > 0 &&
               <TouchableHighlight

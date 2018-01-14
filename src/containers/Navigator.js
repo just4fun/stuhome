@@ -16,6 +16,8 @@ import AboutScreen from './About';
 import InformationScreen from './Information';
 import SettingsScreen from './Settings';
 import WebViewScreen from './Browser';
+import PublishModalScreen from '../components/modal/PublishModal';
+import ReplyModalScreen from '../components/modal/ReplyModal';
 import colors from '../styles/common/_colors';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
@@ -23,45 +25,73 @@ import { fetchAlerts } from '../actions/message/alertAction';
 import { PollFrequency } from '../config';
 
 const AppNavigator = DrawerNavigator({
-  Main: {
+  App: {
     screen: StackNavigator({
-      Home: {
-        screen: HomeScreen
+      Main: {
+        screen: StackNavigator({
+          Home: {
+            screen: HomeScreen
+          },
+          ForumList: {
+            screen: ForumListScreen
+          },
+          Forum: {
+            screen: ForumScreen
+          },
+          Search: {
+            screen: SearchScreen
+          },
+          Topic: {
+            screen: TopicScreen
+          },
+          Individual: {
+            screen: IndividualScreen
+          },
+          Message: {
+            screen: MessageScreen
+          },
+          PrivateMessage: {
+            screen: PrivateMessageScreen
+          },
+          WebView: {
+            screen: WebViewScreen
+          },
+          About: {
+            screen: AboutScreen
+          },
+          Information: {
+            screen: InformationScreen
+          },
+          Settings: {
+            screen: SettingsScreen
+          }
+        }, {
+          initialRouteName: 'Home',
+          navigationOptions: {
+            headerTintColor: 'white',
+            headerStyle: {
+              backgroundColor: colors.blue
+            }
+          }
+        })
       },
-      ForumList: {
-        screen: ForumListScreen
-      },
-      Forum: {
-        screen: ForumScreen
-      },
-      Search: {
-        screen: SearchScreen
-      },
-      Topic: {
-        screen: TopicScreen
-      },
-      Individual: {
-        screen: IndividualScreen
-      },
-      Message: {
-        screen: MessageScreen
-      },
-      PrivateMessage: {
-        screen: PrivateMessageScreen
-      },
-      WebView: {
-        screen: WebViewScreen
-      },
-      About: {
-        screen: AboutScreen
-      },
-      Information: {
-        screen: InformationScreen
-      },
-      Settings: {
-        screen: SettingsScreen
+      ReplyModal: {
+        screen: ReplyModalScreen
       }
     }, {
+      // Without `headerMode: 'none'`, there will be two headers since there are two
+      // StackNavigators which is workaround for using both `Card` and `Modal` mode.
+      //
+      // However, it will also hide header for Modal components, maybe you think why
+      // we don't use original custom Header component written with RN Modal, the reason
+      // is in that way we need to involve Modal component in every needed place.
+      //
+      // As workaround, I just used original custom Header component for Modal components.
+      //
+      // https://github.com/react-navigation/react-navigation/issues/1276
+      headerMode: 'none',
+      mode: 'modal',
+      initialRouteName: 'Main',
       navigationOptions: {
         headerTintColor: 'white',
         headerStyle: {
@@ -69,9 +99,9 @@ const AppNavigator = DrawerNavigator({
         }
       }
     })
-  }
+  },
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'App',
   contentComponent: Menu,
   drawerOpenRoute: 'DrawerOpen',
   drawerCloseRoute: 'DrawerClose',

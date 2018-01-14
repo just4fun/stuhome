@@ -66,7 +66,7 @@ class Settings extends Component {
             value={settings.enableNotification} />
         </View>
         <Text style={[styles.explanation, styles.text]}>
-          开启“消息提醒”，每15s会自动获取“提到我的”、“回复”、“私信”，并在有新信息时在根目录左上角显示小红点，并在侧边栏显示未读消息数字。
+          开启“消息提醒”，每15s会自动获取“提到我的”、“回复”、“私信”，有新信息时会在首页左上角显示小红点，并在侧边栏显示未读消息数字。
         </Text>
       </View>
     );

@@ -15,18 +15,22 @@ import { CommentButton } from './button';
 import { parseContentWithImage } from '../utils/contentParser';
 
 export default class Comment extends Component {
-  _showOptions(userId) {
-    let { currentUserId, navigation } = this.props;
-    if (!currentUserId) { return; }
+  showOptions() {
+    let {
+      currentUserId,
+      navigation,
+      comment,
+      comment: {
+        reply_id: userId
+      }
+    } = this.props;
 
-    let options = [
-      '回复',
-      '取消'
-    ];
+    let options = ['回复'];
     let isCurrentUserSelf = currentUserId === userId;
     if (!isCurrentUserSelf) {
-      options.splice(1, 0, '私信');
+      options.push('私信');
     }
+    options.push('取消');
 
     ActionSheetIOS.showActionSheetWithOptions({
       options,
@@ -35,7 +39,12 @@ export default class Comment extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          this.props.openReplyModal();
+          navigation.navigate('ReplyModal', {
+            comment,
+            // To indicate we need to fetch topic again
+            // to display new comments.
+            isReplyInTopic: true
+          });
           break;
         case 1:
           if (!isCurrentUserSelf) {
@@ -44,6 +53,11 @@ export default class Comment extends Component {
           break;
       }
     });
+  }
+
+  handlePress() {
+    if (!this.props.currentTopicId) { return; }
+    this.showOptions();
   }
 
   render() {
@@ -66,7 +80,7 @@ export default class Comment extends Component {
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => this._showOptions(reply_id)}>
+        onPress={() => this.handlePress()}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
             <Avatar

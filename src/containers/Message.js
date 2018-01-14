@@ -105,14 +105,15 @@ class Message extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {isReplyModalOpen &&
-          <ReplyModal
-            visible={isReplyModalOpen}
-            content={currentNotification}
-            reply={reply}
-            resetReply={() => this.props.resetReply()}
-            closeReplyModal={() => this.toggleReplyModal(false)}
-            handlePublish={comment => this._publish(comment)} />
+        {
+        // isReplyModalOpen &&
+        //   <ReplyModal
+        //     visible={isReplyModalOpen}
+        //     content={currentNotification}
+        //     reply={reply}
+        //     resetReply={() => this.props.resetReply()}
+        //     closeReplyModal={() => this.toggleReplyModal(false)}
+        //     handlePublish={comment => this._publish(comment)} />
         }
         {
         // <Header title='消息'

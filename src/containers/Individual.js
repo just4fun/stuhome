@@ -60,7 +60,7 @@ class Individual extends Component {
       this.userId = uid;
       this.userName = userName;
       this.userAvatar = avatar;
-      // user could only see their own favorite topics since it's privacy
+      // User could only see their own favorite topics since it's privacy.
       this.TABS = [
         { label: '最近发表', type: 'topic' },
         { label: '最近回复', type: 'reply' },
@@ -74,7 +74,7 @@ class Individual extends Component {
       } = passProps;
       this.userId = userId;
       this.userName = userName;
-      // if user comes from @somebody link, we could not get his/her avatar directly
+      // If user comes from @somebody link, we could not get his/her avatar directly.
       this.userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${userId}`;
 
       this.TABS = [
@@ -92,7 +92,7 @@ class Individual extends Component {
     });
   }
 
-  _refreshUserTopicList({ page, isEndReached, type }) {
+  refreshUserTopicList({ page, isEndReached, type }) {
     this.props.invalidateUserTopicList({
       userId: this.userId,
       type
@@ -163,7 +163,7 @@ class Individual extends Component {
                 navigation={navigation}
                 type={tab.type}
                 topicList={_.get(userTopicList, [this.userId, tab.type], {})}
-                refreshTopicList={({ page, isEndReached }) => this._refreshUserTopicList({ page, isEndReached, type: tab.type })} />
+                refreshTopicList={({ page, isEndReached }) => this.refreshUserTopicList({ page, isEndReached, type: tab.type })} />
             );
           })}
         </ScrollableTabView>

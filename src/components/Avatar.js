@@ -27,6 +27,9 @@ export default class Avatar extends Component {
             onPress();
             return;
           }
+
+          if (userId === currentUserId) { return; }
+
           navigation.navigate('Individual', {
             userId,
             userName,

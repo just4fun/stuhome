@@ -11,7 +11,11 @@ export default class WebPage extends Component {
     let {
       action,
       url,
-      passProps,
+      navigation: {
+        state: {
+          params
+        }
+      },
       title
     } = this.props;
 
@@ -24,7 +28,7 @@ export default class WebPage extends Component {
         }
         <WebView
           automaticallyAdjustContentInsets={false}
-          source={{ uri: url || passProps.url }}
+          source={{ uri: url || params.url }}
           decelerationRate="normal"
           startInLoadingState={true} />
       </View>
