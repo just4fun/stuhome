@@ -69,8 +69,7 @@ export default class NotifyList extends Component {
             <NotifyItem
               key={notification.topic_id}
               notification={notification}
-              navigation={navigation}
-              openReplyModal={notification => this.props.openReplyModal(notification)} />
+              navigation={navigation} />
           );
         }}
         onEndReached={() => this.endReached()}

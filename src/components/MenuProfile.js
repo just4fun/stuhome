@@ -15,8 +15,6 @@ export default class MenuProfile extends Component {
         token,
         avatar,
         userName,
-        userTitle,
-        creditShowList
       },
       navigation
     } = this.props;
@@ -39,7 +37,7 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => this.props.openLoginModal()}>
+              onPress={() => navigation.navigate('LoginModal')}>
               <Image
                 key='noavatar'
                 style={styles.avatar}

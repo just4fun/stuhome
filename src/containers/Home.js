@@ -31,16 +31,18 @@ class Home extends Component {
     headerLeft: (
       <MenuButton
         navigation={navigation} />
+    ),
+    headerRight: (
+      <PublishButton
+        onPress={() => navigation.navigate('ForumListModal')} />
     )
   })
 
   constructor(props) {
     super(props);
 
-    this.boardId = 'all';
     this.state = {
       isForumListModalOpen: false,
-      isPublishModalOpen: false,
       selectedForumId: null
     };
   }
@@ -54,15 +56,11 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // this will lead infinite loop
-
-    // Unhandled JS Exception: Maximum update depth exceeded.
-    // This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate.
-    // React limits the number of nested updates to prevent infinite loops.
-
     // this.props.navigation.setParams({
     //   alertAcount: nextProps.alertAcount
     // });
+
+
   }
 
   fetchForumList() {
@@ -71,12 +69,12 @@ class Home extends Component {
     });
   }
 
-  refreshForumList() {
-    this.props.invalidateForumList({
-      boardId: this.boardId
-    });
-    this.fetchForumList();
-  }
+  // refreshForumList() {
+  //   this.props.invalidateForumList({
+  //     boardId: this.boardId
+  //   });
+  //   this.fetchForumList();
+  // }
 
   refreshTopicList({ page, isEndReached, sortType }) {
     this.props.invalidateTopicList({
@@ -99,29 +97,29 @@ class Home extends Component {
     });
   }
 
-  toggleForumListModal(visible) {
-    this.setState({
-      isForumListModalOpen: visible
-    });
-  }
+  // toggleForumListModal(visible) {
+  //   this.setState({
+  //     isForumListModalOpen: visible
+  //   });
+  // }
 
-  togglePublishModal(visible) {
-    this.setState({
-      isPublishModalOpen: visible
-    });
-  }
+  // togglePublishModal(visible) {
+  //   this.setState({
+  //     isPublishModalOpen: visible
+  //   });
+  // }
 
-  selectForum(forum) {
-    this.setState({ selectedForumId: forum.board_id });
-    this.toggleForumListModal(false);
-    this.togglePublishModal(true);
-    // This is manily to fetch topic types for each forum.
-    this.props.fetchTopicList({
-      boardId: forum.board_id,
-      isEndReached: false,
-      sortType: 'publish'
-    });
-  }
+  // selectForum(forum) {
+  //   this.setState({ selectedForumId: forum.board_id });
+  //   this.toggleForumListModal(false);
+  //   this.togglePublishModal(true);
+  //   // This is manily to fetch topic types for each forum.
+  //   this.props.fetchTopicList({
+  //     boardId: forum.board_id,
+  //     isEndReached: false,
+  //     sortType: 'publish'
+  //   });
+  // }
 
   publish({ typeId, title, images, content }) {
     this.props.submit({
@@ -146,28 +144,29 @@ class Home extends Component {
     let {
       selectedForumId,
       isForumListModalOpen,
-      isPublishModalOpen
     } = this.state;
 
     return (
       <View style={mainStyles.container}>
-        {isForumListModalOpen &&
-          <ForumListModal
-            visible={isForumListModalOpen}
-            forumList={forumList}
-            closeForumListModal={() => this.toggleForumListModal(false)}
-            handleSelectForum={(forum) => this.selectForum(forum)}
-            fetchForumList={() => this.fetchForumList()}
-            refreshForumList={() => this.refreshForumList()} />
+        {
+          // isForumListModalOpen &&
+          //   <ForumListModal
+          //     visible={isForumListModalOpen}
+          //     forumList={forumList}
+          //     closeForumListModal={() => this.toggleForumListModal(false)}
+          //     handleSelectForum={(forum) => this.selectForum(forum)}
+          //     fetchForumList={() => this.fetchForumList()}
+          //     refreshForumList={() => this.refreshForumList()} />
         }
-        {isPublishModalOpen &&
-          <PublishModal
-            {...this.props}
-            visible={isPublishModalOpen}
-            publish={publish}
-            types={_.get(topicList, [selectedForumId, 'typeList'], [])}
-            closePublishModal={() => this.togglePublishModal(false)}
-            handlePublish={topic => this.publish(topic)} />
+        {
+          // isPublishModalOpen &&
+          //   <PublishModal
+          //     {...this.props}
+          //     visible={isPublishModalOpen}
+          //     publish={publish}
+          //     types={_.get(topicList, [selectedForumId, 'typeList'], [])}
+          //     closePublishModal={() => this.togglePublishModal(false)}
+          //     handlePublish={topic => this.publish(topic)} />
         }
         {
           // <Header

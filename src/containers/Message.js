@@ -29,20 +29,11 @@ class Message extends Component {
     drawerLockMode: 'locked-closed'
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isReplyModalOpen: false,
-      currentNotification: null
-    };
-  }
-
-  _fetchNotifyList(notifyType) {
+  fetchNotifyList(notifyType) {
     this.props.fetchNotifyList({ notifyType });
   }
 
-  _refreshNotifyList({ page, isEndReached, notifyType }) {
+  refreshNotifyList({ page, isEndReached, notifyType }) {
     this.props.invalidateNotifyList({ notifyType });
     this.props.fetchNotifyList({
       notifyType,
@@ -51,11 +42,11 @@ class Message extends Component {
     });
   }
 
-  _fetchPmSessionList() {
+  fetchPmSessionList() {
     this.props.fetchPmSessionList({ page: 1 });
   }
 
-  _refreshPmSessionList({ page, isEndReached }) {
+  refreshPmSessionList({ page, isEndReached }) {
     this.props.invalidatePmSessionList();
     this.props.fetchPmSessionList({
       isEndReached,
@@ -75,16 +66,9 @@ class Message extends Component {
     });
   }
 
-  toggleReplyModal(visible, notification) {
-    this.setState({
-      isReplyModalOpen: visible,
-      currentNotification: notification
-    });
-  }
-
-  // this is a hacky way to allow customized tab label
+  // This is a hacky way to allow customized tab label
   // for each tab of <ScrollableTabView /> component.
-  _getTabsWithAlertCount(tabs) {
+  getTabsWithAlertCount(tabs) {
     let newTabs = [];
     let { atMeCount, replyCount, pmCount } = this.props;
     newTabs.push({ name: tabs[0], count: atMeCount });
@@ -101,7 +85,6 @@ class Message extends Component {
       navigation,
       alertCount
     } = this.props;
-    let { isReplyModalOpen, currentNotification } = this.state;
 
     return (
       <View style={mainStyles.container}>
@@ -121,7 +104,7 @@ class Message extends Component {
         //         updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         }
         <ScrollableTabView
-          renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlertCount(props.tabs)} />}
+          renderTabBar={(props) => <MessageTabBar newTabs={this.getTabsWithAlertCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
           tabBarActiveTextColor={colors.white}
           tabBarInactiveTextColor={colors.white}
@@ -136,8 +119,8 @@ class Message extends Component {
                   pmSessionList={pmSessionList}
                   navigation={navigation}
                   markAsRead={({ plid }) => this.props.markAsRead({ plid })}
-                  fetchPmSessionList={() => this._fetchPmSessionList(tab.type)}
-                  refreshPmSessionList={({ page, isEndReached }) => this._refreshPmSessionList({ page, isEndReached })} />
+                  fetchPmSessionList={() => this.fetchPmSessionList(tab.type)}
+                  refreshPmSessionList={({ page, isEndReached }) => this.refreshPmSessionList({ page, isEndReached })} />
               );
             }
 
@@ -147,9 +130,8 @@ class Message extends Component {
                 tabLabel={tab.label}
                 notifyList={_.get(notifyList, tab.type, {})}
                 navigation={navigation}
-                fetchNotifyList={() => this._fetchNotifyList(tab.type)}
-                refreshNotifyList={({ page, isEndReached }) => this._refreshNotifyList({ page, isEndReached, notifyType: tab.type })}
-                openReplyModal={notification => this.toggleReplyModal(true, notification)} />
+                fetchNotifyList={() => this.fetchNotifyList(tab.type)}
+                refreshNotifyList={({ page, isEndReached }) => this.refreshNotifyList({ page, isEndReached, notifyType: tab.type })} />
             );
           })}
         </ScrollableTabView>

@@ -61,19 +61,22 @@ export default class Comment extends Component {
   }
 
   render() {
-    let { comment, currentTopicId, navigation } = this.props;
     let {
-      reply_name,
-      userTitle,
-      icon,
-      position,
-      reply_id, // user id
-      reply_content,
-      posts_date,
-      is_quote,
-      quote_content,
-      mobileSign
-    } = comment;
+      navigation,
+      currentTopicId,
+      comment: {
+        reply_name,
+        userTitle,
+        icon,
+        position,
+        reply_id, // user id
+        reply_content,
+        posts_date,
+        is_quote,
+        quote_content,
+        mobileSign
+      }
+    } = this.props;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 

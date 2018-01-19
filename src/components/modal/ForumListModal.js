@@ -2,49 +2,77 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Modal,
   ActivityIndicator
 } from 'react-native';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import ForumItems from '../ForumItems';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import Header from '../Header';
+import { invalidateForumList, fetchForumList } from '../../actions/forumAction';
 
-export default class ForumListModal extends Component {
+class ForumListModal extends Component {
   constructor(props) {
     super(props);
     this.title = '请选择版块';
+    this.boardId = 'all';
   }
 
   componentDidMount() {
-    this.props.fetchForumList();
+    this.fetchForumList();
+  }
+
+  fetchForumList() {
+    this.props.fetchForumList({
+      boardId: this.boardId
+    });
+  }
+
+  refreshForumList() {
+    this.props.invalidateForumList({
+      boardId: this.boardId
+    });
+    this.fetchForumList();
+  }
+
+  handleSelectForum(forum) {
+    let { navigation } = this.props;
+    navigation.goBack();
+    navigation.navigate('PublishModal', {
+      boardId: forum.board_id
+    });
   }
 
   render() {
-    let { forumList, visible } = this.props;
+    let { forumList, navigation } = this.props;
 
     return (
-      <Modal
-        animationType='slide'
-        transparent={false}
-        style={modalStyles.container}
-        visible={visible}>
-        <View style={mainStyles.container}>
-          <Header title={this.title}>
-            <Text
-              style={modalStyles.button}
-              onPress={() => this.props.closeForumListModal()}>取消</Text>
-          </Header>
-          <ForumItems
-            isForumListModal={true}
-            boardId={'all'}
-            forumList={_.get(forumList, 'all', {})}
-            isTopForumList={true}
-            handleSelectForum={(forum) => this.props.handleSelectForum(forum)}
-            refreshForumList={() => this.props.refreshForumList()} />
-        </View>
-      </Modal>
+      <View style={mainStyles.container}>
+        <Header title={this.title}>
+          <Text
+            style={modalStyles.button}
+            onPress={() => navigation.goBack()}>取消</Text>
+        </Header>
+        <ForumItems
+          isForumListModal={true}
+          boardId={'all'}
+          forumList={forumList}
+          isTopForumList={true}
+          handleSelectForum={(forum) => this.handleSelectForum(forum)}
+          refreshForumList={() => this.refreshForumList()} />
+      </View>
     );
   }
 }
+
+function mapStateToProps({ forumList }) {
+  return {
+    forumList: _.get(forumList, 'all', {})
+  };
+}
+
+export default connect(mapStateToProps, {
+  invalidateForumList,
+  fetchForumList
+})(ForumListModal);

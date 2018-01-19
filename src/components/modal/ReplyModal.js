@@ -152,31 +152,29 @@ class ReplyModal extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {
-          <Header title={this.title}>
-            <Text
-              style={modalStyles.button}
-              onPress={() => this.handleCancel()}>
-              取消
-            </Text>
-            {replyContent.length &&
-              (isPublishing &&
-                <ActivityIndicator color='white' />
-                ||
-                <Text
-                  style={modalStyles.button}
-                  onPress={() => this.handlePublish()}>
-                  发布
-                </Text>
-              )
+        <Header title={this.title}>
+          <Text
+            style={modalStyles.button}
+            onPress={() => this.handleCancel()}>
+            取消
+          </Text>
+          {replyContent.length &&
+            (isPublishing &&
+              <ActivityIndicator color='white' />
               ||
               <Text
-                style={[modalStyles.button, modalStyles.disabled]}>
+                style={modalStyles.button}
+                onPress={() => this.handlePublish()}>
                 发布
               </Text>
-            }
-          </Header>
-        }
+            )
+            ||
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              发布
+            </Text>
+          }
+        </Header>
         <KeyboardAwareScrollView style={isPublishing && styles.disabledForm}>
           <View style={styles.formItem}>
             <TextInput

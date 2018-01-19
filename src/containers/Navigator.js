@@ -16,8 +16,11 @@ import AboutScreen from './About';
 import InformationScreen from './Information';
 import SettingsScreen from './Settings';
 import WebViewScreen from './Browser';
+import LoginModalScreen from '../components/modal/LoginModal';
+import RegisterModalScreen from '../components/modal/RegisterModal';
 import PublishModalScreen from '../components/modal/PublishModal';
 import ReplyModalScreen from '../components/modal/ReplyModal';
+import ForumListModalScreen from '../components/modal/ForumListModal';
 import colors from '../styles/common/_colors';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
@@ -75,8 +78,20 @@ const AppNavigator = DrawerNavigator({
           }
         })
       },
+      LoginModal: {
+        screen: LoginModalScreen
+      },
+      RegisterModal: {
+        screen: RegisterModalScreen
+      },
+      PublishModal: {
+        screen: PublishModalScreen
+      },
       ReplyModal: {
         screen: ReplyModalScreen
+      },
+      ForumListModal: {
+        screen: ForumListModalScreen
       }
     }, {
       // Without `headerMode: 'none'`, there will be two headers since there are two
