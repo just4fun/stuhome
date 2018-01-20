@@ -49,25 +49,29 @@ export default class ImageUploader extends Component {
     return (
       <View style={styles.container}>
         {previewUri &&
-          <ImagePreview source={{ uri: previewUri }}
-                        visible={!!previewUri}
-                        close={() => this.previewImage(null)} />
+          <ImagePreview
+            source={{ uri: previewUri }}
+            visible={!!previewUri}
+            close={() => this.previewImage(null)} />
         }
         {this.props.images.map((image, index) => {
           return (
-            <TouchableHighlight style={styles.block}
-                                key={index}
-                                underlayColor={colors.underlay}
-                                onPress={() => this.previewImage(image.path)}>
-              <Image style={styles.image}
-                     source={{ uri: image.path }}>
+            <TouchableHighlight
+              style={styles.block}
+              key={index}
+              underlayColor={colors.underlay}
+              onPress={() => this.previewImage(image.path)}>
+              <View>
+                <Image
+                  style={styles.image}
+                  source={{ uri: image.path }} />
                 {!disabled &&
                   <Icon style={styles.remove}
                     name='window-close'
                     size={16}
                     onPress={() => this.props.removeImage(index)} />
                 }
-              </Image>
+              </View>
             </TouchableHighlight>
           );
         })}
