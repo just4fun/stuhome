@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, ScrollView } from 'react-native';
-import { DrawerNavigator, StackNavigator } from 'react-navigation';
+import { DrawerNavigator, StackNavigator, SafeAreaView } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Menu from './Menu';
 import HomeScreen from './Home';
@@ -130,7 +130,11 @@ class AppRoot extends Component {
 
   render() {
     return (
-      <AppNavigator {...this.props} />
+      <SafeAreaView
+        forceInset={{top: 'never'}}
+        style={{ flex: 1, backgroundColor: colors.blue }}>
+        <AppNavigator {...this.props} />
+      </SafeAreaView>
     );
   }
 }

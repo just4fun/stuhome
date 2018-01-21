@@ -4,7 +4,8 @@ import {
   View,
   Image,
   AsyncStorage,
-  ActionSheetIOS
+  ActionSheetIOS,
+  SafeAreaView
 } from 'react-native';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
@@ -53,7 +54,7 @@ class Menu extends Component {
     let { user, alertCount } = this.props;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Image
           source={require('../images/shahe.jpg')}
           style={styles.blur} />
@@ -105,7 +106,7 @@ class Menu extends Component {
               onPress={() => this.showLogoutDialog()} />
           </View>
         }
-      </View>
+      </SafeAreaView>
     );
   }
 }

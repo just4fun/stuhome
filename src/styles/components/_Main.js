@@ -6,8 +6,7 @@ const window = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    width: window.width,
-    height: window.height,
-    backgroundColor: colors.white,
+    flex: 1,
+    backgroundColor: colors.white
   }
 });
