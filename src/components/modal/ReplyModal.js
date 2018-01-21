@@ -29,15 +29,30 @@ class ReplyModal extends Component {
     this.state = {
       isPublishing: false,
       replyContent: '',
-      replyId,
-      boardId,
-      topicId,
       images: [],
       isUploading: false,
       selectedPanel: 'keyboard',
       keyboardAccessoryToBottom: 0,
       isContentFocused: false
     };
+  }
+
+  initNecessaryData() {
+    let {
+      comment,
+      comment: {
+        reply_posts_id,
+        board_id,
+        topic_id
+      },
+      isReplyInTopic
+    } = this.props.navigation.state.params;
+
+    this.replyId = reply_posts_id;
+    this.boardId = board_id,
+    this.topicId = topic_id;
+    this.isReplyInTopic = isReplyInTopic;
+    this.title = this.getTitle(comment);
   }
 
   componentDidMount() {
@@ -64,24 +79,6 @@ class ReplyModal extends Component {
       keyboardAccessoryToBottom: 0,
       isContentFocused: false
     });
-  }
-
-  initNecessaryData() {
-    let {
-      comment,
-      comment: {
-        reply_posts_id,
-        board_id,
-        topic_id
-      },
-      isReplyInTopic
-    } = this.props.navigation.state.params;
-
-    this.replyId = reply_posts_id;
-    this.boardId = board_id,
-    this.topicId = topic_id;
-    this.isReplyInTopic = isReplyInTopic;
-    this.title = this.getTitle(comment);
   }
 
   fetchTopic() {

@@ -1,7 +1,7 @@
 import { MessageBarManager } from 'react-native-message-bar';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 export default {
-
   show: function(options) {
     if (typeof options !== 'object') {
       throw new Error('Expected `options` to be object.');
@@ -22,7 +22,8 @@ export default {
     }
 
     MessageBarManager.showAlert({
-      viewTopOffset: 60,
+      // Both 80 and 60 should same with variables in `_Header.js`.
+      viewTopOffset: isIphoneX() ? 80 : 60,
       message,
       alertType: type,
       messageStyle: {
@@ -37,5 +38,4 @@ export default {
       }
     });
   }
-
 };

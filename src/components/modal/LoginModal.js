@@ -94,9 +94,10 @@ class LoginModal extends Component {
           source={require('../../images/shahe.jpg')}
           style={styles.blur} />
         <Header style={styles.header}>
-          <PopButton action={() => this.closeLoginModal()} />
-          <Text style={styles.register}
-                onPress={() => navigation.navigate('RegisterModal')}>
+          <PopButton navigation={navigation} />
+          <Text
+            style={styles.register}
+            onPress={() => navigation.navigate('RegisterModal')}>
             注册
           </Text>
         </Header>

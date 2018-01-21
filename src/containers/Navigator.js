@@ -125,15 +125,24 @@ const AppNavigator = DrawerNavigator({
 
 class AppRoot extends Component {
   componentDidMount() {
+    MessageBarManager.registerMessageBar(this.refs.alert);
+
     this.props.getUserFromStorage();
+    this.props.getSettingsFromStorage();
+  }
+
+  componentWillUnmount() {
+    MessageBarManager.unregisterMessageBar();
+    this.timer && clearInterval(this.timer);
   }
 
   render() {
     return (
       <SafeAreaView
-        forceInset={{top: 'never'}}
+        forceInset={{ top: 'never' }}
         style={{ flex: 1, backgroundColor: colors.blue }}>
         <AppNavigator {...this.props} />
+        <MessageBar ref="alert" />
       </SafeAreaView>
     );
   }

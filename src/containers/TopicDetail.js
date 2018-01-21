@@ -16,6 +16,7 @@ import Avatar from '../components/Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
+import headerRightButtonStyles from '../styles/components/button/_HeaderRightButton';
 import indicatorStyles from '../styles/common/_Indicator';
 import modalStyles from '../styles/common/_Modal';
 import styles from '../styles/containers/_TopicDetail';
@@ -57,10 +58,18 @@ function getTopicId(topic) {
 
 class TopicDetail extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title } = navigation.state.params;
+    let { title, isLogin, handleShowOperationDialog } = navigation.state.params;
     return {
       title,
-      drawerLockMode: 'locked-closed'
+      drawerLockMode: 'locked-closed',
+      headerRight: (
+        isLogin &&
+          <Icon
+            style={headerRightButtonStyles.button}
+            size={18}
+            name='ellipsis-h'
+            onPress={handleShowOperationDialog}/>
+      )
     };
   }
 
@@ -84,7 +93,10 @@ class TopicDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ title: this.boardName });
+    this.props.navigation.setParams({
+      title: this.boardName,
+      handleShowOperationDialog: this.showOperationDialog.bind(this)
+    });
     this.fetchTopic();
   }
 
@@ -93,6 +105,14 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Set up title
+    let previousUserId = this.props.user.authrization.uid;
+    let currentUserId = nextProps.user.authrization.uid;
+    if (previousUserId !== currentUserId) {
+      this.props.navigation.setParams({ isLogin: !!currentUserId });
+    }
+
+    // Handle respones
     let { topicItem, topicFavor } = nextProps;
 
     if (topicItem.errCode) {
@@ -285,7 +305,7 @@ class TopicDetail extends Component {
     }).join('');
   }
 
-  showOperationDialog(topic) {
+  showOperationDialog() {
     let options = [
       this.order === 0 ? '倒序查看' : '顺序查看',
       this.authorId === 0 ? '只看楼主' : '查看全部',
@@ -301,6 +321,7 @@ class TopicDetail extends Component {
       cancelButtonIndex: options.length - 1
     },
     (buttonIndex) => {
+      let { topic } = this.props.topicItem;
       switch (buttonIndex) {
         case 0:
           this.order = this.order === 0 ? 1 : 0;
@@ -402,7 +423,9 @@ class TopicDetail extends Component {
           <TouchableHighlight
             style={styles.commentArea}
             underlayColor={colors.underlay}
-            onPress={() => this.toggleReplyModal(true)}>
+            onPress={() => navigation.navigate('ReplyModal', {
+
+            })}>
             <Text style={styles.commentAreaText}>发表评论</Text>
           </TouchableHighlight>
         }
