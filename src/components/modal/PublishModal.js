@@ -6,8 +6,10 @@ import {
   Modal,
   ScrollView,
   AlertIOS,
+  Keyboard,
   TouchableHighlight,
-  ActivityIndicator
+  ActivityIndicator,
+  LayoutAnimation
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,6 +21,7 @@ import Header from '../Header';
 import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
+import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
 
 export default class PublishModal extends Component {
@@ -31,9 +34,39 @@ export default class PublishModal extends Component {
       content: '',
       isPickerOpen: false,
       images: [],
-      isUploading: false
+      isUploading: false,
+      selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: 0,
+      isContentFocused: false
     };
     this.title = this.props.title || '发表新主题';
+    this.contentCursorLocation = 0;
+  }
+
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: e.endCoordinates.height
+    });
+  }
+
+  keyboardWillHide(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      keyboardAccessoryToBottom: 0,
+      isContentFocused: false
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,7 +114,7 @@ export default class PublishModal extends Component {
     this.cancel();
   }
 
-  _isFormValid() {
+  isFormValid() {
     let { typeId, title, content } = this.state;
     let { types } = this.props;
 
@@ -93,7 +126,7 @@ export default class PublishModal extends Component {
         && content.length;
   }
 
-  _handlePublish(topic) {
+  handlePublish(topic) {
     this.titleInput.blur();
     this.contentInput.blur();
 
@@ -107,6 +140,32 @@ export default class PublishModal extends Component {
 
       this.props.handlePublish(topic);
     });
+  }
+
+  handlePanelSelect(item) {
+    if (item !== 'keyboard') {
+      // hide keyboard
+      this.titleInput.blur();
+      this.contentInput.blur();
+    } else {
+      // show keyboard
+      this.contentInput.focus();
+    }
+
+    this.setState({ selectedPanel: item });
+  }
+
+  handleEmojiPress(emoji) {
+    this.setState((prevState) => {
+      let newContent = prevState.content.substr(0, this.contentCursorLocation)
+                     + emoji.code
+                     + prevState.content.substr(this.contentCursorLocation)
+      return { content: newContent };
+    });
+  }
+
+  handleContentSelectionChange(event) {
+    this.contentCursorLocation = event.nativeEvent.selection.start;
   }
 
   togglePicker(visible) {
@@ -136,6 +195,15 @@ export default class PublishModal extends Component {
     });
   }
 
+  handleScroll() {
+    if (this.state.selectedPanel === 'meme') {
+      this.setState({
+        keyboardAccessoryToBottom: 0,
+        selectedPanel: 'keyboard'
+      });
+    }
+  }
+
   render() {
     let { typeId, title, content, isPickerOpen, images } = this.state;
     let { publish, types } = this.props;
@@ -163,13 +231,13 @@ export default class PublishModal extends Component {
               onPress={() => this.handleCancel()}>
               取消
             </Text>
-            {this._isFormValid() &&
+            {this.isFormValid() &&
               (isPublishing &&
                 <ActivityIndicator color='white' />
                 ||
                 <Text
                   style={modalStyles.button}
-                  onPress={() => this._handlePublish({
+                  onPress={() => this.handlePublish({
                     typeId,
                     title,
                     content
@@ -184,7 +252,9 @@ export default class PublishModal extends Component {
               </Text>
             }
           </Header>
-          <KeyboardAwareScrollView style={[styles.form, isPublishing && styles.disabledForm]}>
+          <KeyboardAwareScrollView
+            style={[styles.form, isPublishing && styles.disabledForm]}
+            onScroll={() => this.handleScroll()}>
             {types.length > 0 &&
               <TouchableHighlight
                 underlayColor={colors.underlay}
@@ -209,6 +279,7 @@ export default class PublishModal extends Component {
               <TextInput
                 ref={component => this.titleInput = component}
                 style={styles.topicTitle}
+                onFocus={() => this.setState({ isContentFocused: false })}
                 onChangeText={text => this.setState({ title: text })}
                 editable={!isPublishing}
                 returnKeyType='next'
@@ -219,7 +290,10 @@ export default class PublishModal extends Component {
             <View style={styles.formItem}>
               <TextInput
                 ref={component => this.contentInput = component}
+                value={this.state.content}
                 style={styles.topicContent}
+                onFocus={() => this.setState({ isContentFocused: true })}
+                onSelectionChange={(event) => this.handleContentSelectionChange(event)}
                 onChangeText={text => this.setState({ content: text })}
                 multiline={true}
                 editable={!isPublishing}
@@ -233,6 +307,13 @@ export default class PublishModal extends Component {
                 removeImage={imageIndex => this.removeImage(imageIndex)} />
             </View>
           </KeyboardAwareScrollView>
+          {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
+            <KeyboardAccessory
+              style={{ bottom: this.state.keyboardAccessoryToBottom }}
+              selectedPanel={this.state.selectedPanel}
+              handlePanelSelect={(item) => this.handlePanelSelect(item)}
+              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+          }
         </View>
       </Modal>
     );

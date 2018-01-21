@@ -37,5 +37,5 @@ export default StyleSheet.create({
   },
   upload: {
     paddingTop: 10,
-  }
+  },
 });
