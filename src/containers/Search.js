@@ -3,13 +3,18 @@ import { View, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
-import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import SearchBar from 'react-native-search-bar';
+import menus from '../constants/menus';
 import { fetchSearch, resetSearch } from '../actions/topic/searchAction';
 import { getAlertCount } from '../selectors/alert';
 
 class Search extends Component {
+  static navigationOptions = {
+    title: menus.search.title,
+    drawerLockMode: 'locked-closed'
+  }
+
   constructor(props) {
     super(props);
 
@@ -35,7 +40,7 @@ class Search extends Component {
     this.refs.searchBar.unFocus();
   }
 
-  _refreshTopicList({ page, isEndReached }) {
+  refreshTopicList({ page, isEndReached }) {
     // search topic list can not be pulled to refresh,
     // so there is no need to invalidate topic list here,
     // this method is only used for end reach refreshing.
@@ -54,22 +59,24 @@ class Search extends Component {
   _handleSearch() {
     this.getSearchBarBlur();
     this.searchList.scrollToTop();
-    this._refreshTopicList({});
+    this.refreshTopicList({});
   }
 
   render() {
     let {
-      router,
+      navigation,
       search,
       alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        <Header
-          title='搜索'
-          alertCount={alertCount}
-          updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        {
+          // <Header
+          //   title='搜索'
+          //   alertCount={alertCount}
+          //   updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        }
         <SearchBar
           ref='searchBar'
           placeholder='请输入关键字'
@@ -86,10 +93,10 @@ class Search extends Component {
         ) || (
           <TopicList
             ref={component => this.searchList = component}
-            router={router}
+            navigation={navigation}
             isSearch={true}
             topicList={search}
-            refreshTopicList={this._refreshTopicList.bind(this)} />
+            refreshTopicList={this.refreshTopicList.bind(this)} />
         )}
       </View>
     );

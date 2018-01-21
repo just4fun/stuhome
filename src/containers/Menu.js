@@ -4,7 +4,8 @@ import {
   View,
   Image,
   AsyncStorage,
-  ActionSheetIOS
+  ActionSheetIOS,
+  SafeAreaView
 } from 'react-native';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
@@ -22,20 +23,6 @@ import menus from '../constants/menus';
 import { getAlertCount } from '../selectors/alert';
 
 class Menu extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoginModalOpen: false
-    };
-  }
-
-  toggleLoginModal(visible) {
-    this.setState({
-      isLoginModalOpen: visible
-    });
-  }
-
   showLogoutDialog() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
@@ -59,36 +46,30 @@ class Menu extends Component {
                 .then(() => {
                   // remove all cache first
                   this.props.cleanCache({ isLogin: false });
-                  // force replace Home route
-                  this.props.selectMenuItem(menus['home'], true);
+                  this.props.navigation.navigate('Home');
                 });
   }
 
   render() {
-    let { user, alertCount, router } = this.props;
-    let { isLoginModalOpen } = this.state;
+    let { user, alertCount } = this.props;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Image
           source={require('../images/shahe.jpg')}
           style={styles.blur} />
-        {isLoginModalOpen &&
-          <LoginModal
-            visible={isLoginModalOpen}
-            menus={menus}
-            closeLoginModal={() => this.toggleLoginModal(false)}
-            {...this.props} />
+        {
+        // isLoginModalOpen &&
+        //   <LoginModal
+        //     visible={isLoginModalOpen}
+        //     menus={menus}
+        //     closeLoginModal={() => this.toggleLoginModal(false)}
+        //     {...this.props} />
         }
         <MenuProfile
-          menu={menus['information']}
           authrization={user.authrization}
-          openLoginModal={() => this.toggleLoginModal(true)}
           {...this.props} />
         <View style={styles.menus}>
-          <MenuItem
-            menu={menus['home']}
-            {...this.props} />
           <MenuItem
             menu={menus['forumList']}
             {...this.props} />
@@ -125,7 +106,7 @@ class Menu extends Component {
               onPress={() => this.showLogoutDialog()} />
           </View>
         }
-      </View>
+      </SafeAreaView>
     );
   }
 }

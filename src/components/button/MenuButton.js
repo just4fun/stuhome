@@ -9,18 +9,25 @@ import styles from '../../styles/components/button/_MenuButton';
 
 export default class MenuButton extends Component {
   render() {
-    let alertCount = this.props.alertCount;
+    let {
+      navigation,
+      navigation: {
+        state: {
+          params = {}
+        }
+      }
+    } = this.props;
 
     return (
       <TouchableOpacity
         style={styles.container}
-        onPress={() => this.props.updateMenuState(true)}>
+        onPress={() => navigation.navigate('DrawerToggle')}>
         <View style={styles.view}>
           <Icon
             style={styles.menu}
             name='reorder'
             size={18} />
-          {!!alertCount && <AlertCount style={styles.alert} doNotShowCount={true} />}
+          {!!params.alertCount && <AlertCount doNotShowCount={true} />}
         </View>
       </TouchableOpacity>
     );

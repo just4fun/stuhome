@@ -9,16 +9,20 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ImageCache } from "react-native-img-cache";
-import { PopButton } from '../components/button';
-import Header from '../components/Header';
 import SettingItem from '../components/SettingItem';
 import SettingSwitchItem from '../components/SettingSwitchItem';
+import menus from '../constants/menus';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import { getSettingsFromStorage, putSettingsToStorage } from '../actions/settingsAction';
 import { resetAlerts } from '../actions/message/alertAction';
 
 class Settings extends Component {
+  static navigationOptions = {
+    title: menus.settings.title,
+    drawerLockMode: 'locked-closed'
+  }
+
   clearCache() {
     AlertIOS.alert(
       '提示',
@@ -43,9 +47,11 @@ class Settings extends Component {
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        <Header title='设置'>
-          <PopButton router={router} />
-        </Header>
+        {
+          // <Header title='设置'>
+          //   <PopButton router={router} />
+          // </Header>
+        }
         {
           // <View style={styles.group}>
           //   <SettingItem
@@ -60,7 +66,7 @@ class Settings extends Component {
             value={settings.enableNotification} />
         </View>
         <Text style={[styles.explanation, styles.text]}>
-          开启“消息提醒”，每15s会自动获取“提到我的”、“回复”、“私信”，并在有新信息时在根目录左上角显示小红点，并在侧边栏显示未读消息数字。
+          开启“消息提醒”，每15s会自动获取“提到我的”、“回复”、“私信”，有新信息时会在首页左上角显示小红点，并在侧边栏显示未读消息数字。
         </Text>
       </View>
     );

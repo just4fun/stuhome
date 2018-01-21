@@ -1,8 +1,10 @@
-// This component is <DefaultTabBar /> from react-native-scrollable-tab-view 0.6.0,
+// This component is <DefaultTabBar /> from react-native-scrollable-tab-view 0.8.0,
 // just add an alert count for tabLabel for my <Message /> component.
 
 const React = require('react');
-const ReactNative = require('react-native');
+const { ViewPropTypes } = ReactNative = require('react-native');
+const PropTypes = require('prop-types');
+const createReactClass = require('create-react-class');
 const {
   StyleSheet,
   Text,
@@ -17,18 +19,18 @@ const Button = (props) => {
   </TouchableOpacity>;
 };
 
-const MessageTabBar = React.createClass({
+const DefaultTabBar = createReactClass({
   propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.number,
-    tabs: React.PropTypes.array,
-    backgroundColor: React.PropTypes.string,
-    activeTextColor: React.PropTypes.string,
-    inactiveTextColor: React.PropTypes.string,
+    goToPage: PropTypes.func,
+    activeTab: PropTypes.number,
+    tabs: PropTypes.array,
+    backgroundColor: PropTypes.string,
+    activeTextColor: PropTypes.string,
+    inactiveTextColor: PropTypes.string,
     textStyle: Text.propTypes.style,
-    tabStyle: View.propTypes.style,
-    renderTab: React.PropTypes.func,
-    underlineStyle: View.propTypes.style,
+    tabStyle: ViewPropTypes.style,
+    renderTab: PropTypes.func,
+    underlineStyle: ViewPropTypes.style,
   },
 
   getDefaultProps() {
@@ -62,7 +64,8 @@ const MessageTabBar = React.createClass({
         {!!tab.count &&
           <View style={styles.alert}>
             <AlertCount count={tab.count} />
-          </View>}
+          </View>
+        }
       </View>
     </Button>;
   },
@@ -78,10 +81,10 @@ const MessageTabBar = React.createClass({
       bottom: 0,
     };
 
-    const left = this.props.scrollValue.interpolate({
-      inputRange: [0, 1, ], outputRange: [0,  containerWidth / numberOfTabs, ],
+    const translateX = this.props.scrollValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0,  containerWidth / numberOfTabs],
     });
-
     return (
       <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
         {this.props.newTabs.map((tab, page) => {
@@ -89,7 +92,17 @@ const MessageTabBar = React.createClass({
           const renderTab = this.props.renderTab || this.renderTab;
           return renderTab(tab, page, isTabActive, this.props.goToPage);
         })}
-        <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, ]} />
+        <Animated.View
+          style={[
+            tabUnderlineStyle,
+            {
+              transform: [
+                { translateX },
+              ]
+            },
+            this.props.underlineStyle,
+          ]}
+        />
       </View>
     );
   },
@@ -101,7 +114,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    flexDirection: 'row',
   },
   tabs: {
     height: 50,
@@ -118,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = MessageTabBar;
+module.exports = DefaultTabBar;

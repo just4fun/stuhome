@@ -13,7 +13,7 @@ export default class Avatar extends Component {
       style,
       url,
       onPress,
-      router,
+      navigation,
       userId,
       userName,
       currentUserId
@@ -27,7 +27,10 @@ export default class Avatar extends Component {
             onPress();
             return;
           }
-          router.toIndividual({
+
+          if (userId === currentUserId) { return; }
+
+          navigation.navigate('Individual', {
             userId,
             userName,
             currentUserId

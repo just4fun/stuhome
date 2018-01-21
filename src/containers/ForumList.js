@@ -8,14 +8,19 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 import mainStyles from '../styles/components/_Main';
-import Header from '../components/Header';
 import ForumItems from '../components/ForumItems';
+import menus from '../constants/menus';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 import { getAlertCount } from '../selectors/alert';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
+  static navigationOptions = {
+    title: menus.forumList.title,
+    drawerLockMode: 'locked-closed'
+  }
+
   constructor(props) {
     super(props);
 
@@ -40,18 +45,20 @@ class ForumList extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       forumList,
       alertCount
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        <Header title='版块'
-                alertCount={alertCount}
-                updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        {
+          // <Header title='版块'
+          //         alertCount={alertCount}
+          //         updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        }
         <ForumItems
-          router={router}
+          navigation={navigation}
           boardId={this.boardId}
           forumList={_.get(forumList, this.boardId, {})}
           isTopForumList={this.isTopForumList}

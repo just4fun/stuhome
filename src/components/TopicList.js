@@ -103,7 +103,7 @@ export default class TopicList extends Component {
               currentUserId={currentUserId}
               accessTopicListFromForumItem={accessTopicListFromForumItem}
               topic={topic}
-              router={this.props.router} />
+              navigation={this.props.navigation} />
           );
         }}
         onEndReached={() => this._endReached()}

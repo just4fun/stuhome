@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
   TextInput,
-  Modal,
   AlertIOS,
   Keyboard,
   TouchableHighlight,
@@ -19,29 +19,15 @@ import MessageBar from '../../services/MessageBar';
 import ImageUploader from '../ImageUploader';
 import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
+import { fetchTopic } from '../../actions/topic/topicAction';
+import { resetReply } from '../../actions/topic/replyAction';
 
-export default class ReplyModal extends Component {
+class ReplyModal extends Component {
   constructor(props) {
     super(props);
-
-    this.initState();
-  }
-
-  initState() {
-    let { content } = this.props;
-    let replyId = null;
-    let boardId = null;
-    let topicId = null;
-
-    if (content) {
-      let { reply_posts_id, board_id, topic_id } = content;
-      replyId = reply_posts_id;
-      boardId = board_id,
-      topicId = topic_id;
-    }
-
+    this.initNecessaryData();
     this.state = {
-      title: this._getTitle(content),
+      isPublishing: false,
       replyContent: '',
       replyId,
       boardId,
@@ -80,38 +66,62 @@ export default class ReplyModal extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const reply = nextProps.reply;
-    if (reply.response) {
-      if (reply.response.rs) {
-        this._cancel();
-        // if we reply in `Message` page, there is
-        // no need to fetch topic.
-        if (this.props.isReplyInTopic) {
-          this.props.fetchTopic();
-        }
-        MessageBar.show({
-          message: '发布成功',
-          type: 'success'
-        });
-      // I really hate the fields which mobcent API return
-      } else if (reply.response.errcode) {
-        AlertIOS.alert('提示', reply.response.errcode);
-      }
-      this.props.resetReply();
-    }
+  initNecessaryData() {
+    let {
+      comment,
+      comment: {
+        reply_posts_id,
+        board_id,
+        topic_id
+      },
+      isReplyInTopic
+    } = this.props.navigation.state.params;
+
+    this.replyId = reply_posts_id;
+    this.boardId = board_id,
+    this.topicId = topic_id;
+    this.isReplyInTopic = isReplyInTopic;
+    this.title = this.getTitle(comment);
   }
 
-  _getTitle(content) {
-    if (content) {
-      return `回复 ${content.user_nick_name || content.reply_name}`;
+  fetchTopic() {
+    this.props.fetchTopic({
+      topicId: this.topicId
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // const reply = nextProps.reply;
+    // if (reply.response) {
+    //   if (reply.response.rs) {
+    //     this.cancel();
+    //     // If we reply in `Message` page, there is
+    //     // no need to fetch topic.
+    //     if (this.isReplyInTopic) {
+    //       this.fetchTopic();
+    //     }
+    //     MessageBar.show({
+    //       message: '发布成功',
+    //       type: 'success'
+    //     });
+    //   // I really hate the fields which mobcent API return
+    //   } else if (reply.response.errcode) {
+    //     AlertIOS.alert('提示', reply.response.errcode);
+    //   }
+    //   this.props.resetReply();
+    // }
+  }
+
+  getTitle(comment) {
+    if (comment) {
+      return `回复 ${comment.user_nick_name || comment.reply_name}`;
     } 
 
     return '评论';
   }
 
-  _cancel() {
-    this.props.closeReplyModal();
+  cancel() {
+    this.props.navigation.goBack();
   }
 
   handleCancel() {
@@ -122,27 +132,39 @@ export default class ReplyModal extends Component {
         '信息尚未发送，放弃会丢失信息。',
         [
           { text: '继续', style: 'cancel' },
-          { text: '放弃', onPress: () => this._cancel() },
+          { text: '放弃', onPress: () => this.cancel() },
         ],
       );
       return;
     }
 
-    this._cancel();
+    this.cancel();
   }
 
-  _handlePublish(comment) {
+  handlePublish() {
     this.contentInput.blur();
 
-    this.setState({ isUploading: true });
+    this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
-      this.setState({ isUploading: false });
+      // this.setState({ isPublishing: false });
 
-      if (data) {
-        comment.images = data;
-      }
+      // if (data) {
+      //   comment.images = data;
+      // }
 
-      this.props.handlePublish(comment);
+      // this.props.handlePublish(comment);
+
+      // Actually there is no need to pass `boardId` when we
+      // reply a topic.
+      return api.publishTopic({
+        boardId: this.boardId,
+        topicId: this.topicId,
+        replyId: this.replyId,
+        typeId: null,
+        title: null,
+        images: data,
+        content: this.state.replyContent
+      });
     });
   }
 
@@ -193,85 +215,73 @@ export default class ReplyModal extends Component {
   }
 
   render() {
-    let { reply } = this.props;
     let {
-      title,
       replyContent,
-      replyId,
-      boardId,
-      topicId
+      isPublishing
     } = this.state;
 
-    let isPublishing = this.state.isUploading || reply.isPublishing;
-
     return (
-      <Modal
-        animationType='slide'
-        transparent={false}
-        style={modalStyles.container}
-        visible={this.props.visible}>
-        <View style={mainStyles.container}>
-          <Header title={title}>
-            <Text
-              style={modalStyles.button}
-              onPress={() => this.handleCancel()}>
-              取消
-            </Text>
-            {replyContent.length &&
-              (isPublishing &&
-                <ActivityIndicator color='white' />
-                ||
-                <Text
-                  style={modalStyles.button}
-                  onPress={() => this._handlePublish({
-                    content: replyContent,
-                    replyId,
-                    boardId,
-                    topicId
-                  })}>
-                  发布
-                </Text>
-              )
+      <View style={mainStyles.container}>
+        <Header title={this.title}>
+          <Text
+            style={modalStyles.button}
+            onPress={() => this.handleCancel()}>
+            取消
+          </Text>
+          {replyContent.length &&
+            (isPublishing &&
+              <ActivityIndicator color='white' />
               ||
               <Text
-                style={[modalStyles.button, modalStyles.disabled]}>
+                style={modalStyles.button}
+                onPress={() => this.handlePublish()}>
                 发布
               </Text>
-            }
-          </Header>
-          <KeyboardAwareScrollView
-            style={isPublishing && styles.disabledForm}
-            onScroll={() => this.handleScroll()}>
-            <View style={styles.formItem}>
-              <TextInput
-                ref={component => this.contentInput = component}
-                value={this.state.replyContent}
-                placeholder='同学，请文明用语噢～'
-                style={styles.replyBox}
-                onFocus={() => this.setState({ isContentFocused: true })}
-                onSelectionChange={(event) => this.handleContentSelectionChange(event)}
-                onChangeText={(text) => this.setState({ replyContent: text })}
-                autoFocus={true}
-                multiline={true}
-                editable={!isPublishing} />
-            </View>
-            <View style={styles.upload}>
-              <ImageUploader
-                disabled={isPublishing}
-                images={this.state.images}
-                addImages={images => this.addImages(images)}
-                removeImage={imageIndex => this.removeImage(imageIndex)} />
-            </View>
-          </KeyboardAwareScrollView>
-          {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
-            <KeyboardAccessory
-              style={{ bottom: this.state.keyboardAccessoryToBottom }}
-              selectedPanel={this.state.selectedPanel}
-              handlePanelSelect={(item) => this.handlePanelSelect(item)}
-              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+            )
+            ||
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              发布
+            </Text>
           }
-        </View>
-      </Modal>
+        </Header>
+        <KeyboardAwareScrollView
+          style={isPublishing && styles.disabledForm}
+          onScroll={() => this.handleScroll()}>
+          <View style={styles.formItem}>
+            <TextInput
+              ref={component => this.contentInput = component}
+              value={this.state.replyContent}
+              placeholder='同学，请文明用语噢～'
+              style={styles.replyBox}
+              onFocus={() => this.setState({ isContentFocused: true })}
+              onSelectionChange={(event) => this.handleContentSelectionChange(event)}
+              onChangeText={(text) => this.setState({ replyContent: text })}
+              autoFocus={true}
+              multiline={true}
+              editable={!isPublishing} />
+          </View>
+          <View style={styles.upload}>
+            <ImageUploader
+              disabled={isPublishing}
+              images={this.state.images}
+              addImages={images => this.addImages(images)}
+              removeImage={imageIndex => this.removeImage(imageIndex)} />
+          </View>
+        </KeyboardAwareScrollView>
+        {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
+          <KeyboardAccessory
+            style={{ bottom: this.state.keyboardAccessoryToBottom }}
+            selectedPanel={this.state.selectedPanel}
+            handlePanelSelect={(item) => this.handlePanelSelect(item)}
+            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+        }
+      </View>
     );
   }
 }
+
+export default connect(null, {
+  fetchTopic,
+  resetReply
+})(ReplyModal);

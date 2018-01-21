@@ -10,11 +10,10 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
-import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';
-import { PopButton, PublishButton } from '../components/button';
+import { PublishButton } from '../components/button';
 import { submit, resetPublish } from '../actions/topic/publishAction';
 import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/topic/topicListAction';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
@@ -26,6 +25,18 @@ const TABS = [
 ];
 
 class ForumDetail extends Component {
+  static navigationOptions = ({ navigation }) => {
+    let { title } = navigation.state.params;
+    return {
+      title,
+      drawerLockMode: 'locked-closed',
+      headerRight: (
+        <PublishButton
+          onPress={() => navigation.navigate('PublishModal')} />
+      )
+    };
+  }
+
   constructor(props) {
     super(props);
 
@@ -34,7 +45,7 @@ class ForumDetail extends Component {
       board_name,
       board_content,
       board_child
-    } = props.passProps;
+    } = props.navigation.state.params;
     this.boardId = board_id;
     this.boardName = board_name;
     this.boardContent = !!board_content;
@@ -55,11 +66,13 @@ class ForumDetail extends Component {
         boardId: this.boardId,
         sortType: 'publish'
       });
-      nextProps.router.pop();
+      nextProps.navigation.goBack();
     }
   }
 
   componentDidMount() {
+    // set up title
+    this.props.navigation.setParams({ title: this.boardName });
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
@@ -130,7 +143,7 @@ class ForumDetail extends Component {
       user: {
         authrization: { token }
       },
-      router
+      navigation
     } = this.props;
     let { isPublishModalOpen } = this.state;
 
@@ -145,16 +158,18 @@ class ForumDetail extends Component {
             closePublishModal={() => this.togglePublishModal(false)}
             handlePublish={topic => this._publish(topic)} />
         }
-        <Header
-          title={this.boardName}>
-          <PopButton router={router} />
-          {token &&
-            <PublishButton
-              onPress={() => this.togglePublishModal(true)} />
-            ||
-            <Text></Text>
-          }
-        </Header>
+        {
+          // <Header
+          //   title={this.boardName}>
+          //   <PopButton router={router} />
+          //   {token &&
+          //     <PublishButton
+          //       onPress={() => this.togglePublishModal(true)} />
+          //     ||
+          //     <Text></Text>
+          //   }
+          // </Header>
+        }
         {this.boardContent && this.boardChild &&
           <ScrollableTabView
             tabBarBackgroundColor={colors.lightBlue}
@@ -168,7 +183,7 @@ class ForumDetail extends Component {
                 <TopicList
                   key={index}
                   tabLabel={tab.label}
-                  router={router}
+                  navigation={navigation}
                   type={tab.type}
                   accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
@@ -177,7 +192,7 @@ class ForumDetail extends Component {
             })}
             <ForumItems
               tabLabel='子版块'
-              router={router}
+              navigation={navigation}
               boardId={this.boardId}
               forumList={_.get(forumList, this.boardId, {})}
               shouldFetchDataInside={true}
@@ -198,7 +213,7 @@ class ForumDetail extends Component {
                 <TopicList
                   key={index}
                   tabLabel={tab.label}
-                  router={router}
+                  navigation={navigation}
                   type={tab.type}
                   accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
@@ -209,7 +224,7 @@ class ForumDetail extends Component {
         }
         {!this.boardContent && this.boardChild &&
           <ForumItems
-            router={router}
+            navigation={navigation}
             boardId={this.boardId}
             forumList={_.get(forumList, this.boardId, {})}
             refreshForumList={() => this._refreshForumList()} />

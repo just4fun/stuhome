@@ -12,7 +12,7 @@ import FORUMS from '../constants/forums';
 
 export default class SubForumItem extends Component {
   render() {
-    let { router, subForum, isForumListModal } = this.props;
+    let { navigation, subForum, isForumListModal } = this.props;
     let {
       board_id,
       board_name,
@@ -34,7 +34,7 @@ export default class SubForumItem extends Component {
           if (isForumListModal) {
             this.props.handleSelectForum(subForum);
           } else {
-            router.toForum(subForum);
+            navigation.navigate('Forum', subForum);
           }
         }}>
         <View style={styles.subForum}>

@@ -12,19 +12,21 @@ import styles from '../styles/components/_NotifyItem';
 
 export default class NotifyItem extends Component {
   render() {
-    let { router, notification } = this.props;
     let {
-      topic_id,
-      board_id,
-      board_name,
-      topic_content,
-      reply_content,
-      icon,
-      user_id,
-      reply_nick_name,
-      reply_remind_id,
-      replied_date
-    } = notification;
+      navigation,
+      notification: {
+        topic_id,
+        board_id,
+        board_name,
+        topic_content,
+        reply_content,
+        icon,
+        user_id,
+        reply_nick_name,
+        reply_remind_id,
+        replied_date
+      }
+    } = this.props;
 
     replied_date = moment(+replied_date).startOf('minute').fromNow();
 
@@ -32,7 +34,7 @@ export default class NotifyItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => router.toTopic({
+        onPress={() => navigation.navigate('Topic', {
           topic_id,
           board_id,
           board_name
@@ -44,7 +46,7 @@ export default class NotifyItem extends Component {
               url={icon}
               userId={user_id}
               userName={reply_nick_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <Text style={styles.name}>{reply_nick_name}</Text>
               <Text style={styles.date}>{replied_date}</Text>
@@ -58,12 +60,14 @@ export default class NotifyItem extends Component {
             <Button
               style={styles.button}
               textStyle={styles.buttonText}
-              onPress={() => this.props.openReplyModal({
-                // WTF! Why there is different name for common field?!
-                reply_name: reply_nick_name,
-                reply_posts_id: reply_remind_id,
-                board_id,
-                topic_id
+              onPress={() => navigation.navigate('ReplyModal', {
+                comment: {
+                  // WTF! Why there are different names for common field?!
+                  reply_name: reply_nick_name,
+                  reply_posts_id: reply_remind_id,
+                  board_id,
+                  topic_id
+                }
               })}>
               回复
             </Button>

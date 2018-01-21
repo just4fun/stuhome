@@ -15,7 +15,7 @@ import colors from '../styles/common/_colors';
 
 export default class TopicItem extends Component {
   render() {
-    let { topic, router, accessTopicListFromForumItem, currentUserId } = this.props;
+    let { topic, navigation, accessTopicListFromForumItem, currentUserId } = this.props;
     let {
       title,
       subject,
@@ -41,7 +41,7 @@ export default class TopicItem extends Component {
       <View style={styles.container}>
         <TouchableHighlight
           underlayColor={colors.underlay}
-          onPress={() => router.toTopic(topic)}>
+          onPress={() => navigation.navigate('Topic', topic)}>
           <View style={styles.item}>
             <View style={styles.row}>
               <View style={styles.left}>
@@ -51,7 +51,7 @@ export default class TopicItem extends Component {
                   userId={user_id}
                   userName={user_nick_name}
                   currentUserId={currentUserId}
-                  router={router} />
+                  navigation={navigation} />
               </View>
               <View style={styles.right}>
                 <View style={styles.leftInfo}>

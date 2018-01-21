@@ -7,24 +7,30 @@ import {
   AlertIOS,
   AsyncStorage,
   Navigator,
-  Modal,
   findNodeHandle
 } from 'react-native';
+import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { PopButton } from '../../components/button';
 import Button from 'apsl-react-native-button';
+import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
 import Header from '../Header';
 import RegisterModal from './RegisterModal';
-import { PopButton } from '../button';
+import {
+  userLogin,
+  resetAuthrization,
+  resetAuthrizationResult,
+  cleanCache
+} from '../../actions/authorizeAction';
+import { getAlertCount } from '../../selectors/alert';
 
-export default class Login extends Component {
+class LoginModal extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       userName: '',
-      password: '',
-      isRegisterModalOpen: false
+      password: ''
     };
   }
 
@@ -43,18 +49,17 @@ export default class Login extends Component {
         .then(() => {
           // remove all cache except authrization
           this.props.cleanCache({ isLogin: true });
-          // force replace Home route
-          this.props.selectMenuItem(this.props.menus['home'], true);
-          this._closeLoginModal();
+          this.props.navigation.navigate('Home');
+          // this.closeLoginModal();
         });
     }
   }
 
-  _closeLoginModal() {
-    this.props.closeLoginModal();
+  closeLoginModal() {
+    this.props.navigation.goBack();
   }
 
-  _handleSubmit(userName, password) {
+  handleSubmit(userName, password) {
     if (!userName.length) {
       AlertIOS.alert('提示', '请输入用户名');
       return;
@@ -73,34 +78,25 @@ export default class Login extends Component {
     });
   }
 
-  toggleRegisterModal(visible) {
-    this.setState({
-      isRegisterModalOpen: visible
-    });
-  }
-
   render() {
-    let { isFetching } = this.props.user;
-    let { userName, password, isRegisterModalOpen } = this.state;
+    let {
+      user: {
+        isFetching
+      },
+      navigation
+    } = this.props;
+    let { userName, password } = this.state;
     let isDisabled = !userName || !password || isFetching;
 
     return (
-      <Modal
-        animationType='slide'
-        transparent={false}
-        visible={this.props.visible}>
+      <View style={mainStyles.container}>
         <Image
           source={require('../../images/shahe.jpg')}
           style={styles.blur} />
-        {isRegisterModalOpen &&
-          <RegisterModal
-            visible={isRegisterModalOpen}
-            closeRegisterModal={() => this.toggleRegisterModal(false)} />
-        }
         <Header style={styles.header}>
-          <PopButton action={() => this._closeLoginModal()} />
+          <PopButton action={() => this.closeLoginModal()} />
           <Text style={styles.register}
-                onPress={() => this.toggleRegisterModal(true)}>
+                onPress={() => navigation.navigate('RegisterModal')}>
             注册
           </Text>
         </Header>
@@ -127,7 +123,7 @@ export default class Login extends Component {
                 onChangeText={text => this.setState({ password: text })}
                 placeholder='请输入密码'
                 returnKeyType='go'
-                onSubmitEditing={() => this._handleSubmit(userName, password)}
+                onSubmitEditing={() => this.handleSubmit(userName, password)}
                 enablesReturnKeyAutomatically={true}
                 secureTextEntry={true} />
               <Button
@@ -135,13 +131,27 @@ export default class Login extends Component {
                 textStyle={styles.formSubmitText}
                 isDisabled={isDisabled}
                 isLoading={isFetching}
-                onPress={() => this._handleSubmit(userName, password)}>
+                onPress={() => this.handleSubmit(userName, password)}>
                 登录
               </Button>
             </View>
           </View>
         </KeyboardAwareScrollView>
-      </Modal>
+      </View>
     );
   }
 }
+
+function mapStateToProps({ user, alert }) {
+  return {
+    user,
+    alertCount: getAlertCount(alert)
+  };
+}
+
+export default connect(mapStateToProps, {
+  userLogin,
+  resetAuthrization,
+  resetAuthrizationResult,
+  cleanCache
+})(LoginModal);

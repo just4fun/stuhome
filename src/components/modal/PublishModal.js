@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Modal,
   ScrollView,
   AlertIOS,
   Keyboard,
@@ -11,6 +10,8 @@ import {
   ActivityIndicator,
   LayoutAnimation
 } from 'react-native';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
@@ -23,8 +24,9 @@ import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
 import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
+import { fetchTopicList } from '../../actions/topic/topicListAction';
 
-export default class PublishModal extends Component {
+class PublishModal extends Component {
   constructor(props) {
     super(props);
 
@@ -40,12 +42,19 @@ export default class PublishModal extends Component {
       isContentFocused: false
     };
     this.title = this.props.title || '发表新主题';
+    this.boardId = this.props.navigation.state.params.boardId;
     this.contentCursorLocation = 0;
   }
 
   componentDidMount() {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
     this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached: false,
+      sortType: 'publish'
+    });
   }
 
   componentWillUnmount() {
@@ -94,7 +103,7 @@ export default class PublishModal extends Component {
   }
 
   cancel() {
-    this.props.closePublishModal();
+    this.props.navigation.goBack();
   }
 
   handleCancel() {
@@ -211,111 +220,117 @@ export default class PublishModal extends Component {
     let isPublishing = this.state.isUploading || publish.isPublishing;
 
     return (
-      <Modal
-        animationType='slide'
-        transparent={false}
-        style={modalStyles.container}
-        visible={this.props.visible}>
-        <View style={mainStyles.container}>
-          {isPickerOpen &&
-            <Picker
-              list={this.getNormalizedTopicTypesForPicker(types)}
-              selectedId={typeId}
-              visible={isPickerOpen}
-              closePicker={() => this.togglePicker(false)}
-              setSelection={typeId => this.setState({ typeId })} />
-          }
-          <Header title={this.title}>
-            <Text
-              style={modalStyles.button}
-              onPress={() => this.handleCancel()}>
-              取消
-            </Text>
-            {this.isFormValid() &&
-              (isPublishing &&
-                <ActivityIndicator color='white' />
-                ||
-                <Text
-                  style={modalStyles.button}
-                  onPress={() => this.handlePublish({
-                    typeId,
-                    title,
-                    content
-                  })}>
-                  发布
-                </Text>
-              )
+      <View style={mainStyles.container}>
+        {isPickerOpen &&
+          <Picker
+            list={this.getNormalizedTopicTypesForPicker(types)}
+            selectedId={typeId}
+            visible={isPickerOpen}
+            closePicker={() => this.togglePicker(false)}
+            setSelection={typeId => this.setState({ typeId })} />
+        }
+        <Header title={this.title}>
+          <Text
+            style={modalStyles.button}
+            onPress={() => this.handleCancel()}>
+            取消
+          </Text>
+          {this.isFormValid() &&
+            (isPublishing &&
+              <ActivityIndicator color='white' />
               ||
               <Text
-                style={[modalStyles.button, modalStyles.disabled]}>
+                style={modalStyles.button}
+                onPress={() => this.handlePublish({
+                  typeId,
+                  title,
+                  content
+                })}>
                 发布
               </Text>
-            }
-          </Header>
-          <KeyboardAwareScrollView
-            style={[styles.form, isPublishing && styles.disabledForm]}
-            onScroll={() => this.handleScroll()}>
-            {types.length > 0 &&
-              <TouchableHighlight
-                underlayColor={colors.underlay}
-                onPress={() => {
-                  if (!isPublishing) {
-                    this.togglePicker(true);
-                  }
-                }}>
-                <View style={styles.formItem}>
-                  <Text
-                    style={styles.topicType}>
-                    {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
-                  </Text>
-                  <Icon
-                    style={styles.topicTypeIcon}
-                    name='angle-right'
-                    size={18} />
-                </View>
-              </TouchableHighlight>
-            }
-            <View style={styles.formItem}>
-              <TextInput
-                ref={component => this.titleInput = component}
-                style={styles.topicTitle}
-                onFocus={() => this.setState({ isContentFocused: false })}
-                onChangeText={text => this.setState({ title: text })}
-                editable={!isPublishing}
-                returnKeyType='next'
-                onSubmitEditing={() => this.contentInput.focus()}
-                enablesReturnKeyAutomatically={true}
-                placeholder='请输入标题' />
-            </View>
-            <View style={styles.formItem}>
-              <TextInput
-                ref={component => this.contentInput = component}
-                value={this.state.content}
-                style={styles.topicContent}
-                onFocus={() => this.setState({ isContentFocused: true })}
-                onSelectionChange={(event) => this.handleContentSelectionChange(event)}
-                onChangeText={text => this.setState({ content: text })}
-                multiline={true}
-                editable={!isPublishing}
-                placeholder='请输入正文' />
-            </View>
-            <View style={styles.upload}>
-              <ImageUploader
-                disabled={isPublishing}
-                images={this.state.images}
-                addImages={images => this.addImages(images)}
-                removeImage={imageIndex => this.removeImage(imageIndex)} />
-            </View>
-          </KeyboardAwareScrollView>
-          {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
-            <KeyboardAccessory
-              style={{ bottom: this.state.keyboardAccessoryToBottom }}
-              selectedPanel={this.state.selectedPanel}
-              handlePanelSelect={(item) => this.handlePanelSelect(item)}
-              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+            )
+            ||
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              发布
+            </Text>
           }
-        </View>
-      </Modal>
+        </Header>
+        <KeyboardAwareScrollView
+          style={[styles.form, isPublishing && styles.disabledForm]}
+          onScroll={() => this.handleScroll()}>
+          {types.length > 0 &&
+            <TouchableHighlight
+              underlayColor={colors.underlay}
+              onPress={() => {
+                if (!isPublishing) {
+                  this.togglePicker(true);
+                }
+              }}>
+              <View style={styles.formItem}>
+                <Text
+                  style={styles.topicType}>
+                  {typeId && types.find(type => type.typeId === typeId).typeName || '请选择分类'}
+                </Text>
+                <Icon
+                  style={styles.topicTypeIcon}
+                  name='angle-right'
+                  size={18} />
+              </View>
+            </TouchableHighlight>
+          }
+          <View style={styles.formItem}>
+            <TextInput
+              ref={component => this.titleInput = component}
+              style={styles.topicTitle}
+              onFocus={() => this.setState({ isContentFocused: false })}
+              onChangeText={text => this.setState({ title: text })}
+              editable={!isPublishing}
+              returnKeyType='next'
+              onSubmitEditing={() => this.contentInput.focus()}
+              enablesReturnKeyAutomatically={true}
+              placeholder='请输入标题' />
+          </View>
+          <View style={styles.formItem}>
+            <TextInput
+              ref={component => this.contentInput = component}
+              value={this.state.content}
+              style={styles.topicContent}
+              onFocus={() => this.setState({ isContentFocused: true })}
+              onSelectionChange={(event) => this.handleContentSelectionChange(event)}
+              onChangeText={text => this.setState({ content: text })}
+              multiline={true}
+              editable={!isPublishing}
+              placeholder='请输入正文' />
+          </View>
+          <View style={styles.upload}>
+            <ImageUploader
+              disabled={isPublishing}
+              images={this.state.images}
+              addImages={images => this.addImages(images)}
+              removeImage={imageIndex => this.removeImage(imageIndex)} />
+          </View>
+        </KeyboardAwareScrollView>
+        {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
+          <KeyboardAccessory
+            style={{ bottom: this.state.keyboardAccessoryToBottom }}
+            selectedPanel={this.state.selectedPanel}
+            handlePanelSelect={(item) => this.handlePanelSelect(item)}
+            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+        }
+      </View>
     );
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  let { topicList, publish } = state;
+  return {
+    types: _.get(topicList, [ownProps.navigation.state.params.boardId, 'typeList'], []),
+    publish
+  };
+}
+
+export default connect(mapStateToProps, {
+  fetchTopicList
+})(PublishModal);

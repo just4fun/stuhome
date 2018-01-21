@@ -19,14 +19,13 @@ import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import modalStyles from '../styles/common/_Modal';
 import styles from '../styles/containers/_TopicDetail';
-import Header from '../components/Header';
 import ReplyModal from '../components/modal/ReplyModal';
 import Comment from '../components/Comment';
 import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
-import { PopButton, ReplyButton, CommentButton } from '../components/button';
+import { ReplyButton, CommentButton } from '../components/button';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
 import colors from '../styles/common/_colors';
@@ -57,14 +56,23 @@ function getTopicId(topic) {
 }
 
 class TopicDetail extends Component {
+  static navigationOptions = ({ navigation }) => {
+    let { title } = navigation.state.params;
+    return {
+      title,
+      drawerLockMode: 'locked-closed'
+    };
+  }
+
   constructor(props) {
     super(props);
 
-    this.topicId = getTopicId(props.passProps);
-    this.boardId = props.passProps.board_id;
-    this.boardName = props.passProps.board_name;
+    let { params } = props.navigation.state;
+    this.topicId = getTopicId(params);
+    this.boardId = params.board_id;
+    this.boardName = params.board_name;
     // `sourceWebUrl` could only be fetched in topic list
-    this.sourceWebUrl = props.passProps.sourceWebUrl;
+    this.sourceWebUrl = params.sourceWebUrl;
 
     this.authorId = 0;
     this.order = 0;
@@ -76,6 +84,7 @@ class TopicDetail extends Component {
   }
 
   componentDidMount() {
+    this.props.navigation.setParams({ title: this.boardName });
     this.fetchTopic();
   }
 
@@ -88,7 +97,7 @@ class TopicDetail extends Component {
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
-      nextProps.router.pop();
+      nextProps.navigation.goBack();
       return;
     }
 
@@ -142,6 +151,7 @@ class TopicDetail extends Component {
   }
 
   renderHeader(topic, uid, vote) {
+    let { navigation, topicFavor } = this.props;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -170,7 +180,7 @@ class TopicDetail extends Component {
               url={topic.icon}
               userId={topic.user_id}
               userName={topic.user_nick_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>
@@ -189,7 +199,7 @@ class TopicDetail extends Component {
             <View>
               <Text style={styles.floor}>楼主</Text>
               {uid && (
-                this.props.topicFavor.isFavoring &&
+                topicFavor.isFavoring &&
                   <ActivityIndicator />
                   ||
                   <Icon
@@ -201,9 +211,10 @@ class TopicDetail extends Component {
             </View>
           </View>
           <View>
-            <Content content={topic.content}
-                     currentTopicId={this.topicId}
-                     router={this.props.router} />
+            <Content
+              content={topic.content}
+              currentTopicId={this.topicId}
+              navigation={navigation} />
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
@@ -217,8 +228,9 @@ class TopicDetail extends Component {
             }
           </View>
           {topic.reward &&
-            <RewardList reward={topic.reward}
-                        router={this.props.router} />}
+            <RewardList
+              reward={topic.reward}
+              navigation={navigation} />}
         </View>
         <View style={styles.commentHeader}>
           <Text style={styles.commentHeaderText}>
@@ -244,19 +256,6 @@ class TopicDetail extends Component {
     );
   }
 
-  publish({ content, replyId, images }) {
-    // If we reply a topic, there is no need to pass `boardId`.
-    this.props.submit({
-      boardId: this.boardId,
-      topicId: this.topicId,
-      replyId,
-      typeId: null,
-      title: null,
-      images,
-      content
-    });
-  }
-
   publishVote(voteIds) {
     this.props.publishVote({
       topicId: this.topicId,
@@ -268,12 +267,12 @@ class TopicDetail extends Component {
     this.props.resetVote();
   }
 
-  toggleReplyModal(visible, content) {
-    this.setState({
-      isReplyModalOpen: visible,
-      currentContent: content
-    });
-  }
+  // toggleReplyModal(visible, content) {
+  //   this.setState({
+  //     isReplyModalOpen: visible,
+  //     currentContent: content
+  //   });
+  // }
 
   getCopyContent(content) {
     if (!content || content.length === 0) { return ''; }
@@ -332,15 +331,11 @@ class TopicDetail extends Component {
   }
 
   render() {
-    let { topicItem, reply, vote, user } = this.props;
-    let { isReplyModalOpen, currentContent } = this.state;
+    let { topicItem, reply, vote, user, navigation } = this.props;
 
     if (topicItem.isFetching) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName}>
-            <PopButton router={this.props.router} />
-          </Header>
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -351,9 +346,6 @@ class TopicDetail extends Component {
     if (!_.get(topicItem, ['topic', 'topic_id'])) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName}>
-            <PopButton router={this.props.router} />
-          </Header>
         </View>
       );
     }
@@ -364,29 +356,32 @@ class TopicDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {isReplyModalOpen &&
-          <ReplyModal
-            {...this.props}
-            visible={isReplyModalOpen}
-            content={currentContent}
-            reply={reply}
-            isReplyInTopic={true}
-            handlePublish={comment => this.publish(comment)}
-            closeReplyModal={() => this.toggleReplyModal(false)}
-            fetchTopic={() => {
-              this.resetFilters();
-              this.fetchTopic();
-            }} />
+        {
+          // isReplyModalOpen &&
+          //   <ReplyModal
+          //     {...this.props}
+          //     visible={isReplyModalOpen}
+          //     content={currentContent}
+          //     reply={reply}
+          //     isReplyInTopic={true}
+          //     handlePublish={comment => this.publish(comment)}
+          //     closeReplyModal={() => this.toggleReplyModal(false)}
+          //     fetchTopic={() => {
+          //       this.resetFilters();
+          //       this.fetchTopic();
+          //     }} />
         }
-        <Header title={this.boardName}>
-          <PopButton router={this.props.router} />
-          {uid &&
-            <Icon
-              size={18}
-              name='ellipsis-h'
-              onPress={() => this.showOperationDialog(topic)}/>
-          }
-        </Header>
+        {
+          // <Header title={this.boardName}>
+          //   <PopButton router={this.props.router} />
+          //   {uid &&
+          //     <Icon
+          //       size={18}
+          //       name='ellipsis-h'
+          //       onPress={() => this.showOperationDialog(topic)}/>
+          //   }
+          // </Header>
+        }
         <ListView
           dataSource={commentSource}
           removeClippedSubviews={false}
@@ -397,9 +392,7 @@ class TopicDetail extends Component {
               comment={comment}
               currentUserId={uid}
               currentTopicId={this.topicId}
-              router={this.props.router}
-              openReplyModal={() => this.toggleReplyModal(true, comment)}
-              getCopyContent={() => this.getCopyContent(comment.reply_content)}/>
+              navigation={navigation} />
           }
           onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
@@ -422,7 +415,7 @@ function mapStateToProps(state, ownProps) {
   let { topicItem, reply, vote, user, topicFavor } = state;
 
   return {
-    topicItem: _.get(topicItem, getTopicId(ownProps.passProps), {}),
+    topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
     reply,
     vote,
     user,

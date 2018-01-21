@@ -8,8 +8,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Header from '../components/Header';
 import SettingItem from '../components/SettingItem';
+import menus from '../constants/menus';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import colors from '../styles/common/_colors';
@@ -17,18 +17,25 @@ import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } fro
 import { getAlertCount } from '../selectors/alert';
 
 class About extends Component {
+  static navigationOptions = {
+    title: menus.about.title,
+    drawerLockMode: 'locked-closed'
+  }
+
   render() {
     let {
-      router,
+      navigation,
       alertCount
     } = this.props;
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        <Header
-          title='关于'
-          alertCount={alertCount}
-          updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        {
+          // <Header
+          //   title='关于'
+          //   alertCount={alertCount}
+          //   updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
+        }
         <View style={styles.top}>
           <Image
             style={styles.logo}
@@ -47,7 +54,7 @@ class About extends Component {
           <SettingItem
             style={styles.lastItem}
             text='BUG 上报或意见反馈'
-            onPress={() => router.toPmList({
+            onPress={() => navigation.navigate('PrivateMessage', {
               userId: AUTHOR_ID
             })} />
         </View>

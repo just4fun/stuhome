@@ -12,8 +12,6 @@ import {
 import { GiftedChat } from 'react-native-gifted-chat';
 import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';
 import GiftedChatLoadEarlierButton from '../components/3rd_party/GiftedChatLoadEarlierButton';
-import Header from '../components/Header';
-import { PopButton } from '../components/button';
 import {
   submit,
   resetPublish
@@ -30,37 +28,54 @@ import styles from '../styles/containers/_PmList';
 const LOGIN_USER_ID = Symbol();
 
 class PmList extends Component {
+  static navigationOptions = ({ navigation }) => {
+    let { title } = navigation.state.params;
+    return {
+      title,
+      drawerLockMode: 'locked-closed'
+    };
+  }
+
   constructor(props) {
     super(props);
 
-    this.userId = this.props.passProps.userId;
+    let { userId } = this.props.navigation.state.params;
+    this.userId = userId;
     this.state = {
       messages: []
     };
   }
 
   componentDidMount() {
-    this._fetchPmList();
-
+    this.fetchPmList();
     // fetch new private messages every 1 mins
-    this.timer = setInterval(() => { this._fetchPmList(); }, 1000 * 60);
+    this.timer = setInterval(() => { this.fetchPmList(); }, 1000 * 60);
   }
 
   componentWillUnmount() {
     this.props.resetPmList();
-
     // tear down timer
     this.timer && clearInterval(this.timer);
   }
 
-  _fetchPmList() {
+  fetchPmList() {
     this.props.fetchPmList({
       userId: this.userId,
       page: 1
     });
   }
 
+  setUpTitle(newUserName) {
+    let userName = this.props.pmList.user.name;
+    if (userName !== newUserName) {
+      this.props.navigation.setParams({ title: newUserName });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
+    this.setUpTitle(nextProps.pmList.user.name);
+
+    // handle private messages
     let {
       send,
       pmList
@@ -82,10 +97,10 @@ class PmList extends Component {
         // so the workaround can not only fix the weird issue here, but also can
         // give user a better ux with customized ticks `发送中...`, which seems
         // like the best solustion now.
-        setTimeout(() => { this._fetchPmList(); }, 1000 * 3);
+        setTimeout(() => { this.fetchPmList(); }, 1000 * 3);
       } else if (errcode) {
         // the time between sending two messages is too short
-        this._fetchPmList();
+        this.fetchPmList();
         AlertIOS.alert('提示', send.response.errcode);
       } else {
         // no network
@@ -109,14 +124,14 @@ class PmList extends Component {
     }
   }
 
-  _loadEarlierMessages(page) {
+  loadEarlierMessages(page) {
     this.props.fetchPmList({
       userId: this.userId,
       page
     });
   }
 
-  _onSend({ messages, toUserId }) {
+  onSend({ messages, toUserId }) {
     this.setState(previousState => {
       return {
         messages: GiftedChat.append(previousState.messages, Object.assign({}, messages[0], { isNew: true }))
@@ -131,7 +146,7 @@ class PmList extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       pmList: {
         isRefreshing,
         hasPrev,
@@ -144,9 +159,11 @@ class PmList extends Component {
     if (isRefreshing && page === 0) {
       return (
         <View style={mainStyles.container}>
-          <Header title={user.name}>
-            <PopButton router={router} />
-          </Header>
+          {
+            // <Header title={user.name}>
+            //   <PopButton router={router} />
+            // </Header>
+          }
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -170,9 +187,11 @@ class PmList extends Component {
 
     return (
       <View style={mainStyles.container}>
-        <Header title={user.name}>
-          <PopButton router={router} />
-        </Header>
+        {
+          // <Header title={user.name}>
+          //   <PopButton router={router} />
+          // </Header>
+        }
         <GiftedChat
           style={mainStyles.container}
           locale={'zh-cn'}
@@ -182,8 +201,8 @@ class PmList extends Component {
           isLoadingEarlier={isRefreshing && page > 1}
           loadEarlier={hasPrev}
           renderAvatarOnTop={true}
-          onLoadEarlier={() => this._loadEarlierMessages(page + 1)}
-          onSend={messages => this._onSend({
+          onLoadEarlier={() => this.loadEarlierMessages(page + 1)}
+          onSend={messages => this.onSend({
             messages,
             toUserId: user.id
           })}

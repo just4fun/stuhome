@@ -1,60 +1,60 @@
 export default {
   information: {
-    id: 'information',
+    // id: 'information',
     title: '资料',
-    actionName: 'toInformation'
+    routeName: 'Information'
   },
 
   home: {
-    id: 'home',
+    // id: 'home',
     title: '首页',
     icon: 'home',
-    actionName: 'toHome'
+    routeName: 'Home'
   },
 
   forumList: {
-    id: 'forumList',
+    // id: 'forumList',
     title: '版块列表',
     icon: 'comments',
-    actionName: 'toForumList'
+    routeName: 'ForumList'
   },
 
   search: {
-    id: 'search',
+    // id: 'search',
     title: '搜索',
     icon: 'search',
-    actionName: 'toSearch'
+    routeName: 'Search'
   },
 
   message: {
-    id: 'message',
+    // id: 'message',
     title: '消息提醒',
     icon: 'envelope',
     iconSize: '18',
-    actionName: 'toMessage'
+    routeName: 'Message'
   },
 
   individual: {
-    id: 'individual',
+    // id: 'individual',
     title: '我的帖子',
     icon: 'file-text',
     iconSize: '21',
-    actionName: 'toIndividual'
+    routeName: 'Individual'
   },
 
   about: {
-    id: 'about',
+    // id: 'about',
     title: '关于',
     icon: 'copyright',
     iconSize: '21',
-    actionName: 'toAbout'
+    routeName: 'About'
   },
 
   settings: {
-    id: 'settings',
+    // id: 'settings',
     title: '设置',
     icon: 'gear',
-    actionName: 'toSettings'
+    routeName: 'Settings'
   },
 
   logout: {

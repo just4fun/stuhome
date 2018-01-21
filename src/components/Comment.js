@@ -17,14 +17,17 @@ import { parseContentWithImage } from '../utils/contentParser';
 import MessageBar from '../services/MessageBar';
 
 export default class Comment extends Component {
-  showOptions(userId) {
-    let { currentUserId, comment, router } = this.props;
-    if (!currentUserId) { return; }
+  showOptions() {
+    let {
+      currentUserId,
+      navigation,
+      comment,
+      comment: {
+        reply_id: userId
+      }
+    } = this.props;
 
-    let options = [
-      '回复',
-      '复制',
-    ];
+    let options = ['回复'];
     let isCurrentUserSelf = currentUserId === userId;
     if (!isCurrentUserSelf) {
       options.push('私信');
@@ -38,7 +41,12 @@ export default class Comment extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          this.props.openReplyModal();
+          navigation.navigate('ReplyModal', {
+            comment,
+            // To indicate we need to fetch topic again
+            // to display new comments.
+            isReplyInTopic: true
+          });
           break;
         case 1:
           Clipboard.setString(this.props.getCopyContent());
@@ -49,34 +57,42 @@ export default class Comment extends Component {
           break;
         case 2:
           if (!isCurrentUserSelf) {
-            router.toPmList({ userId });
+            navigation.navigate('PrivateMessage', { userId });
           }
           break;
       }
     });
   }
 
+  handlePress() {
+    if (!this.props.currentTopicId) { return; }
+    this.showOptions();
+  }
+
   render() {
-    let { comment, currentTopicId } = this.props;
     let {
-      reply_name,
-      userTitle,
-      icon,
-      position,
-      reply_id, // user id
-      reply_content,
-      posts_date,
-      is_quote,
-      quote_content,
-      mobileSign
-    } = comment;
+      navigation,
+      currentTopicId,
+      comment: {
+        reply_name,
+        userTitle,
+        icon,
+        position,
+        reply_id, // user id
+        reply_content,
+        posts_date,
+        is_quote,
+        quote_content,
+        mobileSign
+      }
+    } = this.props;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => this.showOptions(reply_id)}>
+        onPress={() => this.handlePress()}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
             <Avatar
@@ -84,7 +100,7 @@ export default class Comment extends Component {
               url={icon}
               userId={reply_id}
               userName={reply_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{reply_name}</Text>
@@ -110,9 +126,10 @@ export default class Comment extends Component {
                 <Text style={styles.quoteContent}>{quote_content}</Text>
               </View>
             }
-            <Content content={reply_content}
-                     currentTopicId={currentTopicId}
-                     router={this.props.router} />
+            <Content
+              content={reply_content}
+              currentTopicId={currentTopicId}
+              navigation={navigation} />
           </View>
         </View>
       </TouchableHighlight>
