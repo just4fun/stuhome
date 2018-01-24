@@ -9,6 +9,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
 import mainStyles from '../styles/components/_Main';
+import Header from '../components/Header';
 import TopicList from '../components/TopicList';
 import PublishModal from '../components/modal/PublishModal';
 import ForumListModal from '../components/modal/ForumListModal';
@@ -25,26 +26,8 @@ const TABS = [
 ];
 
 class Home extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: '清水河畔',
-    drawerLockMode: 'locked-closed',
-    headerLeft: (
-      <MenuButton
-        navigation={navigation} />
-    ),
-    headerRight: (
-      <PublishButton
-        onPress={() => navigation.navigate('ForumListModal')} />
-    )
-  })
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isForumListModalOpen: false,
-      selectedForumId: null
-    };
+  static navigationOptions = {
+    header: null
   }
 
   componentDidMount() {
@@ -53,14 +36,6 @@ class Home extends Component {
       isEndReached: false,
       sortType: 'publish'
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // this.props.navigation.setParams({
-    //   alertAcount: nextProps.alertAcount
-    // });
-
-
   }
 
   fetchForumList() {
@@ -121,30 +96,27 @@ class Home extends Component {
   //   });
   // }
 
-  publish({ typeId, title, images, content }) {
-    this.props.submit({
-      boardId: this.state.selectedForumId,
-      topicId: null,
-      replyId: null,
-      typeId,
-      title,
-      images,
-      content
-    });
-  }
+  // publish({ typeId, title, images, content }) {
+  //   this.props.submit({
+  //     boardId: this.state.selectedForumId,
+  //     topicId: null,
+  //     replyId: null,
+  //     typeId,
+  //     title,
+  //     images,
+  //     content
+  //   });
+  // }
 
   render() {
     let {
       navigation,
       topicList,
       forumList,
-      token,
-      publish
+      userId,
+      publish,
+      alertCount
     } = this.props;
-    let {
-      selectedForumId,
-      isForumListModalOpen,
-    } = this.state;
 
     return (
       <View style={mainStyles.container}>
@@ -168,20 +140,18 @@ class Home extends Component {
           //     closePublishModal={() => this.togglePublishModal(false)}
           //     handlePublish={topic => this.publish(topic)} />
         }
-        {
-          // <Header
-          //   title='首页'
-          //   alertCount={alertCount}
-          //   isPublishFromHomePage={true}
-          //   updateMenuState={isOpen => this.props.updateMenuState(isOpen)}>
-          //   {token &&
-          //     <PublishButton
-          //       onPress={() => this.toggleForumListModal(true)} />
-          //     ||
-          //     <Text></Text>
-          //   }
-          // </Header>
-        }
+        <Header
+          title='清水河畔'
+          navigation={navigation}
+          alertCount={alertCount}
+          isPublishFromHomePage={true}>
+          {userId &&
+            <PublishButton
+              onPress={() => this.toggleForumListModal(true)} />
+            ||
+            <Text></Text>
+          }
+        </Header>
         <ScrollableTabView
           tabBarActiveTextColor={colors.blue}
           tabBarInactiveTextColor={colors.lightBlue}
@@ -192,6 +162,7 @@ class Home extends Component {
             return (
               <TopicList
                 key={index}
+                currentUserId={userId}
                 tabLabel={tab.label}
                 navigation={navigation}
                 type={tab.type}
@@ -207,7 +178,7 @@ class Home extends Component {
 
 function mapStateToProps({ topicList, forumList, alert, user, publish }) {
   return {
-    token: _.get(user, ['authrization', 'token']),
+    userId: _.get(user, ['authrization', 'uid']),
     topicList,
     forumList,
     alertCount: getAlertCount(alert),

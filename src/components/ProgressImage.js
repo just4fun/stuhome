@@ -80,7 +80,7 @@ export default class ProgressImage extends Component {
               unfilledColor: colors.white,
             }}
             // onLayout={event => this._handleLayout(event)}
-            style={[styles.image, { resizeMode: 'contain' }]} />
+            style={styles.image} />
         </View>
       </TouchableHighlight>
     );

@@ -28,7 +28,10 @@ export default class Avatar extends Component {
             return;
           }
 
-          if (userId === currentUserId) { return; }
+          // Cases for avatar could not be clicked to redirect.
+          // 1. No login user
+          // 2. Same user (in individual page)
+          if (!currentUserId || userId === currentUserId) { return; }
 
           navigation.navigate('Individual', {
             userId,

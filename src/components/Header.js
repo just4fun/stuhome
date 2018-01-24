@@ -14,12 +14,13 @@ export default class Header extends Component {
       children,
       style,
       title,
-      isPublishFromHomePage
+      isPublishFromHomePage,
+      navigation
     } = this.props;
 
     let leftTopButton = <MenuButton style={styles.left}
                                     alertCount={alertCount}
-                                    updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />;
+                                    navigation={navigation} />;
     let rightTopButton = null;
     let count = React.Children.count(children);
 

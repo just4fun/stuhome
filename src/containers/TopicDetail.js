@@ -68,7 +68,7 @@ class TopicDetail extends Component {
             style={headerRightButtonStyles.button}
             size={18}
             name='ellipsis-h'
-            onPress={handleShowOperationDialog}/>
+            onPress={handleShowOperationDialog} />
       )
     };
   }
@@ -106,9 +106,8 @@ class TopicDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
     // Set up title
-    let previousUserId = this.props.user.authrization.uid;
     let currentUserId = nextProps.user.authrization.uid;
-    if (previousUserId !== currentUserId) {
+    if (this.props.navigation.state.params.isLogin === undefined) {
       this.props.navigation.setParams({ isLogin: !!currentUserId });
     }
 
@@ -170,8 +169,18 @@ class TopicDetail extends Component {
     });
   }
 
-  renderHeader(topic, uid, vote) {
-    let { navigation, topicFavor } = this.props;
+  renderHeader() {
+    let {
+      navigation,
+      topicFavor,
+      vote,
+      topicItem: {
+        topic
+      },
+      user: {
+        authrization: { token }
+      }
+    } = this.props;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -218,7 +227,7 @@ class TopicDetail extends Component {
             </View>
             <View>
               <Text style={styles.floor}>楼主</Text>
-              {uid && (
+              {token && (
                 topicFavor.isFavoring &&
                   <ActivityIndicator />
                   ||
@@ -352,7 +361,13 @@ class TopicDetail extends Component {
   }
 
   render() {
-    let { topicItem, reply, vote, user, navigation } = this.props;
+    let {
+      topicItem,
+      user: {
+        authrization: { uid }
+      },
+      navigation
+    } = this.props;
 
     if (topicItem.isFetching) {
       return (
@@ -371,8 +386,14 @@ class TopicDetail extends Component {
       );
     }
 
-    let topic = topicItem.topic;
-    let { uid } = user.authrization;
+    let {
+      topicItem: {
+        topic: {
+          user_nick_name,
+          topic_id
+        }
+      }
+    } = this.props;
     let commentSource = ds.cloneWithRows(topicItem.list);
 
     return (
@@ -417,14 +438,19 @@ class TopicDetail extends Component {
           }
           onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this.renderHeader(topic, uid, vote)}
+          renderHeader={() => this.renderHeader()}
           renderFooter={() => this.renderFooter()} />
         {uid &&
           <TouchableHighlight
             style={styles.commentArea}
             underlayColor={colors.underlay}
             onPress={() => navigation.navigate('ReplyModal', {
-
+              comment: {
+                // `reply_posts_id` is not necessary when reply topic author
+                user_nick_name: user_nick_name,
+                board_id: this.boardId,
+                topic_id
+              }
             })}>
             <Text style={styles.commentAreaText}>发表评论</Text>
           </TouchableHighlight>
@@ -435,11 +461,10 @@ class TopicDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  let { topicItem, reply, vote, user, topicFavor } = state;
+  let { topicItem, vote, user, topicFavor } = state;
 
   return {
     topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
-    reply,
     vote,
     user,
     topicFavor

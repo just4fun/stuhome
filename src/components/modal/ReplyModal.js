@@ -48,6 +48,7 @@ class ReplyModal extends Component {
       isReplyInTopic
     } = this.props.navigation.state.params;
 
+    // `reply_posts_id` is not necessary when reply topic author
     this.replyId = reply_posts_id;
     this.boardId = board_id,
     this.topicId = topic_id;
