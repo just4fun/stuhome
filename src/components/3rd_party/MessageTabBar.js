@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
+    flexDirection: 'row',
   },
   tabs: {
     height: 50,

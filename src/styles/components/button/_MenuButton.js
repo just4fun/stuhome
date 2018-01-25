@@ -3,7 +3,9 @@ import colors from '../../common/_colors';
 
 export default StyleSheet.create({
   container: {
-    marginLeft: 15
+    flex: 1,
+    paddingLeft: 15,
+    paddingTop: 2,
   },
   view: {
     flexDirection: 'row',

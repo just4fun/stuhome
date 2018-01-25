@@ -15,7 +15,8 @@ export default class MenuButton extends Component {
         state: {
           params = {}
         }
-      }
+      },
+      alertCount
     } = this.props;
 
     return (
@@ -27,7 +28,7 @@ export default class MenuButton extends Component {
             style={styles.menu}
             name='reorder'
             size={18} />
-          {!!params.alertCount && <AlertCount doNotShowCount={true} />}
+          {!!alertCount && <AlertCount doNotShowCount={true} />}
         </View>
       </TouchableOpacity>
     );

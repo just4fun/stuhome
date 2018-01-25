@@ -131,6 +131,32 @@ class AppRoot extends Component {
     this.props.getSettingsFromStorage();
   }
 
+  componentWillReceiveProps(nextProps) {
+    let currentToken = this.props.user.authrization.token;
+    let nextToken = nextProps.user.authrization.token;
+
+    let currentEnableNotification = this.props.settings.enableNotification;
+    let nextEnableNotification = nextProps.settings.enableNotification;
+
+    if (currentToken === nextToken && currentEnableNotification === nextEnableNotification) { return; }
+
+    if (!nextToken || !nextEnableNotification) {
+      this.timer && clearInterval(this.timer);
+      // `clearInterval` will not remove the value of `this.timer`,
+      // we need to remove it manually for the next if condition.
+      this.timer = null;
+      return;
+    }
+
+    if (!this.timer && nextEnableNotification) {
+      this.timer = setInterval(() => { this.fetchAlerts(); }, 1000 * PollFrequency);
+    }
+  }
+
+  fetchAlerts() {
+    this.props.fetchAlerts();
+  }
+
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
     this.timer && clearInterval(this.timer);
