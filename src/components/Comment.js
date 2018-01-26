@@ -65,7 +65,7 @@ export default class Comment extends Component {
   }
 
   handlePress() {
-    if (!this.props.currentTopicId) { return; }
+    if (!this.props.currentUserId) { return; }
     this.showOptions();
   }
 
@@ -73,6 +73,7 @@ export default class Comment extends Component {
     let {
       navigation,
       currentTopicId,
+      currentUserId,
       comment: {
         reply_name,
         userTitle,
@@ -99,6 +100,7 @@ export default class Comment extends Component {
               style={styles.avatar}
               url={icon}
               userId={reply_id}
+              currentUserId={currentUserId}
               userName={reply_name}
               navigation={navigation} />
             <View style={styles.author}>

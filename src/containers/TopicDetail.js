@@ -93,9 +93,11 @@ class TopicDetail extends Component {
   }
 
   componentDidMount() {
+    // Set up header.
     this.props.navigation.setParams({
       title: this.boardName,
-      handleShowOperationDialog: this.showOperationDialog.bind(this)
+      isLogin: !!this.props.user.authrization.token,
+      handleShowOperationDialog: () => this.showOperationDialog()
     });
     this.fetchTopic();
   }
@@ -105,13 +107,6 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // Set up title
-    let currentUserId = nextProps.user.authrization.uid;
-    if (this.props.navigation.state.params.isLogin === undefined) {
-      this.props.navigation.setParams({ isLogin: !!currentUserId });
-    }
-
-    // Handle respones
     let { topicItem, topicFavor } = nextProps;
 
     if (topicItem.errCode) {

@@ -79,6 +79,7 @@ export default class ProgressImage extends Component {
               borderColor: colors.imageProgress,
               unfilledColor: colors.white,
             }}
+            resizeMode={'contain'}
             // onLayout={event => this._handleLayout(event)}
             style={styles.image} />
         </View>

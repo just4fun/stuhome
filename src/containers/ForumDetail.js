@@ -26,13 +26,14 @@ const TABS = [
 
 class ForumDetail extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title } = navigation.state.params;
+    let { title, isLogin, boardId } = navigation.state.params;
     return {
       title,
       drawerLockMode: 'locked-closed',
       headerRight: (
-        <PublishButton
-          onPress={() => navigation.navigate('PublishModal')} />
+        isLogin &&
+          <PublishButton
+            onPress={() => navigation.navigate('PublishModal', { boardId })} />
       )
     };
   }
@@ -50,18 +51,13 @@ class ForumDetail extends Component {
     this.boardName = board_name;
     this.boardContent = !!board_content;
     this.boardChild = !!board_child;
-
-    this.state = {
-      isPublishModalOpen: false
-    };
   }
 
   componentWillReceiveProps(nextProps) {
     let errCode = _.get(nextProps, ['topicList', this.boardId, 'publish', 'errCode'], '');
-
     if (errCode) {
       AlertIOS.alert('提示', errCode);
-      // clean error message
+      // Clean error message.
       nextProps.resetTopicList({
         boardId: this.boardId,
         sortType: 'publish'
@@ -71,8 +67,12 @@ class ForumDetail extends Component {
   }
 
   componentDidMount() {
-    // set up title
-    this.props.navigation.setParams({ title: this.boardName });
+    // Set up header.
+    this.props.navigation.setParams({
+      title: this.boardName,
+      isLogin: !!this.props.user.authrization.token,
+      boardId: this.boardId
+    });
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
@@ -80,7 +80,7 @@ class ForumDetail extends Component {
     });
   }
 
-  _refreshTopicList({ page, isEndReached, sortType }) {
+  refreshTopicList({ page, isEndReached, sortType }) {
     this.props.invalidateTopicList({
       boardId: this.boardId,
       sortType
@@ -104,36 +104,30 @@ class ForumDetail extends Component {
     });
   }
 
-  _fetchForumList() {
+  fetchForumList() {
     this.props.fetchForumList({
       boardId: this.boardId
     });;
   }
 
-  _refreshForumList() {
+  refreshForumList() {
     this.props.invalidateForumList({
       boardId: this.boardId
     });
-    this._fetchForumList();
+    this.fetchForumList();
   }
 
-  _publish({ typeId, title, images, content }) {
-    this.props.submit({
-      boardId: this.boardId,
-      topicId: null,
-      replyId: null,
-      typeId,
-      title,
-      images,
-      content
-    });
-  }
-
-  togglePublishModal(visible) {
-    this.setState({
-      isPublishModalOpen: visible
-    });
-  }
+  // _publish({ typeId, title, images, content }) {
+  //   this.props.submit({
+  //     boardId: this.boardId,
+  //     topicId: null,
+  //     replyId: null,
+  //     typeId,
+  //     title,
+  //     images,
+  //     content
+  //   });
+  // }
 
   render() {
     let {
@@ -145,18 +139,18 @@ class ForumDetail extends Component {
       },
       navigation
     } = this.props;
-    let { isPublishModalOpen } = this.state;
 
     return (
       <View style={mainStyles.container}>
-        {isPublishModalOpen &&
-          <PublishModal
-            {...this.props}
-            visible={isPublishModalOpen}
-            publish={publish}
-            types={_.get(topicList, [this.boardId, 'typeList'], [])}
-            closePublishModal={() => this.togglePublishModal(false)}
-            handlePublish={topic => this._publish(topic)} />
+        {
+          // isPublishModalOpen &&
+          //   <PublishModal
+          //     {...this.props}
+          //     visible={isPublishModalOpen}
+          //     publish={publish}
+          //     types={_.get(topicList, [this.boardId, 'typeList'], [])}
+          //     closePublishModal={() => this.togglePublishModal(false)}
+          //     handlePublish={topic => this._publish(topic)} />
         }
         {
           // <Header
@@ -187,7 +181,7 @@ class ForumDetail extends Component {
                   type={tab.type}
                   accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
-                  refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
+                  refreshTopicList={({ page, isEndReached }) => this.refreshTopicList({ page, isEndReached, sortType: tab.type })} />
               );
             })}
             <ForumItems
@@ -196,8 +190,8 @@ class ForumDetail extends Component {
               boardId={this.boardId}
               forumList={_.get(forumList, this.boardId, {})}
               shouldFetchDataInside={true}
-              fetchForumList={() => this._fetchForumList()}
-              refreshForumList={() => this._refreshForumList()} />
+              fetchForumList={() => this.fetchForumList()}
+              refreshForumList={() => this.refreshForumList()} />
           </ScrollableTabView>
         }
         {this.boardContent && !this.boardChild &&
@@ -217,7 +211,7 @@ class ForumDetail extends Component {
                   type={tab.type}
                   accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
-                  refreshTopicList={({ page, isEndReached }) => this._refreshTopicList({ page, isEndReached, sortType: tab.type })} />
+                  refreshTopicList={({ page, isEndReached }) => this.refreshTopicList({ page, isEndReached, sortType: tab.type })} />
               );
             })}
           </ScrollableTabView>
@@ -227,7 +221,7 @@ class ForumDetail extends Component {
             navigation={navigation}
             boardId={this.boardId}
             forumList={_.get(forumList, this.boardId, {})}
-            refreshForumList={() => this._refreshForumList()} />
+            refreshForumList={() => this.refreshForumList()} />
         }
       </View>
     );

@@ -8,7 +8,6 @@ export default class RegisterModal extends Component {
       <WebPage
         title='注册'
         url={REGISTER_URL}
-        action={() => this.props.closeRegisterModal()}
         {...this.props} />
     );
   }

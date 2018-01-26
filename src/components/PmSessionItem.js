@@ -19,16 +19,19 @@ export default class PmSessionItem extends Component {
   }
 
   render() {
-    let { navigation, session } = this.props;
     let {
-      lastDateline,
-      lastSummary,
-      toUserId,
-      toUserName,
-      toUserAvatar,
-      isNew,
-      plid // to indicate current message session
-    } = session;
+      navigation,
+      currentUserId,
+      session: {
+        lastDateline,
+        lastSummary,
+        toUserId,
+        toUserName,
+        toUserAvatar,
+        isNew,
+        plid // to indicate current message session
+      }
+    } = this.props;
 
     lastDateline = moment(+lastDateline).startOf('minute').fromNow();
 
@@ -42,6 +45,7 @@ export default class PmSessionItem extends Component {
             style={styles.avatar}
             url={toUserAvatar}
             userId={toUserId}
+            currentUserId={currentUserId}
             userName={toUserName}
             navigation={navigation} />
           <View style={styles.content}>

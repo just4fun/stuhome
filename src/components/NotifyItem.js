@@ -14,6 +14,7 @@ export default class NotifyItem extends Component {
   render() {
     let {
       navigation,
+      currentUserId,
       notification: {
         topic_id,
         board_id,
@@ -45,6 +46,7 @@ export default class NotifyItem extends Component {
               style={styles.avatar}
               url={icon}
               userId={user_id}
+              currentUserId={currentUserId}
               userName={reply_nick_name}
               navigation={navigation} />
             <View style={styles.author}>

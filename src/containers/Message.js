@@ -15,7 +15,7 @@ import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notify
 import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
 import { submit } from '../actions/topic/publishAction';
 import { resetReply } from '../actions/topic/replyAction';
-import { getAtMeCount, getReplyCount, getPmCount, getAlertCount } from '../selectors/alert';
+import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
 
 const TABS = [
   { label: '@', type: 'at' },
@@ -54,17 +54,17 @@ class Message extends Component {
     });
   }
 
-  _publish({ boardId, topicId, replyId, images, content }) {
-    this.props.submit({
-      boardId,
-      topicId,
-      replyId,
-      typeId: null,
-      title: null,
-      images,
-      content
-    });
-  }
+  // _publish({ boardId, topicId, replyId, images, content }) {
+  //   this.props.submit({
+  //     boardId,
+  //     topicId,
+  //     replyId,
+  //     typeId: null,
+  //     title: null,
+  //     images,
+  //     content
+  //   });
+  // }
 
   // This is a hacky way to allow customized tab label
   // for each tab of <ScrollableTabView /> component.
@@ -83,7 +83,7 @@ class Message extends Component {
       pmSessionList,
       reply,
       navigation,
-      alertCount
+      userId
     } = this.props;
 
     return (
@@ -97,11 +97,6 @@ class Message extends Component {
         //     resetReply={() => this.props.resetReply()}
         //     closeReplyModal={() => this.toggleReplyModal(false)}
         //     handlePublish={comment => this._publish(comment)} />
-        }
-        {
-        // <Header title='消息'
-        //         alertCount={alertCount}
-        //         updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         }
         <ScrollableTabView
           renderTabBar={(props) => <MessageTabBar newTabs={this.getTabsWithAlertCount(props.tabs)} />}
@@ -118,6 +113,7 @@ class Message extends Component {
                   tabLabel={tab.label}
                   pmSessionList={pmSessionList}
                   navigation={navigation}
+                  currentUserId={userId}
                   markAsRead={({ plid }) => this.props.markAsRead({ plid })}
                   fetchPmSessionList={() => this.fetchPmSessionList(tab.type)}
                   refreshPmSessionList={({ page, isEndReached }) => this.refreshPmSessionList({ page, isEndReached })} />
@@ -129,6 +125,7 @@ class Message extends Component {
                 key={index}
                 tabLabel={tab.label}
                 notifyList={_.get(notifyList, tab.type, {})}
+                currentUserId={userId}
                 navigation={navigation}
                 fetchNotifyList={() => this.fetchNotifyList(tab.type)}
                 refreshNotifyList={({ page, isEndReached }) => this.refreshNotifyList({ page, isEndReached, notifyType: tab.type })} />
@@ -140,7 +137,7 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
+function mapStateToProps({ notifyList, reply, pmSessionList, alert, user }) {
   return {
     notifyList,
     reply,
@@ -148,7 +145,7 @@ function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
     atMeCount: getAtMeCount(alert),
     replyCount: getReplyCount(alert),
     pmCount: getPmCount(alert),
-    alertCount: getAlertCount(alert)
+    userId: _.get(user, ['authrization', 'uid'])
   };
 }
 

@@ -14,28 +14,18 @@ import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import colors from '../styles/common/_colors';
 import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } from '../config';
-import { getAlertCount } from '../selectors/alert';
 
-class About extends Component {
+export default class About extends Component {
   static navigationOptions = {
     title: menus.about.title,
     drawerLockMode: 'locked-closed'
   }
 
   render() {
-    let {
-      navigation,
-      alertCount
-    } = this.props;
+    let { navigation } = this.props;
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        {
-          // <Header
-          //   title='关于'
-          //   alertCount={alertCount}
-          //   updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-        }
         <View style={styles.top}>
           <Image
             style={styles.logo}
@@ -74,11 +64,3 @@ class About extends Component {
     );
   }
 }
-
-function mapStateToProps({ alert }) {
-  return {
-    alertCount: getAlertCount(alert)
-  };
-}
-
-export default connect(mapStateToProps)(About);

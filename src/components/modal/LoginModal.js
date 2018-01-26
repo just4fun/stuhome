@@ -23,7 +23,6 @@ import {
   resetAuthrizationResult,
   cleanCache
 } from '../../actions/authorizeAction';
-import { getAlertCount } from '../../selectors/alert';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -143,10 +142,9 @@ class LoginModal extends Component {
   }
 }
 
-function mapStateToProps({ user, alert }) {
+function mapStateToProps({ user }) {
   return {
-    user,
-    alertCount: getAlertCount(alert)
+    user
   };
 }
 

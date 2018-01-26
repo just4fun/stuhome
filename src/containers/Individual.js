@@ -14,19 +14,30 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import TopicList from '../components/TopicList';
 import colors from '../styles/common/_colors';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
+import headerRightButtonStyles from '../styles/components/button/_HeaderRightButton';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
-import { getAlertCount } from '../selectors/alert';
 import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
-  static navigationOptions = {
-    drawerLockMode: 'locked-closed',
-    headerStyle: {
-      backgroundColor: colors.lightBlue,
-      borderBottomWidth: 0
-    }
+  static navigationOptions = ({ navigation }) => {
+    let { userId, isLoginUser } = _.get(navigation, ['state', 'params'], {});
+    return {
+      drawerLockMode: 'locked-closed',
+      headerStyle: {
+        backgroundColor: colors.lightBlue,
+        borderBottomWidth: 0
+      },
+      headerRight: (
+        isLoginUser === false &&
+          <Icon
+            style={headerRightButtonStyles.button}
+            name='envelope'
+            size={18}
+            onPress={() => navigation.navigate('PrivateMessage', { userId })} />
+      )
+    };
   }
 
   constructor(props) {
@@ -90,6 +101,11 @@ class Individual extends Component {
       isEndReached: false,
       type: 'topic'
     });
+    // Display private message button or not.
+    this.props.navigation.setParams({
+      userId: this.userId,
+      isLoginUser: this.isLoginUser
+    });
   }
 
   refreshUserTopicList({ page, isEndReached, type }) {
@@ -116,32 +132,11 @@ class Individual extends Component {
   render() {
     let {
       navigation,
-      userTopicList,
-      alertCount
+      userTopicList
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        {
-          // !this.props.navigation.state.params &&
-          //   <Header
-          //     style={styles.nav}
-          //     alertCount={alertCount}
-          //     updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-          //   ||
-          //   <Header
-          //     style={styles.nav}>
-          //     <PopButton router={router} />
-          //     {!this.isLoginUser &&
-          //       <Icon
-          //         name='envelope'
-          //         size={18}
-          //         onPress={() => router.toPmList({ userId: this.userId })} />
-          //       ||
-          //       <Text></Text>
-          //     }
-          //   </Header>
-        }
         <View style={styles.header}>
           <CachedImage
             style={styles.avatar}
@@ -172,11 +167,10 @@ class Individual extends Component {
   }
 }
 
-function mapStateToProps({ user, userTopicList, alert }) {
+function mapStateToProps({ user, userTopicList }) {
   return {
     user,
-    userTopicList,
-    alertCount: getAlertCount(alert)
+    userTopicList
   };
 }
 

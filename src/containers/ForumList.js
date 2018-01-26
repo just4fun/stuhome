@@ -11,7 +11,6 @@ import mainStyles from '../styles/components/_Main';
 import ForumItems from '../components/ForumItems';
 import menus from '../constants/menus';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
-import { getAlertCount } from '../selectors/alert';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -34,7 +33,7 @@ class ForumList extends Component {
     });
   }
 
-  _refreshForumList() {
+  refreshForumList() {
     this.props.invalidateForumList({
       boardId: this.boardId
     });
@@ -46,32 +45,25 @@ class ForumList extends Component {
   render() {
     let {
       navigation,
-      forumList,
-      alertCount
+      forumList
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        {
-          // <Header title='版块'
-          //         alertCount={alertCount}
-          //         updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-        }
         <ForumItems
           navigation={navigation}
           boardId={this.boardId}
           forumList={_.get(forumList, this.boardId, {})}
           isTopForumList={this.isTopForumList}
-          refreshForumList={() => this._refreshForumList()} />
+          refreshForumList={() => this.refreshForumList()} />
       </View>
     );
   }
 }
 
-function mapStateToProps({ forumList, alert }) {
+function mapStateToProps({ forumList }) {
   return {
-    forumList,
-    alertCount: getAlertCount(alert)
+    forumList
   };
 }
 

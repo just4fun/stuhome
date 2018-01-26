@@ -147,7 +147,7 @@ class Home extends Component {
           isPublishFromHomePage={true}>
           {userId &&
             <PublishButton
-              onPress={() => this.toggleForumListModal(true)} />
+              onPress={() => navigation.navigate('ForumListModal')} />
             ||
             <Text></Text>
           }

@@ -15,7 +15,7 @@ export default class PrivateList extends Component {
     this.props.fetchPmSessionList();
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isRefreshing,
@@ -32,7 +32,7 @@ export default class PrivateList extends Component {
     });
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
@@ -52,7 +52,8 @@ export default class PrivateList extends Component {
       pmSessionList,
       navigation,
       refreshPmSessionList,
-      markAsRead
+      markAsRead,
+      currentUserId
     } = this.props;
     let realPmSessionList = [];
     let isRefreshing = false;
@@ -75,12 +76,13 @@ export default class PrivateList extends Component {
               key={session.topic_id}
               session={session}
               navigation={navigation}
+              currentUserId={currentUserId}
               markAsRead={({ plid }) => markAsRead({ plid })}/>
           );
         }}
-        onEndReached={() => this._endReached()}
+        onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()}
+        renderFooter={() => this.renderFooter()}
         refreshControl={
           <RefreshControl
             title='正在加载...'
