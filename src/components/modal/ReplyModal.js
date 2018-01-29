@@ -20,7 +20,6 @@ import ImageUploader from '../ImageUploader';
 import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
 import { fetchTopic } from '../../actions/topic/topicAction';
-import { resetReply } from '../../actions/topic/replyAction';
 
 class ReplyModal extends Component {
   constructor(props) {
@@ -30,7 +29,6 @@ class ReplyModal extends Component {
       isPublishing: false,
       replyContent: '',
       images: [],
-      isUploading: false,
       selectedPanel: 'keyboard',
       keyboardAccessoryToBottom: 0,
       isContentFocused: false
@@ -48,7 +46,7 @@ class ReplyModal extends Component {
       isReplyInTopic
     } = this.props.navigation.state.params;
 
-    // `reply_posts_id` is not necessary when reply topic author
+    // `reply_posts_id` is not necessary when reply topic author.
     this.replyId = reply_posts_id;
     this.boardId = board_id,
     this.topicId = topic_id;
@@ -163,6 +161,26 @@ class ReplyModal extends Component {
         images: data,
         content: this.state.replyContent
       });
+    }).then(response => {
+      if (response.data) {
+        if (response.data.rs) {
+          this.cancel();
+          // If we reply in `Message` page, there is
+          // no need to fetch topic.
+          if (this.isReplyInTopic) {
+            this.fetchTopic();
+          }
+          MessageBar.show({
+            message: '发布成功',
+            type: 'success'
+          });
+        // I really hate the fields which mobcent API return
+        } else if (response.data.errcode) {
+          AlertIOS.alert('提示', response.data.errcode);
+        }
+      }
+    }).finally(() => {
+      this.setState({ isPublishing: false });
     });
   }
 
@@ -280,6 +298,5 @@ class ReplyModal extends Component {
 }
 
 export default connect(null, {
-  fetchTopic,
-  resetReply
+  fetchTopic
 })(ReplyModal);

@@ -111,7 +111,7 @@ export default class Content extends Component {
   // adjust layout.
   render() {
     let newContent = this.getContentByGroup();
-    let { currentTopicId, navigation } = this.props;
+    let { navigation } = this.props;
 
     return (
       <View style={styles.container}>
@@ -151,7 +151,6 @@ export default class Content extends Component {
                             <Text key={index}
                                   style={styles.url}
                                   onPress={() => navigation.navigate('Topic', {
-                                    currentTopicId,
                                     topic_id: this.getTopicId(item.url)
                                   })}>
                               {item.infor}

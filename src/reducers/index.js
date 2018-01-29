@@ -3,8 +3,6 @@ import user from './user';
 import forumList from './forumList';
 import topicList from './topic/topicList';
 import topicItem from './topic/topicItem';
-import publish from './topic/publish';
-import reply from './topic/reply';
 import search from './topic/search';
 import vote from './topic/vote';
 import topicFavor from './topic/favor';
@@ -27,8 +25,6 @@ export default combineReducers({
 
   user,
   topicItem,
-  publish,
-  reply,
   search,
   vote,
   topicFavor,

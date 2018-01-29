@@ -36,7 +36,7 @@ class PublishModal extends Component {
       content: '',
       isPickerOpen: false,
       images: [],
-      isUploading: false,
+      isPublishing: false,
       selectedPanel: 'keyboard',
       keyboardAccessoryToBottom: 0,
       isContentFocused: false
@@ -50,16 +50,20 @@ class PublishModal extends Component {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
     this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
 
-    this.props.fetchTopicList({
-      boardId: this.boardId,
-      isEndReached: false,
-      sortType: 'publish'
-    });
+    this.fetchTopicList();
   }
 
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+  }
+
+  fetchTopicList() {
+    this.props.fetchTopicList({
+      boardId: this.boardId,
+      isEndReached: false,
+      sortType: 'publish'
+    });
   }
 
   keyboardWillShow(e) {
@@ -79,27 +83,27 @@ class PublishModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const publish = nextProps.publish;
-    if (publish.response) {
-      if (publish.response.rs) {
-        this.cancel();
-        this.props.invalidateTopicList({
-          boardId: 'all',
-          sortType: 'publish'
-        });
-        // The boolean here is to tell router we need to replace
-        // with home page by force to bypass same route check if
-        // we publish topic from home page.
-        this.props.router.toHome(true);
-        MessageBar.show({
-          message: '发布成功',
-          type: 'success'
-        });
-      } else if (publish.response.errcode) {
-        AlertIOS.alert('提示', publish.response.errcode);
-      }
-      this.props.resetPublish();
-    }
+    // const publish = nextProps.publish;
+    // if (publish.response) {
+    //   if (publish.response.rs) {
+    //     this.cancel();
+    //     this.props.invalidateTopicList({
+    //       boardId: 'all',
+    //       sortType: 'publish'
+    //     });
+    //     // The boolean here is to tell router we need to replace
+    //     // with home page by force to bypass same route check if
+    //     // we publish topic from home page.
+    //     this.props.router.toHome(true);
+    //     MessageBar.show({
+    //       message: '发布成功',
+    //       type: 'success'
+    //     });
+    //   } else if (publish.response.errcode) {
+    //     AlertIOS.alert('提示', publish.response.errcode);
+    //   }
+    //   this.props.resetPublish();
+    // }
   }
 
   cancel() {
@@ -139,15 +143,44 @@ class PublishModal extends Component {
     this.titleInput.blur();
     this.contentInput.blur();
 
-    this.setState({ isUploading: true });
+    this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
-      this.setState({ isUploading: false });
+      // this.setState({ isUploading: false });
 
-      if (data) {
-        topic.images = data;
+      // if (data) {
+      //   topic.images = data;
+      // }
+
+      // this.props.handlePublish(topic);
+
+      let { typeId, title, content } = this.state;
+      return api.publishTopic({
+        boardId: this.boardId,
+        // topicId: null,
+        // replyId: null,
+        typeId,
+        title,
+        content,
+        images: data
+      });
+    }).then(response => {
+      if (response.data) {
+        if (response.data.rs) {
+          // Close modal.
+          this.cancel();
+          // Refresh topic list.
+          this.props.navigation.state.params.callback();
+          // Show result.
+          MessageBar.show({
+            message: '发布成功',
+            type: 'success'
+          });
+        } else if (response.data.errcode) {
+          AlertIOS.alert('提示', response.data.errcode);
+        }
       }
-
-      this.props.handlePublish(topic);
+    }).finally(() => {
+      this.setState({ isPublishing: false });
     });
   }
 
@@ -214,10 +247,8 @@ class PublishModal extends Component {
   }
 
   render() {
-    let { typeId, title, content, isPickerOpen, images } = this.state;
-    let { publish, types } = this.props;
-
-    let isPublishing = this.state.isUploading || publish.isPublishing;
+    let { typeId, content, isPickerOpen, images, isPublishing } = this.state;
+    let { types } = this.props;
 
     return (
       <View style={mainStyles.container}>
@@ -241,11 +272,7 @@ class PublishModal extends Component {
               ||
               <Text
                 style={modalStyles.button}
-                onPress={() => this.handlePublish({
-                  typeId,
-                  title,
-                  content
-                })}>
+                onPress={() => this.handlePublish()}>
                 发布
               </Text>
             )
@@ -294,7 +321,7 @@ class PublishModal extends Component {
           <View style={styles.formItem}>
             <TextInput
               ref={component => this.contentInput = component}
-              value={this.state.content}
+              value={content}
               style={styles.topicContent}
               onFocus={() => this.setState({ isContentFocused: true })}
               onSelectionChange={(event) => this.handleContentSelectionChange(event)}
@@ -306,7 +333,7 @@ class PublishModal extends Component {
           <View style={styles.upload}>
             <ImageUploader
               disabled={isPublishing}
-              images={this.state.images}
+              images={images}
               addImages={images => this.addImages(images)}
               removeImage={imageIndex => this.removeImage(imageIndex)} />
           </View>
@@ -323,11 +350,9 @@ class PublishModal extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  let { topicList, publish } = state;
+function mapStateToProps({ topicList }, ownProps) {
   return {
-    types: _.get(topicList, [ownProps.navigation.state.params.boardId, 'typeList'], []),
-    publish
+    types: _.get(topicList, [ownProps.navigation.state.params.boardId, 'typeList'], [])
   };
 }
 

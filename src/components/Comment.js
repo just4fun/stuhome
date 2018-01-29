@@ -21,6 +21,8 @@ export default class Comment extends Component {
     let {
       currentUserId,
       navigation,
+      topicId,
+      boardId,
       comment,
       comment: {
         reply_id: userId
@@ -42,7 +44,13 @@ export default class Comment extends Component {
       switch (buttonIndex) {
         case 0:
           navigation.navigate('ReplyModal', {
-            comment,
+            // `comment` here is item from `forum/postlist`, which has
+            // no `topicId` and `boardId`, but necessary for topic reply
+            // API.
+            comment: Object.assign({}, comment, {
+              topic_id: topicId,
+              board_id: boardId
+            }),
             // To indicate we need to fetch topic again
             // to display new comments.
             isReplyInTopic: true
@@ -72,8 +80,9 @@ export default class Comment extends Component {
   render() {
     let {
       navigation,
-      currentTopicId,
       currentUserId,
+      topicId,
+      boardId,
       comment: {
         reply_name,
         userTitle,
@@ -130,7 +139,6 @@ export default class Comment extends Component {
             }
             <Content
               content={reply_content}
-              currentTopicId={currentTopicId}
               navigation={navigation} />
           </View>
         </View>

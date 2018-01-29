@@ -26,14 +26,17 @@ const TABS = [
 
 class ForumDetail extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title, isLogin, boardId } = navigation.state.params;
+    let { title, isLogin, boardId, handleModalCallback } = navigation.state.params;
     return {
       title,
       drawerLockMode: 'locked-closed',
       headerRight: (
         isLogin &&
           <PublishButton
-            onPress={() => navigation.navigate('PublishModal', { boardId })} />
+            onPress={() => navigation.navigate('PublishModal', {
+              boardId,
+              callback: () => handleModalCallback()
+            })} />
       )
     };
   }
@@ -71,13 +74,22 @@ class ForumDetail extends Component {
     this.props.navigation.setParams({
       title: this.boardName,
       isLogin: !!this.props.user.authrization.token,
-      boardId: this.boardId
+      boardId: this.boardId,
+      handleModalCallback: () => this.handleModalCallback()
     });
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
       sortType: 'publish'
     });
+  }
+
+  handleModalCallback() {
+    this.props.invalidateTopicList({
+      boardId: this.boardId,
+      sortType: 'publish'
+    });
+    this.scrollableTabView.goToPage(0);
   }
 
   refreshTopicList({ page, isEndReached, sortType }) {
@@ -166,6 +178,7 @@ class ForumDetail extends Component {
         }
         {this.boardContent && this.boardChild &&
           <ScrollableTabView
+            ref={component => this.scrollableTabView = component}
             tabBarBackgroundColor={colors.lightBlue}
             tabBarActiveTextColor={colors.white}
             tabBarInactiveTextColor={colors.white}
@@ -196,6 +209,7 @@ class ForumDetail extends Component {
         }
         {this.boardContent && !this.boardChild &&
           <ScrollableTabView
+            ref={component => this.scrollableTabView = component}
             tabBarBackgroundColor={colors.lightBlue}
             tabBarActiveTextColor={colors.white}
             tabBarInactiveTextColor={colors.white}

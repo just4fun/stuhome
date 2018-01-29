@@ -30,6 +30,11 @@ class Home extends Component {
     header: null
   }
 
+  constructor(props) {
+    super(props);
+    this.boardId = 'all';
+  }
+
   componentDidMount() {
     this.props.fetchTopicList({
       boardId: this.boardId,
@@ -108,6 +113,14 @@ class Home extends Component {
   //   });
   // }
 
+  handleModalCallback() {
+    this.props.invalidateTopicList({
+      boardId: this.boardId,
+      sortType: 'publish'
+    });
+    this.scrollableTabView.goToPage(0);
+  }
+
   render() {
     let {
       navigation,
@@ -147,12 +160,15 @@ class Home extends Component {
           isPublishFromHomePage={true}>
           {userId &&
             <PublishButton
-              onPress={() => navigation.navigate('ForumListModal')} />
+              onPress={() => navigation.navigate('ForumListModal', {
+                callback: () => this.handleModalCallback()
+              })} />
             ||
             <Text></Text>
           }
         </Header>
         <ScrollableTabView
+          ref={component => this.scrollableTabView = component}
           tabBarActiveTextColor={colors.blue}
           tabBarInactiveTextColor={colors.lightBlue}
           tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}

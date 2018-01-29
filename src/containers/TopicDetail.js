@@ -237,7 +237,6 @@ class TopicDetail extends Component {
           <View>
             <Content
               content={topic.content}
-              currentTopicId={this.topicId}
               navigation={navigation} />
             {topic.poll_info &&
               <VoteList
@@ -428,7 +427,10 @@ class TopicDetail extends Component {
               key={comment.reply_posts_id}
               comment={comment}
               currentUserId={uid}
-              currentTopicId={this.topicId}
+              // `topicId` and `boardId` are not involved in `comment` here,
+              // which are necessary for topic reply API.
+              topicId={this.topicId}
+              boardId={this.boardId}
               navigation={navigation} />
           }
           onEndReached={() => this.endReached()}
@@ -445,7 +447,8 @@ class TopicDetail extends Component {
                 user_nick_name: user_nick_name,
                 board_id: this.boardId,
                 topic_id
-              }
+              },
+              isReplyInTopic: true
             })}>
             <Text style={styles.commentAreaText}>发表评论</Text>
           </TouchableHighlight>
