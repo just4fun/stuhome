@@ -21,6 +21,7 @@ export default class Avatar extends Component {
 
     return (
       <TouchableHighlight
+        style={[styles.avatar, style]}
         underlayColor={colors.underlay}
         onPress={() => {
           if (onPress) {
