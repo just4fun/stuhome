@@ -24,20 +24,20 @@ const progressTintColors = [
 export default class VoteList extends Component {
   constructor(props) {
     super(props);
-    this._initState();
+    this.initState();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { vote } = nextProps;
-    if (vote.response && vote.response.rs) {
-      this.props.resetVote();
-      // to fetch vote status, we have only to fetch topic again,
-      // since the vote info is included in topic model.
-      this.props.fetchTopic();
-    }
+    // const { vote } = nextProps;
+    // if (vote.response && vote.response.rs) {
+    //   this.props.resetVote();
+    //   // To fetch vote status, we have only to fetch topic again,
+    //   // since the vote info is included in topic model.
+    //   this.props.fetchTopic();
+    // }
   }
 
-  _initState() {
+  initState() {
     let pollListStatus = {};
     let { poll_item_list } = this.props.pollInfo;
     poll_item_list.forEach(item => {
@@ -47,7 +47,7 @@ export default class VoteList extends Component {
     this.state = { pollListStatus };
   }
 
-  _setPollItemStatus(pollItemId, checked) {
+  setPollItemStatus(pollItemId, checked) {
     let newPollListStatusState = Object.assign({}, this.state.pollListStatus, {
       [pollItemId]: checked
     });
@@ -57,7 +57,7 @@ export default class VoteList extends Component {
     });
   }
 
-  _isSubmitDisabled() {
+  isSubmitDisabled() {
     // type: max selected items count (WTF???)
     let { type } = this.props.pollInfo;
     let { pollListStatus } = this.state;
@@ -66,7 +66,7 @@ export default class VoteList extends Component {
     return selectedItemsCount === 0 || (selectedItemsCount > type);
   }
 
-  _handleVote() {
+  handleVote() {
     let { pollListStatus } = this.state;
     let voteIds = Object.keys(pollListStatus)
                         .filter(key => pollListStatus[key])
@@ -76,13 +76,15 @@ export default class VoteList extends Component {
   }
 
   render() {
-    let { pollInfo, vote } = this.props;
     let {
-      poll_item_list,
-      type,
-      poll_status,
-      voters
-    } = pollInfo;
+      pollInfo: {
+        poll_item_list,
+        type,
+        poll_status,
+        voters
+      },
+      isVoting
+    } = this.props;
 
     let pollTitle = (type === 1 && '单选投票' || `多选投票（最多可选${type}项）`)
                   + (poll_status === 2 && '，投票后结果可见' || '')
@@ -115,7 +117,7 @@ export default class VoteList extends Component {
                       labelStyle={styles.checkboxLabel}
                       label={labelText}
                       checked={this.state.pollListStatus[item.poll_item_id]}
-                      onChange={checked => this._setPollItemStatus(item.poll_item_id, checked)}
+                      onChange={checked => this.setPollItemStatus(item.poll_item_id, checked)}
                     />
                     ||
                     <Text style={styles.checkboxLabelOnly}>
@@ -143,9 +145,9 @@ export default class VoteList extends Component {
             <Button
               style={styles.submit}
               textStyle={styles.submitText}
-              isDisabled={this._isSubmitDisabled()}
-              isLoading={vote.isVoting}
-              onPress={() => this._handleVote()}>
+              isDisabled={this.isSubmitDisabled()}
+              isLoading={isVoting}
+              onPress={() => this.handleVote()}>
               投票
             </Button>
           }

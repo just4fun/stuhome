@@ -27,21 +27,12 @@ import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
 import { ReplyButton, CommentButton } from '../components/button';
-import { submit } from '../actions/topic/publishAction';
-import { resetReply } from '../actions/topic/replyAction';
 import colors from '../styles/common/_colors';
+import api from '../services/api';
 import {
   fetchTopic,
   resetTopic
 } from '../actions/topic/topicAction';
-import {
-  publishVote,
-  resetVote
-} from '../actions/topic/voteAction';
-import {
-  favorTopic,
-  resetFavorTopic
-} from '../actions/topic/favorAction';
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -87,8 +78,8 @@ class TopicDetail extends Component {
     this.order = 0;
 
     this.state = {
-      isReplyModalOpen: false,
-      currentContent: null
+      isFavoring: false,
+      isVoting: false
     };
   }
 
@@ -107,7 +98,7 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { topicItem, topicFavor } = nextProps;
+    let { topicItem } = nextProps;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
@@ -115,15 +106,15 @@ class TopicDetail extends Component {
       return;
     }
 
-    if (topicFavor.response.rs) {
-      MessageBar.show({
-        message: '操作成功',
-        type: 'success'
-      });
-      nextProps.resetFavorTopic();
-      this.resetFilters();
-      this.fetchTopic();
-    }
+    // if (topicFavor.response.rs) {
+    //   MessageBar.show({
+    //     message: '操作成功',
+    //     type: 'success'
+    //   });
+    //   nextProps.resetFavorTopic();
+    //   this.resetFilters();
+    //   this.fetchTopic();
+    // }
   }
 
   fetchTopic(fields) {
@@ -141,10 +132,28 @@ class TopicDetail extends Component {
   }
 
   favorTopic(isFavorite) {
-    this.props.favorTopic({
+    // this.props.favorTopic({
+    //   action: isFavorite ? 'delfavorite' : 'favorite',
+    //   id: this.topicId,
+    //   idType: 'tid'
+    // });
+
+    this.setState({ isFavoring: true });
+    api.favorTopic({
       action: isFavorite ? 'delfavorite' : 'favorite',
       id: this.topicId,
       idType: 'tid'
+    }).then(response => {
+      if (response.data.rs) {
+        MessageBar.show({
+          message: '操作成功',
+          type: 'success'
+        });
+        this.resetFilters();
+        this.fetchTopic();
+      }
+    }).finally(() => {
+      this.setState({ isFavoring: false });
     });
   }
 
@@ -167,7 +176,6 @@ class TopicDetail extends Component {
   renderHeader() {
     let {
       navigation,
-      topicFavor,
       vote,
       topicItem: {
         topic
@@ -176,6 +184,7 @@ class TopicDetail extends Component {
         authrization: { token }
       }
     } = this.props;
+    let { isFavoring } = this.state;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -223,7 +232,7 @@ class TopicDetail extends Component {
             <View>
               <Text style={styles.floor}>楼主</Text>
               {token && (
-                topicFavor.isFavoring &&
+                isFavoring &&
                   <ActivityIndicator />
                   ||
                   <Icon
@@ -241,13 +250,7 @@ class TopicDetail extends Component {
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
-                vote={vote}
-                publishVote={voteIds => this.publishVote(voteIds)}
-                resetVote={() => this.resetVote()}
-                fetchTopic={() => {
-                  this.resetFilters();
-                  this.fetchTopic();
-                }} />
+                publishVote={voteIds => this.publishVote(voteIds)} />
             }
           </View>
           {topic.reward &&
@@ -280,9 +283,22 @@ class TopicDetail extends Component {
   }
 
   publishVote(voteIds) {
-    this.props.publishVote({
+    // this.props.publishVote({
+    //   topicId: this.topicId,
+    //   voteIds
+    // });
+
+    this.setState({ isVoting: true });
+    api.publishVote({
       topicId: this.topicId,
       voteIds
+    }).then(response => {
+      if (response.data.rs) {
+        this.resetFilters();
+        this.fetchTopic();
+      }
+    }).finally(() => {
+      this.setState({ isVoting: false });
     });
   }
 
@@ -459,23 +475,15 @@ class TopicDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  let { topicItem, vote, user, topicFavor } = state;
+  let { topicItem, user } = state;
 
   return {
     topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
-    vote,
-    user,
-    topicFavor
+    user
   };
 }
 
 export default connect(mapStateToProps, {
-  submit,
-  resetReply,
   fetchTopic,
-  resetTopic,
-  publishVote,
-  resetVote,
-  favorTopic,
-  resetFavorTopic
+  resetTopic
 })(TopicDetail);

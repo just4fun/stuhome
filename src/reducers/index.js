@@ -4,8 +4,6 @@ import forumList from './forumList';
 import topicList from './topic/topicList';
 import topicItem from './topic/topicItem';
 import search from './topic/search';
-import vote from './topic/vote';
-import topicFavor from './topic/favor';
 import notifyList from './message/notifyList';
 import pmSessionList from './message/pmSessionList';
 import userTopicList from './user/topicList';
@@ -26,8 +24,6 @@ export default combineReducers({
   user,
   topicItem,
   search,
-  vote,
-  topicFavor,
 
   userTopicList,
 
