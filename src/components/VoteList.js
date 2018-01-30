@@ -116,7 +116,6 @@ export default class VoteList extends Component {
                       checkboxStyle={styles.checkbox}
                       labelStyle={styles.checkboxLabel}
                       label={labelText}
-                      checked={this.state.pollListStatus[item.poll_item_id]}
                       onChange={checked => this.setPollItemStatus(item.poll_item_id, checked)}
                     />
                     ||
