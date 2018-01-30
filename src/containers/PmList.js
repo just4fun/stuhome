@@ -48,13 +48,13 @@ class PmList extends Component {
 
   componentDidMount() {
     this.fetchPmList();
-    // fetch new private messages every 1 mins
+    // Fetch new private messages every 1 mins.
     this.timer = setInterval(() => { this.fetchPmList(); }, 1000 * 60);
   }
 
   componentWillUnmount() {
     this.props.resetPmList();
-    // tear down timer
+    // Tear down timer.
     this.timer && clearInterval(this.timer);
   }
 
@@ -75,7 +75,7 @@ class PmList extends Component {
   componentWillReceiveProps(nextProps) {
     this.setUpTitle(nextProps.pmList.user.name);
 
-    // handle private messages
+    // Handle private messages.
     let {
       send,
       pmList
@@ -99,11 +99,11 @@ class PmList extends Component {
         // like the best solustion now.
         setTimeout(() => { this.fetchPmList(); }, 1000 * 3);
       } else if (errcode) {
-        // the time between sending two messages is too short
+        // The time between sending two messages is too short.
         this.fetchPmList();
         AlertIOS.alert('提示', send.response.errcode);
       } else {
-        // no network
+        // No network.
         this.setState(previousState => {
           return {
             messages: previousState.messages.filter(message => !message.isNew)
@@ -115,7 +115,7 @@ class PmList extends Component {
       return;
     }
 
-    // translation from Redux store props to component state
+    // Translation from Redux store props to component state.
     if (pmList.response && pmList.response.rs) {
       this.setState({
         messages: pmList.list
@@ -159,11 +159,6 @@ class PmList extends Component {
     if (isRefreshing && page === 0) {
       return (
         <View style={mainStyles.container}>
-          {
-            // <Header title={user.name}>
-            //   <PopButton router={router} />
-            // </Header>
-          }
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -187,11 +182,6 @@ class PmList extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {
-          // <Header title={user.name}>
-          //   <PopButton router={router} />
-          // </Header>
-        }
         <GiftedChat
           style={mainStyles.container}
           locale={'zh-cn'}

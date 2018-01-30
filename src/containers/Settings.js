@@ -38,20 +38,15 @@ class Settings extends Component {
 
   handleNotificationValueChange(value) {
     this.props.putSettingsToStorage({ enableNotification: value });
-    // clear message alters
+    // Clear message alters.
     this.props.resetAlerts();
   }
 
   render() {
-    let { router, settings } = this.props;
+    let { settings } = this.props;
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        {
-          // <Header title='设置'>
-          //   <PopButton router={router} />
-          // </Header>
-        }
         {
           // <View style={styles.group}>
           //   <SettingItem

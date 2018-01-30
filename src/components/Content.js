@@ -59,7 +59,7 @@ export default class Content extends Component {
   isAtSomebody(url) {
     if (!url) { return false; }
 
-    // if the url content is `@somebody`, `infor` will be the text,
+    // If the url content is `@somebody`, `infor` will be the text,
     // while `url` is the link to his/her personal page. but sometimes
     // there is exception, we need to check whether the url contains `uid`,
     // instead of checking `item.url !== item.infor` here.
@@ -116,7 +116,7 @@ export default class Content extends Component {
     return (
       <View style={styles.container}>
         {newContent.map((groupContent, groupIndex) => {
-          // just check first item in each array to identify what is the
+          // Just check first item in each array to identify what is the
           // type of the content group.
           switch (groupContent[0].type) {
             // $typeMaps = array('text' => 0, 'image' => 1, 'video' => 2, 'audio' => 3, 'url' => 4, 'attachment' => 5,);
@@ -178,7 +178,7 @@ export default class Content extends Component {
                       <ProgressImage
                         key={index}
                         style={styles.image}
-                        // display thumb image to client
+                        // Display thumb image to client.
                         // https://github.com/appbyme/mobcent-discuz/blob/master/app/controllers/forum/PostListAction.php#L548
                         thumbUri={item.infor}
                         originalUri={item.originalInfo} />

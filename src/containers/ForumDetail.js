@@ -14,7 +14,6 @@ import TopicList from '../components/TopicList';
 import ForumItems from '../components/ForumItems';
 import PublishModal from '../components/modal/PublishModal';
 import { PublishButton } from '../components/button';
-import { submit, resetPublish } from '../actions/topic/publishAction';
 import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/topic/topicListAction';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
@@ -129,18 +128,6 @@ class ForumDetail extends Component {
     this.fetchForumList();
   }
 
-  // _publish({ typeId, title, images, content }) {
-  //   this.props.submit({
-  //     boardId: this.boardId,
-  //     topicId: null,
-  //     replyId: null,
-  //     typeId,
-  //     title,
-  //     images,
-  //     content
-  //   });
-  // }
-
   render() {
     let {
       topicList,
@@ -154,28 +141,6 @@ class ForumDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {
-          // isPublishModalOpen &&
-          //   <PublishModal
-          //     {...this.props}
-          //     visible={isPublishModalOpen}
-          //     publish={publish}
-          //     types={_.get(topicList, [this.boardId, 'typeList'], [])}
-          //     closePublishModal={() => this.togglePublishModal(false)}
-          //     handlePublish={topic => this._publish(topic)} />
-        }
-        {
-          // <Header
-          //   title={this.boardName}>
-          //   <PopButton router={router} />
-          //   {token &&
-          //     <PublishButton
-          //       onPress={() => this.togglePublishModal(true)} />
-          //     ||
-          //     <Text></Text>
-          //   }
-          // </Header>
-        }
         {this.boardContent && this.boardChild &&
           <ScrollableTabView
             ref={component => this.scrollableTabView = component}
@@ -242,18 +207,15 @@ class ForumDetail extends Component {
   }
 }
 
-function mapStateToProps({ topicList, forumList, publish, user }) {
+function mapStateToProps({ topicList, forumList, user }) {
   return {
     topicList,
     forumList,
-    publish,
     user
   };
 }
 
 export default connect(mapStateToProps, {
-  submit,
-  resetPublish,
   invalidateTopicList,
   fetchTopicList,
   resetTopicList,

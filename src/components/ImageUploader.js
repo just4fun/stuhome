@@ -76,12 +76,14 @@ export default class ImageUploader extends Component {
           );
         })}
         {!disabled &&
-          <TouchableHighlight style={styles.block}
-                              underlayColor={colors.underlay}
-                              onPress={() => this.launchImageLibrary()}>
-            <Icon style={styles.uploader}
-                  name='cloud-upload'
-                  size={25} />
+          <TouchableHighlight
+            style={styles.block}
+            underlayColor={colors.underlay}
+            onPress={() => this.launchImageLibrary()}>
+            <Icon
+              style={styles.uploader}
+              name='cloud-upload'
+              size={25} />
           </TouchableHighlight>
         }
       </View>

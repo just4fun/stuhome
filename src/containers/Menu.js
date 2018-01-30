@@ -58,14 +58,6 @@ class Menu extends Component {
         <Image
           source={require('../images/shahe.jpg')}
           style={styles.blur} />
-        {
-        // isLoginModalOpen &&
-        //   <LoginModal
-        //     visible={isLoginModalOpen}
-        //     menus={menus}
-        //     closeLoginModal={() => this.toggleLoginModal(false)}
-        //     {...this.props} />
-        }
         <MenuProfile
           authrization={user.authrization}
           {...this.props} />

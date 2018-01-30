@@ -12,7 +12,7 @@ import styles from '../styles/components/_PmSessionItem';
 export default class PmSessionItem extends Component {
   _handleOnPress(isNew, plid, userId) {
     if (isNew) {
-      // mark message as read
+      // Mark message as read.
       this.props.markAsRead({ plid });
     }
     this.props.navigation.navigate('PrivateMessage', { userId });
@@ -29,7 +29,7 @@ export default class PmSessionItem extends Component {
         toUserName,
         toUserAvatar,
         isNew,
-        plid // to indicate current message session
+        plid // To indicate current message session.
       }
     } = this.props;
 

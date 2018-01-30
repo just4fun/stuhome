@@ -12,7 +12,6 @@ import Avatar from './Avatar';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
-import { CommentButton } from './button';
 import { parseContentWithImage } from '../utils/contentParser';
 import MessageBar from '../services/MessageBar';
 

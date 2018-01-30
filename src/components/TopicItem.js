@@ -7,7 +7,7 @@ import {
 import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
-// refer to this issue https://github.com/moment/momentjs.com/pull/241
+// Refer to this issue https://github.com/moment/momentjs.com/pull/241
 import 'moment/locale/zh-cn';
 import { AVATAR_ROOT } from '../config';
 import styles from '../styles/components/_TopicItem';
@@ -15,24 +15,28 @@ import colors from '../styles/common/_colors';
 
 export default class TopicItem extends Component {
   render() {
-    let { topic, navigation, accessTopicListFromForumItem, currentUserId } = this.props;
     let {
-      title,
-      subject,
-      summary,
-      hits,
-      replies,
-      board_id,
-      board_name,
-      user_nick_name,
-      last_reply_date,
-      user_id,
-      userAvatar
-    } = topic;
+      navigation,
+      accessTopicListFromForumItem,
+      currentUserId,
+      topic,
+      topic: {
+        title,
+        subject,
+        summary,
+        hits,
+        replies,
+        board_id,
+        board_name,
+        user_nick_name,
+        last_reply_date,
+        user_id,
+        userAvatar
+      }
+    } = this.props;
 
     // `last_reply_date` is timestamp in string from API
     last_reply_date = moment(+last_reply_date).startOf('minute').fromNow();
-
     // for `Search`, there is no avatar available in API response, so we need to
     // set it manually.
     userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${user_id}`;

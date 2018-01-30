@@ -15,7 +15,7 @@ export default class TopicList extends Component {
     this.topicList.scrollTo({ x: 0 });
   }
 
-  _endReached() {
+  endReached() {
     const {
       hasMore,
       isRefreshing,
@@ -32,7 +32,7 @@ export default class TopicList extends Component {
     });
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
@@ -106,9 +106,9 @@ export default class TopicList extends Component {
               navigation={this.props.navigation} />
           );
         }}
-        onEndReached={() => this._endReached()}
+        onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()}
+        renderFooter={() => this.renderFooter()}
         refreshControl={refreshControl} />
     );
   }

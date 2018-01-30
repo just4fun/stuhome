@@ -10,8 +10,18 @@ import colors from '../styles/common/_colors';
 
 export default class MenuBottomItem extends Component {
   render() {
-    let { menu, navigation, style, rowStyle, onPress } = this.props;
-    let { title, icon, iconSize, routeName } = menu;
+    let {
+      menu: {
+        title,
+        icon,
+        iconSize,
+        routeName
+      },
+      navigation,
+      style,
+      rowStyle,
+      onPress
+    } = this.props;
 
     return (
       <TouchableOpacity

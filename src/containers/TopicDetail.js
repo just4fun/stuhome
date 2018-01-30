@@ -26,7 +26,6 @@ import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
-import { ReplyButton, CommentButton } from '../components/button';
 import colors from '../styles/common/_colors';
 import api from '../services/api';
 import {
@@ -39,7 +38,7 @@ const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 function getTopicId(topic) {
   if (!topic) { return null; }
 
-  // for `hot(今日热门)` tab in Home page, each topic has
+  // For `hot(今日热门)` tab in Home page, each topic has
   // not `topic_id` field, but they have `source_id` and
   // `source_type` instead.
   if (topic.source_id) { return topic.source_id; }
@@ -105,16 +104,6 @@ class TopicDetail extends Component {
       nextProps.navigation.goBack();
       return;
     }
-
-    // if (topicFavor.response.rs) {
-    //   MessageBar.show({
-    //     message: '操作成功',
-    //     type: 'success'
-    //   });
-    //   nextProps.resetFavorTopic();
-    //   this.resetFilters();
-    //   this.fetchTopic();
-    // }
   }
 
   fetchTopic(fields) {
@@ -132,12 +121,6 @@ class TopicDetail extends Component {
   }
 
   favorTopic(isFavorite) {
-    // this.props.favorTopic({
-    //   action: isFavorite ? 'delfavorite' : 'favorite',
-    //   id: this.topicId,
-    //   idType: 'tid'
-    // });
-
     this.setState({ isFavoring: true });
     api.favorTopic({
       action: isFavorite ? 'delfavorite' : 'favorite',
@@ -283,11 +266,6 @@ class TopicDetail extends Component {
   }
 
   publishVote(voteIds) {
-    // this.props.publishVote({
-    //   topicId: this.topicId,
-    //   voteIds
-    // });
-
     this.setState({ isVoting: true });
     api.publishVote({
       topicId: this.topicId,
@@ -306,17 +284,10 @@ class TopicDetail extends Component {
     this.props.resetVote();
   }
 
-  // toggleReplyModal(visible, content) {
-  //   this.setState({
-  //     isReplyModalOpen: visible,
-  //     currentContent: content
-  //   });
-  // }
-
   getCopyContent(content) {
     if (!content || content.length === 0) { return ''; }
 
-    // only copy text and link
+    // Only copy text and link.
     return content.map(item => {
       if (item.type === 0 || item.type === 4) {
         return item.infor;
@@ -408,32 +379,6 @@ class TopicDetail extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {
-          // isReplyModalOpen &&
-          //   <ReplyModal
-          //     {...this.props}
-          //     visible={isReplyModalOpen}
-          //     content={currentContent}
-          //     reply={reply}
-          //     isReplyInTopic={true}
-          //     handlePublish={comment => this.publish(comment)}
-          //     closeReplyModal={() => this.toggleReplyModal(false)}
-          //     fetchTopic={() => {
-          //       this.resetFilters();
-          //       this.fetchTopic();
-          //     }} />
-        }
-        {
-          // <Header title={this.boardName}>
-          //   <PopButton router={this.props.router} />
-          //   {uid &&
-          //     <Icon
-          //       size={18}
-          //       name='ellipsis-h'
-          //       onPress={() => this.showOperationDialog(topic)}/>
-          //   }
-          // </Header>
-        }
         <ListView
           dataSource={commentSource}
           removeClippedSubviews={false}

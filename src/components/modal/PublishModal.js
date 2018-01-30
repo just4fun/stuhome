@@ -82,30 +82,6 @@ class PublishModal extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // const publish = nextProps.publish;
-    // if (publish.response) {
-    //   if (publish.response.rs) {
-    //     this.cancel();
-    //     this.props.invalidateTopicList({
-    //       boardId: 'all',
-    //       sortType: 'publish'
-    //     });
-    //     // The boolean here is to tell router we need to replace
-    //     // with home page by force to bypass same route check if
-    //     // we publish topic from home page.
-    //     this.props.router.toHome(true);
-    //     MessageBar.show({
-    //       message: '发布成功',
-    //       type: 'success'
-    //     });
-    //   } else if (publish.response.errcode) {
-    //     AlertIOS.alert('提示', publish.response.errcode);
-    //   }
-    //   this.props.resetPublish();
-    // }
-  }
-
   cancel() {
     this.props.navigation.goBack();
   }
@@ -145,14 +121,6 @@ class PublishModal extends Component {
 
     this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
-      // this.setState({ isUploading: false });
-
-      // if (data) {
-      //   topic.images = data;
-      // }
-
-      // this.props.handlePublish(topic);
-
       let { typeId, title, content } = this.state;
       return api.publishTopic({
         boardId: this.boardId,
@@ -186,11 +154,11 @@ class PublishModal extends Component {
 
   handlePanelSelect(item) {
     if (item !== 'keyboard') {
-      // hide keyboard
+      // Hide keyboard
       this.titleInput.blur();
       this.contentInput.blur();
     } else {
-      // show keyboard
+      // Show keyboard
       this.contentInput.focus();
     }
 

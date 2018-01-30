@@ -13,8 +13,6 @@ import ReplyModal from '../components/modal/ReplyModal';
 import menus from '../constants/menus';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
-import { submit } from '../actions/topic/publishAction';
-import { resetReply } from '../actions/topic/replyAction';
 import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
 
 const TABS = [
@@ -54,18 +52,6 @@ class Message extends Component {
     });
   }
 
-  // _publish({ boardId, topicId, replyId, images, content }) {
-  //   this.props.submit({
-  //     boardId,
-  //     topicId,
-  //     replyId,
-  //     typeId: null,
-  //     title: null,
-  //     images,
-  //     content
-  //   });
-  // }
-
   // This is a hacky way to allow customized tab label
   // for each tab of <ScrollableTabView /> component.
   getTabsWithAlertCount(tabs) {
@@ -88,16 +74,6 @@ class Message extends Component {
 
     return (
       <View style={mainStyles.container}>
-        {
-        // isReplyModalOpen &&
-        //   <ReplyModal
-        //     visible={isReplyModalOpen}
-        //     content={currentNotification}
-        //     reply={reply}
-        //     resetReply={() => this.props.resetReply()}
-        //     closeReplyModal={() => this.toggleReplyModal(false)}
-        //     handlePublish={comment => this._publish(comment)} />
-        }
         <ScrollableTabView
           renderTabBar={(props) => <MessageTabBar newTabs={this.getTabsWithAlertCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
@@ -137,10 +113,9 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, reply, pmSessionList, alert, user }) {
+function mapStateToProps({ notifyList, pmSessionList, alert, user }) {
   return {
     notifyList,
-    reply,
     pmSessionList,
     atMeCount: getAtMeCount(alert),
     replyCount: getReplyCount(alert),
@@ -152,8 +127,6 @@ function mapStateToProps({ notifyList, reply, pmSessionList, alert, user }) {
 export default connect(mapStateToProps, {
   invalidateNotifyList,
   fetchNotifyList,
-  submit,
-  resetReply,
   fetchPmSessionList,
   invalidatePmSessionList,
   markAsRead

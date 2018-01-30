@@ -15,7 +15,7 @@ export default class ProgressImage extends Component {
   constructor(props) {
     super(props);
 
-    // only `height` is used for responsive image
+    // Only `height` is used for responsive image.
     this.state = {
       height: 0,
       layoutWidth: 0,
@@ -23,9 +23,9 @@ export default class ProgressImage extends Component {
       originalHeight: 0,
     };
 
-    // we calculate `height` both in `_getImageSize` and `_handleLayout`,
+    // We calculate `height` both in `getImageSize` and `handleLayout`,
     // since the sequence between the callback of `Image.getSize` and
-    // `_handleLayout` is not guaranteed, the lack of any of them may
+    // `handleLayout` is not guaranteed, the lack of any of them may
     // lead `height: 0`.
 
     // Update: even we have already used `react-native-img-cache`, user will
@@ -33,10 +33,10 @@ export default class ProgressImage extends Component {
     // time to get completed. To be tradeoff, we will give images a static
     // height instead of responsive height and width.
 
-    // this._getImageSize();
+    // this.getImageSize();
   }
 
-  _getImageSize() {
+  getImageSize() {
     let { thumbUri } = this.props;
 
     Image.getSize(thumbUri, (originalWidth, originalHeight) => {
@@ -51,7 +51,7 @@ export default class ProgressImage extends Component {
     });
   }
 
-  _handleLayout(event) {
+  handleLayout(event) {
     let { width } = event.nativeEvent.layout;
     // `originalHeight` and `originalWidth` may not be calculated in this time
     let height = this.state.originalHeight * ( width / this.state.originalWidth);
@@ -80,7 +80,7 @@ export default class ProgressImage extends Component {
               unfilledColor: colors.white,
             }}
             resizeMode={'contain'}
-            // onLayout={event => this._handleLayout(event)}
+            // onLayout={event => this.handleLayout(event)}
             style={styles.image} />
         </View>
       </TouchableHighlight>

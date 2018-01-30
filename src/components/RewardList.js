@@ -9,13 +9,15 @@ import styles from '../styles/components/_RewardList';
 
 export default class RewardList extends Component {
   render() {
-    let { reward, navigation } = this.props;
     let {
-      score,
-      userNumber,
-      userList,
-      showAllUrl
-    } = reward;
+      reward: {
+        score,
+        userNumber,
+        userList,
+        showAllUrl
+      },
+      navigation
+    } = this.props;
 
     return (
       <View style={styles.reward}>
@@ -31,7 +33,7 @@ export default class RewardList extends Component {
           </Text>
         </View>
         <View style={styles.rewardUserList}>
-          {reward.userList.map((user, index) => {
+          {userList.map((user, index) => {
             return (
               <CachedImage
                 key={index}

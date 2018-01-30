@@ -8,11 +8,13 @@ import SubForumList from './SubForumList';
 
 export default class ForumItem extends Component {
   render() {
-    let { isTopForumList, forum } = this.props;
     let {
-      board_category_name,
-      board_list
-    } = forum;
+      isTopForumList,
+      forum: {
+        board_category_name,
+        board_list
+      }
+    } = this.props;
 
     return (
       <View style={styles.container}>

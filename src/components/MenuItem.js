@@ -11,8 +11,18 @@ import colors from '../styles/common/_colors';
 
 export default class MenuItem extends Component {
   render() {
-    let { menu, navigation, style, showAlert, alertCount} = this.props;
-    let { title, icon, iconSize, routeName } = menu;
+    let {
+      menu: {
+        title,
+        icon,
+        iconSize,
+        routeName
+      },
+      navigation,
+      style,
+      showAlert,
+      alertCount
+    } = this.props;
 
     return (
       <TouchableHighlight

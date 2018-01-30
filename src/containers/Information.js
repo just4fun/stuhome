@@ -98,11 +98,6 @@ class Information extends Component {
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        {
-          // <Header title='资料'>
-          //   <PopButton router={router} />
-          // </Header>
-        }
         <View style={styles.group}>
           <SettingItem
             text='头像'
