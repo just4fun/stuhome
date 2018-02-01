@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import {
+  View,
+  AlertIOS,
+  ActivityIndicator
+} from 'react-native';
 import { connect } from 'react-redux';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
@@ -29,6 +33,15 @@ class Search extends Component {
 
   componentWillUnmount() {
     this.props.resetSearch();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let { search } = nextProps;
+    if (search.errCode) {
+      AlertIOS.alert('提示', search.errCode);
+      // Clean error message.
+      this.props.resetSearch();
+    }
   }
 
   getSearchBarFocus() {
