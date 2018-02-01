@@ -27,16 +27,6 @@ export default class VoteList extends Component {
     this.initState();
   }
 
-  componentWillReceiveProps(nextProps) {
-    // const { vote } = nextProps;
-    // if (vote.response && vote.response.rs) {
-    //   this.props.resetVote();
-    //   // To fetch vote status, we have only to fetch topic again,
-    //   // since the vote info is included in topic model.
-    //   this.props.fetchTopic();
-    // }
-  }
-
   initState() {
     let pollListStatus = {};
     let { poll_item_list } = this.props.pollInfo;

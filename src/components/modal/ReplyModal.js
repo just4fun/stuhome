@@ -86,28 +86,6 @@ class ReplyModal extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // const reply = nextProps.reply;
-    // if (reply.response) {
-    //   if (reply.response.rs) {
-    //     this.cancel();
-    //     // If we reply in `Message` page, there is
-    //     // no need to fetch topic.
-    //     if (this.isReplyInTopic) {
-    //       this.fetchTopic();
-    //     }
-    //     MessageBar.show({
-    //       message: '发布成功',
-    //       type: 'success'
-    //     });
-    //   // I really hate the fields which mobcent API return
-    //   } else if (reply.response.errcode) {
-    //     AlertIOS.alert('提示', reply.response.errcode);
-    //   }
-    //   this.props.resetReply();
-    // }
-  }
-
   getTitle(comment) {
     if (comment) {
       return `回复 ${comment.user_nick_name || comment.reply_name}`;
@@ -142,14 +120,6 @@ class ReplyModal extends Component {
 
     this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
-      // this.setState({ isPublishing: false });
-
-      // if (data) {
-      //   comment.images = data;
-      // }
-
-      // this.props.handlePublish(comment);
-
       // Actually there is no need to pass `boardId` when we
       // reply a topic.
       return api.publishTopic({
