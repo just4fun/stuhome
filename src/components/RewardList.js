@@ -46,8 +46,7 @@ export default class RewardList extends Component {
             name='ellipsis-h'
             size={14}
             onPress={() => navigation.navigate('WebView', {
-              url: showAllUrl,
-              title: '全部评分'
+              url: showAllUrl
             })} />
         </View>
       </View>
