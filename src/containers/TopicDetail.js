@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableHighlight,
-  ListView,
+  FlatList,
   ActionSheetIOS,
   Clipboard
 } from 'react-native';
@@ -32,8 +32,6 @@ import {
   fetchTopic,
   resetTopic
 } from '../actions/topic/topicAction';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 function getTopicId(topic) {
   if (!topic) { return null; }
@@ -256,7 +254,7 @@ class TopicDetail extends Component {
       isEndReached
     } = this.props.topicItem;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -375,15 +373,15 @@ class TopicDetail extends Component {
         }
       }
     } = this.props;
-    let commentSource = ds.cloneWithRows(topicItem.list);
 
     return (
       <View style={mainStyles.container}>
-        <ListView
-          dataSource={commentSource}
+        <FlatList
+          data={topicItem.list}
+          keyExtractor={(item, index) => index}
           removeClippedSubviews={false}
           enableEmptySections={true}
-          renderRow={comment =>
+          renderItem={({ item: comment }) =>
             <Comment
               key={comment.reply_posts_id}
               comment={comment}
@@ -396,8 +394,8 @@ class TopicDetail extends Component {
           }
           onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this.renderHeader()}
-          renderFooter={() => this.renderFooter()} />
+          ListHeaderComponent={() => this.renderHeader()}
+          ListFooterComponent={() => this.renderFooter()} />
         {uid &&
           <TouchableHighlight
             style={styles.commentArea}

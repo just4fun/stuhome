@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import {
   View,
-  ListView,
+  FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
 export default class TopicList extends Component {
-  scrollToTop() {
-    this.topicList.scrollTo({ x: 0 });
-  }
-
   endReached() {
     const {
       hasMore,
@@ -38,7 +32,7 @@ export default class TopicList extends Component {
       isEndReached
     } = this.props.topicList;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -85,15 +79,14 @@ export default class TopicList extends Component {
                          refreshing={isRefreshing} />;
     }
 
-    let source = ds.cloneWithRows(realTopicList);
-
     return (
-      <ListView
+      <FlatList
         ref={component => this.topicList = component}
-        dataSource={source}
+        data={realTopicList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={topic => {
+        renderItem={({ item: topic }) => {
           // https://github.com/just4fun/stuhome/issues/15
           if (this.isBadData(topic)) { return null; }
 
@@ -108,7 +101,7 @@ export default class TopicList extends Component {
         }}
         onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this.renderFooter()}
+        ListFooterComponent={() => this.renderFooter()}
         refreshControl={refreshControl} />
     );
   }

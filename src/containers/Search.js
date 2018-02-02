@@ -70,7 +70,6 @@ class Search extends Component {
 
   handleSearch() {
     this.getSearchBarBlur();
-    this.searchList.scrollToTop();
     this.refreshTopicList({});
   }
 

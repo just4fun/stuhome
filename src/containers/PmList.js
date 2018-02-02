@@ -6,8 +6,7 @@ import {
   Image,
   AlertIOS,
   ScrollView,
-  ActivityIndicator,
-  ListView
+  ActivityIndicator
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
-  ListView,
+  FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
 import indicatorStyles from '../styles/common/_Indicator';
 import PmSessionItem from './PmSessionItem';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class PrivateList extends Component {
   componentDidMount() {
@@ -38,7 +36,7 @@ export default class PrivateList extends Component {
       isEndReached
     } = this.props.pmSessionList;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -63,14 +61,13 @@ export default class PrivateList extends Component {
       isRefreshing = pmSessionList.isRefreshing;
     };
 
-    let source = ds.cloneWithRows(realPmSessionList);
-
     return (
-      <ListView
-        dataSource={source}
+      <FlatList
+        data={realPmSessionList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={session => {
+        renderItem={({ item: session }) => {
           return (
             <PmSessionItem
               key={session.topic_id}
@@ -82,7 +79,7 @@ export default class PrivateList extends Component {
         }}
         onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this.renderFooter()}
+        ListFooterComponent={() => this.renderFooter()}
         refreshControl={
           <RefreshControl
             title='正在加载...'

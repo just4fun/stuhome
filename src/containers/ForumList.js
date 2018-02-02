@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  ListView,
   RefreshControl
 } from 'react-native';
 import _ from 'lodash';
@@ -11,8 +10,6 @@ import mainStyles from '../styles/components/_Main';
 import ForumItems from '../components/ForumItems';
 import menus from '../constants/menus';
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class ForumList extends Component {
   static navigationOptions = {

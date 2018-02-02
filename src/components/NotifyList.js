@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
-  ListView,
+  FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
 import indicatorStyles from '../styles/common/_Indicator';
 import NotifyItem from './NotifyItem';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class NotifyList extends Component {
   componentDidMount() {
@@ -38,7 +36,7 @@ export default class NotifyList extends Component {
       isEndReached
     } = this.props.notifyList;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -61,14 +59,13 @@ export default class NotifyList extends Component {
       isRefreshing = notifyList.isRefreshing;
     };
 
-    let source = ds.cloneWithRows(realNotifyList);
-
     return (
-      <ListView
-        dataSource={source}
+      <FlatList
+        data={realNotifyList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={notification => {
+        renderItem={({ item: notification }) => {
           return (
             <NotifyItem
               key={notification.topic_id}
@@ -79,7 +76,7 @@ export default class NotifyList extends Component {
         }}
         onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this.renderFooter()}
+        ListFooterComponent={() => this.renderFooter()}
         refreshControl={
           <RefreshControl
             title='正在加载...'
