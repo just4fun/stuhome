@@ -14,6 +14,19 @@ import styles from '../styles/components/_TopicItem';
 import colors from '../styles/common/_colors';
 
 export default class TopicItem extends Component {
+  handleOnPress(topic) {
+    let {
+      currentUserId,
+      navigation
+    } = this.props;
+    // Login User
+    if (currentUserId) {
+      navigation.navigate('Topic', topic);
+    } else {
+      navigation.navigate('LoginModal');
+    }
+  }
+
   render() {
     let {
       navigation,
@@ -45,7 +58,7 @@ export default class TopicItem extends Component {
       <View style={styles.container}>
         <TouchableHighlight
           underlayColor={colors.underlay}
-          onPress={() => navigation.navigate('Topic', topic)}>
+          onPress={() => this.handleOnPress(topic)}>
           <View style={styles.item}>
             <View style={styles.row}>
               <View style={styles.left}>

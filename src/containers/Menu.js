@@ -60,7 +60,13 @@ class Menu extends Component {
   }
 
   render() {
-    let { user, alertCount } = this.props;
+    let {
+      user: {
+        authrization,
+        authrization: { token }
+      },
+      alertCount
+    } = this.props;
 
     return (
       <SafeAreaView style={styles.container}>
@@ -68,14 +74,14 @@ class Menu extends Component {
           source={require('../images/shahe.jpg')}
           style={styles.blur} />
         <MenuProfile
-          authrization={user.authrization}
+          authrization={authrization}
           {...this.props} />
         <View style={styles.menus}>
-          <MenuItem
-            menu={menus['forumList']}
-            {...this.props} />
-          {user.authrization.token &&
+          {token &&
             <View>
+              <MenuItem
+                menu={menus['forumList']}
+                {...this.props} />
               <MenuItem
                 menu={menus['search']}
                 {...this.props} />
@@ -93,7 +99,7 @@ class Menu extends Component {
             menu={menus['about']}
             {...this.props} />
         </View>
-        {user.authrization.token &&
+        {token &&
           <View style={styles.menuFooter}>
             <MenuBottomItem
               menu={menus['settings']}

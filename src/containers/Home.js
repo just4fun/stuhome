@@ -28,6 +28,7 @@ class Home extends Component {
       title: '清水河畔',
       headerLeft: (
         <MenuButton
+          isLogin={isLogin}
           navigation={navigation}
           alertCount={alertCount} />
       ),
