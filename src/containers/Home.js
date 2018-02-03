@@ -14,7 +14,6 @@ import TopicList from '../components/TopicList';
 import { MenuButton, PublishButton } from '../components/button';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import { getAlertCount } from '../selectors/alert';
-import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
 const TABS = [
   { label: '最新发表', type: 'publish' },
@@ -23,8 +22,23 @@ const TABS = [
 ];
 
 class Home extends Component {
-  static navigationOptions = {
-    header: null
+  static navigationOptions = ({ navigation }) => {
+    let { alertCount, isLogin, handleModalCallback } = _.get(navigation, ['state', 'params'], {});
+    return {
+      title: '清水河畔',
+      headerLeft: (
+        <MenuButton
+          navigation={navigation}
+          alertCount={alertCount} />
+      ),
+      headerRight: (
+        isLogin &&
+          <PublishButton
+            onPress={() => navigation.navigate('ForumListModal', {
+              callback: () => this.handleModalCallback()
+            })} />
+      )
+    };
   }
 
   constructor(props) {
@@ -33,6 +47,15 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    let {
+      userId,
+      alertCount
+    } = this.props;
+    this.props.navigation.setParams({
+      isLogin: !!userId,
+      alertCount,
+      handleModalCallback: () => this.handleModalCallback()
+    });
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
@@ -40,10 +63,22 @@ class Home extends Component {
     });
   }
 
-  fetchForumList() {
-    this.props.fetchForumList({
-      boardId: this.boardId
-    });
+  componentWillReceiveProps(nextProps) {
+    let lastUserId = this.props.userId;
+    let lastAlertCount = this.props.alertCount;
+    let {
+      userId,
+      alertCount
+    } = nextProps;
+
+    // Only update header if any necessary information updated.
+    if (lastUserId !== userId || lastAlertCount !== alertCount) {
+      this.props.navigation.setParams({
+        isLogin: !!userId,
+        alertCount,
+        handleModalCallback: () => this.handleModalCallback()
+      });
+    }
   }
 
   refreshTopicList({ page, isEndReached, sortType }) {
@@ -79,27 +114,11 @@ class Home extends Component {
     let {
       navigation,
       topicList,
-      forumList,
-      userId,
-      alertCount
+      userId
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        <Header
-          title='清水河畔'
-          navigation={navigation}
-          alertCount={alertCount}
-          isPublishFromHomePage={true}>
-          {userId &&
-            <PublishButton
-              onPress={() => navigation.navigate('ForumListModal', {
-                callback: () => this.handleModalCallback()
-              })} />
-            ||
-            <Text></Text>
-          }
-        </Header>
         <ScrollableTabView
           ref={component => this.scrollableTabView = component}
           tabBarActiveTextColor={colors.blue}
@@ -125,18 +144,15 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({ topicList, forumList, alert, user }) {
+function mapStateToProps({ topicList, alert, user }) {
   return {
     userId: _.get(user, ['authrization', 'uid']),
     topicList,
-    forumList,
     alertCount: getAlertCount(alert)
   };
 }
 
 export default connect(mapStateToProps, {
   invalidateTopicList,
-  fetchTopicList,
-  invalidateForumList,
-  fetchForumList
+  fetchTopicList
 })(Home);

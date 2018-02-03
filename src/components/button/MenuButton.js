@@ -11,11 +11,6 @@ export default class MenuButton extends Component {
   render() {
     let {
       navigation,
-      navigation: {
-        state: {
-          params = {}
-        }
-      },
       alertCount
     } = this.props;
 
