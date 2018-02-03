@@ -7,6 +7,7 @@ import {
   ActionSheetIOS,
   SafeAreaView
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
@@ -21,6 +22,13 @@ import {
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import menus from '../constants/menus';
 import { getAlertCount } from '../selectors/alert';
+
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Home' })
+  ]
+});
 
 class Menu extends Component {
   showLogoutDialog() {
@@ -44,9 +52,10 @@ class Menu extends Component {
   handleLogout() {
     AsyncStorage.removeItem('authrization')
                 .then(() => {
-                  // remove all cache first
+                  // Remove all cache first.
                   this.props.cleanCache({ isLogin: false });
-                  this.props.navigation.navigate('Home');
+                  // Back home page.
+                  this.props.navigation.dispatch(resetAction);
                 });
   }
 

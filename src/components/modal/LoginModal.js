@@ -10,6 +10,7 @@ import {
   findNodeHandle
 } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { PopButton } from '../../components/button';
 import Button from 'apsl-react-native-button';
@@ -23,6 +24,13 @@ import {
   resetAuthrizationResult,
   cleanCache
 } from '../../actions/authorizeAction';
+
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Main' })
+  ]
+});
 
 class LoginModal extends Component {
   constructor(props) {
@@ -46,16 +54,12 @@ class LoginModal extends Component {
       authrization = JSON.stringify(authrization);
       AsyncStorage.setItem('authrization', authrization)
         .then(() => {
-          // remove all cache except authrization
+          // Remove all cache except authrization.
           this.props.cleanCache({ isLogin: true });
-          this.props.navigation.navigate('Home');
-          // this.closeLoginModal();
+          // Back home page.
+          this.props.navigation.dispatch(resetAction);
         });
     }
-  }
-
-  closeLoginModal() {
-    this.props.navigation.goBack();
   }
 
   handleSubmit(userName, password) {
