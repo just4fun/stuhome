@@ -45,8 +45,9 @@ export default class RewardList extends Component {
             style={[styles.rewardUser, styles.more]}
             name='ellipsis-h'
             size={14}
-            onPress={() => navigation.navigate('WebView', {
-              url: showAllUrl
+            onPress={() => navigation.navigate('WebPage', {
+              url: showAllUrl,
+              title: '全部评分'
             })} />
         </View>
       </View>

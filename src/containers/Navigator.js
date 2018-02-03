@@ -15,7 +15,7 @@ import PrivateMessageScreen from './PmList';
 import AboutScreen from './About';
 import InformationScreen from './Information';
 import SettingsScreen from './Settings';
-import WebViewScreen from './Browser';
+import WebPageScreen from './WebPage';
 import LoginModalScreen from '../components/modal/LoginModal';
 import RegisterModalScreen from '../components/modal/RegisterModal';
 import PublishModalScreen from '../components/modal/PublishModal';
@@ -56,8 +56,8 @@ const AppNavigator = DrawerNavigator({
           PrivateMessage: {
             screen: PrivateMessageScreen
           },
-          WebView: {
-            screen: WebViewScreen
+          WebPage: {
+            screen: WebPageScreen
           },
           About: {
             screen: AboutScreen
