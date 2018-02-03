@@ -23,8 +23,7 @@ const TABS = [
 
 class Message extends Component {
   static navigationOptions = {
-    title: menus.message.title,
-    drawerLockMode: 'locked-closed'
+    title: menus.message.title
   }
 
   fetchNotifyList(notifyType) {

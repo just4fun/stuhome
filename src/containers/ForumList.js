@@ -13,8 +13,7 @@ import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
 class ForumList extends Component {
   static navigationOptions = {
-    title: menus.forumList.title,
-    drawerLockMode: 'locked-closed'
+    title: menus.forumList.title
   }
 
   constructor(props) {

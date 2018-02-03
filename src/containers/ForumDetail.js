@@ -28,7 +28,6 @@ class ForumDetail extends Component {
     let { title, isLogin, boardId, handleModalCallback } = navigation.state.params;
     return {
       title,
-      drawerLockMode: 'locked-closed',
       headerRight: (
         isLogin &&
           <PublishButton

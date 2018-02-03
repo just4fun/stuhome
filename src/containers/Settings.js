@@ -19,8 +19,7 @@ import { resetAlerts } from '../actions/message/alertAction';
 
 class Settings extends Component {
   static navigationOptions = {
-    title: menus.settings.title,
-    drawerLockMode: 'locked-closed'
+    title: menus.settings.title
   }
 
   clearCache() {

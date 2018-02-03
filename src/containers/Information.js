@@ -18,8 +18,7 @@ import api from '../services/api';
 
 class Information extends Component {
   static navigationOptions = {
-    title: menus.information.title,
-    drawerLockMode: 'locked-closed'
+    title: menus.information.title
   }
 
   handleTakePhoto() {

@@ -14,8 +14,7 @@ import { fetchSearch, resetSearch } from '../actions/topic/searchAction';
 
 class Search extends Component {
   static navigationOptions = {
-    title: menus.search.title,
-    drawerLockMode: 'locked-closed'
+    title: menus.search.title
   }
 
   constructor(props) {

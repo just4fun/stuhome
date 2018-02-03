@@ -30,8 +30,7 @@ class PmList extends Component {
   static navigationOptions = ({ navigation }) => {
     let { title } = navigation.state.params;
     return {
-      title,
-      drawerLockMode: 'locked-closed'
+      title
     };
   }
 

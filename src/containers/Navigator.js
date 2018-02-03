@@ -74,7 +74,8 @@ const AppNavigator = DrawerNavigator({
             headerTintColor: 'white',
             headerStyle: {
               backgroundColor: colors.blue
-            }
+            },
+            drawerLockMode: 'locked-closed'
           }
         })
       },
@@ -111,7 +112,8 @@ const AppNavigator = DrawerNavigator({
         headerTintColor: 'white',
         headerStyle: {
           backgroundColor: colors.blue
-        }
+        },
+        drawerLockMode: 'locked-closed'
       }
     })
   },

@@ -49,7 +49,6 @@ class TopicDetail extends Component {
     let { title, isLogin, handleShowOperationDialog } = navigation.state.params;
     return {
       title,
-      drawerLockMode: 'locked-closed',
       headerRight: (
         isLogin &&
           <Icon

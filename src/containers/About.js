@@ -17,8 +17,7 @@ import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } fro
 
 export default class About extends Component {
   static navigationOptions = {
-    title: menus.about.title,
-    drawerLockMode: 'locked-closed'
+    title: menus.about.title
   }
 
   render() {

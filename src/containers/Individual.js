@@ -24,7 +24,6 @@ class Individual extends Component {
   static navigationOptions = ({ navigation }) => {
     let { userId, isLoginUser } = _.get(navigation, ['state', 'params'], {});
     return {
-      drawerLockMode: 'locked-closed',
       headerStyle: {
         backgroundColor: colors.lightBlue,
         borderBottomWidth: 0
