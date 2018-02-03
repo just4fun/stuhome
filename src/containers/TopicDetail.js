@@ -28,6 +28,7 @@ import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
 import colors from '../styles/common/_colors';
 import api from '../services/api';
+import { parseContentWithImage } from '../utils/contentParser';
 import {
   fetchTopic,
   resetTopic
@@ -283,11 +284,11 @@ class TopicDetail extends Component {
 
   getCopyContent(content) {
     if (!content || content.length === 0) { return ''; }
-
     // Only copy text and link.
     return content.map(item => {
       if (item.type === 0 || item.type === 4) {
-        return item.infor;
+        // Exclude emoji which type is also `0`.
+        return parseContentWithImage(item.infor, false).join('');
       }
     }).join('');
   }
@@ -389,7 +390,8 @@ class TopicDetail extends Component {
               // which are necessary for topic reply API.
               topicId={this.topicId}
               boardId={this.boardId}
-              navigation={navigation} />
+              navigation={navigation}
+              getCopyContent={(content) => this.getCopyContent(content)} />
           }
           onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}

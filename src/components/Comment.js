@@ -24,11 +24,15 @@ export default class Comment extends Component {
       boardId,
       comment,
       comment: {
-        reply_id: userId
+        reply_id: userId,
+        reply_content
       }
     } = this.props;
 
-    let options = ['回复'];
+    let options = [
+      '回复',
+      '复制'
+    ];
     let isCurrentUserSelf = currentUserId === userId;
     if (!isCurrentUserSelf) {
       options.push('私信');
@@ -56,7 +60,7 @@ export default class Comment extends Component {
           });
           break;
         case 1:
-          Clipboard.setString(this.props.getCopyContent());
+          Clipboard.setString(this.props.getCopyContent(reply_content));
           MessageBar.show({
             message: '复制内容成功',
             type: 'success'

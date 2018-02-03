@@ -1,14 +1,18 @@
 import React from 'react';
 import { CachedImage } from "react-native-img-cache";
 
-export function parseContentWithImage(content) {
+const EMOJI_REGEX = /\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/;
+
+export function parseContentWithImage(content, replaceWithImage = true) {
   if (!content) { return ''; }
 
-  let contentWithEmoticonUrl = content.replace(/\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/g, '___emoticonBoundary___$1___emoticonBoundary___');
+  let contentWithEmoticonUrl = content.replace(new RegExp(EMOJI_REGEX, 'g'), '___emoticonBoundary___$1___emoticonBoundary___');
   let contentEmoticonUrlArray = contentWithEmoticonUrl.split('___emoticonBoundary___');
 
-  return contentEmoticonUrlArray.map((item, index) => {
+  return contentEmoticonUrlArray.filter(item => item.trim()).map((item, index) => {
     if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
+      if (!replaceWithImage) { return '' };
+
       return (
         <CachedImage
           key={index}
