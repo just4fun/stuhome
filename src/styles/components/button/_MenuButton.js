@@ -3,6 +3,7 @@ import colors from '../../common/_colors';
 
 export default StyleSheet.create({
   container: {
+    width: 100,
     paddingLeft: 15,
     paddingTop: 2,
   },
