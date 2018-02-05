@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import PmSessionItem from './PmSessionItem';
 
@@ -45,6 +47,16 @@ export default class PrivateList extends Component {
     );
   }
 
+  renderListEmptyComponent() {
+    return (
+      <View style={listStyles.emptyView}>
+        <Text style={listStyles.emptyText}>
+          暂无私信
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     let {
       pmSessionList,
@@ -80,6 +92,7 @@ export default class PrivateList extends Component {
         onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
         ListFooterComponent={() => this.renderFooter()}
+        ListEmptyComponent={() => !isRefreshing && this.renderListEmptyComponent()}
         refreshControl={
           <RefreshControl
             title='正在加载...'

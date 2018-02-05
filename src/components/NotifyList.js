@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import NotifyItem from './NotifyItem';
 
@@ -45,11 +47,22 @@ export default class NotifyList extends Component {
     );
   }
 
+  renderListEmptyComponent() {
+    return (
+      <View style={listStyles.emptyView}>
+        <Text style={listStyles.emptyText}>
+          暂无消息
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     let {
       notifyList,
       navigation,
-      currentUserId
+      currentUserId,
+      refreshNotifyList
     } = this.props;
     let realNotifyList = [];
     let isRefreshing = false;
@@ -77,10 +90,11 @@ export default class NotifyList extends Component {
         onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
         ListFooterComponent={() => this.renderFooter()}
+        ListEmptyComponent={() => !isRefreshing && this.renderListEmptyComponent()}
         refreshControl={
           <RefreshControl
             title='正在加载...'
-            onRefresh={() => this.props.refreshNotifyList({})}
+            onRefresh={() => refreshNotifyList({})}
             refreshing={isRefreshing} />
         } />
     );

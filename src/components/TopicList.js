@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
 
@@ -58,8 +60,24 @@ export default class TopicList extends Component {
     return false;
   }
 
+  renderListEmptyComponent() {
+    return (
+      <View style={listStyles.emptyView}>
+        <Text style={listStyles.emptyText}>
+          {this.props.emptyText || '暂无帖子'}
+        </Text>
+      </View>
+    );
+  }
+
   render() {
-    let { topicList, isSearch, accessTopicListFromForumItem, currentUserId } = this.props;
+    let {
+      topicList,
+      isSearch,
+      accessTopicListFromForumItem,
+      currentUserId,
+      navigation
+    } = this.props;
     let realTopicList = [];
     let isRefreshing = false;
     let refreshControl = null;
@@ -96,12 +114,13 @@ export default class TopicList extends Component {
               currentUserId={currentUserId}
               accessTopicListFromForumItem={accessTopicListFromForumItem}
               topic={topic}
-              navigation={this.props.navigation} />
+              navigation={navigation} />
           );
         }}
         onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
         ListFooterComponent={() => this.renderFooter()}
+        ListEmptyComponent={() => !isRefreshing && this.renderListEmptyComponent()}
         refreshControl={refreshControl} />
     );
   }
