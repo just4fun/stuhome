@@ -5,8 +5,8 @@ import {
   Image,
   AsyncStorage,
   ActionSheetIOS,
-  SafeAreaView
 } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
@@ -69,7 +69,9 @@ class Menu extends Component {
     } = this.props;
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        forceInset={{ top: 'never' }}
+        style={styles.container}>
         <Image
           source={require('../images/shahe.jpg')}
           style={styles.blur} />
