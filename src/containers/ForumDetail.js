@@ -71,7 +71,7 @@ class ForumDetail extends Component {
     // Set up header.
     this.props.navigation.setParams({
       title: this.boardName,
-      isLogin: !!this.props.user.authrization.token,
+      isLogin: !!this.props.userId,
       boardId: this.boardId,
       handleModalCallback: () => this.handleModalCallback()
     });
@@ -132,9 +132,7 @@ class ForumDetail extends Component {
       topicList,
       forumList,
       publish,
-      user: {
-        authrization: { token }
-      },
+      userId,
       navigation
     } = this.props;
 
@@ -153,6 +151,7 @@ class ForumDetail extends Component {
               return (
                 <TopicList
                   key={index}
+                  currentUserId={userId}
                   tabLabel={tab.label}
                   navigation={navigation}
                   type={tab.type}
@@ -184,6 +183,7 @@ class ForumDetail extends Component {
               return (
                 <TopicList
                   key={index}
+                  currentUserId={userId}
                   tabLabel={tab.label}
                   navigation={navigation}
                   type={tab.type}
@@ -208,9 +208,9 @@ class ForumDetail extends Component {
 
 function mapStateToProps({ topicList, forumList, user }) {
   return {
+    userId: _.get(user, ['authrization', 'uid']),
     topicList,
-    forumList,
-    user
+    forumList
   };
 }
 

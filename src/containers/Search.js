@@ -5,6 +5,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicList from '../components/TopicList';
@@ -75,7 +76,8 @@ class Search extends Component {
   render() {
     let {
       navigation,
-      search
+      search,
+      userId
     } = this.props;
 
     return (
@@ -96,6 +98,7 @@ class Search extends Component {
         ) || (
           <TopicList
             ref={component => this.searchList = component}
+            currentUserId={userId}
             navigation={navigation}
             isSearch={true}
             topicList={search}
@@ -106,8 +109,9 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps({ search }) {
+function mapStateToProps({ search, user }) {
   return {
+    userId: _.get(user, ['authrization', 'uid']),
     search
   };
 }
