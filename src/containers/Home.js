@@ -23,7 +23,7 @@ const TABS = [
 
 class Home extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { alertCount, isLogin, handleModalCallback } = _.get(navigation, ['state', 'params'], {});
+    let { alertCount, isLogin } = _.get(navigation, ['state', 'params'], {});
     return {
       title: '清水河畔',
       headerLeft: (
@@ -35,9 +35,7 @@ class Home extends Component {
       headerRight: (
         isLogin &&
           <PublishButton
-            onPress={() => navigation.navigate('ForumListModal', {
-              callback: () => this.handleModalCallback()
-            })} />
+            onPress={() => navigation.navigate('ForumListModal')} />
       )
     };
   }
@@ -54,8 +52,7 @@ class Home extends Component {
     } = this.props;
     this.props.navigation.setParams({
       isLogin: !!userId,
-      alertCount,
-      handleModalCallback: () => this.handleModalCallback()
+      alertCount
     });
     this.props.fetchTopicList({
       boardId: this.boardId,
@@ -76,8 +73,7 @@ class Home extends Component {
     if (lastUserId !== userId || lastAlertCount !== alertCount) {
       this.props.navigation.setParams({
         isLogin: !!userId,
-        alertCount,
-        handleModalCallback: () => this.handleModalCallback()
+        alertCount
       });
     }
   }
@@ -101,14 +97,6 @@ class Home extends Component {
       isEndReached: false,
       sortType: TABS[e.i].type
     });
-  }
-
-  handleModalCallback() {
-    this.props.invalidateTopicList({
-      boardId: this.boardId,
-      sortType: 'publish'
-    });
-    this.scrollableTabView.goToPage(0);
   }
 
   render() {

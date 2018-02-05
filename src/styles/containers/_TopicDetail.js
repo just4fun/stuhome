@@ -9,13 +9,14 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 36,
+    height: 45,
     backgroundColor: '#f3f3f3',
     borderTopWidth: 1,
     borderTopColor: colors.underlay,
   },
   commentAreaText: {
     color: colors.mainField,
+    fontWeight: 'bold',
   },
   indicator: {
     flex: 1,

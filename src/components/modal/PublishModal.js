@@ -11,8 +11,9 @@ import {
   LayoutAnimation
 } from 'react-native';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { NavigationActions } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
@@ -24,7 +25,14 @@ import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
 import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
-import { fetchTopicList } from '../../actions/topic/topicListAction';
+import { invalidateTopicList, fetchTopicList } from '../../actions/topic/topicListAction';
+
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Main' })
+  ]
+});
 
 class PublishModal extends Component {
   constructor(props) {
@@ -134,10 +142,12 @@ class PublishModal extends Component {
     }).then(response => {
       if (response.data) {
         if (response.data.rs) {
-          // Close modal.
-          this.cancel();
-          // Refresh topic list.
-          this.props.navigation.state.params.callback();
+          this.props.invalidateTopicList({
+            boardId: 'all',
+            sortType: 'publish'
+          });
+          // Back home page.
+          this.props.navigation.dispatch(resetAction);
           // Show result.
           MessageBar.show({
             message: '发布成功',
@@ -325,5 +335,6 @@ function mapStateToProps({ topicList }, ownProps) {
 }
 
 export default connect(mapStateToProps, {
+  invalidateTopicList,
   fetchTopicList
 })(PublishModal);

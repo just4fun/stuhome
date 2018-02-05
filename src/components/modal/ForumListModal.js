@@ -38,10 +38,8 @@ class ForumListModal extends Component {
 
   handleSelectForum(forum) {
     let { navigation } = this.props;
-    navigation.goBack();
     navigation.navigate('PublishModal', {
-      boardId: forum.board_id,
-      callback: () => navigation.state.params.callback()
+      boardId: forum.board_id
     });
   }
 
