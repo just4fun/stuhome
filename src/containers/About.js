@@ -28,7 +28,7 @@ export default class About extends Component {
         <View style={styles.top}>
           <Image
             style={styles.logo}
-            source={require('../images/logo_transparent.png')} />
+            source={require('../images/new_logo.png')} />
         </View>
         <Text style={[styles.information, styles.text]}>
           清水河畔 {VERSION}
