@@ -10,7 +10,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
 
-## Status (v1.4.0)
+## Status (v1.5.0)
 
 [<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 
@@ -34,14 +34,14 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
   - [x] View latest topics
   - [x] View hot topics
   - [x] View topic detail and comments
-  - [ ] View specific comments (only from author, descending order, etc)
+  - [x] View specific comments (only from author, descending order, etc)
   - [x] Publish topic
   - [ ] Edit published topic
   - [x] Reply topic
   - [x] Reply comment
   - [x] Favor topic
   - [x] Upload images
-  - [ ] Meme
+  - [x] Emoji
   - [ ] Report objectionable content
 - [ ] Vote
   - [ ] Create vote
@@ -86,12 +86,12 @@ npm run eslint
 - ~~Submit to [App Store](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)~~
 - ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/stuhome/pull/7))
 - ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/stuhome/pull/8))
-- Replace deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation)
+- ~~Replace deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation)~~ ([#19](https://github.com/just4fun/stuhome/pull/19))
 
 ## Known issues
 
 - ~~User avatar is not displayed sometimes: [RN/issue](https://github.com/facebook/react-native/issues/5616)~~ (Fixed by this [PR](https://github.com/facebook/react-native/pull/7262) for React Native, and the patch is released in `0.26.0`)
-- ~~Switching between pages is not very smooth sometimes~~
+- ~~Switching between pages is not very smooth sometimes~~ (Fixed by replacing deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation))
 
 ## License
 
