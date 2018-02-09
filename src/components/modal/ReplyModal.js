@@ -115,6 +115,17 @@ class ReplyModal extends Component {
     this.cancel();
   }
 
+  showPublishDialog() {
+    AlertIOS.alert(
+      '提示',
+      '确认发布？',
+      [
+        { text: '取消' },
+        { text: '确认', onPress: () => this.handlePublish() }
+      ],
+    );
+  }
+
   handlePublish() {
     this.contentInput.blur();
 
@@ -220,7 +231,7 @@ class ReplyModal extends Component {
               ||
               <Text
                 style={modalStyles.button}
-                onPress={() => this.handlePublish()}>
+                onPress={() => this.showPublishDialog()}>
                 发布
               </Text>
             )
