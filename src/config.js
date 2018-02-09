@@ -23,6 +23,8 @@ module.exports = {
 
   SOURCE_URL: 'https://github.com/just4fun/stuhome',
 
+  FAQ_URL: 'https://github.com/just4fun/stuhome/wiki/FAQ',
+
   APP_STORE: 'itms-apps://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355',
 
   COPY_RIGHT: '2015-2017 清水河畔@法律之光',

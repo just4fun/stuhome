@@ -13,7 +13,7 @@ import menus from '../constants/menus';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_About';
 import colors from '../styles/common/_colors';
-import { AUTHOR_URL, SOURCE_URL, VERSION, COPY_RIGHT, AUTHOR_ID, APP_STORE } from '../config';
+import * as configs from '../config';
 
 export default class About extends Component {
   static navigationOptions = {
@@ -31,7 +31,7 @@ export default class About extends Component {
             source={require('../images/new_logo.png')} />
         </View>
         <Text style={[styles.information, styles.text]}>
-          清水河畔 {VERSION}
+          清水河畔 {configs.VERSION}
         </Text>
         <Text style={[styles.information, styles.text]}>
           Powered by React Native with Redux
@@ -39,25 +39,27 @@ export default class About extends Component {
         <View style={styles.group}>
           <SettingItem
             text='去商店评分'
-            onPress={() => Linking.openURL(APP_STORE)} />
+            onPress={() => Linking.openURL(configs.APP_STORE)} />
           <SettingItem
             style={styles.lastItem}
             text='BUG 上报或意见反馈'
             onPress={() => navigation.navigate('PrivateMessage', {
-              userId: AUTHOR_ID
+              userId: configs.AUTHOR_ID
             })} />
         </View>
         <View style={styles.group}>
           <SettingItem
             text='关于作者'
-            onPress={() => Linking.openURL(AUTHOR_URL)} />
+            onPress={() => Linking.openURL(configs.AUTHOR_URL)} />
           <SettingItem
-            url={SOURCE_URL}
             text='关注源码'
-            onPress={() => Linking.openURL(SOURCE_URL)} />
+            onPress={() => Linking.openURL(configs.SOURCE_URL)} />
+          <SettingItem
+            text='常见问题'
+            onPress={() => Linking.openURL(configs.FAQ_URL)} />
         </View>
         <Text style={[styles.footer, styles.text]}>
-          {COPY_RIGHT}
+          {configs.COPY_RIGHT}
         </Text>
       </View>
     );
