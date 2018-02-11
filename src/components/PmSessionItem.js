@@ -10,10 +10,10 @@ import colors from '../styles/common/_colors';
 import styles from '../styles/components/_PmSessionItem';
 
 export default class PmSessionItem extends Component {
-  _handleOnPress(isNew, plid, userId) {
+  handleOnPress(isNew, plid, userId) {
     if (isNew) {
       // Mark message as read.
-      this.props.markAsRead({ plid });
+      this.props.markPmAsRead({ plid });
     }
     this.props.navigation.navigate('PrivateMessage', { userId });
   }
@@ -39,7 +39,7 @@ export default class PmSessionItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => this._handleOnPress(isNew, plid, toUserId)}>
+        onPress={() => this.handleOnPress(isNew, plid, toUserId)}>
         <View style={[styles.item, styles.row]}>
           <Avatar
             style={styles.avatar}

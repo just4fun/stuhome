@@ -11,8 +11,8 @@ import PmSessionList from '../components/PmSessionList';
 import MessageTabBar from '../components/3rd_party/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
 import menus from '../constants/menus';
-import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
-import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
+import { invalidateNotifyList, fetchNotifyList, markAtMeAsRead, markReplyAsRead } from '../actions/message/notifyListAction';
+import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '../actions/message/pmSessionListAction';
 import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
 
 const TABS = [
@@ -26,28 +26,42 @@ class Message extends Component {
     title: menus.message.title
   }
 
-  fetchNotifyList(notifyType) {
-    this.props.fetchNotifyList({ notifyType });
+  fetchNotifyList({ page, isEndReached, notifyType }) {
+    this.props.fetchNotifyList({
+      page,
+      notifyType,
+      isEndReached
+    });
+    // Update unread message count immediately instead of
+    // clearing them with next poll after 0 ~ 15s.
+    if (notifyType === 'at') {
+      this.props.markAtMeAsRead();
+    } else if (notifyType === 'post') {
+      this.props.markReplyAsRead();
+    }
   }
 
   refreshNotifyList({ page, isEndReached, notifyType }) {
     this.props.invalidateNotifyList({ notifyType });
-    this.props.fetchNotifyList({
+    this.fetchNotifyList({
+      page,
       notifyType,
-      isEndReached,
-      page
+      isEndReached
     });
   }
 
-  fetchPmSessionList() {
-    this.props.fetchPmSessionList({ page: 1 });
+  fetchPmSessionList({ page, isEndReached }) {
+    this.props.fetchPmSessionList({
+      page,
+      isEndReached
+    });
   }
 
   refreshPmSessionList({ page, isEndReached }) {
     this.props.invalidatePmSessionList();
-    this.props.fetchPmSessionList({
-      isEndReached,
-      page
+    this.fetchPmSessionList({
+      page,
+      isEndReached
     });
   }
 
@@ -89,8 +103,8 @@ class Message extends Component {
                   pmSessionList={pmSessionList}
                   navigation={navigation}
                   currentUserId={userId}
-                  markAsRead={({ plid }) => this.props.markAsRead({ plid })}
-                  fetchPmSessionList={() => this.fetchPmSessionList(tab.type)}
+                  markPmAsRead={({ plid }) => this.props.markPmAsRead({ plid })}
+                  fetchPmSessionList={() => this.fetchPmSessionList({})}
                   refreshPmSessionList={({ page, isEndReached }) => this.refreshPmSessionList({ page, isEndReached })} />
               );
             }
@@ -102,7 +116,7 @@ class Message extends Component {
                 notifyList={_.get(notifyList, tab.type, {})}
                 currentUserId={userId}
                 navigation={navigation}
-                fetchNotifyList={() => this.fetchNotifyList(tab.type)}
+                fetchNotifyList={() => this.fetchNotifyList({ notifyType: tab.type })}
                 refreshNotifyList={({ page, isEndReached }) => this.refreshNotifyList({ page, isEndReached, notifyType: tab.type })} />
             );
           })}
@@ -128,5 +142,7 @@ export default connect(mapStateToProps, {
   fetchNotifyList,
   fetchPmSessionList,
   invalidatePmSessionList,
-  markAsRead
+  markPmAsRead,
+  markAtMeAsRead,
+  markReplyAsRead
 })(Message);

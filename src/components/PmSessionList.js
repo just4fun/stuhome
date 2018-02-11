@@ -62,7 +62,7 @@ export default class PrivateList extends Component {
       pmSessionList,
       navigation,
       refreshPmSessionList,
-      markAsRead,
+      markPmAsRead,
       currentUserId
     } = this.props;
     let realPmSessionList = [];
@@ -86,7 +86,7 @@ export default class PrivateList extends Component {
               session={session}
               navigation={navigation}
               currentUserId={currentUserId}
-              markAsRead={({ plid }) => markAsRead({ plid })}/>
+              markPmAsRead={({ plid }) => markPmAsRead({ plid })}/>
           );
         }}
         onEndReached={() => this.endReached()}

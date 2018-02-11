@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {
   INVALIDATE,
-  MARK_AS_READ,
+  MARK_PM_AS_READ,
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
@@ -26,7 +26,7 @@ export default function pmSessionList(state = defaultPmSessionListState, action)
         didInvalidate: true
       };
     }
-    case MARK_AS_READ: {
+    case MARK_PM_AS_READ: {
       let { plid } = action.payload;
 
       return {
