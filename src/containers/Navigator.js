@@ -151,6 +151,8 @@ class AppRoot extends Component {
     }
 
     if (!this.timer && nextEnableNotification) {
+      // Fetch alters immediately.
+      this.fetchAlerts();
       this.timer = setInterval(() => { this.fetchAlerts(); }, 1000 * ALERT_POLL_FREQUENCY);
     }
   }
