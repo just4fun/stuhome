@@ -25,7 +25,7 @@ import colors from '../styles/common/_colors';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
-import { PollFrequency } from '../config';
+import { ALERT_POLL_FREQUENCY } from '../config';
 
 const AppNavigator = DrawerNavigator({
   App: {
@@ -151,7 +151,7 @@ class AppRoot extends Component {
     }
 
     if (!this.timer && nextEnableNotification) {
-      this.timer = setInterval(() => { this.fetchAlerts(); }, 1000 * PollFrequency);
+      this.timer = setInterval(() => { this.fetchAlerts(); }, 1000 * ALERT_POLL_FREQUENCY);
     }
   }
 

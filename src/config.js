@@ -30,5 +30,7 @@ module.exports = {
   COPY_RIGHT: `2015-${new Date().getFullYear()} 清水河畔@法律之光`,
 
   // seconds
-  PollFrequency: 15
+  ALERT_POLL_FREQUENCY: 15,
+
+  PRIVATE_MESSAGE_POLL_FREQUENCY: 20
 };

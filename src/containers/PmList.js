@@ -23,6 +23,7 @@ import {
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/containers/_PmList';
+import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '../config';
 
 const LOGIN_USER_ID = Symbol();
 
@@ -46,8 +47,8 @@ class PmList extends Component {
 
   componentDidMount() {
     this.fetchPmList();
-    // Fetch new private messages every 1 mins.
-    this.timer = setInterval(() => { this.fetchPmList(); }, 1000 * 60);
+    // Fetch new private messages every 20 secs.
+    this.timer = setInterval(() => { this.fetchPmList(); }, 1000 * PRIVATE_MESSAGE_POLL_FREQUENCY);
   }
 
   componentWillUnmount() {
