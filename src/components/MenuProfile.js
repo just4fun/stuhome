@@ -28,8 +28,7 @@ export default class MenuProfile extends Component {
               underlayColor={colors.underlay}
               onPress={() => navigation.navigate('Information')}>
               <Image
-                // use timestamp here to aviod avatar cache
-                key={`${avatar}&timestamp=${+ new Date()}`}
+                key={avatar}
                 style={styles.avatar}
                 source={{ uri: avatar }} />
              </TouchableHighlight>

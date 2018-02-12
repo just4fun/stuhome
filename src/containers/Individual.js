@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
+  Image,
   ScrollView,
   TouchableHighlight
 } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 import _ from 'lodash';
-import { CachedImage } from "react-native-img-cache";
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TopicList from '../components/TopicList';
@@ -137,7 +137,7 @@ class Individual extends Component {
     return (
       <View style={mainStyles.container}>
         <View style={styles.header}>
-          <CachedImage
+          <Image
             style={styles.avatar}
             source={{ uri: this.userAvatar }} />
           <Text style={styles.userName}>{this.userName}</Text>

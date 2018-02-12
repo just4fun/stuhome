@@ -1,5 +1,5 @@
 import React from 'react';
-import { CachedImage } from "react-native-img-cache";
+import { Image } from 'react-native';
 
 const EMOJI_REGEX = /\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/;
 
@@ -14,7 +14,7 @@ export function parseContentWithImage(content, replaceWithImage = true) {
       if (!replaceWithImage) { return '' };
 
       return (
-        <CachedImage
+        <Image
           key={index}
           source={{ uri: item }}
           style={{

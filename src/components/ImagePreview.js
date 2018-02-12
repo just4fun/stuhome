@@ -5,7 +5,6 @@ import {
   Image,
   TouchableWithoutFeedback
 } from 'react-native';
-import ProgressBar from 'react-native-progress/Bar';
 import styles from '../styles/components/_ImagePreview';
 
 export default class ImagePreview extends Component {
@@ -27,11 +26,9 @@ export default class ImagePreview extends Component {
         <View style={styles.overlay}>
           <TouchableWithoutFeedback onPress={close}>
             <Image
-              indicator={indicator || ProgressBar}
-              indicatorProps={this.props.indicatorProps}
-              resizeMode={'contain'}
+              style={[styles.image, imageStyle]}
               source={source}
-              style={[styles.image, imageStyle]} />
+              resizeMode={'contain'} />
           </TouchableWithoutFeedback>
         </View>
       </Modal>

@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ImageCache } from "react-native-img-cache";
 import { setAuthrization } from '../actions/authorizeAction';
 import menus from '../constants/menus';
 import SettingItem from '../components/SettingItem';

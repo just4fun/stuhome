@@ -8,7 +8,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ImageCache } from "react-native-img-cache";
+// import { ImageCache } from "react-native-img-cache";
 import SettingItem from '../components/SettingItem';
 import SettingSwitchItem from '../components/SettingSwitchItem';
 import menus from '../constants/menus';
@@ -22,18 +22,18 @@ class Settings extends Component {
     title: menus.settings.title
   }
 
-  clearCache() {
-    AlertIOS.alert(
-      '提示',
-      '确定清理图片缓存？',
-      [
-        { text: '取消', style: 'cancel' },
-        { text: '清除', onPress: () => ImageCache.get().clear().then(() => {
-          AlertIOS.alert('提示', '清理成功');
-        }) },
-      ],
-    );
-  }
+  // clearCache() {
+  //   AlertIOS.alert(
+  //     '提示',
+  //     '确定清理图片缓存？',
+  //     [
+  //       { text: '取消', style: 'cancel' },
+  //       { text: '清除', onPress: () => ImageCache.get().clear().then(() => {
+  //         AlertIOS.alert('提示', '清理成功');
+  //       }) },
+  //     ],
+  //   );
+  // }
 
   handleNotificationValueChange(value) {
     this.props.putSettingsToStorage({ enableNotification: value });

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
   View,
+  Image,
   TouchableOpacity
 } from 'react-native';
-import { CachedImage } from 'react-native-img-cache';
 import styles from '../styles/components/_Avatar';
 import colors from '../styles/common/_colors';
 
@@ -39,11 +39,9 @@ export default class Avatar extends Component {
             currentUserId
           });
         }}>
-        <View>
-          <CachedImage
-            style={[styles.avatar, style]}
-            source={{ uri: url }} />
-        </View>
+        <Image
+          style={[styles.avatar, style]}
+          source={{ uri: url }} />
       </TouchableOpacity>
     );
   }

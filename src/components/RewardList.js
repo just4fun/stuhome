@@ -3,7 +3,6 @@ import {
   View,
   Text,
 } from 'react-native';
-import { CachedImage } from 'react-native-img-cache';
 import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_RewardList';
