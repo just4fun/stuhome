@@ -193,6 +193,7 @@ class TopicDetail extends Component {
               style={styles.avatar}
               url={topic.icon}
               userId={topic.user_id}
+              currentUserId={uid}
               userName={topic.user_nick_name}
               navigation={navigation} />
             <View style={styles.author}>
