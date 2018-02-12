@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
 import { CachedImage } from 'react-native-img-cache';
 import styles from '../styles/components/_Avatar';
@@ -20,8 +20,7 @@ export default class Avatar extends Component {
     } = this.props;
 
     return (
-      <TouchableHighlight
-        style={[styles.avatar, style]}
+      <TouchableOpacity
         underlayColor={colors.underlay}
         onPress={() => {
           if (onPress) {
@@ -45,7 +44,7 @@ export default class Avatar extends Component {
             style={[styles.avatar, style]}
             source={{ uri: url }} />
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 }

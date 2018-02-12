@@ -162,7 +162,7 @@ class TopicDetail extends Component {
         topic
       },
       user: {
-        authrization: { token }
+        authrization: { uid }
       }
     } = this.props;
     let { isFavoring } = this.state;
@@ -212,7 +212,7 @@ class TopicDetail extends Component {
             </View>
             <View>
               <Text style={styles.floor}>楼主</Text>
-              {token && (
+              {uid && (
                 isFavoring &&
                   <ActivityIndicator />
                   ||
@@ -237,6 +237,7 @@ class TopicDetail extends Component {
           {topic.reward &&
             <RewardList
               reward={topic.reward}
+              currentUserId={uid}
               navigation={navigation} />}
         </View>
         <View style={styles.commentHeader}>

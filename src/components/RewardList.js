@@ -3,7 +3,8 @@ import {
   View,
   Text,
 } from 'react-native';
-import { CachedImage } from "react-native-img-cache";
+import { CachedImage } from 'react-native-img-cache';
+import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_RewardList';
 
@@ -16,6 +17,7 @@ export default class RewardList extends Component {
         userList,
         showAllUrl
       },
+      currentUserId,
       navigation
     } = this.props;
 
@@ -35,10 +37,14 @@ export default class RewardList extends Component {
         <View style={styles.rewardUserList}>
           {userList.map((user, index) => {
             return (
-              <CachedImage
+              <Avatar
                 key={index}
-                source={{ uri: user.userIcon }}
-                style={styles.rewardUser} />
+                style={styles.rewardUser}
+                url={user.userIcon}
+                userId={user.uid}
+                currentUserId={currentUserId}
+                userName={user.userName}
+                navigation={navigation} />
             );
           })}
           <Icon
