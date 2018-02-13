@@ -75,6 +75,7 @@ const AppNavigator = DrawerNavigator({
             headerStyle: {
               backgroundColor: colors.blue
             },
+            headerTruncatedBackTitle: '返回',
             drawerLockMode: 'locked-closed'
           }
         })
