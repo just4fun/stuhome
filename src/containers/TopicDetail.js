@@ -47,9 +47,9 @@ function getTopicId(topic) {
 
 class TopicDetail extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title, isLogin, handleShowOperationDialog } = navigation.state.params;
+    let { headerTitle, isLogin, handleShowOperationDialog } = navigation.state.params;
     return {
-      title,
+      title: headerTitle,
       headerRight: (
         isLogin &&
           <Icon
@@ -83,7 +83,9 @@ class TopicDetail extends Component {
   componentDidMount() {
     // Set up header.
     this.props.navigation.setParams({
-      title: this.boardName,
+      // Use `headerTitle` here to avoid treating topic title
+      // as screen header title.
+      headerTitle: this.boardName,
       isLogin: !!this.props.user.authrization.token,
       handleShowOperationDialog: () => this.showOperationDialog()
     });
@@ -174,7 +176,7 @@ class TopicDetail extends Component {
     return (
       <View>
         <View style={styles.top}>
-          <Text style={styles.title}>{topic.topic_title}</Text>
+          <Text style={styles.title}>{topic.title}</Text>
           <View style={styles.info}>
             <Icon
               style={styles.views}
