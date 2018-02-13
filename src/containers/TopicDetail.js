@@ -173,7 +173,7 @@ class TopicDetail extends Component {
     return (
       <View>
         <View style={styles.top}>
-          <Text style={styles.title}>{topic.title}</Text>
+          <Text style={styles.title}>{topic.topic_title}</Text>
           <View style={styles.info}>
             <Icon
               style={styles.views}
