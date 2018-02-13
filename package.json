@@ -33,7 +33,7 @@
     "react-native-scrollable-tab-view": "0.8.0",
     "react-native-search-bar": "3.1.0",
     "react-native-vector-icons": "4.4.3",
-    "react-navigation": "1.0.0-beta.26",
+    "react-navigation": "1.0.3",
     "react-redux": "5.0.6",
     "redux": "3.3.1",
     "redux-actions": "1.2.1",
