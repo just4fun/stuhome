@@ -1,12 +1,12 @@
 import React from 'react';
 import { Image } from 'react-native';
 
-const EMOJI_REGEX = /\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/;
-
 export function parseContentWithImage(content, replaceWithImage = true) {
   if (!content) { return ''; }
 
-  let contentWithEmoticonUrl = content.replace(new RegExp(EMOJI_REGEX, 'g'), '___emoticonBoundary___$1___emoticonBoundary___');
+  // var regex = new RegExp(/xyz/, 'i');
+  // The second parameter for RegExp doesn't work below iOS 10
+  let contentWithEmoticonUrl = content.replace(/\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/g, '___emoticonBoundary___$1___emoticonBoundary___');
   let contentEmoticonUrlArray = contentWithEmoticonUrl.split('___emoticonBoundary___');
 
   return contentEmoticonUrlArray.filter(item => item.trim()).map((item, index) => {
