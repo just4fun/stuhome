@@ -185,11 +185,13 @@ export default {
     // If we want to test publish topic functionality without posting any
     // data, commment out callApi and use the code below.
     //
-    // return Promise.resolve({
-    //   data: {
-    //     rs: 1
-    //   }
-    // });
+    // return new Promise(resolve => {
+    //   setTimeout(() => { resolve({
+    //     data: {
+    //       rs: 1
+    //     }
+    //   }) }, 1000 * 3);
+    // })
   },
 
   uploadImages: (images) => {
