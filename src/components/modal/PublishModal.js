@@ -142,6 +142,8 @@ class PublishModal extends Component {
   handlePublish() {
     this.titleInput.blur();
     this.contentInput.blur();
+    // Hide emoji keyboard.
+    this.handleScroll();
 
     this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {

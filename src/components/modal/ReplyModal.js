@@ -133,6 +133,8 @@ class ReplyModal extends Component {
 
   handlePublish() {
     this.contentInput.blur();
+    // Hide emoji keyboard.
+    this.handleScroll();
 
     this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
