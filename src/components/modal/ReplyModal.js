@@ -116,6 +116,11 @@ class ReplyModal extends Component {
   }
 
   showPublishDialog() {
+    if (!this.props.settings.enablePublishDialog) {
+      this.handlePublish();
+      return;
+    }
+
     AlertIOS.alert(
       '提示',
       '确认发布？',
@@ -278,6 +283,12 @@ class ReplyModal extends Component {
   }
 }
 
-export default connect(null, {
+function mapStateToProps({ settings }) {
+  return {
+    settings
+  };
+}
+
+export default connect(mapStateToProps, {
   fetchTopic
 })(ReplyModal);

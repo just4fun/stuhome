@@ -124,6 +124,11 @@ class PublishModal extends Component {
   }
 
   showPublishDialog() {
+    if (!this.props.settings.enablePublishDialog) {
+      this.handlePublish();
+      return;
+    }
+
     AlertIOS.alert(
       '提示',
       '确认发布？',
@@ -339,9 +344,10 @@ class PublishModal extends Component {
   }
 }
 
-function mapStateToProps({ topicList }, ownProps) {
+function mapStateToProps({ topicList, settings }, ownProps) {
   return {
-    types: _.get(topicList, [ownProps.navigation.state.params.boardId, 'typeList'], [])
+    types: _.get(topicList, [ownProps.navigation.state.params.boardId, 'typeList'], []),
+    settings
   };
 }
 

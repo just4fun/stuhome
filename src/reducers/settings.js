@@ -3,7 +3,8 @@ import {
 } from '../actions/settingsAction';
 
 const defaultSettingsState = {
-  enableNotification: true
+  enableNotification: true,
+  enablePublishDialog: false
 };
 
 export default function settings(state = defaultSettingsState, action) {

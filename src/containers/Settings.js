@@ -41,6 +41,10 @@ class Settings extends Component {
     this.props.resetAlerts();
   }
 
+  handlePublishDialogValueChange(value) {
+    this.props.putSettingsToStorage({ enablePublishDialog: value });
+  }
+
   render() {
     let { settings } = this.props;
 
@@ -61,6 +65,15 @@ class Settings extends Component {
         </View>
         <Text style={[styles.explanation, styles.text]}>
           开启“消息提醒”，每15s会自动获取“提到我的”、“回复”、“私信”，有新信息时会在首页左上角显示小红点，并在侧边栏显示未读消息数字。
+        </Text>
+        <View style={styles.group}>
+          <SettingSwitchItem
+            text='发帖确认提示'
+            onValueChange={(value) => this.handlePublishDialogValueChange(value)}
+            value={settings.enablePublishDialog} />
+        </View>
+        <Text style={[styles.explanation, styles.text]}>
+          开启“发帖确认提示”，在发帖和回帖时，会弹出对话框确认是否发布，避免手误。
         </Text>
       </View>
     );
