@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   TextInput,
+  Keyboard,
   AlertIOS,
   AsyncStorage,
   Navigator,
@@ -73,8 +74,7 @@ class LoginModal extends Component {
       return;
     }
 
-    this.userNameInput.blur();
-    this.passwordInput.blur();
+    Keyboard.dismiss();
     this.props.userLogin({
       userName,
       password

@@ -132,7 +132,7 @@ class ReplyModal extends Component {
   }
 
   handlePublish() {
-    this.contentInput.blur();
+    Keyboard.dismiss();
     // Hide emoji keyboard.
     this.handleScroll();
 
@@ -187,7 +187,7 @@ class ReplyModal extends Component {
   handlePanelSelect(item) {
     if (item !== 'keyboard') {
       // hide keyboard
-      this.contentInput.blur();
+      Keyboard.dismiss();
     } else {
       // show keyboard
       this.contentInput.focus();

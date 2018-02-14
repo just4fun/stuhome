@@ -140,8 +140,7 @@ class PublishModal extends Component {
   }
 
   handlePublish() {
-    this.titleInput.blur();
-    this.contentInput.blur();
+    Keyboard.dismiss();
     // Hide emoji keyboard.
     this.handleScroll();
 
@@ -183,8 +182,7 @@ class PublishModal extends Component {
   handlePanelSelect(item) {
     if (item !== 'keyboard') {
       // Hide keyboard
-      this.titleInput.blur();
-      this.contentInput.blur();
+      Keyboard.dismiss();
     } else {
       // Show keyboard
       this.contentInput.focus();
