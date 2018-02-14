@@ -23,6 +23,7 @@ export default class EmojiTabBar extends Component {
               onPress={() => this.props.goToPage(index)}>
               <Image
                 style={styles.image}
+                resizeMode={'contain'}
                 source={{ uri: image }} />
             </TouchableOpacity>
           );
@@ -52,6 +53,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 40,
-    width: 40
+    width: window.width / 9,
   }
 });

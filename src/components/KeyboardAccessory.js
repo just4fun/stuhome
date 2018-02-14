@@ -78,6 +78,7 @@ export default class KeyboardAccessory extends Component {
                               onPress={() => this.props.handleEmojiPress(meme)}>
                               <Image
                                 style={styles.image}
+                                resizeMode={'contain'}
                                 source={{ uri: meme.image }} />
                             </TouchableOpacity>
                           );
