@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   Linking,
+  ScrollView,
   TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,7 +25,7 @@ export default class About extends Component {
     let { navigation } = this.props;
 
     return (
-      <View style={[mainStyles.container, styles.container]}>
+      <ScrollView style={[mainStyles.container, styles.container]}>
         <View style={styles.top}>
           <Image
             style={styles.logo}
@@ -58,10 +59,7 @@ export default class About extends Component {
             text='常见问题'
             onPress={() => Linking.openURL(configs.FAQ_URL)} />
         </View>
-        <Text style={[styles.footer, styles.text]}>
-          {configs.COPY_RIGHT}
-        </Text>
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   AlertIOS,
+  ScrollView,
   AsyncStorage
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,7 +14,7 @@ import SettingItem from '../components/SettingItem';
 import SettingSwitchItem from '../components/SettingSwitchItem';
 import menus from '../constants/menus';
 import mainStyles from '../styles/components/_Main';
-import styles from '../styles/containers/_About';
+import styles from '../styles/containers/_Settings';
 import { getSettingsFromStorage, putSettingsToStorage } from '../actions/settingsAction';
 import { resetAlerts } from '../actions/message/alertAction';
 
