@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Linking,
   TouchableHighlight,
   ActionSheetIOS,
   Clipboard
@@ -25,7 +26,8 @@ export default class Comment extends Component {
       comment,
       comment: {
         reply_id: userId,
-        reply_content
+        reply_content,
+        managePanel
       }
     } = this.props;
 
@@ -36,6 +38,8 @@ export default class Comment extends Component {
     let isCurrentUserSelf = currentUserId === userId;
     if (!isCurrentUserSelf) {
       options.push('私信');
+    } else {
+      options.push('编辑');
     }
     options.push('取消');
 
@@ -69,6 +73,11 @@ export default class Comment extends Component {
         case 2:
           if (!isCurrentUserSelf) {
             navigation.navigate('PrivateMessage', { userId });
+          } else if (managePanel && managePanel.length > 0) {
+            let editAction = managePanel.find(item => item.title === '编辑');
+            if (editAction) {
+              Linking.openURL(editAction.action);
+            }
           }
           break;
       }
