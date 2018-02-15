@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
+  Linking,
   AlertIOS,
   ScrollView,
   ActivityIndicator,
@@ -12,6 +13,7 @@ import {
   Clipboard
 } from 'react-native';
 import _ from 'lodash';
+import { TOPIC_URL_ROOT } from '../config';
 import Avatar from '../components/Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -68,8 +70,9 @@ class TopicDetail extends Component {
     this.topicId = getTopicId(params);
     this.boardId = params.board_id;
     this.boardName = params.board_name;
-    // `sourceWebUrl` could only be fetched in topic list
-    this.sourceWebUrl = params.sourceWebUrl;
+    // `sourceWebUrl` could only be fetched in topic list,
+    // in other cases, we need to get web url manually.
+    this.sourceWebUrl = params.sourceWebUrl || `${TOPIC_URL_ROOT}&tid=${this.topicId}`;
 
     this.authorId = 0;
     this.order = 0;
@@ -302,10 +305,23 @@ class TopicDetail extends Component {
     let options = [
       this.order === 0 ? '倒序查看' : '顺序查看',
       this.authorId === 0 ? '只看楼主' : '查看全部',
-      '复制内容'
+      '复制内容',
+      '复制链接'
     ];
-    if (this.sourceWebUrl) {
-      options.push('复制链接');
+    let {
+      user: {
+        authrization: { uid }
+      },
+      topicItem: {
+        topic: {
+          user_id,
+          managePanel
+        }
+      }
+    } = this.props;
+    let isLoginUser = uid === user_id;
+    if (isLoginUser) {
+      options.push('编辑帖子');
     }
     options.push('取消');
 
@@ -332,12 +348,18 @@ class TopicDetail extends Component {
           });
           break;
         case 3:
-          if (this.sourceWebUrl) {
-            Clipboard.setString(this.sourceWebUrl);
-            MessageBar.show({
-              message: '复制链接成功',
-              type: 'success'
-            });
+          Clipboard.setString(this.sourceWebUrl);
+          MessageBar.show({
+            message: '复制链接成功',
+            type: 'success'
+          });
+          break;
+        case 4:
+          if (isLoginUser && managePanel && managePanel.length > 0) {
+            let editAction = managePanel.find(item => item.title === '编辑');
+            if (editAction) {
+              Linking.openURL(editAction.action);
+            }
           }
           break;
       }

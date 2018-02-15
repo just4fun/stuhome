@@ -35,8 +35,8 @@ export default class Comment extends Component {
       '回复',
       '复制'
     ];
-    let isCurrentUserSelf = currentUserId === userId;
-    if (!isCurrentUserSelf) {
+    let isLoginUser = currentUserId === userId;
+    if (!isLoginUser) {
       options.push('私信');
     } else {
       options.push('编辑');
@@ -71,7 +71,7 @@ export default class Comment extends Component {
           });
           break;
         case 2:
-          if (!isCurrentUserSelf) {
+          if (!isLoginUser) {
             navigation.navigate('PrivateMessage', { userId });
           } else if (managePanel && managePanel.length > 0) {
             let editAction = managePanel.find(item => item.title === '编辑');
