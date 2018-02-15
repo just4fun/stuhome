@@ -54,16 +54,6 @@ class ReplyModal extends Component {
     this.title = this.getTitle(comment);
   }
 
-  componentDidMount() {
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
-  }
-
-  componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
-  }
-
   keyboardWillShow(e) {
     LayoutAnimation.easeInEaseOut();
     this.setState({
@@ -251,6 +241,8 @@ class ReplyModal extends Component {
         </Header>
         <KeyboardAwareScrollView
           style={isPublishing && styles.disabledForm}
+          onKeyboardWillShow={(e) => this.keyboardWillShow(e)}
+          onKeyboardWillHide={(e) => this.keyboardWillHide(e)}
           onScroll={() => this.handleScroll()}>
           <View style={styles.formItem}>
             <TextInput

@@ -55,15 +55,7 @@ class PublishModal extends Component {
   }
 
   componentDidMount() {
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
-
     this.fetchTopicList();
-  }
-
-  componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
   }
 
   fetchTopicList() {
@@ -279,6 +271,8 @@ class PublishModal extends Component {
         </Header>
         <KeyboardAwareScrollView
           style={[styles.form, isPublishing && styles.disabledForm]}
+          onKeyboardWillShow={(e) => this.keyboardWillShow(e)}
+          onKeyboardWillHide={(e) => this.keyboardWillHide(e)}
           onScroll={() => this.handleScroll()}>
           {types.length > 0 &&
             <TouchableHighlight
