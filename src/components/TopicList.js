@@ -6,6 +6,7 @@ import {
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import { AVATAR_ROOT } from '../config';
 import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
@@ -107,6 +108,19 @@ export default class TopicList extends Component {
         renderItem={({ item: topic }) => {
           // https://github.com/just4fun/stuhome/issues/15
           if (this.isBadData(topic)) { return null; }
+
+          // There is totally a bug for server side.
+          //
+          // If I replied a anonymous topic, then go to my replied topic list,
+          // both avatar and userId of the author of that anonymous topic will
+          // be exposed in API.
+          //
+          // This is workaround to make the author anonymous in replied topic list.
+          if (topic.user_nick_name === '') {
+            topic.user_nick_name = '匿名';
+            topic.user_id = 0;
+            topic.userAvatar = `${AVATAR_ROOT}&uid=0`;
+          }
 
           return (
             <TopicItem
