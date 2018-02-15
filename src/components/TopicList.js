@@ -55,9 +55,9 @@ export default class TopicList extends Component {
   isBadData(topic) {
     if (!topic) { return true; }
 
-    if (topic.board_id === 0 || topic.user_id === 0) { return true; }
-
-    return false;
+    // In '密语', all the anonymous topics have `user_id: 0` while
+    // non-zero `board_id`, it's not bad data.
+    return topic.board_id === 0 && topic.user_id === 0;
   }
 
   renderListEmptyComponent() {
