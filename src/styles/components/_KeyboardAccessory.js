@@ -18,7 +18,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   item: {
-    color: '#979797'
+    color: '#979797',
+    width: 40
   },
   image: {
     height: 50,

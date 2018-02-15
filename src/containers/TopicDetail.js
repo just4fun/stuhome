@@ -54,7 +54,7 @@ class TopicDetail extends Component {
         isLogin &&
           <Icon
             style={headerRightButtonStyles.button}
-            size={18}
+            size={24}
             name='ellipsis-h'
             onPress={handleShowOperationDialog} />
       )
