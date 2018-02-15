@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Image,
+  Linking,
   TouchableHighlight
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -31,6 +32,10 @@ export default class ImageUploader extends Component {
       multiple: true
     }).then(images => {
       this.props.addImages(images);
+    }).catch(e => {
+      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
+        Linking.openURL('app-settings:');
+      }
     });
   }
 

@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import {
   View,
   Image,
-  ActionSheetIOS,
-  AsyncStorage
+  Linking,
+  AlertIOS,
+  AsyncStorage,
+  ActionSheetIOS
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,6 +29,12 @@ class Information extends Component {
       cropping: true
     }).then(image => {
       this.uploadPhoto(image);
+    }).catch(e => {
+      if (e.code === 'ERROR_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR_KEY') {
+        AlertIOS.alert('提示', '模拟器上无法打开相机，请在真机上调试');
+      } else if (e.code === 'E_PICKER_NO_CAMERA_PERMISSION') {
+        Linking.openURL('app-settings:');
+      }
     });
   }
 
@@ -37,6 +45,10 @@ class Information extends Component {
       cropping: true
     }).then(image => {
       this.uploadPhoto(image);
+    }).catch(e => {
+      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
+        Linking.openURL('app-settings:');
+      }
     });
   }
 
