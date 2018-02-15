@@ -122,8 +122,7 @@ class ReplyModal extends Component {
   }
 
   handlePublish() {
-    Keyboard.dismiss();
-    // Hide emoji keyboard.
+    // Hide keyboard.
     this.handleScroll();
 
     this.setState({ isPublishing: true });
@@ -200,7 +199,13 @@ class ReplyModal extends Component {
   }
 
   handleScroll() {
-    if (this.state.selectedPanel === 'meme') {
+    let { selectedPanel } = this.state;
+
+    if (selectedPanel === 'keyboard') {
+      Keyboard.dismiss();
+    }
+
+    if (selectedPanel === 'meme') {
       this.setState({
         keyboardAccessoryToBottom: 0,
         selectedPanel: 'keyboard'
@@ -241,6 +246,7 @@ class ReplyModal extends Component {
         </Header>
         <KeyboardAwareScrollView
           style={isPublishing && styles.disabledForm}
+          keyboardShouldPersistTaps={'always'}
           onKeyboardWillShow={(e) => this.keyboardWillShow(e)}
           onKeyboardWillHide={(e) => this.keyboardWillHide(e)}
           onScroll={() => this.handleScroll()}>

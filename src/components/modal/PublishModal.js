@@ -132,8 +132,7 @@ class PublishModal extends Component {
   }
 
   handlePublish() {
-    Keyboard.dismiss();
-    // Hide emoji keyboard.
+    // Hide keyboard.
     this.handleScroll();
 
     this.setState({ isPublishing: true });
@@ -200,6 +199,7 @@ class PublishModal extends Component {
     this.setState({
       isPickerOpen: visible
     });
+    this.handleScroll();
   }
 
   addImages(images) {
@@ -224,7 +224,13 @@ class PublishModal extends Component {
   }
 
   handleScroll() {
-    if (this.state.selectedPanel === 'meme') {
+    let { selectedPanel } = this.state;
+
+    if (selectedPanel === 'keyboard') {
+      Keyboard.dismiss();
+    }
+
+    if (selectedPanel === 'meme') {
       this.setState({
         keyboardAccessoryToBottom: 0,
         selectedPanel: 'keyboard'
@@ -271,6 +277,10 @@ class PublishModal extends Component {
         </Header>
         <KeyboardAwareScrollView
           style={[styles.form, isPublishing && styles.disabledForm]}
+          // Without this prop, if user click title input and then click
+          // content input, both keyboard and emoji panel will show if
+          // user toggle emoji panel. Just workaround for now.
+          keyboardShouldPersistTaps={'always'}
           onKeyboardWillShow={(e) => this.keyboardWillShow(e)}
           onKeyboardWillHide={(e) => this.keyboardWillHide(e)}
           onScroll={() => this.handleScroll()}>
