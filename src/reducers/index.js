@@ -11,6 +11,7 @@ import pmList from './message/pmList';
 import send from './message/send';
 import alert from './message/alert';
 import settings from './settings';
+import userItem from './user/userItem';
 
 export default combineReducers({
   forumList,
@@ -22,6 +23,7 @@ export default combineReducers({
   alert,
 
   user,
+  userItem,
   topicItem,
   search,
 

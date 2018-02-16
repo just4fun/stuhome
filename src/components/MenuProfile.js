@@ -12,6 +12,7 @@ export default class MenuProfile extends Component {
   render() {
     let {
       authrization: {
+        uid,
         token,
         avatar,
         userName,
@@ -26,7 +27,7 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => navigation.navigate('Information')}>
+              onPress={() => navigation.navigate('Information', { userId: uid })}>
               <Image
                 key={avatar}
                 style={styles.avatar}

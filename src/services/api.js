@@ -288,5 +288,9 @@ export default {
 
   fetchAlerts: () => {
     return callApi('message/heart');
+  },
+
+  fetchUser: ({ userId }) => {
+    return callApi(`user/userinfo&userId=${userId}`);
   }
 };

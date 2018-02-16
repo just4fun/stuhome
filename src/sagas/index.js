@@ -13,6 +13,7 @@ import * as pmListActions from '../actions/message/pmListAction';
 import * as sendActions from '../actions/message/sendAction';
 import * as alertActions from '../actions/message/alertAction';
 import * as settingsActions from '../actions/settingsAction';
+import * as userActions from '../actions/user/userAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -29,6 +30,7 @@ const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
 const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts)
+const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser)
 
 // user login sagas
 
@@ -225,6 +227,15 @@ function* watchAlerts() {
   }
 }
 
+// users sagas
+
+function* watchUsers() {
+  while(true) {
+    const { payload } = yield take(userActions.REQUEST);
+    yield fork(fetchUserApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -240,4 +251,5 @@ export default function* rootSaga() {
   yield fork(watchAlerts);
   yield fork(watchRetrieveSettings);
   yield fork(watchStoreSettings);
+  yield fork(watchUsers)
 }

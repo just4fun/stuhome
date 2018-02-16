@@ -5,7 +5,7 @@ import {
   Text,
   Image,
   ScrollView,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 import _ from 'lodash';
@@ -137,9 +137,15 @@ class Individual extends Component {
     return (
       <View style={mainStyles.container}>
         <View style={styles.header}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: this.userAvatar }} />
+          <TouchableOpacity
+            underlayColor={colors.underlay}
+            onPress={() => {
+              navigation.navigate('Information', { userId: this.userId })
+            }}>
+            <Image
+              style={styles.avatar}
+              source={{ uri: this.userAvatar }} />
+          </TouchableOpacity>
           <Text style={styles.userName}>{this.userName}</Text>
         </View>
         <ScrollableTabView
