@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  TouchableHighlight,
-  Linking
+  Linking,
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_ProgressImage';
@@ -19,6 +20,14 @@ export default class ProgressImage extends Component {
   //     originalWidth: 0,
   //     originalHeight: 0,
   //   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false
+    };
+  }
 
   //   // We calculate `height` both in `getImageSize` and `handleLayout`,
   //   // since the sequence between the callback of `Image.getSize` and
@@ -61,17 +70,23 @@ export default class ProgressImage extends Component {
 
   render() {
     let { style, thumbUri, originalUri } = this.props;
+    let { isLoading } = this.state;
 
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
         onPress={() => Linking.openURL(originalUri)}>
-        <Image
-          source={{ uri: thumbUri }}
-          defaultSource={require('../images/image_default.png')}
-          resizeMode={'contain'}
-          // onLayout={event => this.handleLayout(event)}
-          style={[styles.image, style]} />
+        <View style={[styles.image, style]}>
+          <Image
+            source={{ uri: thumbUri }}
+            defaultSource={require('../images/image_default.png')}
+            onLoadStart={() => this.setState({ isLoading: true })}
+            onLoadEnd={() => this.setState({ isLoading: false })}
+            resizeMode={'contain'}
+            // onLayout={event => this.handleLayout(event)}
+            style={[styles.image, style]} />
+          {isLoading && <ActivityIndicator style={styles.indicator} />}
+        </View>
       </TouchableHighlight>
     );
   }
