@@ -13,6 +13,7 @@ import {
   Clipboard
 } from 'react-native';
 import _ from 'lodash';
+import { NavigationActions } from 'react-navigation';
 import { TOPIC_URL_ROOT } from '../config';
 import Avatar from '../components/Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -35,6 +36,13 @@ import {
   fetchTopic,
   resetTopic
 } from '../actions/topic/topicAction';
+
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Home' })
+  ]
+});
 
 function getTopicId(topic) {
   if (!topic) { return null; }
@@ -303,6 +311,7 @@ class TopicDetail extends Component {
 
   showOperationDialog() {
     let options = [
+      '返回首页',
       this.order === 0 ? '倒序查看' : '顺序查看',
       this.authorId === 0 ? '只看楼主' : '查看全部',
       '复制内容',
@@ -333,28 +342,31 @@ class TopicDetail extends Component {
       let { topic } = this.props.topicItem;
       switch (buttonIndex) {
         case 0:
+          this.props.navigation.dispatch(resetAction);
+          break;
+        case 1:
           this.order = this.order === 0 ? 1 : 0;
           this.fetchTopic();
           break;
-        case 1:
+        case 2:
           this.authorId = this.authorId === 0 ? topic.user_id : 0;
           this.fetchTopic();
           break;
-        case 2:
+        case 3:
           Clipboard.setString(this.getCopyContent(topic.content));
           MessageBar.show({
             message: '复制内容成功',
             type: 'success'
           });
           break;
-        case 3:
+        case 4:
           Clipboard.setString(this.sourceWebUrl);
           MessageBar.show({
             message: '复制链接成功',
             type: 'success'
           });
           break;
-        case 4:
+        case 5:
           if (isLoginUser && managePanel && managePanel.length > 0) {
             let editAction = managePanel.find(item => item.title === '编辑');
             if (editAction) {
