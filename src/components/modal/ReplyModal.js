@@ -205,7 +205,7 @@ class ReplyModal extends Component {
       Keyboard.dismiss();
     }
 
-    if (selectedPanel === 'meme') {
+    if (selectedPanel === 'emoji') {
       this.setState({
         keyboardAccessoryToBottom: 0,
         selectedPanel: 'keyboard'
@@ -271,7 +271,7 @@ class ReplyModal extends Component {
               removeImage={imageIndex => this.removeImage(imageIndex)} />
           </View>
         </KeyboardAwareScrollView>
-        {(this.state.isContentFocused || this.state.selectedPanel === 'meme') &&
+        {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
           <KeyboardAccessory
             style={{ bottom: this.state.keyboardAccessoryToBottom }}
             selectedPanel={this.state.selectedPanel}

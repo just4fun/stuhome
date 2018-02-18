@@ -14,7 +14,7 @@ import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import EmojiTabBar from './3rd_party/EmojiTabBar';
 import EmojiDotTabBar from './3rd_party/EmojiDotTabBar';
 import colors from '../styles/common/_colors';
-import MEMES from '../constants/memes'
+import EMOJIS from '../constants/emojis'
 
 const EMOJI_PAGE_SIZE = 7 * 3;
 
@@ -39,7 +39,7 @@ export default class KeyboardAccessory extends Component {
     return (
       <View style={[styles.container, style]}>
         <View style={styles.selection}>
-          {selectedPanel === 'meme' &&
+          {selectedPanel === 'emoji' &&
             <Icon
               style={styles.item}
               name='keyboard-o'
@@ -50,36 +50,36 @@ export default class KeyboardAccessory extends Component {
               style={styles.item}
               name='smile-o'
               size={30}
-              onPress={() => this.props.handlePanelSelect('meme')} />
+              onPress={() => this.props.handlePanelSelect('emoji')} />
           }
         </View>
-        {selectedPanel === 'meme' &&
+        {selectedPanel === 'emoji' &&
           <Animated.View style={{ height: this.state.otherPanelheight }}>
             <ScrollableTabView
               renderTabBar={(props) => <EmojiTabBar {...props} />}
               tabBarPosition='bottom'>
-                {Object.keys(MEMES).map((key, groupIndex) => {
+                {Object.keys(EMOJIS).map((key, groupIndex) => {
                   let pageView = [];
-                  let totalCount = MEMES[key].length;
+                  let totalCount = EMOJIS[key].length;
                   let pageCount = Math.ceil(totalCount / EMOJI_PAGE_SIZE);
 
                   for (let i = 0; i < pageCount; i++) {
-                    let pageMemes = MEMES[key].slice(i * EMOJI_PAGE_SIZE, (i + 1) * EMOJI_PAGE_SIZE);
+                    let pageEmojis = EMOJIS[key].slice(i * EMOJI_PAGE_SIZE, (i + 1) * EMOJI_PAGE_SIZE);
                     pageView.push(
                       <View
                         key={`${key}_group_${i}`}
                         style={styles.pageView}
                         tabLabel={`${key}_group_${i}`}>
-                        {pageMemes.map((meme, memeIndex) => {
+                        {pageEmojis.map((emoji, emojiIndex) => {
                           return (
                             <TouchableOpacity
-                              key={memeIndex}
+                              key={emojiIndex}
                               style={styles.image}
-                              onPress={() => this.props.handleEmojiPress(meme)}>
+                              onPress={() => this.props.handleEmojiPress(emoji)}>
                               <Image
                                 style={styles.image}
                                 resizeMode={'contain'}
-                                source={{ uri: meme.image }} />
+                                source={{ uri: emoji.image }} />
                             </TouchableOpacity>
                           );
                         })}
@@ -91,7 +91,7 @@ export default class KeyboardAccessory extends Component {
                     <ScrollableTabView
                       key={groupIndex}
                       renderTabBar={(props) => <EmojiDotTabBar {...props} />}
-                      tabLabel={MEMES[key][0].image}
+                      tabLabel={EMOJIS[key][0].image}
                       tabBarPosition='bottom'>
                       {pageView}
                     </ScrollableTabView>
