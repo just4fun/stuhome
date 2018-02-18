@@ -1,4 +1,9 @@
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions
+} from 'react-native';
+
+const window = Dimensions.get('window');
 
 export default StyleSheet.create({
   overlay: {
@@ -6,7 +11,6 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.7)'
   },
   image: {
-    flex: 1,
-    marginHorizontal: 10
+    flex: 1
   }
 });

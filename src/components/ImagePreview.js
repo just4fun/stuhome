@@ -3,14 +3,44 @@ import {
   View,
   Modal,
   Image,
+  Linking,
+  CameraRoll,
+  ActionSheetIOS,
   TouchableWithoutFeedback
 } from 'react-native';
+import PhotoView from 'react-native-photo-view';
+import MessageBar from '../services/MessageBar';
 import styles from '../styles/components/_ImagePreview';
 
 export default class ImagePreview extends Component {
+  showSavePhotoDialog(url) {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        '保存图片',
+        '取消'
+      ],
+      cancelButtonIndex: 1
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          this.savePhoto(url);
+          break;
+      }
+    });
+  }
+
+  savePhoto(url) {
+    CameraRoll.saveToCameraRoll(url).catch(e => {
+      if (e.message === 'User denied access') {
+        Linking.openURL('app-settings:');
+      }
+    })
+  }
+
   render() {
     let {
-      source,
+      url,
       visible,
       close,
       imageStyle,
@@ -21,16 +51,17 @@ export default class ImagePreview extends Component {
       <Modal
         animationType={'fade'}
         transparent={true}
-        onRequestClose={close}
         visible={visible}>
-        <View style={styles.overlay}>
-          <TouchableWithoutFeedback onPress={close}>
-            <Image
-              style={[styles.image, imageStyle]}
-              source={source}
-              resizeMode={'contain'} />
-          </TouchableWithoutFeedback>
-        </View>
+        <TouchableWithoutFeedback
+          style={styles.overlay}
+          onPress={close}
+          onLongPress={() => this.showSavePhotoDialog(url)}>
+          <PhotoView
+            style={[styles.image, imageStyle]}
+            loadingIndicatorSource={require('../images/image_default.png')}
+            source={{ uri: url }}
+            onTap={close} />
+        </TouchableWithoutFeedback>
       </Modal>
     );
   }

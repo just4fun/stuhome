@@ -55,7 +55,7 @@ export default class ImageUploader extends Component {
       <View style={styles.container}>
         {previewUri &&
           <ImagePreview
-            source={{ uri: previewUri }}
+            url={previewUri}
             visible={!!previewUri}
             close={() => this.previewImage(null)} />
         }

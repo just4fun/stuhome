@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TouchableHighlight
 } from 'react-native';
+import ImagePreview from './ImagePreview';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_ProgressImage';
 
@@ -25,7 +26,8 @@ export default class ProgressImage extends Component {
     super(props);
 
     this.state = {
-      isLoading: false
+      isLoading: false,
+      previewUri: null
     };
   }
 
@@ -70,24 +72,32 @@ export default class ProgressImage extends Component {
 
   render() {
     let { style, thumbUri, originalUri } = this.props;
-    let { isLoading } = this.state;
+    let { isLoading, previewUri } = this.state;
 
     return (
-      <TouchableHighlight
-        underlayColor={colors.underlay}
-        onPress={() => Linking.openURL(originalUri)}>
-        <View style={[styles.image, style]}>
-          <Image
-            source={{ uri: thumbUri }}
-            defaultSource={require('../images/image_default.png')}
-            onLoadStart={() => this.setState({ isLoading: true })}
-            onLoadEnd={() => this.setState({ isLoading: false })}
-            resizeMode={'contain'}
-            // onLayout={event => this.handleLayout(event)}
-            style={[styles.image, style]} />
-          {isLoading && <ActivityIndicator style={styles.indicator} />}
-        </View>
-      </TouchableHighlight>
+      <View>
+        {previewUri &&
+          <ImagePreview
+            url={thumbUri}
+            visible={!!thumbUri}
+            close={() => this.setState({ previewUri: null })} />
+        }
+        <TouchableHighlight
+          underlayColor={colors.underlay}
+          onPress={() => this.setState({ previewUri: thumbUri })}>
+          <View style={[styles.image, style]}>
+            <Image
+              source={{ uri: thumbUri }}
+              defaultSource={require('../images/image_default.png')}
+              onLoadStart={() => this.setState({ isLoading: true })}
+              onLoadEnd={() => this.setState({ isLoading: false })}
+              resizeMode={'contain'}
+              // onLayout={event => this.handleLayout(event)}
+              style={[styles.image, style]} />
+            {isLoading && <ActivityIndicator style={styles.indicator} />}
+          </View>
+        </TouchableHighlight>
+      </View>
     );
   }
 }
