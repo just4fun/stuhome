@@ -18,12 +18,12 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
 
 ## Screenshot
 
-![](https://user-images.githubusercontent.com/7512625/29569829-4596c76e-8787-11e7-98d8-9bf904a052f0.gif)
+![stuhome](https://user-images.githubusercontent.com/7512625/36350789-f5a43838-14d8-11e8-8a90-801e69f665c1.gif)
 
 ## Existing functionalities
 
 - [x] Authentication
-  - [x] Sign up (Webview)
+  - [x] Sign up (WebView)
   - [x] Sign in
   - [x] Sign out
 - [x] Forum
@@ -36,7 +36,7 @@ An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://fac
   - [x] View topic detail and comments
   - [x] View specific comments (only from author, descending order, etc)
   - [x] Publish topic
-  - [ ] Edit published topic
+  - [x] Edit published topic (WebView)
   - [x] Reply topic
   - [x] Reply comment
   - [x] Favor topic
