@@ -29,8 +29,8 @@ const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
-const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts)
-const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser)
+const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts);
+const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
 
 // user login sagas
 
@@ -251,5 +251,5 @@ export default function* rootSaga() {
   yield fork(watchAlerts);
   yield fork(watchRetrieveSettings);
   yield fork(watchStoreSettings);
-  yield fork(watchUsers)
+  yield fork(watchUsers);
 }

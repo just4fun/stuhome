@@ -11,7 +11,7 @@ export function parseContentWithImage(content, replaceWithImage = true) {
 
   return contentEmoticonUrlArray.filter(item => item.trim()).map((item, index) => {
     if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
-      if (!replaceWithImage) { return '' };
+      if (!replaceWithImage) { return ''; }
 
       return (
         <Image

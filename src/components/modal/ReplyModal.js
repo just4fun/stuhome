@@ -203,7 +203,7 @@ class ReplyModal extends Component {
     this.setState((prevState) => {
       let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
                      + emoji.code
-                     + prevState.replyContent.substr(this.contentCursorLocation)
+                     + prevState.replyContent.substr(this.contentCursorLocation);
       return { replyContent: newContent };
     });
   }

@@ -14,7 +14,7 @@ import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import EmojiTabBar from './3rd_party/EmojiTabBar';
 import EmojiDotTabBar from './3rd_party/EmojiDotTabBar';
 import colors from '../styles/common/_colors';
-import EMOJIS from '../constants/emojis'
+import EMOJIS from '../constants/emojis';
 
 const EMOJI_PAGE_SIZE = 7 * 3;
 

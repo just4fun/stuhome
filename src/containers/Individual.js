@@ -75,7 +75,7 @@ class Individual extends Component {
         { label: '最近发表', type: 'topic' },
         { label: '最近回复', type: 'reply' },
         { label: '我的收藏', type: 'favorite' }
-      ]
+      ];
     } else {
       let {
         userId,
@@ -90,7 +90,7 @@ class Individual extends Component {
       this.TABS = [
         { label: 'TA的发表', type: 'topic' },
         { label: 'TA的回复', type: 'reply' },
-      ]
+      ];
     }
   }
 
@@ -140,7 +140,7 @@ class Individual extends Component {
           <TouchableOpacity
             underlayColor={colors.underlay}
             onPress={() => {
-              navigation.navigate('Information', { userId: this.userId })
+              navigation.navigate('Information', { userId: this.userId });
             }}>
             <Image
               style={styles.avatar}

@@ -197,7 +197,7 @@ class PublishModal extends Component {
     this.setState((prevState) => {
       let newContent = prevState.content.substr(0, this.contentCursorLocation)
                      + emoji.code
-                     + prevState.content.substr(this.contentCursorLocation)
+                     + prevState.content.substr(this.contentCursorLocation);
       return { content: newContent };
     });
   }

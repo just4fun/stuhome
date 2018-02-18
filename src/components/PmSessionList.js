@@ -86,7 +86,7 @@ export default class PrivateList extends Component {
               session={session}
               navigation={navigation}
               currentUserId={currentUserId}
-              markPmAsRead={({ plid }) => markPmAsRead({ plid })}/>
+              markPmAsRead={({ plid }) => markPmAsRead({ plid })} />
           );
         }}
         onEndReached={() => this.endReached()}

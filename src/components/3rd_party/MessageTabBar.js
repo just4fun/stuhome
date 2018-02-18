@@ -50,7 +50,7 @@ const DefaultTabBar = createReactClass({
     const fontWeight = isTabActive ? 'bold' : 'normal';
 
     return <Button
-      style={{flex: 1, }}
+      style={{ flex: 1, }}
       key={tab.name}
       accessible={true}
       accessibilityLabel={tab.name}
@@ -58,7 +58,7 @@ const DefaultTabBar = createReactClass({
       onPress={() => onPressHandler(page)}
     >
       <View style={[styles.tab, this.props.tabStyle, ]}>
-        <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
+        <Text style={[{ color: textColor, fontWeight, }, textStyle, ]}>
           {tab.name}
         </Text>
         {!!tab.count &&
@@ -86,7 +86,7 @@ const DefaultTabBar = createReactClass({
       outputRange: [0,  containerWidth / numberOfTabs],
     });
     return (
-      <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
+      <View style={[styles.tabs, { backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
         {this.props.newTabs.map((tab, page) => {
           const isTabActive = this.props.activeTab === page;
           const renderTab = this.props.renderTab || this.renderTab;

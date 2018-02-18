@@ -166,7 +166,7 @@ class PmList extends Component {
     }
 
     let messages = this.state.messages.map(item => {
-      if (item.isNew) { return item };
+      if (item.isNew) { return item; }
 
       return {
         _id: item.mid,
@@ -207,7 +207,7 @@ class PmList extends Component {
             );
           }}
           messages={messages}
-          user={{ _id: LOGIN_USER_ID }}/>
+          user={{ _id: LOGIN_USER_ID }} />
       </View>
     );
   }
