@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
@@ -55,7 +54,15 @@ class PublishModal extends Component {
   }
 
   componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+
     this.fetchTopicList();
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
   }
 
   fetchTopicList() {
@@ -93,7 +100,9 @@ class PublishModal extends Component {
         '提示',
         '信息尚未发送，放弃会丢失信息。',
         [
-          { text: '继续', style: 'cancel' },
+          // Without `onPress` for Cancel button, Keyboard will still display even
+          // we toggle to emoji panel.
+          { text: '继续', style: 'cancel', onPress: () => this.contentInput.focus() },
           { text: '放弃', onPress: () => this.cancel() },
         ],
       );
@@ -125,7 +134,9 @@ class PublishModal extends Component {
       '提示',
       '确认发布？',
       [
-        { text: '取消' },
+        // Without `onPress` for Cancel button, Keyboard will still display even
+        // we toggle to emoji panel.
+        { text: '取消', onPress: () => this.contentInput.focus() },
         { text: '确认', onPress: () => this.handlePublish() }
       ],
     );
@@ -133,7 +144,7 @@ class PublishModal extends Component {
 
   handlePublish() {
     // Hide keyboard.
-    this.handleScroll();
+    this.hideKeyboard();
 
     this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
@@ -199,7 +210,7 @@ class PublishModal extends Component {
     this.setState({
       isPickerOpen: visible
     });
-    this.handleScroll();
+    this.hideKeyboard();
   }
 
   addImages(images) {
@@ -223,7 +234,7 @@ class PublishModal extends Component {
     });
   }
 
-  handleScroll() {
+  hideKeyboard() {
     let { selectedPanel } = this.state;
 
     if (selectedPanel === 'keyboard') {
@@ -275,15 +286,12 @@ class PublishModal extends Component {
             </Text>
           }
         </Header>
-        <KeyboardAwareScrollView
+        <ScrollView
           style={[styles.form, isPublishing && styles.disabledForm]}
           // Without this prop, if user click title input and then click
           // content input, both keyboard and emoji panel will show if
           // user toggle emoji panel. Just workaround for now.
-          keyboardShouldPersistTaps={'always'}
-          onKeyboardWillShow={(e) => this.keyboardWillShow(e)}
-          onKeyboardWillHide={(e) => this.keyboardWillHide(e)}
-          onScroll={() => this.handleScroll()}>
+          keyboardShouldPersistTaps={'handled'}>
           {types.length > 0 &&
             <TouchableHighlight
               underlayColor={colors.underlay}
@@ -335,13 +343,14 @@ class PublishModal extends Component {
               addImages={images => this.addImages(images)}
               removeImage={imageIndex => this.removeImage(imageIndex)} />
           </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
         {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
           <KeyboardAccessory
             style={{ bottom: this.state.keyboardAccessoryToBottom }}
             selectedPanel={this.state.selectedPanel}
             handlePanelSelect={(item) => this.handlePanelSelect(item)}
-            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
+            hideKeyboard={() => this.hideKeyboard()} />
         }
       </View>
     );

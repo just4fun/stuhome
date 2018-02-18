@@ -52,6 +52,11 @@ export default class KeyboardAccessory extends Component {
               size={30}
               onPress={() => this.props.handlePanelSelect('emoji')} />
           }
+          <Icon
+            style={styles.item}
+            name='angle-down'
+            size={30}
+            onPress={() => this.props.hideKeyboard()} />
         </View>
         {selectedPanel === 'emoji' &&
           <Animated.View style={{ height: this.state.otherPanelheight }}>

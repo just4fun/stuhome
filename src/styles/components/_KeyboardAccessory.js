@@ -13,9 +13,10 @@ export default StyleSheet.create({
     bottom: 0,
   },
   selection: {
+    flexDirection: 'row',
     height: 40,
     paddingHorizontal: 20,
-    justifyContent: 'center',
+    alignItems: 'center',
   },
   item: {
     color: '#979797',

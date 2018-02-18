@@ -4,13 +4,13 @@ import {
   View,
   Text,
   TextInput,
+  ScrollView,
   AlertIOS,
   Keyboard,
   TouchableHighlight,
   ActivityIndicator,
   LayoutAnimation
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
@@ -54,6 +54,16 @@ class ReplyModal extends Component {
     this.title = this.getTitle(comment);
   }
 
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
   keyboardWillShow(e) {
     LayoutAnimation.easeInEaseOut();
     this.setState({
@@ -95,7 +105,9 @@ class ReplyModal extends Component {
         '提示',
         '信息尚未发送，放弃会丢失信息。',
         [
-          { text: '继续', style: 'cancel' },
+          // Without `onPress` for Cancel button, Keyboard will still display even
+          // we toggle to emoji panel.
+          { text: '继续', style: 'cancel', onPress: () => this.contentInput.focus() },
           { text: '放弃', onPress: () => this.cancel() },
         ],
       );
@@ -115,7 +127,9 @@ class ReplyModal extends Component {
       '提示',
       '确认发布？',
       [
-        { text: '取消' },
+        // Without `onPress` for Cancel button, Keyboard will still display even
+        // we toggle to emoji panel.
+        { text: '取消', onPress: () => this.contentInput.focus() },
         { text: '确认', onPress: () => this.handlePublish() }
       ],
     );
@@ -123,7 +137,7 @@ class ReplyModal extends Component {
 
   handlePublish() {
     // Hide keyboard.
-    this.handleScroll();
+    this.hideKeyboard();
 
     this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
@@ -198,7 +212,7 @@ class ReplyModal extends Component {
     this.contentCursorLocation = event.nativeEvent.selection.start;
   }
 
-  handleScroll() {
+  hideKeyboard() {
     let { selectedPanel } = this.state;
 
     if (selectedPanel === 'keyboard') {
@@ -244,12 +258,9 @@ class ReplyModal extends Component {
             </Text>
           }
         </Header>
-        <KeyboardAwareScrollView
+        <ScrollView
           style={isPublishing && styles.disabledForm}
-          keyboardShouldPersistTaps={'always'}
-          onKeyboardWillShow={(e) => this.keyboardWillShow(e)}
-          onKeyboardWillHide={(e) => this.keyboardWillHide(e)}
-          onScroll={() => this.handleScroll()}>
+          keyboardShouldPersistTaps={'handled'}>
           <View style={styles.formItem}>
             <TextInput
               ref={component => this.contentInput = component}
@@ -270,13 +281,14 @@ class ReplyModal extends Component {
               addImages={images => this.addImages(images)}
               removeImage={imageIndex => this.removeImage(imageIndex)} />
           </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
         {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
           <KeyboardAccessory
             style={{ bottom: this.state.keyboardAccessoryToBottom }}
             selectedPanel={this.state.selectedPanel}
             handlePanelSelect={(item) => this.handlePanelSelect(item)}
-            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
+            hideKeyboard={() => this.hideKeyboard()} />
         }
       </View>
     );
