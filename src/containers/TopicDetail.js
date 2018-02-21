@@ -310,6 +310,8 @@ class TopicDetail extends Component {
   }
 
   showOperationDialog() {
+    if (this.props.topicItem.isFetching) { return; }
+
     let options = [
       '返回首页',
       this.order === 0 ? '倒序查看' : '顺序查看',
