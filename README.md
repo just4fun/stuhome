@@ -4,7 +4,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/just4fun/stuhome.svg)](https://github.com/just4fun/stuhome/issues)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg)](http://opensource.org/licenses/MIT)
 
-An iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://facebook.github.io/react-native/) with [Redux](http://redux.js.org/). APIs are provided by [UESTC-BBS](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
+An officially recommended iOS client for http://bbs.uestc.edu.cn/ written in [React Native](https://facebook.github.io/react-native/) with [Redux](http://redux.js.org/). APIs are provided by [UESTC-BBS/API-Docs](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API) and [appbyme/mobcent-discuz](https://github.com/appbyme/mobcent-discuz).
+
+For all officially recommended clients, please visit http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255.
 
 ## Old logo (from v1.0.0 to v1.3.0)
 
