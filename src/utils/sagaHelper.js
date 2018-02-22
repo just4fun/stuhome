@@ -5,8 +5,11 @@ export function* fetchResource(resource, api, payload) {
   const { data, error } = yield call(api, payload);
 
   if (!error) {
-    // the 2nd argument will be treated as `meta` field
+    // The 2nd argument will be treated as `meta` field.
     yield put(resource.success(data, payload));
+    if (resource.successfulCallback) {
+      yield put(resource.successfulCallback(payload));
+    }
   } else {
     yield put(resource.failure(error, payload));
   }

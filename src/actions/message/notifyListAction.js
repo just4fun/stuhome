@@ -6,8 +6,19 @@ export const MARK_AT_ME_AS_READ = Symbol();
 export const MARK_REPLY_AS_READ = Symbol();
 export const fetchNotifyList = createAction(REQUEST);
 export const invalidateNotifyList = createAction(INVALIDATE);
-export const markAtMeAsRead = createAction(MARK_AT_ME_AS_READ);
-export const markReplyAsRead = createAction(MARK_REPLY_AS_READ);
+
+const markAtMeAsRead = createAction(MARK_AT_ME_AS_READ);
+const markReplyAsRead = createAction(MARK_REPLY_AS_READ);
+// Update unread message count immediately instead of
+// clearing them with next poll after 0 ~ 15s.
+export const successfulCallback = (payload) => {
+  switch (payload.notifyType) {
+    case 'at':
+      return markAtMeAsRead();
+    case 'post':
+      return markReplyAsRead();
+  }
+}
 
 export const REQUEST_STARTED = Symbol();
 export const REQUEST_COMPELTED = Symbol();

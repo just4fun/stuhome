@@ -158,11 +158,13 @@ function* watchNotifyList() {
 }
 
 function* fetchNotifyList(payload) {
-  const state = yield select();
+  // const state = yield select();
 
-  if (cacheManager.shouldFetchList(state, 'notifyList', payload.notifyType)) {
+  // Let user fetch notifications immediately.
+
+  // if (cacheManager.shouldFetchList(state, 'notifyList', payload.notifyType)) {
     yield fork(fetchNotifyListApi, payload);
-  }
+  // }
 }
 
 // search list sagas
@@ -195,9 +197,11 @@ function* watchPmSessionList() {
 function* fetchPmSessionList(payload) {
   const state = yield select();
 
-  if (cacheManager.shouldFetchList(state, 'pmSessionList')) {
+  // Let user fetch private messages immediately.
+
+  // if (cacheManager.shouldFetchList(state, 'pmSessionList')) {
     yield fork(fetchPmSessionListApi, payload);
-  }
+  // }
 }
 
 // pm list sagas

@@ -11,7 +11,7 @@ import PmSessionList from '../components/PmSessionList';
 import MessageTabBar from '../components/3rd_party/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
 import menus from '../constants/menus';
-import { invalidateNotifyList, fetchNotifyList, markAtMeAsRead, markReplyAsRead } from '../actions/message/notifyListAction';
+import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '../actions/message/pmSessionListAction';
 import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
 
@@ -32,13 +32,6 @@ class Message extends Component {
       notifyType,
       isEndReached
     });
-    // Update unread message count immediately instead of
-    // clearing them with next poll after 0 ~ 15s.
-    if (notifyType === 'at') {
-      this.props.markAtMeAsRead();
-    } else if (notifyType === 'post') {
-      this.props.markReplyAsRead();
-    }
   }
 
   refreshNotifyList({ page, isEndReached, notifyType }) {
@@ -142,7 +135,5 @@ export default connect(mapStateToProps, {
   fetchNotifyList,
   fetchPmSessionList,
   invalidatePmSessionList,
-  markPmAsRead,
-  markAtMeAsRead,
-  markReplyAsRead
+  markPmAsRead
 })(Message);
