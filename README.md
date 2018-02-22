@@ -96,6 +96,10 @@ npm run eslint
 - ~~Switching between pages is not very smooth sometimes~~ (Fixed by replacing deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation))
 - Emoji could not be displayed in text input: [RN/issue](https://github.com/facebook/react-native/issues/17468)
 
+## FAQ
+
+https://github.com/just4fun/stuhome/wiki/FAQ
+
 ## License
 
 [The MIT License](http://opensource.org/licenses/MIT)
