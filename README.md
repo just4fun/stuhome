@@ -94,6 +94,7 @@ npm run eslint
 
 - ~~User avatar is not displayed sometimes: [RN/issue](https://github.com/facebook/react-native/issues/5616)~~ (Fixed by this [PR](https://github.com/facebook/react-native/pull/7262) for React Native, and the patch is released in `0.26.0`)
 - ~~Switching between pages is not very smooth sometimes~~ (Fixed by replacing deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation))
+- Emoji could not be displayed in text input: [RN/issue](https://github.com/facebook/react-native/issues/17468)
 
 ## License
 
