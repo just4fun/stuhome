@@ -410,7 +410,8 @@ class TopicDetail extends Component {
       topicItem: {
         topic: {
           user_nick_name,
-          topic_id
+          topic_id,
+          replies
         }
       }
     } = this.props;
@@ -440,7 +441,7 @@ class TopicDetail extends Component {
           ListFooterComponent={() => this.renderFooter()} />
         {uid &&
           <TouchableHighlight
-            style={styles.commentArea}
+            style={styles.commentAreaWrapper}
             underlayColor={colors.underlay}
             onPress={() => navigation.navigate('ReplyModal', {
               comment: {
@@ -451,7 +452,9 @@ class TopicDetail extends Component {
               },
               isReplyInTopic: true
             })}>
-            <Text style={styles.commentAreaText}>发表评论</Text>
+            <View style={styles.commentArea}>
+              <Text style={styles.commentAreaText}>发表评论 ({replies}条)</Text>
+            </View>
           </TouchableHighlight>
         }
       </View>

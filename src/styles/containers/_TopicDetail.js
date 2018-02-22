@@ -2,21 +2,27 @@ import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
 export default StyleSheet.create({
-  commentArea: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  commentAreaWrapper: {
     position: 'relative',
     left: 0,
     right: 0,
     bottom: 0,
     height: 45,
-    backgroundColor: '#f3f3f3',
+    backgroundColor: colors.white,
     borderTopWidth: 1,
     borderTopColor: colors.underlay,
   },
+  commentArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3,
+    marginHorizontal: 24,
+    marginVertical: 6,
+    backgroundColor: '#f3f3f3',
+  },
   commentAreaText: {
     color: colors.mainField,
-    fontWeight: 'bold',
   },
   indicator: {
     flex: 1,
