@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   LayoutAnimation
 } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
@@ -68,7 +69,7 @@ class ReplyModal extends Component {
     LayoutAnimation.easeInEaseOut();
     this.setState({
       selectedPanel: 'keyboard',
-      keyboardAccessoryToBottom: e.endCoordinates.height
+      keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
     });
   }
 

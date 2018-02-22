@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   LayoutAnimation
 } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import _ from 'lodash';
@@ -77,7 +78,7 @@ class PublishModal extends Component {
     LayoutAnimation.easeInEaseOut();
     this.setState({
       selectedPanel: 'keyboard',
-      keyboardAccessoryToBottom: e.endCoordinates.height
+      keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
     });
   }
 
