@@ -7,6 +7,8 @@ module.exports = {
 
   TOPIC_URL_ROOT: 'http://bbs.uestc.edu.cn/forum.php?mod=viewthread',
 
+  DEFAULT_EMOJI_ROOT: 'http://bbs.uestc.edu.cn/mobcent/app/data/phiz/default',
+
   REGISTER_URL: 'http://bbs.uestc.edu.cn/member.php?mod=register',
 
   APP_AUTH_KEY: 'appbyme_key',

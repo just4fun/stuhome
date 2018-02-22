@@ -14,7 +14,7 @@ import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import EmojiTabBar from './3rd_party/EmojiTabBar';
 import EmojiDotTabBar from './3rd_party/EmojiDotTabBar';
 import colors from '../styles/common/_colors';
-import EMOJIS from '../constants/emojis';
+import { CUSTOM_EMOJIS } from '../constants/emojis';
 
 const EMOJI_PAGE_SIZE = 7 * 3;
 
@@ -63,13 +63,13 @@ export default class KeyboardAccessory extends Component {
             <ScrollableTabView
               renderTabBar={(props) => <EmojiTabBar {...props} />}
               tabBarPosition='bottom'>
-                {Object.keys(EMOJIS).map((key, groupIndex) => {
+                {Object.keys(CUSTOM_EMOJIS).map((key, groupIndex) => {
                   let pageView = [];
-                  let totalCount = EMOJIS[key].length;
+                  let totalCount = CUSTOM_EMOJIS[key].length;
                   let pageCount = Math.ceil(totalCount / EMOJI_PAGE_SIZE);
 
                   for (let i = 0; i < pageCount; i++) {
-                    let pageEmojis = EMOJIS[key].slice(i * EMOJI_PAGE_SIZE, (i + 1) * EMOJI_PAGE_SIZE);
+                    let pageEmojis = CUSTOM_EMOJIS[key].slice(i * EMOJI_PAGE_SIZE, (i + 1) * EMOJI_PAGE_SIZE);
                     pageView.push(
                       <View
                         key={`${key}_group_${i}`}
@@ -96,7 +96,7 @@ export default class KeyboardAccessory extends Component {
                     <ScrollableTabView
                       key={groupIndex}
                       renderTabBar={(props) => <EmojiDotTabBar {...props} />}
-                      tabLabel={EMOJIS[key][0].image}
+                      tabLabel={CUSTOM_EMOJIS[key][0].image}
                       tabBarPosition='bottom'>
                       {pageView}
                     </ScrollableTabView>

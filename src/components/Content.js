@@ -8,7 +8,7 @@ import {
 import ProgressImage from './ProgressImage';
 import styles from '../styles/components/_Content';
 import colors from '../styles/common/_colors';
-import { parseContentWithImage } from '../utils/contentParser';
+import { parseContentWithEmoji } from '../utils/contentParser';
 import { DOMAIN_ROOT } from '../config';
 
 export default class Content extends Component {
@@ -131,7 +131,7 @@ export default class Content extends Component {
                   {groupContent.map((item, index) => {
                     return (
                       item.type === 0 && (
-                        <Text key={index}>{parseContentWithImage(item.infor)}</Text>
+                        <Text key={index}>{parseContentWithEmoji(item.infor)}</Text>
                       ) || (
                         this.isAtSomebody(item.url) && (
                           // @somebody

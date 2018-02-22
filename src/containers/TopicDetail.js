@@ -31,7 +31,7 @@ import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
 import colors from '../styles/common/_colors';
 import api from '../services/api';
-import { parseContentWithImage } from '../utils/contentParser';
+import { parseContentWithEmoji } from '../utils/contentParser';
 import {
   fetchTopic,
   resetTopic
@@ -304,7 +304,7 @@ class TopicDetail extends Component {
     return content.map(item => {
       if (item.type === 0 || item.type === 4) {
         // Exclude emoji which type is also `0`.
-        return parseContentWithImage(item.infor, false).join('');
+        return parseContentWithEmoji(item.infor, false).join('');
       }
     }).join('');
   }
