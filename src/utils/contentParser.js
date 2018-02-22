@@ -6,7 +6,10 @@ import {
 import { DEFAULT_EMOJIS } from '../constants/emojis';
 import { DEFAULT_EMOJI_ROOT } from '../config';
 
-export function parseContentWithEmoji(content, replaceWithImage = true) {
+// This method is also used to copy topic content and comment content,
+// the second parameter here is used to exclude custom emoji as paste
+// content.
+export function parseContentWithEmoji(content, includeEmoji = true) {
   if (!content) { return ''; }
 
   // var regex = new RegExp(/xyz/, 'i');
@@ -16,10 +19,12 @@ export function parseContentWithEmoji(content, replaceWithImage = true) {
   let contentEmojiArray = contentWithEmoji.split('___emojiBoundary___');
 
   return contentEmojiArray.filter(item => item.trim()).map((item, index) => {
-    if (!replaceWithImage) { return ''; }
-
     // Handle custom emojis.
     if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
+      // Exclude custom emoji because copy something like [mobcent_phiz=..]
+      // is useless as paste content.
+      if (!includeEmoji) { return ''; }
+
       return (
         <Image
           key={index}
@@ -32,6 +37,11 @@ export function parseContentWithEmoji(content, replaceWithImage = true) {
     //
     // Why use hash map here instead of array? O(1).
     if (DEFAULT_EMOJIS.hasOwnProperty(item)) {
+      // Return custom emoji content directly because emoji content like [阴险]
+      // could be pasted in text input directly which will also be read in same
+      // format.
+      if (!includeEmoji) { return item; }
+
       return (
         <Image
           key={index}

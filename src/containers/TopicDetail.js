@@ -303,7 +303,8 @@ class TopicDetail extends Component {
     // Only copy text and link.
     return content.map(item => {
       if (item.type === 0 || item.type === 4) {
-        // Exclude emoji which type is also `0`.
+        // The second parameter is used to exclude custom emoji
+        // as copied content which type is also `0`.
         return parseContentWithEmoji(item.infor, false).join('');
       }
     }).join('');
