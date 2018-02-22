@@ -77,7 +77,11 @@ class PublishModal extends Component {
   keyboardWillShow(e) {
     LayoutAnimation.easeInEaseOut();
     this.setState({
-      selectedPanel: 'keyboard',
+      // https://github.com/facebook/react-native/issues/18003
+      //
+      // See more details in `showKeyboard()` method.
+
+      // selectedPanel: 'keyboard',
       keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
     });
   }
@@ -103,7 +107,7 @@ class PublishModal extends Component {
         [
           // Without `onPress` for Cancel button, Keyboard will still display even
           // we toggle to emoji panel.
-          { text: '继续', style: 'cancel', onPress: () => this.contentInput.focus() },
+          { text: '继续', style: 'cancel', onPress: () => this.showKeyboard() },
           { text: '放弃', onPress: () => this.cancel() },
         ],
       );
@@ -137,7 +141,7 @@ class PublishModal extends Component {
       [
         // Without `onPress` for Cancel button, Keyboard will still display even
         // we toggle to emoji panel.
-        { text: '取消', onPress: () => this.contentInput.focus() },
+        { text: '取消', onPress: () => this.showKeyboard() },
         { text: '确认', onPress: () => this.handlePublish() }
       ],
     );
@@ -187,8 +191,7 @@ class PublishModal extends Component {
       // Hide keyboard
       Keyboard.dismiss();
     } else {
-      // Show keyboard
-      this.contentInput.focus();
+      this.showKeyboard();
     }
 
     this.setState({ selectedPanel: item });
@@ -232,6 +235,17 @@ class PublishModal extends Component {
         id: type.typeId,
         name: type.typeName
       };
+    });
+  }
+
+  showKeyboard() {
+    this.contentInput.focus();
+    // https://github.com/facebook/react-native/issues/18003
+    //
+    // This is workaround to bypass the keyboard bug above on iOS 11.2,
+    // which will fire `keyboardWillShow` while keyboard dismiss.
+    this.setState({
+      selectedPanel: 'keyboard'
     });
   }
 
@@ -330,7 +344,13 @@ class PublishModal extends Component {
               ref={component => this.contentInput = component}
               value={content}
               style={styles.topicContent}
-              onFocus={() => this.setState({ isContentFocused: true })}
+              onFocus={() => this.setState({
+                isContentFocused: true,
+                // https://github.com/facebook/react-native/issues/18003
+                //
+                // See more details in `showKeyboard()` method.
+                selectedPanel: 'keyboard'
+              })}
               onSelectionChange={(event) => this.handleContentSelectionChange(event)}
               onChangeText={text => this.setState({ content: text })}
               multiline={true}

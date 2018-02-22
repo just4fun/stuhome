@@ -58,6 +58,8 @@ class ReplyModal extends Component {
   componentDidMount() {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
     this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+
+    this.showKeyboard();
   }
 
   componentWillUnmount() {
@@ -68,7 +70,11 @@ class ReplyModal extends Component {
   keyboardWillShow(e) {
     LayoutAnimation.easeInEaseOut();
     this.setState({
-      selectedPanel: 'keyboard',
+      // https://github.com/facebook/react-native/issues/18003
+      //
+      // See more details in `showKeyboard()` method.
+
+      // selectedPanel: 'keyboard',
       keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
     });
   }
@@ -108,7 +114,7 @@ class ReplyModal extends Component {
         [
           // Without `onPress` for Cancel button, Keyboard will still display even
           // we toggle to emoji panel.
-          { text: '继续', style: 'cancel', onPress: () => this.contentInput.focus() },
+          { text: '继续', style: 'cancel', onPress: () => this.showKeyboard() },
           { text: '放弃', onPress: () => this.cancel() },
         ],
       );
@@ -130,7 +136,7 @@ class ReplyModal extends Component {
       [
         // Without `onPress` for Cancel button, Keyboard will still display even
         // we toggle to emoji panel.
-        { text: '取消', onPress: () => this.contentInput.focus() },
+        { text: '取消', onPress: () => this.showKeyboard() },
         { text: '确认', onPress: () => this.handlePublish() }
       ],
     );
@@ -193,8 +199,7 @@ class ReplyModal extends Component {
       // hide keyboard
       Keyboard.dismiss();
     } else {
-      // show keyboard
-      this.contentInput.focus();
+      this.showKeyboard();
     }
 
     this.setState({ selectedPanel: item });
@@ -211,6 +216,17 @@ class ReplyModal extends Component {
 
   handleContentSelectionChange(event) {
     this.contentCursorLocation = event.nativeEvent.selection.start;
+  }
+
+  showKeyboard() {
+    this.contentInput.focus();
+    // https://github.com/facebook/react-native/issues/18003
+    //
+    // This is workaround to bypass the keyboard bug above on iOS 11.2,
+    // which will fire `keyboardWillShow` while keyboard dismiss.
+    this.setState({
+      selectedPanel: 'keyboard'
+    });
   }
 
   hideKeyboard() {
@@ -268,10 +284,15 @@ class ReplyModal extends Component {
               value={this.state.replyContent}
               placeholder='同学，请文明用语噢～'
               style={styles.replyBox}
-              onFocus={() => this.setState({ isContentFocused: true })}
+              onFocus={() => this.setState({
+                isContentFocused: true,
+                // https://github.com/facebook/react-native/issues/18003
+                //
+                // See more details in `showKeyboard()` method.
+                selectedPanel: 'keyboard'
+              })}
               onSelectionChange={(event) => this.handleContentSelectionChange(event)}
               onChangeText={(text) => this.setState({ replyContent: text })}
-              autoFocus={true}
               multiline={true}
               editable={!isPublishing} />
           </View>
