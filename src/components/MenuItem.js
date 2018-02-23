@@ -11,16 +11,26 @@ import colors from '../styles/common/_colors';
 
 export default class MenuItem extends Component {
   render() {
-    let { menu, router, isCurrentRoute, style, showAlert, alertCount} = this.props;
-    let { title, icon, iconSize, actionName } = menu;
+    let {
+      menu: {
+        title,
+        icon,
+        iconSize,
+        routeName
+      },
+      navigation,
+      style,
+      showAlert,
+      alertCount
+    } = this.props;
 
     return (
       <TouchableHighlight
         underlayColor={colors.menuUnderlay}
-        onPress={() => this.props.selectMenuItem(menu)}>
-        <View style={[styles.row, style, isCurrentRoute(menu) && styles.selectedRow]}>
-          <Icon style={[styles.icon, styles.item, isCurrentRoute(menu) && styles.selectedItem]} name={icon} size={+iconSize || 20} />
-          <Text style={[styles.text, styles.item, isCurrentRoute(menu) && styles.selectedItem]}>{title}</Text>
+        onPress={() => navigation.navigate(routeName)}>
+        <View style={[styles.row, style]}>
+          <Icon style={[styles.icon, styles.item]} name={icon} size={+iconSize || 20} />
+          <Text style={[styles.text, styles.item]}>{title}</Text>
           {showAlert && !!alertCount &&
             <View style={styles.alert}>
               <AlertCount count={alertCount} />

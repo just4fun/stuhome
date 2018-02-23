@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import {
   View,
-  ListView,
+  Text,
+  FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import { AVATAR_ROOT } from '../config';
+import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicItem from './TopicItem';
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
 export default class TopicList extends Component {
-  scrollToTop() {
-    this.topicList.scrollTo({ x: 0 });
-  }
-
-  _endReached() {
+  endReached() {
     const {
       hasMore,
       isRefreshing,
@@ -32,13 +29,13 @@ export default class TopicList extends Component {
     });
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
     } = this.props.topicList;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -59,13 +56,29 @@ export default class TopicList extends Component {
   isBadData(topic) {
     if (!topic) { return true; }
 
-    if (topic.board_id === 0 || topic.user_id === 0) { return true; }
+    // In '密语', all the anonymous topics have `user_id: 0` while
+    // non-zero `board_id`, it's not bad data.
+    return topic.board_id === 0 && topic.user_id === 0;
+  }
 
-    return false;
+  renderListEmptyComponent() {
+    return (
+      <View style={listStyles.emptyView}>
+        <Text style={listStyles.emptyText}>
+          {this.props.emptyText || '暂无帖子'}
+        </Text>
+      </View>
+    );
   }
 
   render() {
-    let { topicList, isSearch, accessTopicListFromForumItem, currentUserId } = this.props;
+    let {
+      topicList,
+      isSearch,
+      accessTopicListFromForumItem,
+      currentUserId,
+      navigation
+    } = this.props;
     let realTopicList = [];
     let isRefreshing = false;
     let refreshControl = null;
@@ -85,17 +98,29 @@ export default class TopicList extends Component {
                          refreshing={isRefreshing} />;
     }
 
-    let source = ds.cloneWithRows(realTopicList);
-
     return (
-      <ListView
+      <FlatList
         ref={component => this.topicList = component}
-        dataSource={source}
+        data={realTopicList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={topic => {
+        renderItem={({ item: topic }) => {
           // https://github.com/just4fun/stuhome/issues/15
           if (this.isBadData(topic)) { return null; }
+
+          // There is totally a bug for server side.
+          //
+          // If I replied a anonymous topic, then go to my replied topic list,
+          // both avatar and userId of the author of that anonymous topic will
+          // be exposed in API.
+          //
+          // This is workaround to make the author anonymous in replied topic list.
+          if (topic.user_nick_name === '') {
+            topic.user_nick_name = '匿名';
+            topic.user_id = 0;
+            topic.userAvatar = `${AVATAR_ROOT}&uid=0`;
+          }
 
           return (
             <TopicItem
@@ -103,12 +128,13 @@ export default class TopicList extends Component {
               currentUserId={currentUserId}
               accessTopicListFromForumItem={accessTopicListFromForumItem}
               topic={topic}
-              router={this.props.router} />
+              navigation={navigation} />
           );
         }}
-        onEndReached={() => this._endReached()}
+        onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()}
+        ListFooterComponent={() => this.renderFooter()}
+        ListEmptyComponent={() => !isRefreshing && this.renderListEmptyComponent()}
         refreshControl={refreshControl} />
     );
   }

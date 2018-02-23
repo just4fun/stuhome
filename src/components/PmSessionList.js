@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import {
   View,
-  ListView,
+  Text,
+  FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import PmSessionItem from './PmSessionItem';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class PrivateList extends Component {
   componentDidMount() {
     this.props.fetchPmSessionList();
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isRefreshing,
@@ -32,13 +32,13 @@ export default class PrivateList extends Component {
     });
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
     } = this.props.pmSessionList;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -47,12 +47,23 @@ export default class PrivateList extends Component {
     );
   }
 
+  renderListEmptyComponent() {
+    return (
+      <View style={listStyles.emptyView}>
+        <Text style={listStyles.emptyText}>
+          暂无私信
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     let {
       pmSessionList,
-      router,
+      navigation,
       refreshPmSessionList,
-      markAsRead
+      markPmAsRead,
+      currentUserId
     } = this.props;
     let realPmSessionList = [];
     let isRefreshing = false;
@@ -62,25 +73,26 @@ export default class PrivateList extends Component {
       isRefreshing = pmSessionList.isRefreshing;
     };
 
-    let source = ds.cloneWithRows(realPmSessionList);
-
     return (
-      <ListView
-        dataSource={source}
+      <FlatList
+        data={realPmSessionList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={session => {
+        renderItem={({ item: session }) => {
           return (
             <PmSessionItem
               key={session.topic_id}
               session={session}
-              router={router}
-              markAsRead={({ plid }) => markAsRead({ plid })}/>
+              navigation={navigation}
+              currentUserId={currentUserId}
+              markPmAsRead={({ plid }) => markPmAsRead({ plid })} />
           );
         }}
-        onEndReached={() => this._endReached()}
+        onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()}
+        ListFooterComponent={() => this.renderFooter()}
+        ListEmptyComponent={() => !isRefreshing && this.renderListEmptyComponent()}
         refreshControl={
           <RefreshControl
             title='正在加载...'

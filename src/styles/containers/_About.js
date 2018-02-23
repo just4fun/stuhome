@@ -18,7 +18,7 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   group: {
-    marginTop: 20,
+    marginBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
   },
@@ -27,20 +27,8 @@ export default StyleSheet.create({
     height: 20,
     borderRadius: 10,
   },
-  footer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 20,
-    textAlign: 'center',
-  },
   text: {
     color: colors.mainField,
-  },
-  explanation: {
-    marginVertical: 5,
-    paddingHorizontal: 20,
-    fontSize: 13,
   },
   informationAvatar: {
     height: 60

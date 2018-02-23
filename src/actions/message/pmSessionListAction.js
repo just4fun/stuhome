@@ -2,10 +2,10 @@ import { createAction } from 'redux-actions';
 
 export const REQUEST = Symbol();
 export const INVALIDATE = Symbol();
-export const MARK_AS_READ = Symbol();
+export const MARK_PM_AS_READ = Symbol();
 export const fetchPmSessionList = createAction(REQUEST);
 export const invalidatePmSessionList = createAction(INVALIDATE);
-export const markAsRead = createAction(MARK_AS_READ);
+export const markPmAsRead = createAction(MARK_PM_AS_READ);
 
 export const REQUEST_STARTED = Symbol();
 export const REQUEST_COMPELTED = Symbol();

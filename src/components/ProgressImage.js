@@ -2,85 +2,90 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  TouchableHighlight,
-  Linking
+  Linking,
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
-import { CustomCachedImage } from "react-native-img-cache";
-import ImageWithProgress from 'react-native-image-progress';
-import Pie from 'react-native-progress/Pie';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_ProgressImage';
 
 export default class ProgressImage extends Component {
+  // constructor(props) {
+  //   super(props);
+
+  //   // Only `height` is used for responsive image.
+  //   this.state = {
+  //     height: 0,
+  //     layoutWidth: 0,
+  //     originalWidth: 0,
+  //     originalHeight: 0,
+  //   };
+
   constructor(props) {
     super(props);
 
-    // only `height` is used for responsive image
     this.state = {
-      height: 0,
-      layoutWidth: 0,
-      originalWidth: 0,
-      originalHeight: 0,
+      isLoading: false
     };
-
-    // we calculate `height` both in `_getImageSize` and `_handleLayout`,
-    // since the sequence between the callback of `Image.getSize` and
-    // `_handleLayout` is not guaranteed, the lack of any of them may
-    // lead `height: 0`.
-
-    // Update: even we have already used `react-native-img-cache`, user will
-    // still can not see the cache image since `Image.getSize` still needs
-    // time to get completed. To be tradeoff, we will give images a static
-    // height instead of responsive height and width.
-
-    // this._getImageSize();
   }
 
-  _getImageSize() {
-    let { thumbUri } = this.props;
+  //   // We calculate `height` both in `getImageSize` and `handleLayout`,
+  //   // since the sequence between the callback of `Image.getSize` and
+  //   // `handleLayout` is not guaranteed, the lack of any of them may
+  //   // lead `height: 0`.
 
-    Image.getSize(thumbUri, (originalWidth, originalHeight) => {
-      // `layoutWidth` may not be calculated in this time
-      let height = originalHeight * (this.state.layoutWidth / originalWidth);
+  //   // Update: even we have already used `react-native-img-cache`, user will
+  //   // still can not see the cache image since `Image.getSize` still needs
+  //   // time to get completed. To be tradeoff, we will give images a static
+  //   // height instead of responsive height and width.
 
-      this.setState({
-        height,
-        originalWidth,
-        originalHeight,
-      });
-    });
-  }
+  //   this.getImageSize();
+  // }
 
-  _handleLayout(event) {
-    let { width } = event.nativeEvent.layout;
-    // `originalHeight` and `originalWidth` may not be calculated in this time
-    let height = this.state.originalHeight * ( width / this.state.originalWidth);
+  // getImageSize() {
+  //   let { thumbUri } = this.props;
 
-    this.setState({
-      height,
-      layoutWidth: width
-    });
-  }
+  //   Image.getSize(thumbUri, (originalWidth, originalHeight) => {
+  //     // `layoutWidth` may not be calculated in this time
+  //     let height = originalHeight * (this.state.layoutWidth / originalWidth);
+
+  //     this.setState({
+  //       height,
+  //       originalWidth,
+  //       originalHeight,
+  //     });
+  //   });
+  // }
+
+  // handleLayout(event) {
+  //   let { width } = event.nativeEvent.layout;
+  //   // `originalHeight` and `originalWidth` may not be calculated in this time
+  //   let height = this.state.originalHeight * ( width / this.state.originalWidth);
+
+  //   this.setState({
+  //     height,
+  //     layoutWidth: width
+  //   });
+  // }
 
   render() {
     let { style, thumbUri, originalUri } = this.props;
+    let { isLoading } = this.state;
 
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
         onPress={() => Linking.openURL(originalUri)}>
-        <View style={style}>
-          <CustomCachedImage
-            component={ImageWithProgress}
+        <View style={[styles.image, style]}>
+          <Image
             source={{ uri: thumbUri }}
-            indicator={Pie}
-            indicatorProps={{
-              color: colors.imageProgress,
-              borderColor: colors.imageProgress,
-              unfilledColor: colors.white,
-            }}
-            // onLayout={event => this._handleLayout(event)}
-            style={[styles.image, { resizeMode: 'contain' }]} />
+            defaultSource={require('../images/image_default.png')}
+            onLoadStart={() => this.setState({ isLoading: true })}
+            onLoadEnd={() => this.setState({ isLoading: false })}
+            resizeMode={'contain'}
+            // onLayout={event => this.handleLayout(event)}
+            style={[styles.image, style]} />
+          {isLoading && <ActivityIndicator style={styles.indicator} />}
         </View>
       </TouchableHighlight>
     );

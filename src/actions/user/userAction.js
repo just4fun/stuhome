@@ -2,8 +2,8 @@ import { createAction } from 'redux-actions';
 
 export const REQUEST = Symbol();
 export const RESET = Symbol();
-export const submit = createAction(REQUEST);
-export const resetPublish = createAction(RESET);
+export const fetchUser = createAction(REQUEST);
+export const resetUser = createAction(RESET);
 
 export const REQUEST_STARTED = Symbol();
 export const REQUEST_COMPELTED = Symbol();

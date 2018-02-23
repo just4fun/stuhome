@@ -3,48 +3,51 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
+  Linking,
   AlertIOS,
   ScrollView,
   ActivityIndicator,
-  ListView
+  TouchableHighlight,
+  FlatList,
+  ActionSheetIOS,
+  Clipboard
 } from 'react-native';
 import _ from 'lodash';
+import { NavigationActions } from 'react-navigation';
+import { TOPIC_URL_ROOT } from '../config';
 import Avatar from '../components/Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import mainStyles from '../styles/components/_Main';
+import headerRightButtonStyles from '../styles/components/button/_HeaderRightButton';
 import indicatorStyles from '../styles/common/_Indicator';
 import modalStyles from '../styles/common/_Modal';
 import styles from '../styles/containers/_TopicDetail';
-import Header from '../components/Header';
 import ReplyModal from '../components/modal/ReplyModal';
 import Comment from '../components/Comment';
 import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
-import { PopButton, ReplyButton, CommentButton } from '../components/button';
-import { submit } from '../actions/topic/publishAction';
-import { resetReply } from '../actions/topic/replyAction';
+import colors from '../styles/common/_colors';
+import api from '../services/api';
+import { parseContentWithEmoji } from '../utils/contentParser';
 import {
   fetchTopic,
   resetTopic
 } from '../actions/topic/topicAction';
-import {
-  publishVote,
-  resetVote
-} from '../actions/topic/voteAction';
-import {
-  favorTopic,
-  resetFavorTopic
-} from '../actions/topic/favorAction';
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Home' })
+  ]
+});
 
 function getTopicId(topic) {
   if (!topic) { return null; }
 
-  // for `hot(今日热门)` tab in Home page, each topic has
+  // For `hot(今日热门)` tab in Home page, each topic has
   // not `topic_id` field, but they have `source_id` and
   // `source_type` instead.
   if (topic.source_id) { return topic.source_id; }
@@ -53,20 +56,50 @@ function getTopicId(topic) {
 }
 
 class TopicDetail extends Component {
+  static navigationOptions = ({ navigation }) => {
+    let { headerTitle, isLogin, handleShowOperationDialog } = navigation.state.params;
+    return {
+      title: headerTitle,
+      headerRight: (
+        isLogin &&
+          <Icon
+            style={headerRightButtonStyles.button}
+            size={24}
+            name='ellipsis-h'
+            onPress={handleShowOperationDialog} />
+      )
+    };
+  }
+
   constructor(props) {
     super(props);
 
-    this.topicId = getTopicId(props.passProps);
-    this.boardId = props.passProps.board_id;
-    this.boardName = props.passProps.board_name;
+    let { params } = props.navigation.state;
+    this.topicId = getTopicId(params);
+    this.boardId = params.board_id;
+    this.boardName = params.board_name;
+    // `sourceWebUrl` could only be fetched in topic list,
+    // in other cases, we need to get web url manually.
+    this.sourceWebUrl = params.sourceWebUrl || `${TOPIC_URL_ROOT}&tid=${this.topicId}`;
+
+    this.authorId = 0;
+    this.order = 0;
 
     this.state = {
-      isReplyModalOpen: false,
-      currentContent: null
+      isFavoring: false,
+      isVoting: false
     };
   }
 
   componentDidMount() {
+    // Set up header.
+    this.props.navigation.setParams({
+      // Use `headerTitle` here to avoid treating topic title
+      // as screen header title.
+      headerTitle: this.boardName,
+      isLogin: !!this.props.user.authrization.token,
+      handleShowOperationDialog: () => this.showOperationDialog()
+    });
     this.fetchTopic();
   }
 
@@ -75,39 +108,51 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { topicItem, topicFavor } = nextProps;
+    let { topicItem } = nextProps;
 
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
-      nextProps.router.pop();
+      nextProps.resetTopic({ topicId: this.topicId });
+      nextProps.navigation.goBack();
       return;
-    }
-
-    if (topicFavor.response.rs) {
-      MessageBar.show({
-        message: '操作成功',
-        type: 'success'
-      });
-      nextProps.resetFavorTopic();
-      this.fetchTopic();
     }
   }
 
-  fetchTopic() {
+  fetchTopic(fields) {
     this.props.fetchTopic({
-      topicId: this.topicId
+      topicId: this.topicId,
+      authorId: this.authorId,
+      order: this.order,
+      ...fields
     });
+  }
+
+  resetFilters() {
+    this.authorId = 0;
+    this.order = 0;
   }
 
   favorTopic(isFavorite) {
-    this.props.favorTopic({
+    this.setState({ isFavoring: true });
+    api.favorTopic({
       action: isFavorite ? 'delfavorite' : 'favorite',
       id: this.topicId,
       idType: 'tid'
+    }).then(response => {
+      if (response.data.rs) {
+        MessageBar.show({
+          message: '操作成功',
+          type: 'success'
+        });
+        this.resetFilters();
+        this.fetchTopic();
+      }
+    }).finally(() => {
+      this.setState({ isFavoring: false });
     });
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isFetching,
@@ -117,14 +162,24 @@ class TopicDetail extends Component {
 
     if (!hasMore || isFetching || isEndReached) { return; }
 
-    this.props.fetchTopic({
-      topicId: this.topicId,
+    this.fetchTopic({
       isEndReached: true,
       page: page + 1
     });
   }
 
-  _renderHeader(topic, uid, vote) {
+  renderHeader() {
+    let {
+      navigation,
+      vote,
+      topicItem: {
+        topic
+      },
+      user: {
+        authrization: { uid }
+      }
+    } = this.props;
+    let { isFavoring } = this.state;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -152,8 +207,9 @@ class TopicDetail extends Component {
               style={styles.avatar}
               url={topic.icon}
               userId={topic.user_id}
+              currentUserId={uid}
               userName={topic.user_nick_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{topic.user_nick_name}</Text>
@@ -172,7 +228,7 @@ class TopicDetail extends Component {
             <View>
               <Text style={styles.floor}>楼主</Text>
               {uid && (
-                this.props.topicFavor.isFavoring &&
+                isFavoring &&
                   <ActivityIndicator />
                   ||
                   <Icon
@@ -184,21 +240,20 @@ class TopicDetail extends Component {
             </View>
           </View>
           <View>
-            <Content content={topic.content}
-                     currentTopicId={this.topicId}
-                     router={this.props.router} />
+            <Content
+              content={topic.content}
+              navigation={navigation} />
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
-                vote={vote}
-                publishVote={voteIds => this._publishVote(voteIds)}
-                resetVote={() => this._resetVote()}
-                fetchTopic={() => this.fetchTopic()} />
+                publishVote={voteIds => this.publishVote(voteIds)} />
             }
           </View>
           {topic.reward &&
-            <RewardList reward={topic.reward}
-                        router={this.props.router} />}
+            <RewardList
+              reward={topic.reward}
+              currentUserId={uid}
+              navigation={navigation} />}
         </View>
         <View style={styles.commentHeader}>
           <Text style={styles.commentHeaderText}>
@@ -209,13 +264,13 @@ class TopicDetail extends Component {
     );
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
     } = this.props.topicItem;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -224,47 +279,120 @@ class TopicDetail extends Component {
     );
   }
 
-  _publish({ content, replyId, images }) {
-    // If we reply a topic, there is no need to pass `boardId`.
-    this.props.submit({
-      boardId: this.boardId,
-      topicId: this.topicId,
-      replyId,
-      typeId: null,
-      title: null,
-      images,
-      content
-    });
-  }
-
-  _publishVote(voteIds) {
-    this.props.publishVote({
+  publishVote(voteIds) {
+    this.setState({ isVoting: true });
+    api.publishVote({
       topicId: this.topicId,
       voteIds
+    }).then(response => {
+      if (response.data.rs) {
+        this.resetFilters();
+        this.fetchTopic();
+      }
+    }).finally(() => {
+      this.setState({ isVoting: false });
     });
   }
 
-  _resetVote() {
+  resetVote() {
     this.props.resetVote();
   }
 
-  toggleReplyModal(visible, content) {
-    this.setState({
-      isReplyModalOpen: visible,
-      currentContent: content
+  getCopyContent(content) {
+    if (!content || content.length === 0) { return ''; }
+    // Only copy text and link.
+    return content.map(item => {
+      if (item.type === 0 || item.type === 4) {
+        // The second parameter is used to exclude custom emoji
+        // as copied content which type is also `0`.
+        return parseContentWithEmoji(item.infor, false).join('');
+      }
+    }).join('');
+  }
+
+  showOperationDialog() {
+    if (this.props.topicItem.isFetching) { return; }
+
+    let options = [
+      '返回首页',
+      this.order === 0 ? '倒序查看' : '顺序查看',
+      this.authorId === 0 ? '只看楼主' : '查看全部',
+      '复制内容',
+      '复制链接'
+    ];
+    let {
+      user: {
+        authrization: { uid }
+      },
+      topicItem: {
+        topic: {
+          user_id,
+          managePanel
+        }
+      }
+    } = this.props;
+    let isLoginUser = uid === user_id;
+    if (isLoginUser) {
+      options.push('编辑帖子');
+    }
+    options.push('取消');
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      options,
+      cancelButtonIndex: options.length - 1
+    },
+    (buttonIndex) => {
+      let { topic } = this.props.topicItem;
+      switch (buttonIndex) {
+        case 0:
+          this.props.navigation.dispatch(resetAction);
+          break;
+        case 1:
+          this.order = this.order === 0 ? 1 : 0;
+          this.fetchTopic();
+          break;
+        case 2:
+          this.authorId = this.authorId === 0 ? topic.user_id : 0;
+          this.fetchTopic();
+          break;
+        case 3:
+          Clipboard.setString(this.getCopyContent(topic.content));
+          MessageBar.show({
+            message: '复制内容成功',
+            type: 'success'
+          });
+          break;
+        case 4:
+          Clipboard.setString(this.sourceWebUrl);
+          MessageBar.show({
+            message: '复制链接成功',
+            type: 'success'
+          });
+          break;
+        case 5:
+          if (isLoginUser && managePanel && managePanel.length > 0) {
+            let editAction = managePanel.find(item => item.title === '编辑');
+            if (editAction) {
+              Linking.openURL(editAction.action);
+            }
+          }
+          break;
+      }
     });
   }
 
   render() {
-    let { topicItem, reply, vote, user } = this.props;
-    let { isReplyModalOpen, currentContent } = this.state;
+    let {
+      topicItem,
+      user: {
+        authrization: { uid }
+      },
+      navigation
+    } = this.props;
 
     if (topicItem.isFetching) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName}>
-            <PopButton router={this.props.router} />
-          </Header>
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -275,81 +403,76 @@ class TopicDetail extends Component {
     if (!_.get(topicItem, ['topic', 'topic_id'])) {
       return (
         <View style={mainStyles.container}>
-          <Header title={this.boardName}>
-            <PopButton router={this.props.router} />
-          </Header>
         </View>
       );
     }
 
-    let topic = topicItem.topic;
-    let { uid } = user.authrization;
-    let commentSource = ds.cloneWithRows(topicItem.list);
+    let {
+      topicItem: {
+        topic: {
+          user_nick_name,
+          topic_id,
+          replies
+        }
+      }
+    } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        {isReplyModalOpen &&
-          <ReplyModal
-            {...this.props}
-            visible={isReplyModalOpen}
-            content={currentContent}
-            reply={reply}
-            isReplyInTopic={true}
-            handlePublish={comment => this._publish(comment)}
-            closeReplyModal={() => this.toggleReplyModal(false)}
-            fetchTopic={() => this.fetchTopic()} />
-        }
-
-        <Header title={this.boardName}>
-          <PopButton router={this.props.router} />
-          {uid &&
-            <ReplyButton style={modalStyles.button}
-                         onPress={() => this.toggleReplyModal(true)} />
-            ||
-            <Text></Text>
-          }
-        </Header>
-        <ListView
-          dataSource={commentSource}
+        <FlatList
+          data={topicItem.list}
+          keyExtractor={(item, index) => index}
           removeClippedSubviews={false}
           enableEmptySections={true}
-          renderRow={comment =>
+          renderItem={({ item: comment }) =>
             <Comment
               key={comment.reply_posts_id}
               comment={comment}
               currentUserId={uid}
-              currentTopicId={this.topicId}
-              router={this.props.router}
-              openReplyModal={() => this.toggleReplyModal(true, comment)} />
+              // `topicId` and `boardId` are not involved in `comment` here,
+              // which are necessary for topic reply API.
+              topicId={this.topicId}
+              boardId={this.boardId}
+              navigation={navigation}
+              getCopyContent={(content) => this.getCopyContent(content)} />
           }
-          onEndReached={() => this._endReached()}
+          onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
-          renderHeader={() => this._renderHeader(topic, uid, vote)}
-          renderFooter={() => this._renderFooter()} />
+          ListHeaderComponent={() => this.renderHeader()}
+          ListFooterComponent={() => this.renderFooter()} />
+        {uid &&
+          <TouchableHighlight
+            style={styles.commentAreaWrapper}
+            underlayColor={colors.underlay}
+            onPress={() => navigation.navigate('ReplyModal', {
+              comment: {
+                // `reply_posts_id` is not necessary when reply topic author
+                user_nick_name: user_nick_name,
+                board_id: this.boardId,
+                topic_id
+              },
+              isReplyInTopic: true
+            })}>
+            <View style={styles.commentArea}>
+              <Text style={styles.commentAreaText}>发表评论 ({replies}条)</Text>
+            </View>
+          </TouchableHighlight>
+        }
       </View>
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  let { topicItem, reply, vote, user, topicFavor } = state;
+  let { topicItem, user } = state;
 
   return {
-    topicItem: _.get(topicItem, getTopicId(ownProps.passProps), {}),
-    reply,
-    vote,
-    user,
-    topicFavor
+    topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
+    user
   };
 }
 
 export default connect(mapStateToProps, {
-  submit,
-  resetReply,
   fetchTopic,
-  resetTopic,
-  publishVote,
-  resetVote,
-  favorTopic,
-  resetFavorTopic
+  resetTopic
 })(TopicDetail);

@@ -1,25 +1,132 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Navigator } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { DrawerNavigator, StackNavigator, SafeAreaView } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
-import SideMenu from 'react-native-side-menu';
-import Router from '../router';
 import Menu from './Menu';
-import Home from './Home';
+import HomeScreen from './Home';
+import ForumListScreen from './ForumList';
+import ForumScreen from './ForumDetail';
+import SearchScreen from './Search';
+import TopicScreen from './TopicDetail';
+import MessageScreen from './Message';
+import IndividualScreen from './Individual';
+import PrivateMessageScreen from './PmList';
+import AboutScreen from './About';
+import InformationScreen from './Information';
+import SettingsScreen from './Settings';
+import WebPageScreen from './WebPage';
+import LoginModalScreen from '../components/modal/LoginModal';
+import RegisterModalScreen from '../components/modal/RegisterModal';
+import PublishModalScreen from '../components/modal/PublishModal';
+import ReplyModalScreen from '../components/modal/ReplyModal';
+import ForumListModalScreen from '../components/modal/ForumListModal';
+import colors from '../styles/common/_colors';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
 import { fetchAlerts } from '../actions/message/alertAction';
-import { PollFrequency } from '../config';
+import { ALERT_POLL_FREQUENCY } from '../config';
 
-class RNavigator extends Component {
-  constructor(props) {
-    super(props);
+const AppNavigator = DrawerNavigator({
+  App: {
+    screen: StackNavigator({
+      Main: {
+        screen: StackNavigator({
+          Home: {
+            screen: HomeScreen
+          },
+          ForumList: {
+            screen: ForumListScreen
+          },
+          Forum: {
+            screen: ForumScreen
+          },
+          Search: {
+            screen: SearchScreen
+          },
+          Topic: {
+            screen: TopicScreen
+          },
+          Individual: {
+            screen: IndividualScreen
+          },
+          Message: {
+            screen: MessageScreen
+          },
+          PrivateMessage: {
+            screen: PrivateMessageScreen
+          },
+          WebPage: {
+            screen: WebPageScreen
+          },
+          About: {
+            screen: AboutScreen
+          },
+          Information: {
+            screen: InformationScreen
+          },
+          Settings: {
+            screen: SettingsScreen
+          }
+        }, {
+          initialRouteName: 'Home',
+          navigationOptions: {
+            headerTintColor: 'white',
+            headerStyle: {
+              backgroundColor: colors.blue
+            },
+            headerTruncatedBackTitle: '返回',
+            drawerLockMode: 'locked-closed'
+          }
+        })
+      },
+      LoginModal: {
+        screen: LoginModalScreen
+      },
+      RegisterModal: {
+        screen: RegisterModalScreen
+      },
+      PublishModal: {
+        screen: PublishModalScreen
+      },
+      ReplyModal: {
+        screen: ReplyModalScreen
+      },
+      ForumListModal: {
+        screen: ForumListModalScreen
+      }
+    }, {
+      // Without `headerMode: 'none'`, there will be two headers since there are two
+      // StackNavigators which is workaround for using both `Card` and `Modal` mode.
+      //
+      // However, it will also hide header for Modal components, maybe you think why
+      // we don't use original custom Header component written with RN Modal, the reason
+      // is in that way we need to involve Modal component in every needed place.
+      //
+      // As workaround, I just used original custom Header component for Modal components.
+      //
+      // https://github.com/react-navigation/react-navigation/issues/1276
+      headerMode: 'none',
+      mode: 'modal',
+      initialRouteName: 'Main',
+      navigationOptions: {
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: colors.blue
+        },
+        drawerLockMode: 'locked-closed'
+      }
+    })
+  },
+}, {
+  initialRouteName: 'App',
+  contentComponent: Menu,
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
+});
 
-    this.state = {
-      isOpen: false
-    };
-  }
-
+class AppRoot extends Component {
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
 
@@ -45,8 +152,12 @@ class RNavigator extends Component {
     }
 
     if (!this.timer && nextEnableNotification) {
-      this.timer = setInterval(() => { this._fetchAlerts(); }, 1000 * PollFrequency);
+      this.timer = setInterval(() => { this.fetchAlerts(); }, 1000 * ALERT_POLL_FREQUENCY);
     }
+  }
+
+  fetchAlerts() {
+    this.props.fetchAlerts();
   }
 
   componentWillUnmount() {
@@ -54,64 +165,14 @@ class RNavigator extends Component {
     this.timer && clearInterval(this.timer);
   }
 
-  _fetchAlerts() {
-    this.props.fetchAlerts();
-  }
-
-  configureScene(route) {
-    if (route.sceneConfig) {
-      return route.sceneConfig;
-    }
-
-    return Navigator.SceneConfigs.FloatFromRight;
-  }
-
-  renderScene(route, navigator) {
-    if (!this.router) {
-      this.router = new Router(navigator);
-    }
-
-    return <route.component
-             router={this.router}
-             updateMenuState={isOpen => this._updateMenuState(isOpen)}
-             passProps={route.passProps} />;
-  }
-
-  _updateMenuState(isOpen) {
-    this.setState({ isOpen });
-  }
-
-  _onMenuItemSelected(item, isForceReplace) {
-    this._updateMenuState(false);
-    this.router[item.actionName](isForceReplace);
-  }
-
-  _isCurrentRoute(route) {
-    return this.router && this.router.isCurrentRoute(route.id);
-  }
-
   render() {
-    let menu = <Menu
-                 router={this.router}
-                 selectMenuItem={(item, isForceReplace) => this._onMenuItemSelected(item, isForceReplace)}
-                 isCurrentRoute={route => this._isCurrentRoute(route)} />;
-
     return (
-      <SideMenu
-        menu={menu}
-        disableGestures={true}
-        isOpen={this.state.isOpen}>
-        <Navigator
-          ref='navigator'
-          configureScene={this.configureScene}
-          renderScene={this.renderScene.bind(this)}
-          initialRoute={{
-            id: 'home',
-            title: '首页',
-            component: Home
-          }} />
+      <SafeAreaView
+        forceInset={{ top: 'never' }}
+        style={{ flex: 1, backgroundColor: colors.blue }}>
+        <AppNavigator {...this.props} />
         <MessageBar ref="alert" />
-      </SideMenu>
+      </SafeAreaView>
     );
   }
 }
@@ -127,4 +188,4 @@ export default connect(mapStateToProps, {
   getUserFromStorage,
   getSettingsFromStorage,
   fetchAlerts
-})(RNavigator);
+})(AppRoot);

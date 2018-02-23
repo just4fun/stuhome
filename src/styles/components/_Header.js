@@ -1,15 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import colors from '../common/_colors';
 
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: colors.blue,
-    height: 60,
     borderBottomWidth: 1,
     borderBottomColor: colors.underlay,
     justifyContent: 'center',
-    paddingTop: 30
+    // This is workaround to adjust iPhone X for modal Card,
+    // see more information in `Navigator.js`.
+    ...ifIphoneX({
+      height: 80,
+      paddingTop: 50
+    }, {
+      height: 60,
+      paddingTop: 30
+    })
   },
   left: {
     flex: 1,

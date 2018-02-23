@@ -11,7 +11,7 @@ import colors from '../styles/common/_colors';
 
 export default class SettingItem extends Component {
   render() {
-    let { text, style, indicator, avatar } = this.props;
+    let { text, style, indicator, avatar, isLoginUser } = this.props;
 
     return (
       <TouchableHighlight
@@ -24,7 +24,7 @@ export default class SettingItem extends Component {
               <Image
                 style={styles.avatar}
                 source={{ uri: avatar }} />
-              <Text style={styles.avatarIndicator}>></Text>
+              {isLoginUser && <Text style={styles.avatarIndicator}>></Text>}
             </View>
             ||
             <Text style={styles.indicator}>

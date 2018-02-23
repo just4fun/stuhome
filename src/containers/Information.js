@@ -3,21 +3,45 @@ import { connect } from 'react-redux';
 import {
   View,
   Image,
+  Linking,
+  AlertIOS,
+  AsyncStorage,
   ActionSheetIOS,
-  AsyncStorage
+  ActivityIndicator
 } from 'react-native';
+import _ from 'lodash';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ImageCache } from "react-native-img-cache";
-import { PopButton } from '../components/button';
 import { setAuthrization } from '../actions/authorizeAction';
-import Header from '../components/Header';
+import menus from '../constants/menus';
 import SettingItem from '../components/SettingItem';
 import mainStyles from '../styles/components/_Main';
+import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/containers/_About';
 import api from '../services/api';
+import { fetchUser, resetUser } from '../actions/user/userAction';
 
 class Information extends Component {
+  static navigationOptions = {
+    title: menus.information.title
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.userId = this.props.navigation.state.params.userId;
+    let { loginUserId } = this.props;
+    this.isLoginUser = loginUserId === this.userId;
+  }
+
+  componentDidMount() {
+    this.props.fetchUser({ userId: this.userId });
+  }
+
+  componentWillUnmount() {
+    this.props.resetUser({ userId: this.userId });
+  }
+
   handleTakePhoto() {
     ImagePicker.openCamera({
       width: 500,
@@ -25,6 +49,12 @@ class Information extends Component {
       cropping: true
     }).then(image => {
       this.uploadPhoto(image);
+    }).catch(e => {
+      if (e.code === 'ERROR_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR_KEY') {
+        AlertIOS.alert('提示', '模拟器上无法打开相机，请在真机上调试');
+      } else if (e.code === 'E_PICKER_NO_CAMERA_PERMISSION') {
+        Linking.openURL('app-settings:');
+      }
     });
   }
 
@@ -35,6 +65,10 @@ class Information extends Component {
       cropping: true
     }).then(image => {
       this.uploadPhoto(image);
+    }).catch(e => {
+      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
+        Linking.openURL('app-settings:');
+      }
     });
   }
 
@@ -46,7 +80,6 @@ class Information extends Component {
         avatar: response.data.pic_path
       });
       // update storage
-
     });
   }
 
@@ -81,56 +114,65 @@ class Information extends Component {
 
   render() {
     let {
-      router,
-      user: {
-        authrization: {
-          avatar,
-          userName,
-          userTitle,
-          gender,
-          creditShowList
-        }
+      userItem,
+      userItem: {
+        isFetching,
+        user
       }
     } = this.props;
 
+    if (isFetching || !_.get(userItem, ['user', 'name'])) {
+      return (
+        <View style={mainStyles.container}>
+          <View style={indicatorStyles.fullScreenIndicator}>
+            <ActivityIndicator />
+          </View>
+        </View>
+      );
+    }
+
     return (
       <View style={[mainStyles.container, styles.container]}>
-        <Header title='资料'>
-          <PopButton router={router} />
-        </Header>
         <View style={styles.group}>
           <SettingItem
             text='头像'
             style={styles.informationAvatar}
-            avatar={avatar}
-            onPress={() => this.showAvatarUpdateDialog()} />
+            avatar={user.icon}
+            isLoginUser={this.isLoginUser}
+            onPress={() => {
+              if (this.isLoginUser) {
+                this.showAvatarUpdateDialog();
+              }
+            }} />
           <SettingItem
             text='昵称'
-            indicator={userName} />
+            indicator={user.name} />
           <SettingItem
             text='性别'
-            indicator={this.getGender(gender)} />
+            indicator={this.getGender(user.gender)} />
           <SettingItem
             text='等级'
-            indicator={userTitle} />
+            indicator={user.userTitle} />
           <SettingItem
             text='积分'
-            indicator={creditShowList[0].data} />
+            indicator={user.credits} />
           <SettingItem
             text='水滴'
-            indicator={creditShowList[1].data} />
+            indicator={user.gold_num} />
         </View>
       </View>
     );
   }
 }
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ user, userItem }, ownProps) {
   return {
-    user
+    loginUserId: _.get(user, ['authrization', 'uid']),
+    userItem: _.get(userItem, ownProps.navigation.state.params.userId, {})
   };
 }
 
 export default connect(mapStateToProps, {
-  setAuthrization
+  fetchUser,
+  resetUser
 })(Information);

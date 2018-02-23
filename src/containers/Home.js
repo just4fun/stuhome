@@ -11,13 +11,9 @@ import colors from '../styles/common/_colors';
 import mainStyles from '../styles/components/_Main';
 import Header from '../components/Header';
 import TopicList from '../components/TopicList';
-import PublishModal from '../components/modal/PublishModal';
-import ForumListModal from '../components/modal/ForumListModal';
-import { PublishButton } from '../components/button';
+import { MenuButton, PublishButton } from '../components/button';
 import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListAction';
 import { getAlertCount } from '../selectors/alert';
-import { submit, resetPublish } from '../actions/topic/publishAction';
-import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
 const TABS = [
   { label: '最新发表', type: 'publish' },
@@ -26,18 +22,38 @@ const TABS = [
 ];
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-
-    this.boardId = 'all';
-    this.state = {
-      isForumListModalOpen: false,
-      isPublishModalOpen: false,
-      selectedForumId: null
+  static navigationOptions = ({ navigation }) => {
+    let { alertCount, isLogin } = _.get(navigation, ['state', 'params'], {});
+    return {
+      title: '清水河畔',
+      headerLeft: (
+        <MenuButton
+          isLogin={isLogin}
+          navigation={navigation}
+          alertCount={alertCount} />
+      ),
+      headerRight: (
+        isLogin &&
+          <PublishButton
+            onPress={() => navigation.navigate('ForumListModal')} />
+      )
     };
   }
 
+  constructor(props) {
+    super(props);
+    this.boardId = 'all';
+  }
+
   componentDidMount() {
+    let {
+      userId,
+      alertCount
+    } = this.props;
+    this.props.navigation.setParams({
+      isLogin: !!userId,
+      alertCount
+    });
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
@@ -45,17 +61,21 @@ class Home extends Component {
     });
   }
 
-  fetchForumList() {
-    this.props.fetchForumList({
-      boardId: this.boardId
-    });
-  }
+  componentWillReceiveProps(nextProps) {
+    let lastUserId = this.props.userId;
+    let lastAlertCount = this.props.alertCount;
+    let {
+      userId,
+      alertCount
+    } = nextProps;
 
-  refreshForumList() {
-    this.props.invalidateForumList({
-      boardId: this.boardId
-    });
-    this.fetchForumList();
+    // Only update header if any necessary information updated.
+    if (lastUserId !== userId || lastAlertCount !== alertCount) {
+      this.props.navigation.setParams({
+        isLogin: !!userId,
+        alertCount
+      });
+    }
   }
 
   refreshTopicList({ page, isEndReached, sortType }) {
@@ -79,90 +99,17 @@ class Home extends Component {
     });
   }
 
-  toggleForumListModal(visible) {
-    this.setState({
-      isForumListModalOpen: visible
-    });
-  }
-
-  togglePublishModal(visible) {
-    this.setState({
-      isPublishModalOpen: visible
-    });
-  }
-
-  selectForum(forum) {
-    this.setState({ selectedForumId: forum.board_id });
-    this.toggleForumListModal(false);
-    this.togglePublishModal(true);
-    // This is manily to fetch topic types for each forum.
-    this.props.fetchTopicList({
-      boardId: forum.board_id,
-      isEndReached: false,
-      sortType: 'publish'
-    });
-  }
-
-  publish({ typeId, title, images, content }) {
-    this.props.submit({
-      boardId: this.state.selectedForumId,
-      topicId: null,
-      replyId: null,
-      typeId,
-      title,
-      images,
-      content
-    });
-  }
-
   render() {
     let {
-      router,
+      navigation,
       topicList,
-      forumList,
-      alertCount,
-      token,
-      publish
+      userId
     } = this.props;
-    let {
-      selectedForumId,
-      isForumListModalOpen,
-      isPublishModalOpen
-    } = this.state;
 
     return (
       <View style={mainStyles.container}>
-        {isForumListModalOpen &&
-          <ForumListModal
-            visible={isForumListModalOpen}
-            forumList={forumList}
-            closeForumListModal={() => this.toggleForumListModal(false)}
-            handleSelectForum={(forum) => this.selectForum(forum)}
-            fetchForumList={() => this.fetchForumList()}
-            refreshForumList={() => this.refreshForumList()} />
-        }
-        {isPublishModalOpen &&
-          <PublishModal
-            {...this.props}
-            visible={isPublishModalOpen}
-            publish={publish}
-            types={_.get(topicList, [selectedForumId, 'typeList'], [])}
-            closePublishModal={() => this.togglePublishModal(false)}
-            handlePublish={topic => this.publish(topic)} />
-        }
-        <Header
-          title='首页'
-          alertCount={alertCount}
-          isPublishFromHomePage={true}
-          updateMenuState={isOpen => this.props.updateMenuState(isOpen)}>
-          {token &&
-            <PublishButton
-              onPress={() => this.toggleForumListModal(true)} />
-            ||
-            <Text></Text>
-          }
-        </Header>
         <ScrollableTabView
+          ref={component => this.scrollableTabView = component}
           tabBarActiveTextColor={colors.blue}
           tabBarInactiveTextColor={colors.lightBlue}
           tabBarUnderlineStyle={scrollableTabViewStyles.tabBarUnderline}
@@ -172,8 +119,9 @@ class Home extends Component {
             return (
               <TopicList
                 key={index}
+                currentUserId={userId}
                 tabLabel={tab.label}
-                router={router}
+                navigation={navigation}
                 type={tab.type}
                 topicList={_.get(topicList, [this.boardId, tab.type], {})}
                 refreshTopicList={({ page, isEndReached }) => this.refreshTopicList({ page, isEndReached, sortType: tab.type })} />
@@ -185,21 +133,15 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({ topicList, forumList, alert, user, publish }) {
+function mapStateToProps({ topicList, alert, user }) {
   return {
-    token: _.get(user, ['authrization', 'token']),
+    userId: _.get(user, ['authrization', 'uid']),
     topicList,
-    forumList,
-    alertCount: getAlertCount(alert),
-    publish
+    alertCount: getAlertCount(alert)
   };
 }
 
 export default connect(mapStateToProps, {
   invalidateTopicList,
-  fetchTopicList,
-  submit,
-  resetPublish,
-  invalidateForumList,
-  fetchForumList
+  fetchTopicList
 })(Home);

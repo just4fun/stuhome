@@ -1,8 +1,9 @@
-export const getAtMeCount = alertState => alertState.response.atMeInfo.count;
-export const getReplyCount = alertState => alertState.response.replyInfo.count;
-export const getPmCount = alertState => alertState.response.pmInfos.length;
+import _ from 'lodash';
+
+export const getAtMeCount = alertState => _.get(alertState, ['response', 'atMeInfo', 'count'], 0);
+export const getReplyCount = alertState => _.get(alertState, ['response', 'replyInfo', 'count'], 0);
+export const getPmCount = alertState => _.get(alertState, ['response', 'pmInfos', 'length'], 0);
 
 export const getAlertCount = alertState => {
-  let { atMeInfo, pmInfos, replyInfo } = alertState.response;
-  return atMeInfo.count + replyInfo.count + pmInfos.length;
+  return getAtMeCount(alertState) + getReplyCount(alertState) + getPmCount(alertState);
 };

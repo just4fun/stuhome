@@ -3,19 +3,22 @@ import {
   View,
   Text,
 } from 'react-native';
-import { CachedImage } from "react-native-img-cache";
+import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_RewardList';
 
 export default class RewardList extends Component {
   render() {
-    let { reward, router } = this.props;
     let {
-      score,
-      userNumber,
-      userList,
-      showAllUrl
-    } = reward;
+      reward: {
+        score,
+        userNumber,
+        userList,
+        showAllUrl
+      },
+      currentUserId,
+      navigation
+    } = this.props;
 
     return (
       <View style={styles.reward}>
@@ -31,19 +34,26 @@ export default class RewardList extends Component {
           </Text>
         </View>
         <View style={styles.rewardUserList}>
-          {reward.userList.map((user, index) => {
+          {userList.map((user, index) => {
             return (
-              <CachedImage
+              <Avatar
                 key={index}
-                source={{ uri: user.userIcon }}
-                style={styles.rewardUser} />
+                style={styles.rewardUser}
+                url={user.userIcon}
+                userId={user.uid}
+                currentUserId={currentUserId}
+                userName={user.userName}
+                navigation={navigation} />
             );
           })}
           <Icon
             style={[styles.rewardUser, styles.more]}
             name='ellipsis-h'
             size={14}
-            onPress={() => router.toBrowser(showAllUrl, '全部评分')} />
+            onPress={() => navigation.navigate('WebPage', {
+              url: showAllUrl,
+              title: '全部评分'
+            })} />
         </View>
       </View>
     );

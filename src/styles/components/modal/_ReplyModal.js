@@ -7,6 +7,8 @@ export default StyleSheet.create({
   },
   replyBox: {
     padding: 10,
+    // To overwrite `paddingTop: 5` which provided in new RN version.
+    paddingTop: 10,
     height: 200,
     fontSize: 16,
     color: colors.significantField,

@@ -7,32 +7,49 @@ import {
 import Avatar from './Avatar';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
-// refer to this issue https://github.com/moment/momentjs.com/pull/241
+// Refer to this issue https://github.com/moment/momentjs.com/pull/241
 import 'moment/locale/zh-cn';
 import { AVATAR_ROOT } from '../config';
 import styles from '../styles/components/_TopicItem';
 import colors from '../styles/common/_colors';
 
 export default class TopicItem extends Component {
-  render() {
-    let { topic, router, accessTopicListFromForumItem, currentUserId } = this.props;
+  handleOnPress(topic) {
     let {
-      title,
-      subject,
-      summary,
-      hits,
-      replies,
-      board_id,
-      board_name,
-      user_nick_name,
-      last_reply_date,
-      user_id,
-      userAvatar
-    } = topic;
+      currentUserId,
+      navigation
+    } = this.props;
+    // Login User
+    if (currentUserId) {
+      navigation.navigate('Topic', topic);
+    } else {
+      navigation.navigate('LoginModal');
+    }
+  }
+
+  render() {
+    let {
+      navigation,
+      accessTopicListFromForumItem,
+      currentUserId,
+      topic,
+      topic: {
+        title,
+        subject,
+        summary,
+        hits,
+        replies,
+        board_id,
+        board_name,
+        user_nick_name,
+        last_reply_date,
+        user_id,
+        userAvatar
+      }
+    } = this.props;
 
     // `last_reply_date` is timestamp in string from API
     last_reply_date = moment(+last_reply_date).startOf('minute').fromNow();
-
     // for `Search`, there is no avatar available in API response, so we need to
     // set it manually.
     userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${user_id}`;
@@ -41,7 +58,7 @@ export default class TopicItem extends Component {
       <View style={styles.container}>
         <TouchableHighlight
           underlayColor={colors.underlay}
-          onPress={() => router.toTopic(topic)}>
+          onPress={() => this.handleOnPress(topic)}>
           <View style={styles.item}>
             <View style={styles.row}>
               <View style={styles.left}>
@@ -51,7 +68,7 @@ export default class TopicItem extends Component {
                   userId={user_id}
                   userName={user_nick_name}
                   currentUserId={currentUserId}
-                  router={router} />
+                  navigation={navigation} />
               </View>
               <View style={styles.right}>
                 <View style={styles.leftInfo}>

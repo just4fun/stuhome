@@ -8,15 +8,12 @@ import * as forumListActions from '../actions/forumAction';
 import * as notifyListActions from '../actions/message/notifyListAction';
 import * as searchActions from '../actions/topic/searchAction';
 import * as topicActions from '../actions/topic/topicAction';
-import * as voteActions from '../actions/topic/voteAction';
-import * as publishActions from '../actions/topic/publishAction';
-import * as replyActions from '../actions/topic/replyAction';
-import * as favorActions from '../actions/topic/favorAction';
 import * as pmSessionListActions from '../actions/message/pmSessionListAction';
 import * as pmListActions from '../actions/message/pmListAction';
 import * as sendActions from '../actions/message/sendAction';
 import * as alertActions from '../actions/message/alertAction';
 import * as settingsActions from '../actions/settingsAction';
+import * as userActions from '../actions/user/userAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -29,14 +26,11 @@ const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchFo
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
 const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
-const publishTopicVoteApi = fetchResource.bind(null, voteActions, api.publishVote);
-const publishTopicApi = fetchResource.bind(null, publishActions, api.publishTopic);
-const replyTopicApi = fetchResource.bind(null, replyActions, api.publishTopic);
-const favorTopicApi = fetchResource.bind(null, favorActions, api.favorTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
-const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts)
+const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts);
+const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
 
 // user login sagas
 
@@ -164,11 +158,13 @@ function* watchNotifyList() {
 }
 
 function* fetchNotifyList(payload) {
-  const state = yield select();
+  // const state = yield select();
 
-  if (cacheManager.shouldFetchList(state, 'notifyList', payload.notifyType)) {
+  // Let user fetch notifications immediately.
+
+  // if (cacheManager.shouldFetchList(state, 'notifyList', payload.notifyType)) {
     yield fork(fetchNotifyListApi, payload);
-  }
+  // }
 }
 
 // search list sagas
@@ -189,39 +185,6 @@ function* watchTopic() {
   }
 }
 
-// vote sagas
-
-function* watchTopicVote() {
-  while(true) {
-    const { payload } = yield take(voteActions.REQUEST);
-    yield fork(publishTopicVoteApi, payload);
-  }
-}
-
-// topic publish sagas
-
-function* watchPublishTopic() {
-  while(true) {
-    const { payload } = yield take(publishActions.REQUEST);
-
-    // if there is `topicId`, it's `reply`, not `publish`
-    if (payload.topicId) {
-      yield fork(replyTopicApi, payload);
-    } else {
-      yield fork(publishTopicApi, payload);
-    }
-  }
-}
-
-// favor topic sagas
-
-function* watchFavorTopic() {
-  while(true) {
-    const { payload } = yield take(favorActions.REQUEST);
-    yield fork(favorTopicApi, payload);
-  }
-}
-
 // pm session list sagas
 
 function* watchPmSessionList() {
@@ -234,9 +197,11 @@ function* watchPmSessionList() {
 function* fetchPmSessionList(payload) {
   const state = yield select();
 
-  if (cacheManager.shouldFetchList(state, 'pmSessionList')) {
+  // Let user fetch private messages immediately.
+
+  // if (cacheManager.shouldFetchList(state, 'pmSessionList')) {
     yield fork(fetchPmSessionListApi, payload);
-  }
+  // }
 }
 
 // pm list sagas
@@ -266,6 +231,15 @@ function* watchAlerts() {
   }
 }
 
+// users sagas
+
+function* watchUsers() {
+  while(true) {
+    const { payload } = yield take(userActions.REQUEST);
+    yield fork(fetchUserApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -275,13 +249,11 @@ export default function* rootSaga() {
   yield fork(watchNotifyList);
   yield fork(watchSearchList);
   yield fork(watchTopic);
-  yield fork(watchTopicVote);
-  yield fork(watchPublishTopic);
-  yield fork(watchFavorTopic);
   yield fork(watchPmSessionList);
   yield fork(watchPmList);
   yield fork(watchSendMessage);
   yield fork(watchAlerts);
   yield fork(watchRetrieveSettings);
   yield fork(watchStoreSettings);
+  yield fork(watchUsers);
 }

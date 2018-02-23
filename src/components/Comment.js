@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Linking,
   TouchableHighlight,
-  ActionSheetIOS
+  ActionSheetIOS,
+  Clipboard
 } from 'react-native';
 import Content from './Content';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,22 +13,34 @@ import Avatar from './Avatar';
 import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
-import { CommentButton } from './button';
-import { parseContentWithImage } from '../utils/contentParser';
+import MessageBar from '../services/MessageBar';
 
 export default class Comment extends Component {
-  _showOptions(userId) {
-    let { currentUserId, router } = this.props;
-    if (!currentUserId) { return; }
+  showOptions() {
+    let {
+      currentUserId,
+      navigation,
+      topicId,
+      boardId,
+      comment,
+      comment: {
+        reply_id: userId,
+        reply_content,
+        managePanel
+      }
+    } = this.props;
 
     let options = [
       '回复',
-      '取消'
+      '复制'
     ];
-    let isCurrentUserSelf = currentUserId === userId;
-    if (!isCurrentUserSelf) {
-      options.splice(1, 0, '私信');
+    let isLoginUser = currentUserId === userId;
+    if (!isLoginUser) {
+      options.push('私信');
+    } else {
+      options.push('编辑');
     }
+    options.push('取消');
 
     ActionSheetIOS.showActionSheetWithOptions({
       options,
@@ -35,46 +49,80 @@ export default class Comment extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          this.props.openReplyModal();
+          navigation.navigate('ReplyModal', {
+            // `comment` here is item from `forum/postlist`, which has
+            // no `topicId` and `boardId`, but necessary for topic reply
+            // API.
+            comment: Object.assign({}, comment, {
+              topic_id: topicId,
+              board_id: boardId
+            }),
+            // To indicate we need to fetch topic again
+            // to display new comments.
+            isReplyInTopic: true
+          });
           break;
         case 1:
-          if (!isCurrentUserSelf) {
-            router.toPmList({ userId });
+          Clipboard.setString(this.props.getCopyContent(reply_content));
+          MessageBar.show({
+            message: '复制内容成功',
+            type: 'success'
+          });
+          break;
+        case 2:
+          if (!isLoginUser) {
+            navigation.navigate('PrivateMessage', { userId });
+          } else if (managePanel && managePanel.length > 0) {
+            let editAction = managePanel.find(item => item.title === '编辑');
+            if (editAction) {
+              Linking.openURL(editAction.action);
+            }
           }
           break;
       }
     });
   }
 
+  handlePress() {
+    if (!this.props.currentUserId) { return; }
+    this.showOptions();
+  }
+
   render() {
-    let { comment, currentTopicId } = this.props;
     let {
-      reply_name,
-      userTitle,
-      icon,
-      position,
-      reply_id, // user id
-      reply_content,
-      posts_date,
-      is_quote,
-      quote_content,
-      mobileSign
-    } = comment;
+      navigation,
+      currentUserId,
+      topicId,
+      boardId,
+      comment: {
+        reply_name,
+        userTitle,
+        icon,
+        position,
+        reply_id, // user id
+        reply_content,
+        posts_date,
+        is_quote,
+        quote_content,
+        mobileSign
+      }
+    } = this.props;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => this._showOptions(reply_id)}>
+        onPress={() => this.handlePress()}>
         <View style={styles.commentItem}>
           <View style={styles.row}>
             <Avatar
               style={styles.avatar}
               url={icon}
               userId={reply_id}
+              currentUserId={currentUserId}
               userName={reply_name}
-              router={this.props.router} />
+              navigation={navigation} />
             <View style={styles.author}>
               <View style={styles.row}>
                 <Text style={styles.name}>{reply_name}</Text>
@@ -100,9 +148,9 @@ export default class Comment extends Component {
                 <Text style={styles.quoteContent}>{quote_content}</Text>
               </View>
             }
-            <Content content={reply_content}
-                     currentTopicId={currentTopicId}
-                     router={this.props.router} />
+            <Content
+              content={reply_content}
+              navigation={navigation} />
           </View>
         </View>
       </TouchableHighlight>

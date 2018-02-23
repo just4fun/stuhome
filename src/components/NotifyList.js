@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import {
   View,
-  ListView,
+  Text,
+  FlatList,
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
+import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import NotifyItem from './NotifyItem';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class NotifyList extends Component {
   componentDidMount() {
     this.props.fetchNotifyList();
   }
 
-  _endReached() {
+  endReached() {
     let {
       hasMore,
       isRefreshing,
@@ -32,13 +32,13 @@ export default class NotifyList extends Component {
     });
   }
 
-  _renderFooter() {
+  renderFooter() {
     let {
       hasMore,
       isEndReached
     } = this.props.notifyList;
 
-    if (!hasMore || !isEndReached) { return; }
+    if (!hasMore || !isEndReached) { return <View></View>; }
 
     return (
       <View style={indicatorStyles.endRechedIndicator}>
@@ -47,8 +47,23 @@ export default class NotifyList extends Component {
     );
   }
 
+  renderListEmptyComponent() {
+    return (
+      <View style={listStyles.emptyView}>
+        <Text style={listStyles.emptyText}>
+          暂无消息
+        </Text>
+      </View>
+    );
+  }
+
   render() {
-    let { notifyList } = this.props;
+    let {
+      notifyList,
+      navigation,
+      currentUserId,
+      refreshNotifyList
+    } = this.props;
     let realNotifyList = [];
     let isRefreshing = false;
 
@@ -57,29 +72,29 @@ export default class NotifyList extends Component {
       isRefreshing = notifyList.isRefreshing;
     };
 
-    let source = ds.cloneWithRows(realNotifyList);
-
     return (
-      <ListView
-        dataSource={source}
+      <FlatList
+        data={realNotifyList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={notification => {
+        renderItem={({ item: notification }) => {
           return (
             <NotifyItem
               key={notification.topic_id}
               notification={notification}
-              router={this.props.router}
-              openReplyModal={notification => this.props.openReplyModal(notification)} />
+              currentUserId={currentUserId}
+              navigation={navigation} />
           );
         }}
-        onEndReached={() => this._endReached()}
+        onEndReached={() => this.endReached()}
         onEndReachedThreshold={0}
-        renderFooter={() => this._renderFooter()}
+        ListFooterComponent={() => this.renderFooter()}
+        ListEmptyComponent={() => !isRefreshing && this.renderListEmptyComponent()}
         refreshControl={
           <RefreshControl
             title='正在加载...'
-            onRefresh={() => this.props.refreshNotifyList({})}
+            onRefresh={() => refreshNotifyList({})}
             refreshing={isRefreshing} />
         } />
     );

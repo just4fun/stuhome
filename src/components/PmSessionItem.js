@@ -10,25 +10,28 @@ import colors from '../styles/common/_colors';
 import styles from '../styles/components/_PmSessionItem';
 
 export default class PmSessionItem extends Component {
-  _handleOnPress(isNew, plid, userId) {
+  handleOnPress(isNew, plid, userId) {
     if (isNew) {
-      // mark message as read
-      this.props.markAsRead({ plid });
+      // Mark message as read.
+      this.props.markPmAsRead({ plid });
     }
-    this.props.router.toPmList({ userId });
+    this.props.navigation.navigate('PrivateMessage', { userId });
   }
 
   render() {
-    let { router, session } = this.props;
     let {
-      lastDateline,
-      lastSummary,
-      toUserId,
-      toUserName,
-      toUserAvatar,
-      isNew,
-      plid // to indicate current message session
-    } = session;
+      navigation,
+      currentUserId,
+      session: {
+        lastDateline,
+        lastSummary,
+        toUserId,
+        toUserName,
+        toUserAvatar,
+        isNew,
+        plid // To indicate current message session.
+      }
+    } = this.props;
 
     lastDateline = moment(+lastDateline).startOf('minute').fromNow();
 
@@ -36,14 +39,15 @@ export default class PmSessionItem extends Component {
       <TouchableHighlight
         style={styles.container}
         underlayColor={colors.underlay}
-        onPress={() => this._handleOnPress(isNew, plid, toUserId)}>
+        onPress={() => this.handleOnPress(isNew, plid, toUserId)}>
         <View style={[styles.item, styles.row]}>
           <Avatar
             style={styles.avatar}
             url={toUserAvatar}
             userId={toUserId}
+            currentUserId={currentUserId}
             userName={toUserName}
-            router={router} />
+            navigation={navigation} />
           <View style={styles.content}>
             <View style={[styles.author, styles.row]}>
               <View style={styles.row}>

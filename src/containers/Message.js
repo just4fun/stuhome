@@ -6,16 +6,14 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import mainStyles from '../styles/components/_Main';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
 import colors from '../styles/common/_colors';
-import Header from '../components/Header';
 import NotifyList from '../components/NotifyList';
 import PmSessionList from '../components/PmSessionList';
 import MessageTabBar from '../components/3rd_party/MessageTabBar';
 import ReplyModal from '../components/modal/ReplyModal';
+import menus from '../constants/menus';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
-import { invalidatePmSessionList, fetchPmSessionList, markAsRead } from '../actions/message/pmSessionListAction';
-import { submit } from '../actions/topic/publishAction';
-import { resetReply } from '../actions/topic/replyAction';
-import { getAtMeCount, getReplyCount, getPmCount, getAlertCount } from '../selectors/alert';
+import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '../actions/message/pmSessionListAction';
+import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
 
 const TABS = [
   { label: '@', type: 'at' },
@@ -24,62 +22,45 @@ const TABS = [
 ];
 
 class Message extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isReplyModalOpen: false,
-      currentNotification: null
-    };
+  static navigationOptions = {
+    title: menus.message.title
   }
 
-  _fetchNotifyList(notifyType) {
-    this.props.fetchNotifyList({ notifyType });
-  }
-
-  _refreshNotifyList({ page, isEndReached, notifyType }) {
-    this.props.invalidateNotifyList({ notifyType });
+  fetchNotifyList({ page, isEndReached, notifyType }) {
     this.props.fetchNotifyList({
+      page,
       notifyType,
-      isEndReached,
-      page
+      isEndReached
     });
   }
 
-  _fetchPmSessionList() {
-    this.props.fetchPmSessionList({ page: 1 });
+  refreshNotifyList({ page, isEndReached, notifyType }) {
+    this.props.invalidateNotifyList({ notifyType });
+    this.fetchNotifyList({
+      page,
+      notifyType,
+      isEndReached
+    });
   }
 
-  _refreshPmSessionList({ page, isEndReached }) {
-    this.props.invalidatePmSessionList();
+  fetchPmSessionList({ page, isEndReached }) {
     this.props.fetchPmSessionList({
-      isEndReached,
-      page
+      page,
+      isEndReached
     });
   }
 
-  _publish({ boardId, topicId, replyId, images, content }) {
-    this.props.submit({
-      boardId,
-      topicId,
-      replyId,
-      typeId: null,
-      title: null,
-      images,
-      content
+  refreshPmSessionList({ page, isEndReached }) {
+    this.props.invalidatePmSessionList();
+    this.fetchPmSessionList({
+      page,
+      isEndReached
     });
   }
 
-  toggleReplyModal(visible, notification) {
-    this.setState({
-      isReplyModalOpen: visible,
-      currentNotification: notification
-    });
-  }
-
-  // this is a hacky way to allow customized tab label
+  // This is a hacky way to allow customized tab label
   // for each tab of <ScrollableTabView /> component.
-  _getTabsWithAlertCount(tabs) {
+  getTabsWithAlertCount(tabs) {
     let newTabs = [];
     let { atMeCount, replyCount, pmCount } = this.props;
     newTabs.push({ name: tabs[0], count: atMeCount });
@@ -93,27 +74,14 @@ class Message extends Component {
       notifyList,
       pmSessionList,
       reply,
-      router,
-      alertCount
+      navigation,
+      userId
     } = this.props;
-    let { isReplyModalOpen, currentNotification } = this.state;
 
     return (
       <View style={mainStyles.container}>
-        {isReplyModalOpen &&
-          <ReplyModal
-            visible={isReplyModalOpen}
-            content={currentNotification}
-            reply={reply}
-            resetReply={() => this.props.resetReply()}
-            closeReplyModal={() => this.toggleReplyModal(false)}
-            handlePublish={comment => this._publish(comment)} />
-        }
-        <Header title='消息'
-                alertCount={alertCount}
-                updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
         <ScrollableTabView
-          renderTabBar={(props) => <MessageTabBar newTabs={this._getTabsWithAlertCount(props.tabs)} />}
+          renderTabBar={(props) => <MessageTabBar newTabs={this.getTabsWithAlertCount(props.tabs)} />}
           tabBarBackgroundColor={colors.lightBlue}
           tabBarActiveTextColor={colors.white}
           tabBarInactiveTextColor={colors.white}
@@ -126,10 +94,11 @@ class Message extends Component {
                   key={index}
                   tabLabel={tab.label}
                   pmSessionList={pmSessionList}
-                  router={router}
-                  markAsRead={({ plid }) => this.props.markAsRead({ plid })}
-                  fetchPmSessionList={() => this._fetchPmSessionList(tab.type)}
-                  refreshPmSessionList={({ page, isEndReached }) => this._refreshPmSessionList({ page, isEndReached })} />
+                  navigation={navigation}
+                  currentUserId={userId}
+                  markPmAsRead={({ plid }) => this.props.markPmAsRead({ plid })}
+                  fetchPmSessionList={() => this.fetchPmSessionList({})}
+                  refreshPmSessionList={({ page, isEndReached }) => this.refreshPmSessionList({ page, isEndReached })} />
               );
             }
 
@@ -138,10 +107,10 @@ class Message extends Component {
                 key={index}
                 tabLabel={tab.label}
                 notifyList={_.get(notifyList, tab.type, {})}
-                router={router}
-                fetchNotifyList={() => this._fetchNotifyList(tab.type)}
-                refreshNotifyList={({ page, isEndReached }) => this._refreshNotifyList({ page, isEndReached, notifyType: tab.type })}
-                openReplyModal={notification => this.toggleReplyModal(true, notification)} />
+                currentUserId={userId}
+                navigation={navigation}
+                fetchNotifyList={() => this.fetchNotifyList({ notifyType: tab.type })}
+                refreshNotifyList={({ page, isEndReached }) => this.refreshNotifyList({ page, isEndReached, notifyType: tab.type })} />
             );
           })}
         </ScrollableTabView>
@@ -150,24 +119,21 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, reply, pmSessionList, alert }) {
+function mapStateToProps({ notifyList, pmSessionList, alert, user }) {
   return {
     notifyList,
-    reply,
     pmSessionList,
     atMeCount: getAtMeCount(alert),
     replyCount: getReplyCount(alert),
     pmCount: getPmCount(alert),
-    alertCount: getAlertCount(alert)
+    userId: _.get(user, ['authrization', 'uid'])
   };
 }
 
 export default connect(mapStateToProps, {
   invalidateNotifyList,
   fetchNotifyList,
-  submit,
-  resetReply,
   fetchPmSessionList,
   invalidatePmSessionList,
-  markAsRead
+  markPmAsRead
 })(Message);

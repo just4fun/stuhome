@@ -6,14 +6,11 @@ import {
   Image,
   AlertIOS,
   ScrollView,
-  ActivityIndicator,
-  ListView
+  ActivityIndicator
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';
 import GiftedChatLoadEarlierButton from '../components/3rd_party/GiftedChatLoadEarlierButton';
-import Header from '../components/Header';
-import { PopButton } from '../components/button';
 import {
   submit,
   resetPublish
@@ -26,41 +23,58 @@ import {
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/containers/_PmList';
+import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '../config';
 
 const LOGIN_USER_ID = Symbol();
 
 class PmList extends Component {
+  static navigationOptions = ({ navigation }) => {
+    let { title } = navigation.state.params;
+    return {
+      title
+    };
+  }
+
   constructor(props) {
     super(props);
 
-    this.userId = this.props.passProps.userId;
+    let { userId } = this.props.navigation.state.params;
+    this.userId = userId;
     this.state = {
       messages: []
     };
   }
 
   componentDidMount() {
-    this._fetchPmList();
-
-    // fetch new private messages every 1 mins
-    this.timer = setInterval(() => { this._fetchPmList(); }, 1000 * 60);
+    this.fetchPmList();
+    // Fetch new private messages every 20 secs.
+    this.timer = setInterval(() => { this.fetchPmList(); }, 1000 * PRIVATE_MESSAGE_POLL_FREQUENCY);
   }
 
   componentWillUnmount() {
     this.props.resetPmList();
-
-    // tear down timer
+    // Tear down timer.
     this.timer && clearInterval(this.timer);
   }
 
-  _fetchPmList() {
+  fetchPmList() {
     this.props.fetchPmList({
       userId: this.userId,
       page: 1
     });
   }
 
+  setUpTitle(newUserName) {
+    let userName = this.props.pmList.user.name;
+    if (userName !== newUserName) {
+      this.props.navigation.setParams({ title: newUserName });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
+    this.setUpTitle(nextProps.pmList.user.name);
+
+    // Handle private messages.
     let {
       send,
       pmList
@@ -82,13 +96,13 @@ class PmList extends Component {
         // so the workaround can not only fix the weird issue here, but also can
         // give user a better ux with customized ticks `发送中...`, which seems
         // like the best solustion now.
-        setTimeout(() => { this._fetchPmList(); }, 1000 * 3);
+        setTimeout(() => { this.fetchPmList(); }, 1000 * 3);
       } else if (errcode) {
-        // the time between sending two messages is too short
-        this._fetchPmList();
+        // The time between sending two messages is too short.
+        this.fetchPmList();
         AlertIOS.alert('提示', send.response.errcode);
       } else {
-        // no network
+        // No network.
         this.setState(previousState => {
           return {
             messages: previousState.messages.filter(message => !message.isNew)
@@ -100,7 +114,7 @@ class PmList extends Component {
       return;
     }
 
-    // translation from Redux store props to component state
+    // Translation from Redux store props to component state.
     if (pmList.response && pmList.response.rs) {
       this.setState({
         messages: pmList.list
@@ -109,14 +123,14 @@ class PmList extends Component {
     }
   }
 
-  _loadEarlierMessages(page) {
+  loadEarlierMessages(page) {
     this.props.fetchPmList({
       userId: this.userId,
       page
     });
   }
 
-  _onSend({ messages, toUserId }) {
+  onSend({ messages, toUserId }) {
     this.setState(previousState => {
       return {
         messages: GiftedChat.append(previousState.messages, Object.assign({}, messages[0], { isNew: true }))
@@ -131,7 +145,7 @@ class PmList extends Component {
 
   render() {
     let {
-      router,
+      navigation,
       pmList: {
         isRefreshing,
         hasPrev,
@@ -144,9 +158,6 @@ class PmList extends Component {
     if (isRefreshing && page === 0) {
       return (
         <View style={mainStyles.container}>
-          <Header title={user.name}>
-            <PopButton router={router} />
-          </Header>
           <View style={indicatorStyles.fullScreenIndicator}>
             <ActivityIndicator />
           </View>
@@ -155,7 +166,7 @@ class PmList extends Component {
     }
 
     let messages = this.state.messages.map(item => {
-      if (item.isNew) { return item };
+      if (item.isNew) { return item; }
 
       return {
         _id: item.mid,
@@ -170,9 +181,6 @@ class PmList extends Component {
 
     return (
       <View style={mainStyles.container}>
-        <Header title={user.name}>
-          <PopButton router={router} />
-        </Header>
         <GiftedChat
           style={mainStyles.container}
           locale={'zh-cn'}
@@ -182,8 +190,8 @@ class PmList extends Component {
           isLoadingEarlier={isRefreshing && page > 1}
           loadEarlier={hasPrev}
           renderAvatarOnTop={true}
-          onLoadEarlier={() => this._loadEarlierMessages(page + 1)}
-          onSend={messages => this._onSend({
+          onLoadEarlier={() => this.loadEarlierMessages(page + 1)}
+          onSend={messages => this.onSend({
             messages,
             toUserId: user.id
           })}
@@ -199,7 +207,7 @@ class PmList extends Component {
             );
           }}
           messages={messages}
-          user={{ _id: LOGIN_USER_ID }}/>
+          user={{ _id: LOGIN_USER_ID }} />
       </View>
     );
   }

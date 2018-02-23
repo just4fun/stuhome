@@ -2,6 +2,28 @@ import { StyleSheet } from 'react-native';
 import colors from '../common/_colors';
 
 export default StyleSheet.create({
+  commentAreaWrapper: {
+    position: 'relative',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 45,
+    backgroundColor: colors.white,
+    borderTopWidth: 1,
+    borderTopColor: colors.underlay,
+  },
+  commentArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3,
+    marginHorizontal: 24,
+    marginVertical: 6,
+    backgroundColor: '#f3f3f3',
+  },
+  commentAreaText: {
+    color: colors.mainField,
+  },
   indicator: {
     flex: 1,
     justifyContent: 'center',
@@ -99,5 +121,5 @@ export default StyleSheet.create({
   },
   favor: {
     textAlign: 'center',
-  }
+  },
 });

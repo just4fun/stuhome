@@ -7,7 +7,6 @@ const window = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     flex: 1,
-    width: window.width * 2 / 3,
     height: window.height,
     paddingTop: 30,
   },

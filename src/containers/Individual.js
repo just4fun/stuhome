@@ -3,25 +3,42 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
+  Image,
   ScrollView,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
+import { HeaderBackButton } from 'react-navigation';
 import _ from 'lodash';
-import { CachedImage } from "react-native-img-cache";
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Header from '../components/Header';
 import TopicList from '../components/TopicList';
-import { PopButton } from '../components/button';
 import colors from '../styles/common/_colors';
 import scrollableTabViewStyles from '../styles/common/_ScrollableTabView';
+import headerRightButtonStyles from '../styles/components/button/_HeaderRightButton';
 import mainStyles from '../styles/components/_Main';
 import styles from '../styles/containers/_Individual';
 import { invalidateUserTopicList, fetchUserTopicList } from '../actions/user/topicListAction';
-import { getAlertCount } from '../selectors/alert';
 import { AVATAR_ROOT } from '../config';
 
 class Individual extends Component {
+  static navigationOptions = ({ navigation }) => {
+    let { userId, isLoginUser } = _.get(navigation, ['state', 'params'], {});
+    return {
+      headerStyle: {
+        backgroundColor: colors.lightBlue,
+        borderBottomWidth: 0
+      },
+      headerRight: (
+        isLoginUser === false &&
+          <Icon
+            style={headerRightButtonStyles.button}
+            name='envelope'
+            size={18}
+            onPress={() => navigation.navigate('PrivateMessage', { userId })} />
+      )
+    };
+  }
+
   constructor(props) {
     super(props);
     this.initTabsAndUserInformation();
@@ -30,7 +47,14 @@ class Individual extends Component {
   initTabsAndUserInformation() {
     this.TABS = [];
 
-    let { user, passProps } = this.props;
+    let {
+      user,
+      navigation: {
+        state: {
+          params: passProps
+        }
+      }
+    } = this.props;
     this.isLoginUser = !passProps || (+passProps.userId === user.authrization.uid);
 
     if (this.isLoginUser) {
@@ -46,12 +70,12 @@ class Individual extends Component {
       this.userId = uid;
       this.userName = userName;
       this.userAvatar = avatar;
-      // user could only see their own favorite topics since it's privacy
+      // User could only see their own favorite topics since it's privacy.
       this.TABS = [
         { label: '最近发表', type: 'topic' },
         { label: '最近回复', type: 'reply' },
         { label: '我的收藏', type: 'favorite' }
-      ]
+      ];
     } else {
       let {
         userId,
@@ -60,13 +84,13 @@ class Individual extends Component {
       } = passProps;
       this.userId = userId;
       this.userName = userName;
-      // if user comes from @somebody link, we could not get his/her avatar directly
+      // If user comes from @somebody link, we could not get his/her avatar directly.
       this.userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${userId}`;
 
       this.TABS = [
         { label: 'TA的发表', type: 'topic' },
         { label: 'TA的回复', type: 'reply' },
-      ]
+      ];
     }
   }
 
@@ -76,9 +100,14 @@ class Individual extends Component {
       isEndReached: false,
       type: 'topic'
     });
+    // Display private message button or not.
+    this.props.navigation.setParams({
+      userId: this.userId,
+      isLoginUser: this.isLoginUser
+    });
   }
 
-  _refreshUserTopicList({ page, isEndReached, type }) {
+  refreshUserTopicList({ page, isEndReached, type }) {
     this.props.invalidateUserTopicList({
       userId: this.userId,
       type
@@ -101,36 +130,22 @@ class Individual extends Component {
 
   render() {
     let {
-      router,
-      userTopicList,
-      alertCount
+      navigation,
+      userTopicList
     } = this.props;
 
     return (
       <View style={mainStyles.container}>
-        {!this.props.passProps &&
-          <Header
-            style={styles.nav}
-            alertCount={alertCount}
-            updateMenuState={isOpen => this.props.updateMenuState(isOpen)} />
-          ||
-          <Header
-            style={styles.nav}>
-            <PopButton router={router} />
-            {!this.isLoginUser &&
-              <Icon
-                name='envelope'
-                size={18}
-                onPress={() => router.toPmList({ userId: this.userId })} />
-              ||
-              <Text></Text>
-            }
-          </Header>
-        }
         <View style={styles.header}>
-          <CachedImage
-            style={styles.avatar}
-            source={{ uri: this.userAvatar }} />
+          <TouchableOpacity
+            underlayColor={colors.underlay}
+            onPress={() => {
+              navigation.navigate('Information', { userId: this.userId });
+            }}>
+            <Image
+              style={styles.avatar}
+              source={{ uri: this.userAvatar }} />
+          </TouchableOpacity>
           <Text style={styles.userName}>{this.userName}</Text>
         </View>
         <ScrollableTabView
@@ -145,10 +160,10 @@ class Individual extends Component {
                 key={index}
                 currentUserId={this.userId}
                 tabLabel={tab.label}
-                router={router}
+                navigation={navigation}
                 type={tab.type}
                 topicList={_.get(userTopicList, [this.userId, tab.type], {})}
-                refreshTopicList={({ page, isEndReached }) => this._refreshUserTopicList({ page, isEndReached, type: tab.type })} />
+                refreshTopicList={({ page, isEndReached }) => this.refreshUserTopicList({ page, isEndReached, type: tab.type })} />
             );
           })}
         </ScrollableTabView>
@@ -157,11 +172,10 @@ class Individual extends Component {
   }
 }
 
-function mapStateToProps({ user, userTopicList, alert }) {
+function mapStateToProps({ user, userTopicList }) {
   return {
     user,
-    userTopicList,
-    alertCount: getAlertCount(alert)
+    userTopicList
   };
 }
 

@@ -10,14 +10,15 @@ import colors from '../styles/common/_colors';
 
 export default class MenuProfile extends Component {
   render() {
-    let { authrization, openLoginModal, menu } = this.props;
     let {
-      token,
-      avatar,
-      userName,
-      userTitle,
-      creditShowList
-    } = authrization;
+      authrization: {
+        uid,
+        token,
+        avatar,
+        userName,
+      },
+      navigation
+    } = this.props;
 
     return (
       <View style={styles.menuHeader}>
@@ -26,10 +27,9 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => this.props.selectMenuItem(menu)}>
+              onPress={() => navigation.navigate('Information', { userId: uid })}>
               <Image
-                // use timestamp here to aviod avatar cache
-                key={`${avatar}&timestamp=${+ new Date()}`}
+                key={avatar}
                 style={styles.avatar}
                 source={{ uri: avatar }} />
              </TouchableHighlight>
@@ -37,7 +37,7 @@ export default class MenuProfile extends Component {
             <TouchableHighlight
               style={styles.avatar}
               underlayColor={colors.underlay}
-              onPress={() => openLoginModal()}>
+              onPress={() => navigation.navigate('LoginModal')}>
               <Image
                 key='noavatar'
                 style={styles.avatar}

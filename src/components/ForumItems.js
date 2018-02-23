@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {
-  ListView,
+  FlatList,
   RefreshControl
 } from 'react-native';
 import ForumItem from '../components/ForumItem';
-
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class ForumItems extends Component {
   componentDidMount() {
@@ -30,14 +28,13 @@ export default class ForumItems extends Component {
       isRefreshing = forumList.isRefreshing;
     };
 
-    let source = ds.cloneWithRows(realForumList);
-
     return (
-      <ListView
-        dataSource={source}
+      <FlatList
+        data={realForumList}
+        keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderRow={forum => {
+        renderItem={({ item: forum }) => {
           return (
             <ForumItem
               key={forum.board_category_id}

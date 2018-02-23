@@ -5,6 +5,10 @@ module.exports = {
 
   AVATAR_ROOT: 'http://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle',
 
+  TOPIC_URL_ROOT: 'http://bbs.uestc.edu.cn/forum.php?mod=viewthread',
+
+  DEFAULT_EMOJI_ROOT: 'http://bbs.uestc.edu.cn/mobcent/app/data/phiz/default',
+
   REGISTER_URL: 'http://bbs.uestc.edu.cn/member.php?mod=register',
 
   APP_AUTH_KEY: 'appbyme_key',
@@ -15,7 +19,7 @@ module.exports = {
    */
   PLAT_TYPE: 5,
 
-  VERSION: 'v1.4.0',
+  VERSION: 'v1.5.0',
 
   AUTHOR_ID: 32044,
 
@@ -23,10 +27,14 @@ module.exports = {
 
   SOURCE_URL: 'https://github.com/just4fun/stuhome',
 
+  FAQ_URL: 'https://github.com/just4fun/stuhome/wiki/FAQ',
+
   APP_STORE: 'itms-apps://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355',
 
-  COPY_RIGHT: '2015-2017 清水河畔@法律之光',
+  COPY_RIGHT: `2015-${new Date().getFullYear()} 清水河畔@法律之光`,
 
   // seconds
-  PollFrequency: 15
+  ALERT_POLL_FREQUENCY: 15,
+
+  PRIVATE_MESSAGE_POLL_FREQUENCY: 20
 };

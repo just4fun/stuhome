@@ -12,18 +12,21 @@ import FORUMS from '../constants/forums';
 
 export default class SubForumItem extends Component {
   render() {
-    let { router, subForum, isForumListModal } = this.props;
     let {
-      board_id,
-      board_name,
-      td_posts_num,
-      posts_total_num,
-      topic_total_num,
-      last_posts_date
-    } = subForum;
+      navigation,
+      isForumListModal,
+      subForum,
+      subForum: {
+        board_id,
+        board_name,
+        td_posts_num,
+        posts_total_num,
+        topic_total_num,
+        last_posts_date
+      }
+    } = this.props;
 
     let boardImage = FORUMS[board_id] || require('../images/board_img/default.png');
-
     last_posts_date = moment(+last_posts_date).startOf('minute').fromNow();
 
     return (
@@ -34,7 +37,7 @@ export default class SubForumItem extends Component {
           if (isForumListModal) {
             this.props.handleSelectForum(subForum);
           } else {
-            router.toForum(subForum);
+            navigation.navigate('Forum', subForum);
           }
         }}>
         <View style={styles.subForum}>
@@ -63,7 +66,6 @@ export default class SubForumItem extends Component {
               </View>
             </View>
           </View>
-
         </View>
       </TouchableHighlight>
     );

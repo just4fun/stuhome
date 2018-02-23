@@ -3,6 +3,8 @@ import { API_ROOT, PLAT_TYPE } from '../config';
 import { getAppHashValue } from '../utils/app';
 
 const DEFAULT_SORTTYPE = 'all';
+const DEFAULT_ORDER = 0;
+const DEFAULT_AUTHORID = 0;
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGESIZE = 20;
 
@@ -146,19 +148,20 @@ export default {
 
   fetchSearchList: ({
     keyword,
-    sortType = DEFAULT_SORTTYPE,
     page = DEFAULT_PAGE,
     pageSize = DEFAULT_PAGESIZE
   }) => {
-    return callApi(`forum/search&keyword=${keyword}&sortby=${sortType}&page=${page}&pageSize=${pageSize}`);
+    return callApi(`forum/search&keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
   },
 
   fetchTopic: ({
     topicId,
+    authorId = DEFAULT_AUTHORID,
+    order = DEFAULT_ORDER,
     page = DEFAULT_PAGE,
     pageSize = DEFAULT_PAGESIZE
   }) => {
-    return callApi(`forum/postlist&topicId=${topicId}&page=${page}&pageSize=${pageSize}`);
+    return callApi(`forum/postlist&topicId=${topicId}&authorId=${authorId}&order=${order}&page=${page}&pageSize=${pageSize}`);
   },
 
   publishVote: ({
@@ -182,11 +185,13 @@ export default {
     // If we want to test publish topic functionality without posting any
     // data, commment out callApi and use the code below.
     //
-    // return Promise.resolve({
-    //   data: {
-    //     rs: 1
-    //   }
-    // });
+    // return new Promise(resolve => {
+    //   setTimeout(() => { resolve({
+    //     data: {
+    //       rs: 1
+    //     }
+    //   }) }, 1000 * 3);
+    // })
   },
 
   uploadImages: (images) => {
@@ -283,5 +288,9 @@ export default {
 
   fetchAlerts: () => {
     return callApi('message/heart');
+  },
+
+  fetchUser: ({ userId }) => {
+    return callApi(`user/userinfo&userId=${userId}`);
   }
 };

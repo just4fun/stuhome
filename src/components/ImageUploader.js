@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Image,
+  Linking,
   TouchableHighlight
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -31,6 +32,10 @@ export default class ImageUploader extends Component {
       multiple: true
     }).then(images => {
       this.props.addImages(images);
+    }).catch(e => {
+      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
+        Linking.openURL('app-settings:');
+      }
     });
   }
 
@@ -49,35 +54,41 @@ export default class ImageUploader extends Component {
     return (
       <View style={styles.container}>
         {previewUri &&
-          <ImagePreview source={{ uri: previewUri }}
-                        visible={!!previewUri}
-                        close={() => this.previewImage(null)} />
+          <ImagePreview
+            source={{ uri: previewUri }}
+            visible={!!previewUri}
+            close={() => this.previewImage(null)} />
         }
         {this.props.images.map((image, index) => {
           return (
-            <TouchableHighlight style={styles.block}
-                                key={index}
-                                underlayColor={colors.underlay}
-                                onPress={() => this.previewImage(image.path)}>
-              <Image style={styles.image}
-                     source={{ uri: image.path }}>
+            <TouchableHighlight
+              style={styles.block}
+              key={index}
+              underlayColor={colors.underlay}
+              onPress={() => this.previewImage(image.path)}>
+              <View>
+                <Image
+                  style={styles.image}
+                  source={{ uri: image.path }} />
                 {!disabled &&
                   <Icon style={styles.remove}
                     name='window-close'
                     size={16}
                     onPress={() => this.props.removeImage(index)} />
                 }
-              </Image>
+              </View>
             </TouchableHighlight>
           );
         })}
         {!disabled &&
-          <TouchableHighlight style={styles.block}
-                              underlayColor={colors.underlay}
-                              onPress={() => this.launchImageLibrary()}>
-            <Icon style={styles.uploader}
-                  name='cloud-upload'
-                  size={25} />
+          <TouchableHighlight
+            style={styles.block}
+            underlayColor={colors.underlay}
+            onPress={() => this.launchImageLibrary()}>
+            <Icon
+              style={styles.uploader}
+              name='cloud-upload'
+              size={25} />
           </TouchableHighlight>
         }
       </View>

@@ -1,13 +1,15 @@
-// This component is <Send /> from react-native-gifted-chat 0.1.4,
+// This component is <Send /> from react-native-gifted-chat 0.3.0,
 // just change the `label` property to another name to distinguish
 // from the text for <LoadEarlier />.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ViewPropTypes,
 } from 'react-native';
 
 export default class Send extends React.Component {
@@ -23,15 +25,17 @@ export default class Send extends React.Component {
         <TouchableOpacity
           style={[styles.container, this.props.containerStyle]}
           onPress={() => {
-            this.props.onSend({text: this.props.text.trim()}, true);
+            this.props.onSend({ text: this.props.text.trim() }, true);
           }}
           accessibilityTraits="button"
         >
-          <Text style={[styles.text, this.props.textStyle]}>{this.props.sendButtonLabel}</Text>
+          <View>
+            {this.props.children || <Text style={[styles.text, this.props.textStyle]}>{this.props.sendButtonLabel}</Text>}
+          </View>
         </TouchableOpacity>
       );
     }
-    return <View/>;
+    return <View />;
   }
 }
 
@@ -60,9 +64,9 @@ Send.defaultProps = {
 };
 
 Send.propTypes = {
-  text: React.PropTypes.string,
-  onSend: React.PropTypes.func,
-  sendButtonLabel: React.PropTypes.string,
-  containerStyle: View.propTypes.style,
+  text: PropTypes.string,
+  onSend: PropTypes.func,
+  sendButtonLabel: PropTypes.string,
+  containerStyle: ViewPropTypes.style,
   textStyle: Text.propTypes.style,
 };

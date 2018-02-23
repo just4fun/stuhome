@@ -1,85 +1,108 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
   TextInput,
-  Modal,
+  ScrollView,
   AlertIOS,
+  Keyboard,
   TouchableHighlight,
-  ActivityIndicator
+  ActivityIndicator,
+  LayoutAnimation
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
 import ImageUploader from '../ImageUploader';
+import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
+import { fetchTopic } from '../../actions/topic/topicAction';
 
-export default class ReplyModal extends Component {
+class ReplyModal extends Component {
   constructor(props) {
     super(props);
-
-    this.initState();
-  }
-
-  initState() {
-    let { content } = this.props;
-    let replyId = null;
-    let boardId = null;
-    let topicId = null;
-
-    if (content) {
-      let { reply_posts_id, board_id, topic_id } = content;
-      replyId = reply_posts_id;
-      boardId = board_id,
-      topicId = topic_id;
-    }
-
+    this.initNecessaryData();
     this.state = {
-      title: this._getTitle(content),
+      isPublishing: false,
       replyContent: '',
-      replyId,
-      boardId,
-      topicId,
       images: [],
-      isUploading: false
+      selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: 0,
+      isContentFocused: false
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const reply = nextProps.reply;
-    if (reply.response) {
-      if (reply.response.rs) {
-        this._cancel();
-        // if we reply in `Message` page, there is
-        // no need to fetch topic.
-        if (this.props.isReplyInTopic) {
-          this.props.fetchTopic();
-        }
-        MessageBar.show({
-          message: '发布成功',
-          type: 'success'
-        });
-      // I really hate the fields which mobcent API return
-      } else if (reply.response.errcode) {
-        AlertIOS.alert('提示', reply.response.errcode);
-      }
-      this.props.resetReply();
-    }
+  initNecessaryData() {
+    let {
+      comment,
+      comment: {
+        reply_posts_id,
+        board_id,
+        topic_id
+      },
+      isReplyInTopic
+    } = this.props.navigation.state.params;
+
+    // `reply_posts_id` is not necessary when reply topic author.
+    this.replyId = reply_posts_id;
+    this.boardId = board_id,
+    this.topicId = topic_id;
+    this.isReplyInTopic = isReplyInTopic;
+    this.title = this.getTitle(comment);
   }
 
-  _getTitle(content) {
-    if (content) {
-      return `回复 ${content.user_nick_name || content.reply_name}`;
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+
+    this.showKeyboard();
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      // https://github.com/facebook/react-native/issues/18003
+      //
+      // See more details in `showKeyboard()` method.
+
+      // selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
+    });
+  }
+
+  keyboardWillHide(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      keyboardAccessoryToBottom: 0,
+      isContentFocused: false
+    });
+  }
+
+  fetchTopic() {
+    this.props.fetchTopic({
+      topicId: this.topicId
+    });
+  }
+
+  getTitle(comment) {
+    if (comment) {
+      return `回复 ${comment.user_nick_name || comment.reply_name}`;
     } 
 
     return '评论';
   }
 
-  _cancel() {
-    this.props.closeReplyModal();
+  cancel() {
+    this.props.navigation.goBack();
   }
 
   handleCancel() {
@@ -89,28 +112,73 @@ export default class ReplyModal extends Component {
         '提示',
         '信息尚未发送，放弃会丢失信息。',
         [
-          { text: '继续', style: 'cancel' },
-          { text: '放弃', onPress: () => this._cancel() },
+          // Without `onPress` for Cancel button, Keyboard will still display even
+          // we toggle to emoji panel.
+          { text: '继续', style: 'cancel', onPress: () => this.showKeyboard() },
+          { text: '放弃', onPress: () => this.cancel() },
         ],
       );
       return;
     }
 
-    this._cancel();
+    this.cancel();
   }
 
-  _handlePublish(comment) {
-    this.contentInput.blur();
+  showPublishDialog() {
+    if (!this.props.settings.enablePublishDialog) {
+      this.handlePublish();
+      return;
+    }
 
-    this.setState({ isUploading: true });
+    AlertIOS.alert(
+      '提示',
+      '确认发布？',
+      [
+        // Without `onPress` for Cancel button, Keyboard will still display even
+        // we toggle to emoji panel.
+        { text: '取消', onPress: () => this.showKeyboard() },
+        { text: '确认', onPress: () => this.handlePublish() }
+      ],
+    );
+  }
+
+  handlePublish() {
+    // Hide keyboard.
+    this.hideKeyboard();
+
+    this.setState({ isPublishing: true });
     api.uploadImages(this.state.images).then(data => {
-      this.setState({ isUploading: false });
-
-      if (data) {
-        comment.images = data;
+      // Actually there is no need to pass `boardId` when we
+      // reply a topic.
+      return api.publishTopic({
+        boardId: this.boardId,
+        topicId: this.topicId,
+        replyId: this.replyId,
+        typeId: null,
+        title: null,
+        images: data,
+        content: this.state.replyContent
+      });
+    }).then(response => {
+      if (response.data) {
+        if (response.data.rs) {
+          this.cancel();
+          // If we reply in `Message` page, there is
+          // no need to fetch topic.
+          if (this.isReplyInTopic) {
+            this.fetchTopic();
+          }
+          MessageBar.show({
+            message: '发布成功',
+            type: 'success'
+          });
+        // I really hate the fields which mobcent API return
+        } else if (response.data.errcode) {
+          AlertIOS.alert('提示', response.data.errcode);
+        }
       }
-
-      this.props.handlePublish(comment);
+    }).finally(() => {
+      this.setState({ isPublishing: false });
     });
   }
 
@@ -126,74 +194,135 @@ export default class ReplyModal extends Component {
     });
   }
 
+  handlePanelSelect(item) {
+    if (item !== 'keyboard') {
+      // hide keyboard
+      Keyboard.dismiss();
+    } else {
+      this.showKeyboard();
+    }
+
+    this.setState({ selectedPanel: item });
+  }
+
+  handleEmojiPress(emoji) {
+    this.setState((prevState) => {
+      let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
+                     + emoji.code
+                     + prevState.replyContent.substr(this.contentCursorLocation);
+      return { replyContent: newContent };
+    });
+  }
+
+  handleContentSelectionChange(event) {
+    this.contentCursorLocation = event.nativeEvent.selection.start;
+  }
+
+  showKeyboard() {
+    this.contentInput.focus();
+    // https://github.com/facebook/react-native/issues/18003
+    //
+    // This is workaround to bypass the keyboard bug above on iOS 11.2,
+    // which will fire `keyboardWillShow` while keyboard dismiss.
+    this.setState({
+      selectedPanel: 'keyboard'
+    });
+  }
+
+  hideKeyboard() {
+    let { selectedPanel } = this.state;
+
+    if (selectedPanel === 'keyboard') {
+      Keyboard.dismiss();
+    }
+
+    if (selectedPanel === 'emoji') {
+      this.setState({
+        keyboardAccessoryToBottom: 0,
+        selectedPanel: 'keyboard'
+      });
+    }
+  }
+
   render() {
-    let { reply } = this.props;
     let {
-      title,
       replyContent,
-      replyId,
-      boardId,
-      topicId
+      isPublishing
     } = this.state;
 
-    let isPublishing = this.state.isUploading || reply.isPublishing;
-
     return (
-      <Modal
-        animationType='slide'
-        transparent={false}
-        style={modalStyles.container}
-        visible={this.props.visible}>
-        <View style={mainStyles.container}>
-          <Header title={title}>
-            <Text
-              style={modalStyles.button}
-              onPress={() => this.handleCancel()}>
-              取消
-            </Text>
-            {replyContent.length &&
-              (isPublishing &&
-                <ActivityIndicator color='white' />
-                ||
-                <Text
-                  style={modalStyles.button}
-                  onPress={() => this._handlePublish({
-                    content: replyContent,
-                    replyId,
-                    boardId,
-                    topicId
-                  })}>
-                  发布
-                </Text>
-              )
+      <View style={mainStyles.container}>
+        <Header title={this.title}>
+          <Text
+            style={modalStyles.button}
+            onPress={() => this.handleCancel()}>
+            取消
+          </Text>
+          {replyContent.length &&
+            (isPublishing &&
+              <ActivityIndicator color='white' />
               ||
               <Text
-                style={[modalStyles.button, modalStyles.disabled]}>
+                style={modalStyles.button}
+                onPress={() => this.showPublishDialog()}>
                 发布
               </Text>
-            }
-          </Header>
-          <KeyboardAwareScrollView style={isPublishing && styles.disabledForm}>
-            <View style={styles.formItem}>
-              <TextInput
-                ref={component => this.contentInput = component}
-                placeholder='同学，请文明用语噢～'
-                style={styles.replyBox}
-                onChangeText={(text) => this.setState({ replyContent: text })}
-                autoFocus={true}
-                multiline={true}
-                editable={!isPublishing} />
-            </View>
-            <View style={styles.upload}>
-              <ImageUploader
-                disabled={isPublishing}
-                images={this.state.images}
-                addImages={images => this.addImages(images)}
-                removeImage={imageIndex => this.removeImage(imageIndex)} />
-            </View>
-          </KeyboardAwareScrollView>
-        </View>
-      </Modal>
+            )
+            ||
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              发布
+            </Text>
+          }
+        </Header>
+        <ScrollView
+          style={isPublishing && styles.disabledForm}
+          keyboardShouldPersistTaps={'handled'}>
+          <View style={styles.formItem}>
+            <TextInput
+              ref={component => this.contentInput = component}
+              value={this.state.replyContent}
+              placeholder='同学，请文明用语噢～'
+              style={styles.replyBox}
+              onFocus={() => this.setState({
+                isContentFocused: true,
+                // https://github.com/facebook/react-native/issues/18003
+                //
+                // See more details in `showKeyboard()` method.
+                selectedPanel: 'keyboard'
+              })}
+              onSelectionChange={(event) => this.handleContentSelectionChange(event)}
+              onChangeText={(text) => this.setState({ replyContent: text })}
+              multiline={true}
+              editable={!isPublishing} />
+          </View>
+          <View style={styles.upload}>
+            <ImageUploader
+              disabled={isPublishing}
+              images={this.state.images}
+              addImages={images => this.addImages(images)}
+              removeImage={imageIndex => this.removeImage(imageIndex)} />
+          </View>
+        </ScrollView>
+        {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
+          <KeyboardAccessory
+            style={{ bottom: this.state.keyboardAccessoryToBottom }}
+            selectedPanel={this.state.selectedPanel}
+            handlePanelSelect={(item) => this.handlePanelSelect(item)}
+            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
+            hideKeyboard={() => this.hideKeyboard()} />
+        }
+      </View>
     );
   }
 }
+
+function mapStateToProps({ settings }) {
+  return {
+    settings
+  };
+}
+
+export default connect(mapStateToProps, {
+  fetchTopic
+})(ReplyModal);

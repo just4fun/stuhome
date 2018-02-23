@@ -4,8 +4,10 @@ import {
   View,
   Image,
   AsyncStorage,
-  ActionSheetIOS
+  ActionSheetIOS,
 } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import styles from '../styles/containers/_Menu';
 import LoginModal from '../components/modal/LoginModal';
 import MenuProfile from '../components/MenuProfile';
@@ -21,21 +23,14 @@ import { invalidateTopicList, fetchTopicList } from '../actions/topic/topicListA
 import menus from '../constants/menus';
 import { getAlertCount } from '../selectors/alert';
 
+const resetAction = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Home' })
+  ]
+});
+
 class Menu extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoginModalOpen: false
-    };
-  }
-
-  toggleLoginModal(visible) {
-    this.setState({
-      isLoginModalOpen: visible
-    });
-  }
-
   showLogoutDialog() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
@@ -57,43 +52,38 @@ class Menu extends Component {
   handleLogout() {
     AsyncStorage.removeItem('authrization')
                 .then(() => {
-                  // remove all cache first
+                  // Remove all cache first.
                   this.props.cleanCache({ isLogin: false });
-                  // force replace Home route
-                  this.props.selectMenuItem(menus['home'], true);
+                  // Back home page.
+                  this.props.navigation.dispatch(resetAction);
                 });
   }
 
   render() {
-    let { user, alertCount, router } = this.props;
-    let { isLoginModalOpen } = this.state;
+    let {
+      user: {
+        authrization,
+        authrization: { token }
+      },
+      alertCount
+    } = this.props;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView
+        forceInset={{ top: 'never' }}
+        style={styles.container}>
         <Image
           source={require('../images/shahe.jpg')}
           style={styles.blur} />
-        {isLoginModalOpen &&
-          <LoginModal
-            visible={isLoginModalOpen}
-            menus={menus}
-            closeLoginModal={() => this.toggleLoginModal(false)}
-            {...this.props} />
-        }
         <MenuProfile
-          menu={menus['information']}
-          authrization={user.authrization}
-          openLoginModal={() => this.toggleLoginModal(true)}
+          authrization={authrization}
           {...this.props} />
         <View style={styles.menus}>
-          <MenuItem
-            menu={menus['home']}
-            {...this.props} />
-          <MenuItem
-            menu={menus['forumList']}
-            {...this.props} />
-          {user.authrization.token &&
+          {token &&
             <View>
+              <MenuItem
+                menu={menus['forumList']}
+                {...this.props} />
               <MenuItem
                 menu={menus['search']}
                 {...this.props} />
@@ -111,7 +101,7 @@ class Menu extends Component {
             menu={menus['about']}
             {...this.props} />
         </View>
-        {user.authrization.token &&
+        {token &&
           <View style={styles.menuFooter}>
             <MenuBottomItem
               menu={menus['settings']}
@@ -125,7 +115,7 @@ class Menu extends Component {
               onPress={() => this.showLogoutDialog()} />
           </View>
         }
-      </View>
+      </SafeAreaView>
     );
   }
 }
