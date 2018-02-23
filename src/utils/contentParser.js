@@ -15,7 +15,7 @@ export function parseContentWithEmoji(content, includeEmoji = true) {
   // var regex = new RegExp(/xyz/, 'i');
   // The second parameter for RegExp doesn't work below iOS 10
   let contentWithEmoji = content.replace(/\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/g, '___emojiBoundary___$1___emojiBoundary___')
-                                .replace(/(\[.+\])/g, '___emojiBoundary___$1___emojiBoundary___');
+                                .replace(/(\[[^\]]+\])/g, '___emojiBoundary___$1___emojiBoundary___');
   let contentEmojiArray = contentWithEmoji.split('___emojiBoundary___');
 
   return contentEmojiArray.filter(item => item.trim()).map((item, index) => {
