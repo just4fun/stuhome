@@ -225,6 +225,7 @@ class ReplyModal extends Component {
     // This is workaround to bypass the keyboard bug above on iOS 11.2,
     // which will fire `keyboardWillShow` while keyboard dismiss.
     this.setState({
+      isContentFocused: true,
       selectedPanel: 'keyboard'
     });
   }
@@ -301,7 +302,8 @@ class ReplyModal extends Component {
               disabled={isPublishing}
               images={this.state.images}
               addImages={images => this.addImages(images)}
-              removeImage={imageIndex => this.removeImage(imageIndex)} />
+              removeImage={imageIndex => this.removeImage(imageIndex)}
+              cancelUpload={() => this.showKeyboard()} />
           </View>
         </ScrollView>
         {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&

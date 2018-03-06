@@ -4,6 +4,8 @@ import {
   Text,
   Image,
   Linking,
+  AlertIOS,
+  ActionSheetIOS,
   TouchableHighlight
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -11,6 +13,7 @@ import ImagePreview from './ImagePreview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_ImageUploader';
 import colors from '../styles/common/_colors';
+import MESSAGES from '../constants/messages'
 
 export default class ImageUploader extends Component {
   constructor(props) {
@@ -21,9 +24,22 @@ export default class ImageUploader extends Component {
     };
   }
 
-  launchImageLibrary() {
-    if (this.props.disabled) { return; }
+  handleTakePhoto() {
+    ImagePicker.openCamera({
+      compressImageQuality: 0.5,
+      loadingLabelText: '处理中...'
+    }).then(image => {
+      this.props.addImages([image]);
+    }).catch(e => {
+      if (e.code === 'E_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR') {
+        AlertIOS.alert('提示', MESSAGES[e.code]);
+      } else if (e.code === 'E_PICKER_NO_CAMERA_PERMISSION') {
+        this.goToAppSettings(MESSAGES[e.code]);
+      }
+    });
+  }
 
+  handleSelectPhoto() {
     ImagePicker.openPicker({
       compressImageQuality: 0.5,
       maxFiles: 10,
@@ -33,8 +49,46 @@ export default class ImageUploader extends Component {
     }).then(images => {
       this.props.addImages(images);
     }).catch(e => {
-      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
-        Linking.openURL('app-settings:');
+      if (e.code === 'E_PERMISSION_MISSING') {
+        this.goToAppSettings(MESSAGES[e.code]);
+      }
+    });
+  }
+
+  goToAppSettings(message) {
+    AlertIOS.alert(
+      '提示',
+      message,
+      [
+        { text: '取消', style: 'cancel' },
+        { text: '前往', onPress: () => Linking.openURL('app-settings:') },
+      ],
+    );
+  }
+
+  showImageUploadDialog() {
+    if (this.props.disabled) { return; }
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        '拍照',
+        '从手机相册选择',
+        '取消'
+      ],
+      cancelButtonIndex: 2
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          this.handleTakePhoto();
+          break;
+        case 1:
+          this.handleSelectPhoto();
+          break;
+        case 2:
+          // To avoid the keyboard bug on iOS 11.2.
+          this.props.cancelUpload();
+          break;
       }
     });
   }
@@ -84,7 +138,7 @@ export default class ImageUploader extends Component {
           <TouchableHighlight
             style={styles.block}
             underlayColor={colors.underlay}
-            onPress={() => this.launchImageLibrary()}>
+            onPress={() => this.showImageUploadDialog()}>
             <Icon
               style={styles.uploader}
               name='cloud-upload'

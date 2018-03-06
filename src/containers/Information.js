@@ -19,6 +19,7 @@ import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/containers/_About';
 import api from '../services/api';
+import MESSAGES from '../constants/messages'
 import { fetchUser, resetUser } from '../actions/user/userAction';
 
 class Information extends Component {
@@ -50,10 +51,10 @@ class Information extends Component {
     }).then(image => {
       this.uploadPhoto(image);
     }).catch(e => {
-      if (e.code === 'ERROR_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR_KEY') {
-        AlertIOS.alert('提示', '模拟器上无法打开相机，请在真机上调试');
+      if (e.code === 'E_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR') {
+        AlertIOS.alert('提示', MESSAGES[e.code]);
       } else if (e.code === 'E_PICKER_NO_CAMERA_PERMISSION') {
-        Linking.openURL('app-settings:');
+        this.goToAppSettings(MESSAGES[e.code]);
       }
     });
   }
@@ -66,10 +67,21 @@ class Information extends Component {
     }).then(image => {
       this.uploadPhoto(image);
     }).catch(e => {
-      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
-        Linking.openURL('app-settings:');
+      if (e.code === 'E_PERMISSION_MISSING') {
+        this.goToAppSettings(MESSAGES[e.code]);
       }
     });
+  }
+
+  goToAppSettings(message) {
+    AlertIOS.alert(
+      '提示',
+      message,
+      [
+        { text: '取消', style: 'cancel' },
+        { text: '前往', onPress: () => Linking.openURL('app-settings:') },
+      ],
+    );
   }
 
   uploadPhoto(image) {
