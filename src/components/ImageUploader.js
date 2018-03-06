@@ -9,6 +9,7 @@ import ImagePreview from './ImagePreview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_ImageUploader';
 import colors from '../styles/common/_colors';
+import { MAX_UPLOAD_IMAGES_COUNT } from '../config';
 
 export default class ImageUploader extends Component {
   constructor(props) {
@@ -22,13 +23,14 @@ export default class ImageUploader extends Component {
   handleUploaderPress() {
     if (this.props.disabled) { return; }
 
+
     let takePhotoOptions = {
       compressImageQuality: 0.5,
       loadingLabelText: '处理中...'
     };
     let selectPhotoOptions = {
       compressImageQuality: 0.5,
-      maxFiles: 10,
+      maxFiles: MAX_UPLOAD_IMAGES_COUNT - this.props.images.length,
       mediaType: 'photo',
       loadingLabelText: '处理中...',
       multiple: true
@@ -58,7 +60,7 @@ export default class ImageUploader extends Component {
 
   render() {
     let { previewUri } = this.state;
-    let { disabled } = this.props;
+    let { disabled, images } = this.props;
 
     return (
       <View style={styles.container}>
@@ -68,7 +70,7 @@ export default class ImageUploader extends Component {
             visible={!!previewUri}
             close={() => this.previewImage(null)} />
         }
-        {this.props.images.map((image, index) => {
+        {images.map((image, index) => {
           return (
             <TouchableHighlight
               style={styles.block}
@@ -89,7 +91,7 @@ export default class ImageUploader extends Component {
             </TouchableHighlight>
           );
         })}
-        {!disabled &&
+        {!disabled && (MAX_UPLOAD_IMAGES_COUNT !== images.length) &&
           <TouchableHighlight
             style={styles.block}
             underlayColor={colors.underlay}

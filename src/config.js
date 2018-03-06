@@ -19,6 +19,8 @@ module.exports = {
    */
   PLAT_TYPE: 5,
 
+  MAX_UPLOAD_IMAGES_COUNT: 9,
+
   VERSION: 'v1.5.1',
 
   AUTHOR_ID: 32044,
