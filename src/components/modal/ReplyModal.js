@@ -248,7 +248,11 @@ class ReplyModal extends Component {
   render() {
     let {
       replyContent,
-      isPublishing
+      isPublishing,
+      isContentFocused,
+      keyboardAccessoryToBottom,
+      selectedPanel,
+      images
     } = this.state;
 
     return (
@@ -282,7 +286,7 @@ class ReplyModal extends Component {
           <View style={styles.formItem}>
             <TextInput
               ref={component => this.contentInput = component}
-              value={this.state.replyContent}
+              value={replyContent}
               placeholder='同学，请文明用语噢～'
               style={styles.replyBox}
               onFocus={() => this.setState({
@@ -300,16 +304,16 @@ class ReplyModal extends Component {
           <View style={styles.upload}>
             <ImageUploader
               disabled={isPublishing}
-              images={this.state.images}
+              images={images}
               addImages={images => this.addImages(images)}
               removeImage={imageIndex => this.removeImage(imageIndex)}
               cancelUpload={() => this.showKeyboard()} />
           </View>
         </ScrollView>
-        {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
+        {(isContentFocused || selectedPanel === 'emoji') &&
           <KeyboardAccessory
-            style={{ bottom: this.state.keyboardAccessoryToBottom }}
-            selectedPanel={this.state.selectedPanel}
+            style={{ bottom: keyboardAccessoryToBottom }}
+            selectedPanel={selectedPanel}
             handlePanelSelect={(item) => this.handlePanelSelect(item)}
             handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
             hideKeyboard={() => this.hideKeyboard()} />

@@ -266,7 +266,16 @@ class PublishModal extends Component {
   }
 
   render() {
-    let { typeId, content, isPickerOpen, images, isPublishing } = this.state;
+    let {
+      typeId,
+      content,
+      isPickerOpen,
+      images,
+      isPublishing,
+      isContentFocused,
+      selectedPanel,
+      keyboardAccessoryToBottom
+    } = this.state;
     let { types } = this.props;
 
     return (
@@ -372,10 +381,10 @@ class PublishModal extends Component {
               cancelUpload={() => this.showKeyboard() } />
           </View>
         </ScrollView>
-        {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
+        {(isContentFocused || selectedPanel === 'emoji') &&
           <KeyboardAccessory
-            style={{ bottom: this.state.keyboardAccessoryToBottom }}
-            selectedPanel={this.state.selectedPanel}
+            style={{ bottom: keyboardAccessoryToBottom }}
+            selectedPanel={selectedPanel}
             handlePanelSelect={(item) => this.handlePanelSelect(item)}
             handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
             hideKeyboard={() => this.hideKeyboard()} />
