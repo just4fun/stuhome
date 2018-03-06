@@ -19,7 +19,7 @@ module.exports = {
    */
   PLAT_TYPE: 5,
 
-  VERSION: 'v1.5.0',
+  VERSION: 'v1.5.1',
 
   AUTHOR_ID: 32044,
 
