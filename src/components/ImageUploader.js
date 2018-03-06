@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   Image,
-  Linking,
   TouchableHighlight
 } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from '../services/ImagePicker';
 import ImagePreview from './ImagePreview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/components/_ImageUploader';
 import colors from '../styles/common/_colors';
+import { MAX_UPLOAD_IMAGES_COUNT } from '../config';
 
 export default class ImageUploader extends Component {
   constructor(props) {
@@ -21,21 +20,33 @@ export default class ImageUploader extends Component {
     };
   }
 
-  launchImageLibrary() {
+  handleUploaderPress() {
     if (this.props.disabled) { return; }
 
-    ImagePicker.openPicker({
+
+    let takePhotoOptions = {
       compressImageQuality: 0.5,
-      maxFiles: 10,
+      loadingLabelText: '处理中...'
+    };
+    let selectPhotoOptions = {
+      compressImageQuality: 0.5,
+      maxFiles: MAX_UPLOAD_IMAGES_COUNT - this.props.images.length,
       mediaType: 'photo',
       loadingLabelText: '处理中...',
       multiple: true
-    }).then(images => {
-      this.props.addImages(images);
-    }).catch(e => {
-      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
-        Linking.openURL('app-settings:');
-      }
+    };
+    ImagePicker.showUploadDialog({
+      takePhotoOptions,
+      selectPhotoOptions,
+      uploadAction: (images) => {
+        // `images` will not be array when take photo.
+        if (!images.length) {
+          images = [images];
+        }
+        this.props.addImages(images);
+      },
+      // To avoid the keyboard bug on iOS 11.2.
+      cancelAction: () => this.props.cancelUpload()
     });
   }
 
@@ -49,7 +60,7 @@ export default class ImageUploader extends Component {
 
   render() {
     let { previewUri } = this.state;
-    let { disabled } = this.props;
+    let { disabled, images } = this.props;
 
     return (
       <View style={styles.container}>
@@ -59,7 +70,7 @@ export default class ImageUploader extends Component {
             visible={!!previewUri}
             close={() => this.previewImage(null)} />
         }
-        {this.props.images.map((image, index) => {
+        {images.map((image, index) => {
           return (
             <TouchableHighlight
               style={styles.block}
@@ -80,11 +91,11 @@ export default class ImageUploader extends Component {
             </TouchableHighlight>
           );
         })}
-        {!disabled &&
+        {!disabled && (MAX_UPLOAD_IMAGES_COUNT !== images.length) &&
           <TouchableHighlight
             style={styles.block}
             underlayColor={colors.underlay}
-            onPress={() => this.launchImageLibrary()}>
+            onPress={() => this.handleUploaderPress()}>
             <Icon
               style={styles.uploader}
               name='cloud-upload'

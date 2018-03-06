@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
-  Image,
-  Linking,
-  AlertIOS,
-  AsyncStorage,
-  ActionSheetIOS,
   ActivityIndicator
 } from 'react-native';
 import _ from 'lodash';
-import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ImagePicker from '../services/ImagePicker';
 import { setAuthrization } from '../actions/authorizeAction';
 import menus from '../constants/menus';
 import SettingItem from '../components/SettingItem';
@@ -42,36 +37,6 @@ class Information extends Component {
     this.props.resetUser({ userId: this.userId });
   }
 
-  handleTakePhoto() {
-    ImagePicker.openCamera({
-      width: 500,
-      height: 500,
-      cropping: true
-    }).then(image => {
-      this.uploadPhoto(image);
-    }).catch(e => {
-      if (e.code === 'ERROR_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR_KEY') {
-        AlertIOS.alert('提示', '模拟器上无法打开相机，请在真机上调试');
-      } else if (e.code === 'E_PICKER_NO_CAMERA_PERMISSION') {
-        Linking.openURL('app-settings:');
-      }
-    });
-  }
-
-  handleSelectPhoto() {
-    ImagePicker.openPicker({
-      width: 500,
-      height: 500,
-      cropping: true
-    }).then(image => {
-      this.uploadPhoto(image);
-    }).catch(e => {
-      if (e.code === 'ERROR_PICKER_UNAUTHORIZED_KEY') {
-        Linking.openURL('app-settings:');
-      }
-    });
-  }
-
   uploadPhoto(image) {
     api.uploadAvatar(image).then(response => {
       // update redux store
@@ -83,24 +48,18 @@ class Information extends Component {
     });
   }
 
-  showAvatarUpdateDialog() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: [
-        '拍照',
-        '从手机相册选择',
-        '取消'
-      ],
-      cancelButtonIndex: 2
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          this.handleTakePhoto();
-          break;
-        case 1:
-          this.handleSelectPhoto();
-          break;
-      }
+  handleAvatarPress() {
+    if (!this.isLoginUser) { return; }
+
+    let photoOptions = {
+      width: 500,
+      height: 500,
+      cropping: true
+    };
+    ImagePicker.showUploadDialog({
+      takePhotoOptions: photoOptions,
+      selectPhotoOptions: photoOptions,
+      uploadAction: (image) => this.uploadPhoto(image)
     });
   }
 
@@ -139,11 +98,7 @@ class Information extends Component {
             style={styles.informationAvatar}
             avatar={user.icon}
             isLoginUser={this.isLoginUser}
-            onPress={() => {
-              if (this.isLoginUser) {
-                this.showAvatarUpdateDialog();
-              }
-            }} />
+            onPress={() => this.handleAvatarPress()} />
           <SettingItem
             text='昵称'
             indicator={user.name} />

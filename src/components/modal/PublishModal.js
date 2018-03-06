@@ -168,7 +168,7 @@ class PublishModal extends Component {
         if (response.data.rs) {
           this.props.invalidateTopicList({
             boardId: 'all',
-            sortType: 'publish'
+            sortType: 'all'
           });
           // Back home page.
           this.props.navigation.dispatch(resetAction);
@@ -245,6 +245,7 @@ class PublishModal extends Component {
     // This is workaround to bypass the keyboard bug above on iOS 11.2,
     // which will fire `keyboardWillShow` while keyboard dismiss.
     this.setState({
+      isContentFocused: true,
       selectedPanel: 'keyboard'
     });
   }
@@ -265,7 +266,16 @@ class PublishModal extends Component {
   }
 
   render() {
-    let { typeId, content, isPickerOpen, images, isPublishing } = this.state;
+    let {
+      typeId,
+      content,
+      isPickerOpen,
+      images,
+      isPublishing,
+      isContentFocused,
+      selectedPanel,
+      keyboardAccessoryToBottom
+    } = this.state;
     let { types } = this.props;
 
     return (
@@ -331,7 +341,12 @@ class PublishModal extends Component {
             <TextInput
               ref={component => this.titleInput = component}
               style={styles.topicTitle}
-              onFocus={() => this.setState({ isContentFocused: false })}
+              onFocus={() => this.setState({
+                isContentFocused: false,
+                // We need to set keyboard panel here, because we comment out it in
+                // `keyboardWillShow` due to keyboard bug on iOS 11.2.
+                selectedPanel: 'keyboard'
+              })}
               onChangeText={text => this.setState({ title: text })}
               editable={!isPublishing}
               returnKeyType='next'
@@ -362,13 +377,14 @@ class PublishModal extends Component {
               disabled={isPublishing}
               images={images}
               addImages={images => this.addImages(images)}
-              removeImage={imageIndex => this.removeImage(imageIndex)} />
+              removeImage={imageIndex => this.removeImage(imageIndex)}
+              cancelUpload={() => this.showKeyboard() } />
           </View>
         </ScrollView>
-        {(this.state.isContentFocused || this.state.selectedPanel === 'emoji') &&
+        {(isContentFocused || selectedPanel === 'emoji') &&
           <KeyboardAccessory
-            style={{ bottom: this.state.keyboardAccessoryToBottom }}
-            selectedPanel={this.state.selectedPanel}
+            style={{ bottom: keyboardAccessoryToBottom }}
+            selectedPanel={selectedPanel}
             handlePanelSelect={(item) => this.handlePanelSelect(item)}
             handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
             hideKeyboard={() => this.hideKeyboard()} />

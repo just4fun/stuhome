@@ -18,8 +18,8 @@ import { invalidateTopicList, fetchTopicList, resetTopicList } from '../actions/
 import { invalidateForumList, fetchForumList } from '../actions/forumAction';
 
 const TABS = [
-  { label: '最新发表', type: 'publish' },
   { label: '最新回复', type: 'all' },
+  { label: '最新发表', type: 'publish' },
   { label: '精华', type: 'essence' }
 ];
 
@@ -55,13 +55,13 @@ class ForumDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let errCode = _.get(nextProps, ['topicList', this.boardId, 'publish', 'errCode'], '');
+    let errCode = _.get(nextProps, ['topicList', this.boardId, 'all', 'errCode'], '');
     if (errCode) {
       AlertIOS.alert('提示', errCode);
       // Clean error message.
       nextProps.resetTopicList({
         boardId: this.boardId,
-        sortType: 'publish'
+        sortType: 'all'
       });
       nextProps.navigation.goBack();
     }
@@ -78,14 +78,14 @@ class ForumDetail extends Component {
     this.props.fetchTopicList({
       boardId: this.boardId,
       isEndReached: false,
-      sortType: 'publish'
+      sortType: 'all'
     });
   }
 
   handleModalCallback() {
     this.props.invalidateTopicList({
       boardId: this.boardId,
-      sortType: 'publish'
+      sortType: 'all'
     });
     this.scrollableTabView.goToPage(0);
   }
