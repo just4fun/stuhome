@@ -168,7 +168,7 @@ class PublishModal extends Component {
         if (response.data.rs) {
           this.props.invalidateTopicList({
             boardId: 'all',
-            sortType: 'publish'
+            sortType: 'all'
           });
           // Back home page.
           this.props.navigation.dispatch(resetAction);
