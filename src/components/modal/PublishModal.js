@@ -332,7 +332,12 @@ class PublishModal extends Component {
             <TextInput
               ref={component => this.titleInput = component}
               style={styles.topicTitle}
-              onFocus={() => this.setState({ isContentFocused: false })}
+              onFocus={() => this.setState({
+                isContentFocused: false,
+                // We need to set keyboard panel here, because we comment out it in
+                // `keyboardWillShow` due to keyboard bug on iOS 11.2.
+                selectedPanel: 'keyboard'
+              })}
               onChangeText={text => this.setState({ title: text })}
               editable={!isPublishing}
               returnKeyType='next'
