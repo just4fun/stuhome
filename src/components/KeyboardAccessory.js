@@ -1,41 +1,55 @@
 import React, { Component } from 'react';
 import {
   View,
+  Keyboard,
+  LayoutAnimation
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import EmojiPicker from './EmojiPicker';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import styles from '../styles/components/_KeyboardAccessory';
 
 export default class KeyboardAccessory extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      keyboardAccessoryToBottom: 0
+    };
+  }
+
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      // https://github.com/facebook/react-native/issues/18003
+      //
+      // See more details in `showKeyboard()` method.
+
+      // selectedPanel: 'keyboard',
+      keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
+    });
+  }
+
+  keyboardWillHide(e) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      keyboardAccessoryToBottom: 0
+    });
+  }
+
   render() {
-    let { style, selectedPanel } = this.props;
+    let { keyboardAccessoryToBottom } = this.state;
 
     return (
-      <View style={[styles.container, style]}>
-        <View style={styles.selection}>
-          {selectedPanel === 'emoji' &&
-            <Icon
-              style={styles.item}
-              name='keyboard-o'
-              size={30}
-              onPress={() => this.props.handlePanelSelect('keyboard')} />
-            ||
-            <Icon
-              style={styles.item}
-              name='smile-o'
-              size={30}
-              onPress={() => this.props.handlePanelSelect('emoji')} />
-          }
-          <Icon
-            style={styles.item}
-            name='angle-down'
-            size={30}
-            onPress={() => this.props.hideKeyboard()} />
-        </View>
-        {selectedPanel === 'emoji' &&
-          <EmojiPicker
-            selectedPanel={selectedPanel} />
-        }
+      <View style={[styles.container, { bottom: keyboardAccessoryToBottom }]}>
+        {this.props.children}
       </View>
     );
   }

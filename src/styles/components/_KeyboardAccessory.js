@@ -9,13 +9,13 @@ export default StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  selection: {
+  keyboardAccessoryContainer: {
     flexDirection: 'row',
     height: 40,
     paddingHorizontal: 20,
     alignItems: 'center',
   },
-  item: {
+  keyboardAccessoryItem: {
     color: '#979797',
     width: 40
   }

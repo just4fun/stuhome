@@ -22,7 +22,7 @@ export default class EmojiPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      otherPanelheight: new Animated.Value(0),
+      otherPanelheight: new Animated.Value(this.props.selectedPanel !== 'keyboard' ? 250 : 0),
     };
   }
 
@@ -34,8 +34,6 @@ export default class EmojiPicker extends Component {
   }
 
   render() {
-    let { style } = this.props;
-
     return (
       <Animated.View style={{ height: this.state.otherPanelheight }}>
         <ScrollableTabView

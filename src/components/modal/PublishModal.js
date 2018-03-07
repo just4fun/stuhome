@@ -18,12 +18,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_PublishModal';
+import keyboardAccessoryStyles from '../../styles/components/_KeyboardAccessory';
 import colors from '../../styles/common/_colors';
 import Header from '../Header';
 import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
 import KeyboardAccessory from '../KeyboardAccessory';
+import EmojiPicker from '../EmojiPicker';
 import api from '../../services/api';
 import { invalidateTopicList, fetchTopicList } from '../../actions/topic/topicListAction';
 
@@ -45,9 +47,7 @@ class PublishModal extends Component {
       isPickerOpen: false,
       images: [],
       isPublishing: false,
-      selectedPanel: 'keyboard',
-      keyboardAccessoryToBottom: 0,
-      isContentFocused: false
+      selectedPanel: 'keyboard'
     };
     this.title = this.props.title || '发表新主题';
     this.boardId = this.props.navigation.state.params.boardId;
@@ -55,15 +55,7 @@ class PublishModal extends Component {
   }
 
   componentDidMount() {
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
-
     this.fetchTopicList();
-  }
-
-  componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
   }
 
   fetchTopicList() {
@@ -71,26 +63,6 @@ class PublishModal extends Component {
       boardId: this.boardId,
       isEndReached: false,
       sortType: 'publish'
-    });
-  }
-
-  keyboardWillShow(e) {
-    LayoutAnimation.easeInEaseOut();
-    this.setState({
-      // https://github.com/facebook/react-native/issues/18003
-      //
-      // See more details in `showKeyboard()` method.
-
-      // selectedPanel: 'keyboard',
-      keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
-    });
-  }
-
-  keyboardWillHide(e) {
-    LayoutAnimation.easeInEaseOut();
-    this.setState({
-      keyboardAccessoryToBottom: 0,
-      isContentFocused: false
     });
   }
 
@@ -245,7 +217,6 @@ class PublishModal extends Component {
     // This is workaround to bypass the keyboard bug above on iOS 11.2,
     // which will fire `keyboardWillShow` while keyboard dismiss.
     this.setState({
-      isContentFocused: true,
       selectedPanel: 'keyboard'
     });
   }
@@ -259,7 +230,6 @@ class PublishModal extends Component {
 
     if (selectedPanel === 'emoji') {
       this.setState({
-        keyboardAccessoryToBottom: 0,
         selectedPanel: 'keyboard'
       });
     }
@@ -272,9 +242,7 @@ class PublishModal extends Component {
       isPickerOpen,
       images,
       isPublishing,
-      isContentFocused,
-      selectedPanel,
-      keyboardAccessoryToBottom
+      selectedPanel
     } = this.state;
     let { types } = this.props;
 
@@ -342,7 +310,6 @@ class PublishModal extends Component {
               ref={component => this.titleInput = component}
               style={styles.topicTitle}
               onFocus={() => this.setState({
-                isContentFocused: false,
                 // We need to set keyboard panel here, because we comment out it in
                 // `keyboardWillShow` due to keyboard bug on iOS 11.2.
                 selectedPanel: 'keyboard'
@@ -360,7 +327,6 @@ class PublishModal extends Component {
               value={content}
               style={styles.topicContent}
               onFocus={() => this.setState({
-                isContentFocused: true,
                 // https://github.com/facebook/react-native/issues/18003
                 //
                 // See more details in `showKeyboard()` method.
@@ -381,14 +347,33 @@ class PublishModal extends Component {
               cancelUpload={() => this.showKeyboard() } />
           </View>
         </ScrollView>
-        {(isContentFocused || selectedPanel === 'emoji') &&
-          <KeyboardAccessory
-            style={{ bottom: keyboardAccessoryToBottom }}
-            selectedPanel={selectedPanel}
-            handlePanelSelect={(item) => this.handlePanelSelect(item)}
-            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
-            hideKeyboard={() => this.hideKeyboard()} />
-        }
+        <KeyboardAccessory>
+          <View style={keyboardAccessoryStyles.keyboardAccessoryContainer}>
+            {selectedPanel === 'emoji' &&
+              <Icon
+                style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                name='keyboard-o'
+                size={30}
+                onPress={() => this.handlePanelSelect('keyboard')} />
+              ||
+              <Icon
+                style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                name='smile-o'
+                size={30}
+                onPress={() => this.handlePanelSelect('emoji')} />
+            }
+            <Icon
+              style={keyboardAccessoryStyles.keyboardAccessoryItem}
+              name='angle-down'
+              size={30}
+              onPress={() => this.hideKeyboard()} />
+          </View>
+          {selectedPanel === 'emoji' &&
+            <EmojiPicker
+              selectedPanel={selectedPanel}
+              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
+          }
+        </KeyboardAccessory>
       </View>
     );
   }
