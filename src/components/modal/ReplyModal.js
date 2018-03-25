@@ -18,7 +18,7 @@ import keyboardAccessoryStyles from '../../styles/components/_KeyboardAccessory'
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
 import ImageUploader from '../ImageUploader';
-import KeyboardAccessory from '../KeyboardAccessory';
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 import EmojiPicker from '../EmojiPicker';
 import api from '../../services/api';
 import { fetchTopic } from '../../actions/topic/topicAction';

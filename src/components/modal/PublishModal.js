@@ -24,7 +24,7 @@ import Header from '../Header';
 import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
-import KeyboardAccessory from '../KeyboardAccessory';
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 import EmojiPicker from '../EmojiPicker';
 import api from '../../services/api';
 import { invalidateTopicList, fetchTopicList } from '../../actions/topic/topicListAction';
