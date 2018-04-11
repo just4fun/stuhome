@@ -47,7 +47,8 @@ export default class Content extends Component {
 
   getUserId(url) {
     if (!url) { return null; }
-    return url.split('uid=')[1];
+    let matchArray = /https?:\/\/.+uid=(\d+)/.exec(url);
+    return matchArray[1];
   }
 
   getUserName(content) {
@@ -63,20 +64,19 @@ export default class Content extends Component {
     // while `url` is the link to his/her personal page. but sometimes
     // there is exception, we need to check whether the url contains `uid`,
     // instead of checking `item.url !== item.infor` here.
-    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf('&uid') > -1;
+    return !!(/https?:\/\/.+uid=(\d+)/.exec(url));
   }
 
   // http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255
   isTopicLink(url) {
     if (!url) { return false; }
-    return url.indexOf(DOMAIN_ROOT) > -1 && url.indexOf('&tid') > -1;
+    return !!(/https?:\/\/.+tid=(\d+)/.exec(url));
   }
 
   getTopicId(url) {
     if (!url) { return null; }
-    let urlArr = url.split('&');
-    let urlChunk = urlArr.find(item => item.indexOf('tid=') > -1);
-    return urlChunk ? urlChunk.slice(4) : null;
+    let matchArray = /https?:\/\/.+tid=(\d+)/.exec(url);
+    return matchArray[1];
   }
 
   // We could use nested views(to wrap image) inside <Text>, to resolve that url content will be newline,
