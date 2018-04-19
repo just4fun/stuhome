@@ -11,6 +11,8 @@ import {
   ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
+import EmojiPicker from 'react-native-smart-emoji-picker';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
@@ -18,10 +20,9 @@ import keyboardAccessoryStyles from '../../styles/components/_KeyboardAccessory'
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
 import ImageUploader from '../ImageUploader';
-import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
-import EmojiPicker from '../EmojiPicker';
 import api from '../../services/api';
 import { fetchTopic } from '../../actions/topic/topicAction';
+import { CUSTOM_EMOJIS } from '../../constants/emojis';
 
 class ReplyModal extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class ReplyModal extends Component {
       images: [],
       selectedPanel: 'keyboard'
     };
+    this.contentCursorLocation = 0;
   }
 
   initNecessaryData() {
@@ -176,7 +178,7 @@ class ReplyModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress(emoji) {
+  handleEmojiPress = (emoji) => {
     this.setState((prevState) => {
       let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
                      + emoji.code
@@ -297,11 +299,10 @@ class ReplyModal extends Component {
               size={30}
               onPress={() => this.hideKeyboard()} />
           </View>
-          {selectedPanel === 'emoji' &&
-            <EmojiPicker
-              selectedPanel={selectedPanel}
-              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
-          }
+          <EmojiPicker
+            emojis={CUSTOM_EMOJIS}
+            show={selectedPanel === 'emoji'}
+            onEmojiPress={this.handleEmojiPress} />
         </KeyboardAccessory>
       </View>
     );

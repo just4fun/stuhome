@@ -13,8 +13,10 @@ import {
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
+import EmojiPicker from 'react-native-smart-emoji-picker';
+import _ from 'lodash';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_PublishModal';
@@ -24,8 +26,8 @@ import Header from '../Header';
 import Picker from '../Picker';
 import ImageUploader from '../ImageUploader';
 import MessageBar from '../../services/MessageBar';
-import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
-import EmojiPicker from '../EmojiPicker';
+import { CUSTOM_EMOJIS } from '../../constants/emojis';
+
 import api from '../../services/api';
 import { invalidateTopicList, fetchTopicList } from '../../actions/topic/topicListAction';
 
@@ -169,7 +171,7 @@ class PublishModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress(emoji) {
+  handleEmojiPress = (emoji) => {
     this.setState((prevState) => {
       let newContent = prevState.content.substr(0, this.contentCursorLocation)
                      + emoji.code
@@ -368,11 +370,10 @@ class PublishModal extends Component {
               size={30}
               onPress={() => this.hideKeyboard()} />
           </View>
-          {selectedPanel === 'emoji' &&
-            <EmojiPicker
-              selectedPanel={selectedPanel}
-              handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)} />
-          }
+          <EmojiPicker
+            emojis={CUSTOM_EMOJIS}
+            show={selectedPanel === 'emoji'}
+            onEmojiPress={this.handleEmojiPress} />
         </KeyboardAccessory>
       </View>
     );
