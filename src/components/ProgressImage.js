@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  Linking,
   ActivityIndicator,
   TouchableHighlight
 } from 'react-native';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_ProgressImage';
+import SafariView from '../services/SafariView';
 
 export default class ProgressImage extends Component {
   // constructor(props) {
@@ -75,7 +75,7 @@ export default class ProgressImage extends Component {
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
-        onPress={() => Linking.openURL(originalUri)}>
+        onPress={() => SafariView.show(originalUri)}>
         <View style={[styles.image, style]}>
           <Image
             source={{ uri: thumbUri }}

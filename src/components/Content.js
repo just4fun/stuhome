@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Linking,
   TouchableHighlight
 } from 'react-native';
 import ProgressImage from './ProgressImage';
@@ -10,6 +9,7 @@ import styles from '../styles/components/_Content';
 import colors from '../styles/common/_colors';
 import { parseContentWithEmoji } from '../utils/contentParser';
 import { DOMAIN_ROOT } from '../config';
+import SafariView from '../services/SafariView';
 
 export default class Content extends Component {
   isSameContentType(previous, current) {
@@ -158,7 +158,7 @@ export default class Content extends Component {
                           ) || (
                             <Text key={index}
                                   style={styles.url}
-                                  onPress={() => Linking.openURL(item.url)}>
+                                  onPress={() => SafariView.show(item.url)}>
                               {item.infor}
                             </Text>
                           )
