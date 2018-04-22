@@ -103,10 +103,6 @@ class TopicDetail extends Component {
     this.fetchTopic();
   }
 
-  componentWillUnmount() {
-    this.props.resetTopic({ topicId: this.topicId });
-  }
-
   componentWillReceiveProps(nextProps) {
     let { topicItem } = nextProps;
 
