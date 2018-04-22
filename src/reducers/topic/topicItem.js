@@ -21,6 +21,8 @@ import {
 // we will see the content of first topic A will replace with loading spinner since we trigger
 // request action for topic A again. As tradeoff, I think it's not big deal.
 
+// There is no race condition if we isolate every topic item via topicId in redux store.
+// https://github.com/just4fun/stuhome/issues/25
 const defaultState = {};
 const defaultTopicState = {
   isFetching: false,
