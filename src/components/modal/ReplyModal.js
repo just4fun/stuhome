@@ -168,6 +168,8 @@ class ReplyModal extends Component {
   }
 
   handlePanelSelect(item) {
+    if (this.state.isPublishing) { return; }
+
     if (item !== 'keyboard') {
       // hide keyboard
       Keyboard.dismiss();

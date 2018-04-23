@@ -162,6 +162,8 @@ class PublishModal extends Component {
   }
 
   handlePanelSelect(item) {
+    if (this.state.isPublishing) { return; }
+
     if (item !== 'keyboard') {
       // Hide keyboard
       Keyboard.dismiss();
