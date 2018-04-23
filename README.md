@@ -12,7 +12,7 @@ For all officially recommended clients, please visit http://bbs.uestc.edu.cn/for
 
 ![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
 
-## Status (v1.5.1)
+## Status (v1.5.2)
 
 [<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 
@@ -95,6 +95,7 @@ npm run eslint
 - ~~User avatar is not displayed sometimes: [RN/issue](https://github.com/facebook/react-native/issues/5616)~~ (Fixed by this [PR](https://github.com/facebook/react-native/pull/7262) for React Native, and the patch is released in `0.26.0`)
 - ~~Switching between pages is not very smooth sometimes~~ (Fixed by replacing deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation))
 - Emoji could not be displayed in text input: [RN/issue](https://github.com/facebook/react-native/issues/17468)
+- Unit tests are not working due to deprecated property in [react-native-mock](https://github.com/RealOrangeOne/react-native-mock/pull/158)
 
 ## FAQ
 

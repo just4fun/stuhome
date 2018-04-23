@@ -19,5 +19,15 @@ export default StyleSheet.create({
   },
   upload: {
     padding: 10,
+  },
+  keyboardAccessoryContainer: {
+    flexDirection: 'row',
+    height: 40,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  keyboardAccessoryItem: {
+    color: '#979797',
+    width: 40
   }
 });

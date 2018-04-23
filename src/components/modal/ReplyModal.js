@@ -8,19 +8,21 @@ import {
   AlertIOS,
   Keyboard,
   TouchableHighlight,
-  ActivityIndicator,
-  LayoutAnimation
+  ActivityIndicator
 } from 'react-native';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
+import EmojiPicker from 'react-native-smart-emoji-picker';
 import mainStyles from '../../styles/components/_Main';
 import modalStyles from '../../styles/common/_Modal';
 import styles from '../../styles/components/modal/_ReplyModal';
+import keyboardAccessoryStyles from '../../styles/components/_KeyboardAccessory';
 import Header from '../Header';
 import MessageBar from '../../services/MessageBar';
 import ImageUploader from '../ImageUploader';
-import KeyboardAccessory from '../KeyboardAccessory';
 import api from '../../services/api';
 import { fetchTopic } from '../../actions/topic/topicAction';
+import { CUSTOM_EMOJIS } from '../../constants/emojis';
 
 class ReplyModal extends Component {
   constructor(props) {
@@ -30,10 +32,9 @@ class ReplyModal extends Component {
       isPublishing: false,
       replyContent: '',
       images: [],
-      selectedPanel: 'keyboard',
-      keyboardAccessoryToBottom: 0,
-      isContentFocused: false
+      selectedPanel: 'keyboard'
     };
+    this.contentCursorLocation = 0;
   }
 
   initNecessaryData() {
@@ -56,35 +57,7 @@ class ReplyModal extends Component {
   }
 
   componentDidMount() {
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => this.keyboardWillShow(e));
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', (e) => this.keyboardWillHide(e));
-
     this.showKeyboard();
-  }
-
-  componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
-  }
-
-  keyboardWillShow(e) {
-    LayoutAnimation.easeInEaseOut();
-    this.setState({
-      // https://github.com/facebook/react-native/issues/18003
-      //
-      // See more details in `showKeyboard()` method.
-
-      // selectedPanel: 'keyboard',
-      keyboardAccessoryToBottom: isIphoneX() ? (e.endCoordinates.height - 34) : e.endCoordinates.height
-    });
-  }
-
-  keyboardWillHide(e) {
-    LayoutAnimation.easeInEaseOut();
-    this.setState({
-      keyboardAccessoryToBottom: 0,
-      isContentFocused: false
-    });
   }
 
   fetchTopic() {
@@ -195,6 +168,8 @@ class ReplyModal extends Component {
   }
 
   handlePanelSelect(item) {
+    if (this.state.isPublishing) { return; }
+
     if (item !== 'keyboard') {
       // hide keyboard
       Keyboard.dismiss();
@@ -205,7 +180,7 @@ class ReplyModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress(emoji) {
+  handleEmojiPress = (emoji) => {
     this.setState((prevState) => {
       let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
                      + emoji.code
@@ -225,7 +200,6 @@ class ReplyModal extends Component {
     // This is workaround to bypass the keyboard bug above on iOS 11.2,
     // which will fire `keyboardWillShow` while keyboard dismiss.
     this.setState({
-      isContentFocused: true,
       selectedPanel: 'keyboard'
     });
   }
@@ -239,7 +213,6 @@ class ReplyModal extends Component {
 
     if (selectedPanel === 'emoji') {
       this.setState({
-        keyboardAccessoryToBottom: 0,
         selectedPanel: 'keyboard'
       });
     }
@@ -249,8 +222,6 @@ class ReplyModal extends Component {
     let {
       replyContent,
       isPublishing,
-      isContentFocused,
-      keyboardAccessoryToBottom,
       selectedPanel,
       images
     } = this.state;
@@ -290,7 +261,6 @@ class ReplyModal extends Component {
               placeholder='同学，请文明用语噢～'
               style={styles.replyBox}
               onFocus={() => this.setState({
-                isContentFocused: true,
                 // https://github.com/facebook/react-native/issues/18003
                 //
                 // See more details in `showKeyboard()` method.
@@ -310,14 +280,32 @@ class ReplyModal extends Component {
               cancelUpload={() => this.showKeyboard()} />
           </View>
         </ScrollView>
-        {(isContentFocused || selectedPanel === 'emoji') &&
-          <KeyboardAccessory
-            style={{ bottom: keyboardAccessoryToBottom }}
-            selectedPanel={selectedPanel}
-            handlePanelSelect={(item) => this.handlePanelSelect(item)}
-            handleEmojiPress={(emoji) => this.handleEmojiPress(emoji)}
-            hideKeyboard={() => this.hideKeyboard()} />
-        }
+        <KeyboardAccessory>
+          <View style={keyboardAccessoryStyles.keyboardAccessoryContainer}>
+            {selectedPanel === 'emoji' &&
+              <Icon
+                style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                name='keyboard-o'
+                size={30}
+                onPress={() => this.handlePanelSelect('keyboard')} />
+              ||
+              <Icon
+                style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                name='smile-o'
+                size={30}
+                onPress={() => this.handlePanelSelect('emoji')} />
+            }
+            <Icon
+              style={keyboardAccessoryStyles.keyboardAccessoryItem}
+              name='angle-down'
+              size={30}
+              onPress={() => this.hideKeyboard()} />
+          </View>
+          <EmojiPicker
+            emojis={CUSTOM_EMOJIS}
+            show={selectedPanel === 'emoji'}
+            onEmojiPress={this.handleEmojiPress} />
+        </KeyboardAccessory>
       </View>
     );
   }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  Linking,
   AlertIOS,
   ScrollView,
   ActivityIndicator,
@@ -29,6 +28,7 @@ import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
 import MessageBar from '../services/MessageBar';
+import SafariView from '../services/SafariView';
 import colors from '../styles/common/_colors';
 import api from '../services/api';
 import { parseContentWithEmoji } from '../utils/contentParser';
@@ -101,10 +101,6 @@ class TopicDetail extends Component {
       handleShowOperationDialog: () => this.showOperationDialog()
     });
     this.fetchTopic();
-  }
-
-  componentWillUnmount() {
-    this.props.resetTopic({ topicId: this.topicId });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -373,7 +369,7 @@ class TopicDetail extends Component {
           if (isLoginUser && managePanel && managePanel.length > 0) {
             let editAction = managePanel.find(item => item.title === '编辑');
             if (editAction) {
-              Linking.openURL(editAction.action);
+              SafariView.show(editAction.action);
             }
           }
           break;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Linking,
   TouchableHighlight,
   ActionSheetIOS,
   Clipboard
@@ -14,6 +13,7 @@ import moment from 'moment';
 import colors from '../styles/common/_colors';
 import styles from '../styles/components/_Comment';
 import MessageBar from '../services/MessageBar';
+import SafariView from '../services/SafariView';
 
 export default class Comment extends Component {
   showOptions() {
@@ -75,7 +75,7 @@ export default class Comment extends Component {
           } else if (managePanel && managePanel.length > 0) {
             let editAction = managePanel.find(item => item.title === '编辑');
             if (editAction) {
-              Linking.openURL(editAction.action);
+              SafariView.show(editAction.action);
             }
           }
           break;

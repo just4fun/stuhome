@@ -6,15 +6,23 @@ import {
   REQUEST_FAILED
 } from '../../actions/topic/topicAction';
 
-// The reason to cache topic item like we cache topic list is that
-// now we could navigate from A topic to B topic, which shared
-// same state in store, if we back from B topic, the A topic component
-// will still display the content for B topic, so we need to distinguish
-// them via topicId.
+// We don't use `cacheManager` to check `shouldFetchTopicItem` in sagas
+// since topic comments are back with topic details together, and we don't
+// want to cache comments (that said we will always get latest comments with
+// latest topic information in `componentDidMount` every time).
 //
-// To avoid cache comments for one topic, when we click back button which
-// will trigger `componentWillUnmount()`, it will remove specific topic
-// from topic item cache list.
+// In this way, we should not also reset/clear the topic item in `componentWillUnmount`.
+// Say we navigate from topic A --> topic B --> topic A, then touch back twice to topic
+// A. We will get blank page since the content of topic A has been `reset` in the third
+// page's `componentWillUnmount`.
+//
+// The only disadvantage of not resetting topic item is that, if we navigate from
+// topic A --> topic A (try it out in http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1705815),
+// we will see the content of first topic A will replace with loading spinner since we trigger
+// request action for topic A again. As tradeoff, I think it's not big deal.
+
+// There is no race condition if we isolate every topic item via topicId in redux store.
+// https://github.com/just4fun/stuhome/issues/25
 const defaultState = {};
 const defaultTopicState = {
   isFetching: false,
@@ -84,7 +92,7 @@ export default function topicItem(state = defaultState, action) {
     case RESET: {
       let { topicId } = action.payload;
 
-      return _.pickBy(state, (value, key) => +key !== topicId);
+      return _.pickBy(state, (value, key) => +key !== +topicId);
     }
     case REQUEST_FAILED: {
       let { topicId } = action.payload;
