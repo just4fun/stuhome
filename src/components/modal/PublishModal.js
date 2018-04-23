@@ -49,7 +49,8 @@ class PublishModal extends Component {
       isPickerOpen: false,
       images: [],
       isPublishing: false,
-      selectedPanel: 'keyboard'
+      selectedPanel: 'keyboard',
+      isTitleFocused: false
     };
     this.title = this.props.title || '发表新主题';
     this.boardId = this.props.navigation.state.params.boardId;
@@ -244,7 +245,8 @@ class PublishModal extends Component {
       isPickerOpen,
       images,
       isPublishing,
-      selectedPanel
+      selectedPanel,
+      isTitleFocused
     } = this.state;
     let { types } = this.props;
 
@@ -314,7 +316,11 @@ class PublishModal extends Component {
               onFocus={() => this.setState({
                 // We need to set keyboard panel here, because we comment out it in
                 // `keyboardWillShow` due to keyboard bug on iOS 11.2.
-                selectedPanel: 'keyboard'
+                selectedPanel: 'keyboard',
+                isTitleFocused: true
+              })}
+              onBlur={() => this.setState({
+                isTitleFocused: false
               })}
               onChangeText={text => this.setState({ title: text })}
               editable={!isPublishing}
@@ -351,18 +357,21 @@ class PublishModal extends Component {
         </ScrollView>
         <KeyboardAccessory>
           <View style={keyboardAccessoryStyles.keyboardAccessoryContainer}>
-            {selectedPanel === 'emoji' &&
-              <Icon
-                style={keyboardAccessoryStyles.keyboardAccessoryItem}
-                name='keyboard-o'
-                size={30}
-                onPress={() => this.handlePanelSelect('keyboard')} />
-              ||
-              <Icon
-                style={keyboardAccessoryStyles.keyboardAccessoryItem}
-                name='smile-o'
-                size={30}
-                onPress={() => this.handlePanelSelect('emoji')} />
+            {!isTitleFocused &&
+              (
+                selectedPanel === 'emoji' &&
+                  <Icon
+                    style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                    name='keyboard-o'
+                    size={30}
+                    onPress={() => this.handlePanelSelect('keyboard')} />
+                  ||
+                  <Icon
+                    style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                    name='smile-o'
+                    size={30}
+                    onPress={() => this.handlePanelSelect('emoji')} />
+              )
             }
             <Icon
               style={keyboardAccessoryStyles.keyboardAccessoryItem}
