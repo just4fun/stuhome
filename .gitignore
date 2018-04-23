@@ -55,7 +55,3 @@ buck-out/
 # Vim
 #
 *.swp
-
-# npm
-#
-package-lock.json
