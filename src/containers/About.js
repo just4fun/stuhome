@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Image,
+  Linking,
   ScrollView,
   TouchableHighlight
 } from 'react-native';
@@ -40,7 +41,7 @@ export default class About extends Component {
         <View style={styles.group}>
           <SettingItem
             text='去商店评分'
-            onPress={() => SafariView.show(configs.APP_STORE)} />
+            onPress={() => Linking.openURL(configs.APP_STORE)} />
           <SettingItem
             style={styles.lastItem}
             text='BUG 上报或意见反馈'
