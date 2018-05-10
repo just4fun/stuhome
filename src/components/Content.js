@@ -174,6 +174,9 @@ export default class Content extends Component {
                 <View key={groupIndex}
                       style={[styles.item, styles.imageWrapper]}>
                   {groupContent.map((item, index) => {
+                    // https://github.com/just4fun/stuhome/issues/27
+                    if (item.aid === 0) { return; }
+
                     return (
                       <ProgressImage
                         key={index}
