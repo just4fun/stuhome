@@ -4,11 +4,15 @@ export const REQUEST = Symbol();
 export const INVALIDATE = Symbol();
 export const MARK_AT_ME_AS_READ = Symbol();
 export const MARK_REPLY_AS_READ = Symbol();
+export const DO_NOTHING_FOR_CALLBACK = Symbol();
 export const fetchNotifyList = createAction(REQUEST);
 export const invalidateNotifyList = createAction(INVALIDATE);
 
 const markAtMeAsRead = createAction(MARK_AT_ME_AS_READ);
 const markReplyAsRead = createAction(MARK_REPLY_AS_READ);
+// This action creator is used for `system` type since it doesn't need
+// successful callback, but we can not use `put` of redux-saga for undefined.
+const doNothingForCallback = createAction(DO_NOTHING_FOR_CALLBACK);
 // Update unread message count immediately instead of
 // clearing them with next poll after 0 ~ 15s.
 export const successfulCallback = (payload) => {
@@ -17,6 +21,8 @@ export const successfulCallback = (payload) => {
       return markAtMeAsRead();
     case 'post':
       return markReplyAsRead();
+    default:
+      return doNothingForCallback();
   }
 }
 

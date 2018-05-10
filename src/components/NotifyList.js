@@ -9,6 +9,7 @@ import {
 import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
 import NotifyItem from './NotifyItem';
+import NotifySystemItem from './NotifySystemItem';
 
 export default class NotifyList extends Component {
   componentDidMount() {
@@ -78,7 +79,15 @@ export default class NotifyList extends Component {
         keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderItem={({ item: notification }) => {
+        renderItem={({ item: notification, index }) => {
+          if (notification.type === 'system') {
+            return (
+              <NotifySystemItem
+                key={index}
+                notification={notification} />
+            );
+          }
+
           return (
             <NotifyItem
               key={notification.topic_id}

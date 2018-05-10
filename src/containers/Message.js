@@ -18,7 +18,8 @@ import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
 const TABS = [
   { label: '@', type: 'at' },
   { label: '回复', type: 'post' },
-  { label: '私信', type: 'private' }
+  { label: '私信', type: 'private' },
+  { label: '系统提醒', type: 'system' }
 ];
 
 class Message extends Component {
@@ -66,6 +67,8 @@ class Message extends Component {
     newTabs.push({ name: tabs[0], count: atMeCount });
     newTabs.push({ name: tabs[1], count: replyCount });
     newTabs.push({ name: tabs[2], count: pmCount });
+    // No unread count field returned from api `message/heart` for `system` type.
+    newTabs.push({ name: tabs[3], count: 0 });
     return newTabs;
   }
 

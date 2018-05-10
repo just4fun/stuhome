@@ -53,6 +53,11 @@ export default function notifyList(state = defaultState, action) {
         }
       } = action;
 
+      // `list` is `[]` for `system` type.
+      if (notifyType === 'system') {
+        notifyList.list = notifyList.body.data;
+      }
+
       return {
         ...state,
         [notifyType]: {
