@@ -13,7 +13,7 @@ import ReplyModal from '../components/modal/ReplyModal';
 import menus from '../constants/menus';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '../actions/message/pmSessionListAction';
-import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
+import { getAtMeCount, getReplyCount, getPmCount, getSystemCount } from '../selectors/alert';
 
 const TABS = [
   { label: '@', type: 'at' },
@@ -63,12 +63,11 @@ class Message extends Component {
   // for each tab of <ScrollableTabView /> component.
   getTabsWithAlertCount(tabs) {
     let newTabs = [];
-    let { atMeCount, replyCount, pmCount } = this.props;
+    let { atMeCount, replyCount, pmCount, systemCount } = this.props;
     newTabs.push({ name: tabs[0], count: atMeCount });
     newTabs.push({ name: tabs[1], count: replyCount });
     newTabs.push({ name: tabs[2], count: pmCount });
-    // No unread count field returned from api `message/heart` for `system` type.
-    newTabs.push({ name: tabs[3], count: 0 });
+    newTabs.push({ name: tabs[3], count: systemCount });
     return newTabs;
   }
 
@@ -129,6 +128,7 @@ function mapStateToProps({ notifyList, pmSessionList, alert, user }) {
     atMeCount: getAtMeCount(alert),
     replyCount: getReplyCount(alert),
     pmCount: getPmCount(alert),
+    systemCount: getSystemCount(alert),
     userId: _.get(user, ['authrization', 'uid'])
   };
 }
