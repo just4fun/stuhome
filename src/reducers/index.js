@@ -12,6 +12,7 @@ import send from './message/send';
 import alert from './message/alert';
 import settings from './settings';
 import userItem from './user/userItem';
+import friendList from './user/friendList';
 
 export default combineReducers({
   forumList,
@@ -26,6 +27,7 @@ export default combineReducers({
   userItem,
   topicItem,
   search,
+  friendList,
 
   userTopicList,
 

@@ -180,10 +180,10 @@ class ReplyModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress = (emoji) => {
+  handleExtraContentPress = (extraContent) => {
     this.setState((prevState) => {
       let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
-                     + emoji.code
+                     + extraContent
                      + prevState.replyContent.substr(this.contentCursorLocation);
       return { replyContent: newContent };
     });
@@ -216,6 +216,15 @@ class ReplyModal extends Component {
         selectedPanel: 'keyboard'
       });
     }
+  }
+
+  showFriendList() {
+    this.props.navigation.navigate('FriendListModal', {
+      callback: (friend) => {
+        friend && this.handleExtraContentPress(`@${friend.name} `);
+        this.showKeyboard();
+      }
+    });
   }
 
   render() {
@@ -297,6 +306,11 @@ class ReplyModal extends Component {
             }
             <Icon
               style={keyboardAccessoryStyles.keyboardAccessoryItem}
+              name='at'
+              size={30}
+              onPress={() => this.showFriendList()} />
+            <Icon
+              style={keyboardAccessoryStyles.keyboardAccessoryItem}
               name='angle-down'
               size={30}
               onPress={() => this.hideKeyboard()} />
@@ -304,7 +318,7 @@ class ReplyModal extends Component {
           <EmojiPicker
             emojis={CUSTOM_EMOJIS}
             show={selectedPanel === 'emoji'}
-            onEmojiPress={this.handleEmojiPress} />
+            onEmojiPress={(emoji) => this.handleExtraContentPress(emoji.code)} />
         </KeyboardAccessory>
       </View>
     );

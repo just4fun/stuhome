@@ -14,6 +14,7 @@ import * as sendActions from '../actions/message/sendAction';
 import * as alertActions from '../actions/message/alertAction';
 import * as settingsActions from '../actions/settingsAction';
 import * as userActions from '../actions/user/userAction';
+import * as friendListActions from '../actions/user/friendListAction';
 
 import cacheManager from '../services/cacheManager';
 import { fetchResource } from '../utils/sagaHelper';
@@ -31,6 +32,7 @@ const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
 const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts);
 const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
+const fetchFriendListApi = fetchResource.bind(null, friendListActions, api.fetchFriendList);
 
 // user login sagas
 
@@ -240,6 +242,23 @@ function* watchUsers() {
   }
 }
 
+// friend list sagas
+
+function* watchFriendList() {
+  while(true) {
+    const { payload } = yield take(friendListActions.REQUEST);
+    yield fork(fetchFriendList, payload);
+  }
+}
+
+function* fetchFriendList(payload) {
+  const state = yield select();
+
+  if (cacheManager.shouldFetchList(state, 'friendList')) {
+    yield fork(fetchFriendListApi, payload);
+  }
+}
+
 export default function* rootSaga() {
   yield fork(watchRetrieveUser);
   yield fork(watchLogin);
@@ -256,4 +275,5 @@ export default function* rootSaga() {
   yield fork(watchRetrieveSettings);
   yield fork(watchStoreSettings);
   yield fork(watchUsers);
+  yield fork(watchFriendList);
 }

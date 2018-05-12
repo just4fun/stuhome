@@ -21,6 +21,7 @@ import RegisterModalScreen from '../components/modal/RegisterModal';
 import PublishModalScreen from '../components/modal/PublishModal';
 import ReplyModalScreen from '../components/modal/ReplyModal';
 import ForumListModalScreen from '../components/modal/ForumListModal';
+import FriendListModalScreen from '../components/modal/FriendListModal';
 import colors from '../styles/common/_colors';
 import { getUserFromStorage } from '../actions/authorizeAction';
 import { getSettingsFromStorage } from '../actions/settingsAction';
@@ -94,6 +95,9 @@ const AppNavigator = DrawerNavigator({
       },
       ForumListModal: {
         screen: ForumListModalScreen
+      },
+      FriendListModal: {
+        screen: FriendListModalScreen
       }
     }, {
       // Without `headerMode: 'none'`, there will be two headers since there are two

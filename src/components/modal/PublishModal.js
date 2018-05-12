@@ -174,10 +174,10 @@ class PublishModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress = (emoji) => {
+  handleExtraContentPress = (extraContent) => {
     this.setState((prevState) => {
       let newContent = prevState.content.substr(0, this.contentCursorLocation)
-                     + emoji.code
+                     + extraContent
                      + prevState.content.substr(this.contentCursorLocation);
       return { content: newContent };
     });
@@ -238,6 +238,15 @@ class PublishModal extends Component {
         selectedPanel: 'keyboard'
       });
     }
+  }
+
+  showFriendList() {
+    this.props.navigation.navigate('FriendListModal', {
+      callback: (friend) => {
+        friend && this.handleExtraContentPress(`@${friend.name} `);
+        this.showKeyboard();
+      }
+    });
   }
 
   render() {
@@ -375,6 +384,13 @@ class PublishModal extends Component {
                     onPress={() => this.handlePanelSelect('emoji')} />
               )
             }
+            {!isTitleFocused &&
+              <Icon
+                style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                name='at'
+                size={30}
+                onPress={() => this.showFriendList()} />
+            }
             <Icon
               style={keyboardAccessoryStyles.keyboardAccessoryItem}
               name='angle-down'
@@ -384,7 +400,7 @@ class PublishModal extends Component {
           <EmojiPicker
             emojis={CUSTOM_EMOJIS}
             show={selectedPanel === 'emoji'}
-            onEmojiPress={this.handleEmojiPress} />
+            onEmojiPress={(emoji) => this.handleExtraContentPress(emoji.code)} />
         </KeyboardAccessory>
       </View>
     );
