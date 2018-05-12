@@ -44,6 +44,7 @@ For all officially recommended clients, please visit http://bbs.uestc.edu.cn/for
   - [x] Favor topic
   - [x] Upload images
   - [x] Emoji
+  - [x] Show friend list to @
   - [ ] Report objectionable content
 - [ ] Vote
   - [ ] Create vote
@@ -51,9 +52,10 @@ For all officially recommended clients, please visit http://bbs.uestc.edu.cn/for
   - [x] View vote results
 - [x] Search
 - [x] Notifications
-  - [x] View list mentioned(@) me
+  - [x] View list mentioned (@) me
   - [x] View list replied me
   - [x] View private messages
+  - [x] View system notifications
   - [x] Notification alert
 - [ ] Individual
   - [x] View my recent topics
