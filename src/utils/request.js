@@ -15,6 +15,24 @@ function checkStatus(response) {
   throw error;
 }
 
+function handleError(error) {
+  if (error) {
+    if (error.message === 'Network request failed') {
+      MessageBar.show({
+        message: '请检查网络是否通畅',
+        type: 'warning'
+      });
+    } else if (error.response && error.response.status >= 500) {
+      MessageBar.show({
+        message: '服务器开小差啦，请查看网页版能否登陆',
+        type: 'warning'
+      });
+    }
+  }
+
+  return { error };
+}
+
 export default function request(url, options) {
   return AsyncStorage.getItem('authrization')
     .then(authrization => {
@@ -27,15 +45,6 @@ export default function request(url, options) {
         .then(checkStatus)
         .then(parseJSON)
         .then(data => ({ data }))
-        .catch(error => {
-          if (error && error.message === 'Network request failed') {
-            MessageBar.show({
-              message: '同学，网络出错啦！',
-              type: 'warning'
-            });
-          }
-
-          return { error };
-        });
+        .catch(handleError);
     });
 }
