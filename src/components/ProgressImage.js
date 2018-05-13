@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
+  Text,
   ActivityIndicator,
   TouchableHighlight
 } from 'react-native';
@@ -25,7 +26,8 @@ export default class ProgressImage extends Component {
     super(props);
 
     this.state = {
-      isLoading: false
+      isLoading: false,
+      isLoadError: false
     };
   }
 
@@ -70,22 +72,35 @@ export default class ProgressImage extends Component {
 
   render() {
     let { style, thumbUri, originalUri } = this.props;
-    let { isLoading } = this.state;
+    let { isLoading, isLoadError } = this.state;
 
     return (
       <TouchableHighlight
         underlayColor={colors.underlay}
         onPress={() => SafariView.show(originalUri)}>
         <View style={[styles.image, style]}>
-          <Image
-            source={{ uri: thumbUri }}
-            defaultSource={require('../images/image_default.png')}
-            onLoadStart={() => this.setState({ isLoading: true })}
-            onLoadEnd={() => this.setState({ isLoading: false })}
-            resizeMode={'contain'}
-            // onLayout={event => this.handleLayout(event)}
-            style={[styles.image, style]} />
-          {isLoading && <ActivityIndicator style={styles.indicator} />}
+          {isLoadError &&
+            <View>
+              <Image
+                defaultSource={require('../images/image_fail.png')}
+                resizeMode={'contain'}
+                style={[styles.image, style]} />
+              <Text style={styles.text}>图片加载失败或图片已失效</Text>
+            </View>
+            ||
+            <View>
+              <Image
+                source={{ uri: thumbUri }}
+                defaultSource={require('../images/image_default.png')}
+                onLoadStart={() => this.setState({ isLoading: true })}
+                onLoadEnd={() => this.setState({ isLoading: false })}
+                onError={() => this.setState({ isLoadError: true })}
+                resizeMode={'contain'}
+                // onLayout={event => this.handleLayout(event)}
+                style={[styles.image, style]} />
+              {isLoading && <ActivityIndicator style={styles.indicator} />}
+            </View>
+          }
         </View>
       </TouchableHighlight>
     );
