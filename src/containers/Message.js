@@ -99,7 +99,7 @@ class Message extends Component {
                   navigation={navigation}
                   currentUserId={userId}
                   markPmAsRead={({ plid }) => this.props.markPmAsRead({ plid })}
-                  fetchPmSessionList={() => this.fetchPmSessionList({})}
+                  fetchPmSessionList={({ page }) => this.fetchPmSessionList({ page })}
                   refreshPmSessionList={({ page, isEndReached }) => this.refreshPmSessionList({ page, isEndReached })} />
               );
             }

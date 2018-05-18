@@ -12,7 +12,7 @@ import PmSessionItem from './PmSessionItem';
 
 export default class PrivateList extends Component {
   componentDidMount() {
-    this.props.fetchPmSessionList();
+    this.props.fetchPmSessionList({ page: 1 });
   }
 
   endReached() {
