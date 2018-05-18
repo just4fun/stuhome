@@ -175,7 +175,7 @@ class TopicDetail extends Component {
         authrization: { uid }
       }
     } = this.props;
-    let { isFavoring } = this.state;
+    let { isFavoring, isVoting } = this.state;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -242,6 +242,7 @@ class TopicDetail extends Component {
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
+                isVoting={isVoting}
                 publishVote={voteIds => this.publishVote(voteIds)} />
             }
           </View>
