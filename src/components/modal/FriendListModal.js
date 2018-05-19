@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
-  ActivityIndicator
+  Text
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';

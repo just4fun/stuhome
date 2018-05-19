@@ -27,6 +27,7 @@ import Comment from '../components/Comment';
 import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
+import LoadingSpinner from '../components/LoadingSpinner';
 import MessageBar from '../services/MessageBar';
 import SafariView from '../services/SafariView';
 import colors from '../styles/common/_colors';
@@ -379,28 +380,11 @@ class TopicDetail extends Component {
   }
 
   render() {
-    let {
-      topicItem,
-      user: {
-        authrization: { uid }
-      },
-      navigation
-    } = this.props;
+    let { topicItem } = this.props;
 
-    if (topicItem.isFetching) {
+    if (topicItem.isFetching || !_.get(topicItem, ['topic', 'topic_id'])) {
       return (
-        <View style={mainStyles.container}>
-          <View style={indicatorStyles.fullScreenIndicator}>
-            <ActivityIndicator />
-          </View>
-        </View>
-      );
-    }
-
-    if (!_.get(topicItem, ['topic', 'topic_id'])) {
-      return (
-        <View style={mainStyles.container}>
-        </View>
+        <LoadingSpinner />
       );
     }
 
@@ -411,6 +395,10 @@ class TopicDetail extends Component {
           topic_id,
           replies
         }
+      },
+      navigation,
+      user: {
+        authrization: { uid }
       }
     } = this.props;
 

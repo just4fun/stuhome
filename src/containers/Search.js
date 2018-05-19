@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
   View,
-  AlertIOS,
-  ActivityIndicator
+  AlertIOS
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import TopicList from '../components/TopicList';
+import LoadingSpinner from '../components/LoadingSpinner';
 import SearchBar from 'react-native-search-bar';
 import menus from '../constants/menus';
 import { fetchSearch, resetSearch } from '../actions/topic/searchAction';
@@ -92,9 +92,7 @@ class Search extends Component {
           onSearchButtonPress={() => this.handleSearch()}
           onCancelButtonPress={() => this.getSearchBarBlur()} />
         {search.isRefreshing && (
-          <View style={indicatorStyles.fullScreenIndicator}>
-            <ActivityIndicator />
-          </View>
+          <LoadingSpinner text='正在搜索' />
         ) || (
           <TopicList
             ref={component => this.searchList = component}
