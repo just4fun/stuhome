@@ -175,6 +175,8 @@ class PublishModal extends Component {
   }
 
   handleExtraContentPress = (extraContent) => {
+    if (this.state.isPublishing) { return; }
+
     this.setState((prevState) => {
       let newContent = prevState.content.substr(0, this.contentCursorLocation)
                      + extraContent
@@ -241,6 +243,8 @@ class PublishModal extends Component {
   }
 
   showFriendList() {
+    if (this.state.isPublishing) { return; }
+
     this.props.navigation.navigate('FriendListModal', {
       callback: (friend) => {
         friend && this.handleExtraContentPress(`@${friend.name} `);
@@ -272,11 +276,18 @@ class PublishModal extends Component {
             setSelection={typeId => this.setState({ typeId })} />
         }
         <Header title={this.title}>
-          <Text
-            style={modalStyles.button}
-            onPress={() => this.handleCancel()}>
-            取消
-          </Text>
+          {isPublishing &&
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              取消
+            </Text>
+            ||
+            <Text
+              style={modalStyles.button}
+              onPress={() => this.handleCancel()}>
+              取消
+            </Text>
+          }
           {this.isFormValid() &&
             (isPublishing &&
               <ActivityIndicator color='white' />
