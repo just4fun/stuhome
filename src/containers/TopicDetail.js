@@ -330,7 +330,9 @@ class TopicDetail extends Component {
       }
     } = this.props;
     let isLoginUser = uid === user_id;
-    if (isLoginUser) {
+    let editable =
+      isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
+    if (editable) {
       options.push('编辑帖子');
     }
     options.push('取消');
@@ -368,11 +370,9 @@ class TopicDetail extends Component {
           });
           break;
         case 5:
-          if (isLoginUser && managePanel && managePanel.length > 0) {
+          if (editable) {
             let editAction = managePanel.find(item => item.title === '编辑');
-            if (editAction) {
-              SafariView.show(editAction.action);
-            }
+            SafariView.show(editAction.action);
           }
           break;
       }
