@@ -17,7 +17,6 @@ import InformationScreen from './Information';
 import SettingsScreen from './Settings';
 import WebPageScreen from './WebPage';
 import LoginModalScreen from '../components/modal/LoginModal';
-import RegisterModalScreen from '../components/modal/RegisterModal';
 import PublishModalScreen from '../components/modal/PublishModal';
 import ReplyModalScreen from '../components/modal/ReplyModal';
 import ForumListModalScreen from '../components/modal/ForumListModal';
@@ -83,9 +82,6 @@ const AppNavigator = DrawerNavigator({
       },
       LoginModal: {
         screen: LoginModalScreen
-      },
-      RegisterModal: {
-        screen: RegisterModalScreen
       },
       PublishModal: {
         screen: PublishModalScreen

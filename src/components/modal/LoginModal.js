@@ -18,7 +18,8 @@ import Button from 'apsl-react-native-button';
 import mainStyles from '../../styles/components/_Main';
 import styles from '../../styles/components/modal/_LoginModal';
 import Header from '../Header';
-import RegisterModal from './RegisterModal';
+import SafariView from '../../services/SafariView';
+import { REGISTER_URL } from '../../config';
 import {
   userLogin,
   resetAuthrization,
@@ -100,7 +101,7 @@ class LoginModal extends Component {
           <PopButton navigation={navigation} />
           <Text
             style={styles.register}
-            onPress={() => navigation.navigate('RegisterModal')}>
+            onPress={() => SafariView.show(REGISTER_URL)}>
             注册
           </Text>
         </Header>
