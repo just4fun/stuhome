@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   LayoutAnimation
 } from 'react-native';
+import LoadingSpinnerOverlay from '../3rd_party/LoadingSpinnerOverlay';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -126,7 +127,8 @@ class PublishModal extends Component {
     // Hide keyboard.
     this.hideKeyboard();
 
-    this.setState({ isPublishing: true });
+    // this.setState({ isPublishing: true });
+    this.modalLoadingSpinnerOverLay.show();
     api.uploadImages(this.state.images).then(data => {
       let { typeId, title, content } = this.state;
       return api.publishTopic({
@@ -157,7 +159,8 @@ class PublishModal extends Component {
         }
       }
     }).finally(() => {
-      this.setState({ isPublishing: false });
+      // this.setState({ isPublishing: false });
+      this.modalLoadingSpinnerOverLay.hide();
     });
   }
 
@@ -413,6 +416,8 @@ class PublishModal extends Component {
             show={selectedPanel === 'emoji'}
             onEmojiPress={(emoji) => this.handleExtraContentPress(emoji.code)} />
         </KeyboardAccessory>
+        <LoadingSpinnerOverlay
+          ref={ component => this.modalLoadingSpinnerOverLay = component }/>
       </View>
     );
   }

@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import LoadingSpinnerOverlay from '../3rd_party/LoadingSpinnerOverlay';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 import EmojiPicker from 'react-native-smart-emoji-picker';
@@ -119,7 +120,8 @@ class ReplyModal extends Component {
     // Hide keyboard.
     this.hideKeyboard();
 
-    this.setState({ isPublishing: true });
+    // this.setState({ isPublishing: true });
+    this.modalLoadingSpinnerOverLay.show();
     api.uploadImages(this.state.images).then(data => {
       // Actually there is no need to pass `boardId` when we
       // reply a topic.
@@ -151,7 +153,8 @@ class ReplyModal extends Component {
         }
       }
     }).finally(() => {
-      this.setState({ isPublishing: false });
+      // this.setState({ isPublishing: false });
+      this.modalLoadingSpinnerOverLay.hide();
     });
   }
 
@@ -331,6 +334,8 @@ class ReplyModal extends Component {
             show={selectedPanel === 'emoji'}
             onEmojiPress={(emoji) => this.handleExtraContentPress(emoji.code)} />
         </KeyboardAccessory>
+        <LoadingSpinnerOverlay
+          ref={ component => this.modalLoadingSpinnerOverLay = component }/>
       </View>
     );
   }
