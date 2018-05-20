@@ -1,6 +1,6 @@
 {
   "name": "stuhome",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "An iOS client for http://bbs.uestc.edu.cn/ written in React Native with Redux.",
   "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
@@ -34,6 +34,7 @@
     "react-native-scrollable-tab-view": "0.8.0",
     "react-native-search-bar": "3.1.0",
     "react-native-smart-emoji-picker": "0.1.0",
+    "react-native-smart-timer-enhance": "^1.0.3",
     "react-native-sticky-keyboard-accessory": "0.1.1",
     "react-native-vector-icons": "4.4.3",
     "react-navigation": "1.0.3",

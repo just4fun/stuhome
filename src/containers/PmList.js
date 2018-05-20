@@ -5,9 +5,9 @@ import {
   Text,
   Image,
   AlertIOS,
-  ScrollView,
-  ActivityIndicator
+  ScrollView
 } from 'react-native';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { GiftedChat } from 'react-native-gifted-chat';
 import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';
 import GiftedChatLoadEarlierButton from '../components/3rd_party/GiftedChatLoadEarlierButton';
@@ -21,7 +21,6 @@ import {
   resetPmListResponseStatus
 } from '../actions/message/pmListAction';
 import mainStyles from '../styles/components/_Main';
-import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/containers/_PmList';
 import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '../config';
 
@@ -157,11 +156,7 @@ class PmList extends Component {
 
     if (isRefreshing && page === 0) {
       return (
-        <View style={mainStyles.container}>
-          <View style={indicatorStyles.fullScreenIndicator}>
-            <ActivityIndicator />
-          </View>
-        </View>
+        <LoadingSpinner />
       );
     }
 

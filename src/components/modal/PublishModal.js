@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   LayoutAnimation
 } from 'react-native';
+import LoadingSpinnerOverlay from '../3rd_party/LoadingSpinnerOverlay';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -126,7 +127,8 @@ class PublishModal extends Component {
     // Hide keyboard.
     this.hideKeyboard();
 
-    this.setState({ isPublishing: true });
+    // this.setState({ isPublishing: true });
+    this.modalLoadingSpinnerOverLay.show();
     api.uploadImages(this.state.images).then(data => {
       let { typeId, title, content } = this.state;
       return api.publishTopic({
@@ -157,7 +159,8 @@ class PublishModal extends Component {
         }
       }
     }).finally(() => {
-      this.setState({ isPublishing: false });
+      // this.setState({ isPublishing: false });
+      this.modalLoadingSpinnerOverLay.hide();
     });
   }
 
@@ -174,10 +177,12 @@ class PublishModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress = (emoji) => {
+  handleExtraContentPress = (extraContent) => {
+    if (this.state.isPublishing) { return; }
+
     this.setState((prevState) => {
       let newContent = prevState.content.substr(0, this.contentCursorLocation)
-                     + emoji.code
+                     + extraContent
                      + prevState.content.substr(this.contentCursorLocation);
       return { content: newContent };
     });
@@ -240,6 +245,17 @@ class PublishModal extends Component {
     }
   }
 
+  showFriendList() {
+    if (this.state.isPublishing) { return; }
+
+    this.props.navigation.navigate('FriendListModal', {
+      callback: (friend) => {
+        friend && this.handleExtraContentPress(`@${friend.name} `);
+        this.showKeyboard();
+      }
+    });
+  }
+
   render() {
     let {
       typeId,
@@ -263,11 +279,18 @@ class PublishModal extends Component {
             setSelection={typeId => this.setState({ typeId })} />
         }
         <Header title={this.title}>
-          <Text
-            style={modalStyles.button}
-            onPress={() => this.handleCancel()}>
-            取消
-          </Text>
+          {isPublishing &&
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              取消
+            </Text>
+            ||
+            <Text
+              style={modalStyles.button}
+              onPress={() => this.handleCancel()}>
+              取消
+            </Text>
+          }
           {this.isFormValid() &&
             (isPublishing &&
               <ActivityIndicator color='white' />
@@ -375,6 +398,13 @@ class PublishModal extends Component {
                     onPress={() => this.handlePanelSelect('emoji')} />
               )
             }
+            {!isTitleFocused &&
+              <Icon
+                style={keyboardAccessoryStyles.keyboardAccessoryItem}
+                name='at'
+                size={30}
+                onPress={() => this.showFriendList()} />
+            }
             <Icon
               style={keyboardAccessoryStyles.keyboardAccessoryItem}
               name='angle-down'
@@ -384,8 +414,10 @@ class PublishModal extends Component {
           <EmojiPicker
             emojis={CUSTOM_EMOJIS}
             show={selectedPanel === 'emoji'}
-            onEmojiPress={this.handleEmojiPress} />
+            onEmojiPress={(emoji) => this.handleExtraContentPress(emoji.code)} />
         </KeyboardAccessory>
+        <LoadingSpinnerOverlay
+          ref={ component => this.modalLoadingSpinnerOverLay = component }/>
       </View>
     );
   }

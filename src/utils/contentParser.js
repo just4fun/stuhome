@@ -20,7 +20,7 @@ export function parseContentWithEmoji(content, includeEmoji = true) {
 
   return contentEmojiArray.filter(item => item.trim()).map((item, index) => {
     // Handle custom emojis.
-    if (/https?:\/\/.+(?:jpg|png|gif)/.test(item)) {
+    if (/^https?:\/\/.+(?:jpg|png|gif)$/.test(item)) {
       // Exclude custom emoji because copy something like [mobcent_phiz=..]
       // is useless as paste content.
       if (!includeEmoji) { return ''; }

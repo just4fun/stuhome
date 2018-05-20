@@ -13,12 +13,13 @@ import ReplyModal from '../components/modal/ReplyModal';
 import menus from '../constants/menus';
 import { invalidateNotifyList, fetchNotifyList } from '../actions/message/notifyListAction';
 import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '../actions/message/pmSessionListAction';
-import { getAtMeCount, getReplyCount, getPmCount } from '../selectors/alert';
+import { getAtMeCount, getReplyCount, getPmCount, getSystemCount } from '../selectors/alert';
 
 const TABS = [
   { label: '@', type: 'at' },
   { label: '回复', type: 'post' },
-  { label: '私信', type: 'private' }
+  { label: '私信', type: 'private' },
+  { label: '系统提醒', type: 'system' }
 ];
 
 class Message extends Component {
@@ -62,10 +63,11 @@ class Message extends Component {
   // for each tab of <ScrollableTabView /> component.
   getTabsWithAlertCount(tabs) {
     let newTabs = [];
-    let { atMeCount, replyCount, pmCount } = this.props;
+    let { atMeCount, replyCount, pmCount, systemCount } = this.props;
     newTabs.push({ name: tabs[0], count: atMeCount });
     newTabs.push({ name: tabs[1], count: replyCount });
     newTabs.push({ name: tabs[2], count: pmCount });
+    newTabs.push({ name: tabs[3], count: systemCount });
     return newTabs;
   }
 
@@ -97,7 +99,7 @@ class Message extends Component {
                   navigation={navigation}
                   currentUserId={userId}
                   markPmAsRead={({ plid }) => this.props.markPmAsRead({ plid })}
-                  fetchPmSessionList={() => this.fetchPmSessionList({})}
+                  fetchPmSessionList={({ page }) => this.fetchPmSessionList({ page })}
                   refreshPmSessionList={({ page, isEndReached }) => this.refreshPmSessionList({ page, isEndReached })} />
               );
             }
@@ -126,6 +128,7 @@ function mapStateToProps({ notifyList, pmSessionList, alert, user }) {
     atMeCount: getAtMeCount(alert),
     replyCount: getReplyCount(alert),
     pmCount: getPmCount(alert),
+    systemCount: getSystemCount(alert),
     userId: _.get(user, ['authrization', 'uid'])
   };
 }

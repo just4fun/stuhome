@@ -35,9 +35,13 @@ export default class Comment extends Component {
       '复制'
     ];
     let isLoginUser = currentUserId === userId;
-    if (!isLoginUser) {
+    // If userId is 0, it's anonymous user.
+    let canSendPrivateMessage = !isLoginUser && userId !== 0;
+    let editable =
+      isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
+    if (canSendPrivateMessage) {
       options.push('私信');
-    } else {
+    } else if (editable) {
       options.push('编辑');
     }
     options.push('取消');
@@ -70,13 +74,11 @@ export default class Comment extends Component {
           });
           break;
         case 2:
-          if (!isLoginUser) {
+          if (canSendPrivateMessage) {
             navigation.navigate('PrivateMessage', { userId });
-          } else if (managePanel && managePanel.length > 0) {
+          } else if (editable) {
             let editAction = managePanel.find(item => item.title === '编辑');
-            if (editAction) {
-              SafariView.show(editAction.action);
-            }
+            SafariView.show(editAction.action);
           }
           break;
       }

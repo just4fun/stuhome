@@ -12,7 +12,7 @@ For all officially recommended clients, please visit http://bbs.uestc.edu.cn/for
 
 ![app_icon](https://cloud.githubusercontent.com/assets/7512625/18613513/348f7322-7daf-11e6-902d-94776bb55670.jpg)
 
-## Status (v1.5.2)
+## Status (v1.6.0)
 
 [<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 
@@ -44,6 +44,7 @@ For all officially recommended clients, please visit http://bbs.uestc.edu.cn/for
   - [x] Favor topic
   - [x] Upload images
   - [x] Emoji
+  - [x] Show friend list to @
   - [ ] Report objectionable content
 - [ ] Vote
   - [ ] Create vote
@@ -51,9 +52,10 @@ For all officially recommended clients, please visit http://bbs.uestc.edu.cn/for
   - [x] View vote results
 - [x] Search
 - [x] Notifications
-  - [x] View list mentioned(@) me
+  - [x] View list mentioned (@) me
   - [x] View list replied me
   - [x] View private messages
+  - [x] View system notifications
   - [x] Notification alert
 - [ ] Individual
   - [x] View my recent topics

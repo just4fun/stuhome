@@ -23,7 +23,6 @@ export default class ImageUploader extends Component {
   handleUploaderPress() {
     if (this.props.disabled) { return; }
 
-
     let takePhotoOptions = {
       compressImageQuality: 0.5,
       loadingLabelText: '处理中...'

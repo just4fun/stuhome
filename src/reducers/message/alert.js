@@ -7,7 +7,8 @@ import {
 } from '../../actions/message/alertAction';
 import {
   MARK_AT_ME_AS_READ,
-  MARK_REPLY_AS_READ
+  MARK_REPLY_AS_READ,
+  MARK_SYSTEM_AS_READ
 } from '../../actions/message/notifyListAction';
 import { MARK_PM_AS_READ } from '../../actions/message/pmSessionListAction';
 import { REMOVE_CACHE } from '../../actions/authorizeAction';
@@ -17,7 +18,8 @@ const defaultAlertState = {
   response: {
     atMeInfo: { count: 0 },
     replyInfo: { count: 0 },
-    pmInfos: []
+    pmInfos: [],
+    systemInfo: { count: 0 }
   }
 };
 
@@ -42,52 +44,39 @@ export default function alert(state = defaultAlertState, action) {
       };
     }
     case MARK_AT_ME_AS_READ: {
-      let {
-        response: {
-          replyInfo,
-          pmInfos
-        }
-      } = state;
       return {
         ...state,
         response: {
-          atMeInfo: { count: 0 },
-          // Keep another information.
-          replyInfo,
-          pmInfos
+          ...state.response,
+          atMeInfo: { count: 0 }
         }
       };
     }
     case MARK_REPLY_AS_READ: {
-      let {
-        response: {
-          atMeInfo,
-          pmInfos
-        }
-      } = state;
       return {
         ...state,
         response: {
-          atMeInfo,
+          ...state.response,
           replyInfo: { count: 0 },
-          pmInfos
         }
       };
     }
     case MARK_PM_AS_READ: {
-      let {
-        response: {
-          atMeInfo,
-          replyInfo
-        }
-      } = state;
       let { plid } = action.payload;
       return {
         ...state,
         response: {
-          atMeInfo,
-          replyInfo,
+          ...state.response,
           pmInfos: state.response.pmInfos.filter(item => item.plid !== plid)
+        }
+      };
+    }
+    case MARK_SYSTEM_AS_READ: {
+      return {
+        ...state,
+        response: {
+          ...state.response,
+          systemInfo: { count: 0 },
         }
       };
     }

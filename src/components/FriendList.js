@@ -8,14 +8,9 @@ import {
 } from 'react-native';
 import listStyles from '../styles/common/_List';
 import indicatorStyles from '../styles/common/_Indicator';
-import NotifyItem from './NotifyItem';
-import NotifySystemItem from './NotifySystemItem';
+import FriendItem from './FriendItem';
 
-export default class NotifyList extends Component {
-  componentDidMount() {
-    this.props.fetchNotifyList();
-  }
-
+export default class FriendList extends Component {
   endReached() {
     let {
       hasMore,
@@ -23,11 +18,11 @@ export default class NotifyList extends Component {
       isEndReached,
       page,
       list
-    } = this.props.notifyList;
+    } = this.props.friendList;
 
     if (!hasMore || isRefreshing || isEndReached) { return; }
 
-    this.props.refreshNotifyList({
+    this.props.refreshFriendList({
       page: page + 1,
       isEndReached: true
     });
@@ -37,7 +32,7 @@ export default class NotifyList extends Component {
     let {
       hasMore,
       isEndReached
-    } = this.props.notifyList;
+    } = this.props.friendList;
 
     if (!hasMore || !isEndReached) { return <View></View>; }
 
@@ -52,7 +47,7 @@ export default class NotifyList extends Component {
     return (
       <View style={listStyles.emptyView}>
         <Text style={listStyles.emptyText}>
-          暂无消息
+          暂无好友
         </Text>
       </View>
     );
@@ -60,40 +55,34 @@ export default class NotifyList extends Component {
 
   render() {
     let {
-      notifyList,
+      friendList,
       navigation,
+      refreshFriendList,
       currentUserId,
-      refreshNotifyList
+      handleSelectFriend
     } = this.props;
-    let realNotifyList = [];
+    let realFriendList = [];
     let isRefreshing = false;
 
-    if (notifyList.list) {
-      realNotifyList = notifyList.list;
-      isRefreshing = notifyList.isRefreshing;
+    if (friendList.list) {
+      realFriendList = friendList.list;
+      isRefreshing = friendList.isRefreshing;
     };
 
     return (
       <FlatList
-        data={realNotifyList}
+        data={realFriendList}
         keyExtractor={(item, index) => index}
         removeClippedSubviews={false}
         enableEmptySections={true}
-        renderItem={({ item: notification, index }) => {
-          if (notification.type === 'system') {
-            return (
-              <NotifySystemItem
-                key={index}
-                notification={notification} />
-            );
-          }
-
+        renderItem={({ item: friend }) => {
           return (
-            <NotifyItem
-              key={notification.topic_id}
-              notification={notification}
+            <FriendItem
+              key={friend.uid}
+              friend={friend}
+              navigation={navigation}
               currentUserId={currentUserId}
-              navigation={navigation} />
+              handleSelectFriend={handleSelectFriend} />
           );
         }}
         onEndReached={() => this.endReached()}
@@ -103,7 +92,7 @@ export default class NotifyList extends Component {
         refreshControl={
           <RefreshControl
             title='正在加载...'
-            onRefresh={() => refreshNotifyList({})}
+            onRefresh={() => refreshFriendList({ page: 1 })}
             refreshing={isRefreshing} />
         } />
     );

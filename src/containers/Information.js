@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  ActivityIndicator
-} from 'react-native';
+import { View } from 'react-native';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from '../services/ImagePicker';
 import { setAuthrization } from '../actions/authorizeAction';
 import menus from '../constants/menus';
 import SettingItem from '../components/SettingItem';
+import LoadingSpinner from '../components/LoadingSpinner';
 import mainStyles from '../styles/components/_Main';
 import indicatorStyles from '../styles/common/_Indicator';
 import styles from '../styles/containers/_About';
@@ -82,11 +80,7 @@ class Information extends Component {
 
     if (isFetching || !_.get(userItem, ['user', 'name'])) {
       return (
-        <View style={mainStyles.container}>
-          <View style={indicatorStyles.fullScreenIndicator}>
-            <ActivityIndicator />
-          </View>
-        </View>
+        <LoadingSpinner />
       );
     }
 

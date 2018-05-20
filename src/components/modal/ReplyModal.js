@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import LoadingSpinnerOverlay from '../3rd_party/LoadingSpinnerOverlay';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 import EmojiPicker from 'react-native-smart-emoji-picker';
@@ -119,7 +120,8 @@ class ReplyModal extends Component {
     // Hide keyboard.
     this.hideKeyboard();
 
-    this.setState({ isPublishing: true });
+    // this.setState({ isPublishing: true });
+    this.modalLoadingSpinnerOverLay.show();
     api.uploadImages(this.state.images).then(data => {
       // Actually there is no need to pass `boardId` when we
       // reply a topic.
@@ -151,7 +153,8 @@ class ReplyModal extends Component {
         }
       }
     }).finally(() => {
-      this.setState({ isPublishing: false });
+      // this.setState({ isPublishing: false });
+      this.modalLoadingSpinnerOverLay.hide();
     });
   }
 
@@ -180,10 +183,12 @@ class ReplyModal extends Component {
     this.setState({ selectedPanel: item });
   }
 
-  handleEmojiPress = (emoji) => {
+  handleExtraContentPress = (extraContent) => {
+    if (this.state.isPublishing) { return; }
+
     this.setState((prevState) => {
       let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
-                     + emoji.code
+                     + extraContent
                      + prevState.replyContent.substr(this.contentCursorLocation);
       return { replyContent: newContent };
     });
@@ -218,6 +223,17 @@ class ReplyModal extends Component {
     }
   }
 
+  showFriendList() {
+    if (this.state.isPublishing) { return; }
+
+    this.props.navigation.navigate('FriendListModal', {
+      callback: (friend) => {
+        friend && this.handleExtraContentPress(`@${friend.name} `);
+        this.showKeyboard();
+      }
+    });
+  }
+
   render() {
     let {
       replyContent,
@@ -229,11 +245,18 @@ class ReplyModal extends Component {
     return (
       <View style={mainStyles.container}>
         <Header title={this.title}>
-          <Text
-            style={modalStyles.button}
-            onPress={() => this.handleCancel()}>
-            取消
-          </Text>
+          {isPublishing &&
+            <Text
+              style={[modalStyles.button, modalStyles.disabled]}>
+              取消
+            </Text>
+            ||
+            <Text
+              style={modalStyles.button}
+              onPress={() => this.handleCancel()}>
+              取消
+            </Text>
+          }
           {replyContent.length &&
             (isPublishing &&
               <ActivityIndicator color='white' />
@@ -297,6 +320,11 @@ class ReplyModal extends Component {
             }
             <Icon
               style={keyboardAccessoryStyles.keyboardAccessoryItem}
+              name='at'
+              size={30}
+              onPress={() => this.showFriendList()} />
+            <Icon
+              style={keyboardAccessoryStyles.keyboardAccessoryItem}
               name='angle-down'
               size={30}
               onPress={() => this.hideKeyboard()} />
@@ -304,8 +332,10 @@ class ReplyModal extends Component {
           <EmojiPicker
             emojis={CUSTOM_EMOJIS}
             show={selectedPanel === 'emoji'}
-            onEmojiPress={this.handleEmojiPress} />
+            onEmojiPress={(emoji) => this.handleExtraContentPress(emoji.code)} />
         </KeyboardAccessory>
+        <LoadingSpinnerOverlay
+          ref={ component => this.modalLoadingSpinnerOverLay = component }/>
       </View>
     );
   }

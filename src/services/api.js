@@ -287,10 +287,28 @@ export default {
   },
 
   fetchAlerts: () => {
-    return callApi('message/heart');
+    // Specify `sdkVersion` to get `systemInfo` instead of `friendInfo`.
+    //
+    // API source code:
+    //
+    // if($_GET['sdkVersion']>='2.4.2'){
+    //   // 获得系统消息
+    //   $res['body']['systemInfo'] = $this->_getSystemInfo($uid);
+    // }else{
+    //   // 获取好友通知
+    //   $res['body']['friendInfo'] = $this->_getNotifyInfo($uid, 'friend');
+    // }
+    return callApi('message/heart&sdkVersion=2.4.2');
   },
 
   fetchUser: ({ userId }) => {
     return callApi(`user/userinfo&userId=${userId}`);
+  },
+
+  fetchFriendList: ({
+    page = DEFAULT_PAGE,
+    pageSize = DEFAULT_PAGESIZE
+  }) => {
+    return callApi(`forum/atuserlist&page=${page}&pageSize=${pageSize}`);
   }
 };

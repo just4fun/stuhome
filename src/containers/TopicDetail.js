@@ -27,6 +27,7 @@ import Comment from '../components/Comment';
 import Content from '../components/Content';
 import VoteList from '../components/VoteList';
 import RewardList from '../components/RewardList';
+import LoadingSpinner from '../components/LoadingSpinner';
 import MessageBar from '../services/MessageBar';
 import SafariView from '../services/SafariView';
 import colors from '../styles/common/_colors';
@@ -175,7 +176,7 @@ class TopicDetail extends Component {
         authrization: { uid }
       }
     } = this.props;
-    let { isFavoring } = this.state;
+    let { isFavoring, isVoting } = this.state;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
@@ -242,6 +243,7 @@ class TopicDetail extends Component {
             {topic.poll_info &&
               <VoteList
                 pollInfo={topic.poll_info}
+                isVoting={isVoting}
                 publishVote={voteIds => this.publishVote(voteIds)} />
             }
           </View>
@@ -328,7 +330,9 @@ class TopicDetail extends Component {
       }
     } = this.props;
     let isLoginUser = uid === user_id;
-    if (isLoginUser) {
+    let editable =
+      isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
+    if (editable) {
       options.push('编辑帖子');
     }
     options.push('取消');
@@ -366,11 +370,9 @@ class TopicDetail extends Component {
           });
           break;
         case 5:
-          if (isLoginUser && managePanel && managePanel.length > 0) {
+          if (editable) {
             let editAction = managePanel.find(item => item.title === '编辑');
-            if (editAction) {
-              SafariView.show(editAction.action);
-            }
+            SafariView.show(editAction.action);
           }
           break;
       }
@@ -378,28 +380,11 @@ class TopicDetail extends Component {
   }
 
   render() {
-    let {
-      topicItem,
-      user: {
-        authrization: { uid }
-      },
-      navigation
-    } = this.props;
+    let { topicItem } = this.props;
 
-    if (topicItem.isFetching) {
+    if (topicItem.isFetching || !_.get(topicItem, ['topic', 'topic_id'])) {
       return (
-        <View style={mainStyles.container}>
-          <View style={indicatorStyles.fullScreenIndicator}>
-            <ActivityIndicator />
-          </View>
-        </View>
-      );
-    }
-
-    if (!_.get(topicItem, ['topic', 'topic_id'])) {
-      return (
-        <View style={mainStyles.container}>
-        </View>
+        <LoadingSpinner />
       );
     }
 
@@ -410,6 +395,10 @@ class TopicDetail extends Component {
           topic_id,
           replies
         }
+      },
+      navigation,
+      user: {
+        authrization: { uid }
       }
     } = this.props;
 
