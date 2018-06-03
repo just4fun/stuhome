@@ -3,10 +3,9 @@ import {
   View,
   Text,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import styles from '../styles/components/_MenuProfile';
-import colors from '../styles/common/_colors';
 
 export default class MenuProfile extends Component {
   render() {
@@ -24,25 +23,23 @@ export default class MenuProfile extends Component {
       <View style={styles.menuHeader}>
         <View>
           {token &&
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.avatar}
-              underlayColor={colors.underlay}
               onPress={() => navigation.navigate('Information', { userId: uid })}>
               <Image
                 key={avatar}
                 style={styles.avatar}
                 source={{ uri: avatar }} />
-             </TouchableHighlight>
+             </TouchableOpacity>
             ||
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.avatar}
-              underlayColor={colors.underlay}
               onPress={() => navigation.navigate('LoginModal')}>
               <Image
                 key='noavatar'
                 style={styles.avatar}
                 source={require('../images/noavatar.jpg')} />
-             </TouchableHighlight>
+             </TouchableOpacity>
           }
           <Text style={styles.name}>{token ? userName : '请先登录'}</Text>
         </View>
