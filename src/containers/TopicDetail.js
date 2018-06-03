@@ -181,6 +181,11 @@ class TopicDetail extends Component {
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
 
+    // Same with f227938f.
+    if (topic.user_id === 0) {
+      topic.user_nick_name = '匿名';
+    }
+
     return (
       <View>
         <View style={styles.top}>
@@ -409,18 +414,24 @@ class TopicDetail extends Component {
           keyExtractor={(item, index) => index}
           removeClippedSubviews={false}
           enableEmptySections={true}
-          renderItem={({ item: comment }) =>
-            <Comment
-              key={comment.reply_posts_id}
-              comment={comment}
-              currentUserId={uid}
-              // `topicId` and `boardId` are not involved in `comment` here,
-              // which are necessary for topic reply API.
-              topicId={this.topicId}
-              boardId={this.boardId}
-              navigation={navigation}
-              getCopyContent={(content) => this.getCopyContent(content)} />
-          }
+          renderItem={({ item: comment }) => {
+            // Same with f227938f.
+            if (comment.reply_id === 0) {
+              comment.reply_name = '匿名';
+            }
+            return (
+              <Comment
+                key={comment.reply_posts_id}
+                comment={comment}
+                currentUserId={uid}
+                // `topicId` and `boardId` are not involved in `comment` here,
+                // which are necessary for topic reply API.
+                topicId={this.topicId}
+                boardId={this.boardId}
+                navigation={navigation}
+                getCopyContent={(content) => this.getCopyContent(content)} />
+            );
+          }}
           onEndReached={() => this.endReached()}
           onEndReachedThreshold={0}
           ListHeaderComponent={() => this.renderHeader()}

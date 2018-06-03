@@ -101,7 +101,13 @@ export default {
     userName,
     password
   }) => {
-    return callApi(`user/login&username=${userName}&password=${password}`);
+    // If we use `application/x-www-form-urlencoded` as `Content-Type`, the body should be
+    // `key1=value1&key2=value2`, and the specific symbols in value1 and value2 will be treated
+    // as same as we used them in the query string of GET request. That being said, we should
+    // encode the values especially do comparing with database.
+    let body = `username=${encodeURIComponent(userName)}&password=${encodeURIComponent(password)}`;
+    let fetchOptions = getPublishFetchOptions(body);
+    return callApi(`user/login`, fetchOptions);
   },
 
   fetchTopicList: ({
