@@ -11,6 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { GiftedChat } from 'react-native-gifted-chat';
 import GiftedChatSendButton from '../components/3rd_party/GiftedChatSendButton';
 import GiftedChatLoadEarlierButton from '../components/3rd_party/GiftedChatLoadEarlierButton';
+import GiftedChatMessageText from '../components/3rd_party/GiftedChatMessageText';
 import {
   submit,
   resetPublish
@@ -192,6 +193,7 @@ class PmList extends Component {
           })}
           renderSend={props => <GiftedChatSendButton {...props} />}
           renderLoadEarlier={props => <GiftedChatLoadEarlierButton {...props} />}
+          renderMessageText={props => <GiftedChatMessageText {...props} />}
           renderTicks={message => {
             if (!message.isNew) { return; }
 
