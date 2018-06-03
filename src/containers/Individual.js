@@ -138,7 +138,6 @@ class Individual extends Component {
       <View style={mainStyles.container}>
         <View style={styles.header}>
           <TouchableOpacity
-            underlayColor={colors.underlay}
             onPress={() => {
               navigation.navigate('Information', { userId: this.userId });
             }}>

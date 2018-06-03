@@ -5,7 +5,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 import styles from '../styles/components/_Avatar';
-import colors from '../styles/common/_colors';
 
 export default class Avatar extends Component {
   render() {
@@ -21,7 +20,6 @@ export default class Avatar extends Component {
 
     return (
       <TouchableOpacity
-        underlayColor={colors.underlay}
         onPress={() => {
           if (onPress) {
             onPress();
