@@ -29,12 +29,12 @@
     "react-native-image-crop-picker": "0.20.0",
     "react-native-iphone-x-helper": "1.0.2",
     "react-native-keyboard-aware-scroll-view": "0.4.1",
-    "react-native-message-bar": "1.6.0",
+    "react-native-message-bar": "^1.6.0",
     "react-native-safari-view": "2.1.0",
     "react-native-scrollable-tab-view": "0.8.0",
     "react-native-search-bar": "3.1.0",
     "react-native-smart-emoji-picker": "0.1.0",
-    "react-native-smart-timer-enhance": "^1.0.3",
+    "react-native-smart-timer-enhance": "1.0.3",
     "react-native-sticky-keyboard-accessory": "0.1.1",
     "react-native-vector-icons": "4.4.3",
     "react-navigation": "1.0.3",
@@ -44,16 +44,16 @@
     "redux-saga": "0.12.0"
   },
   "devDependencies": {
-    "babel": "6.5.2",
-    "babel-core": "6.22.1",
-    "babel-eslint": "6.0.0-beta.6",
-    "babel-preset-react-native": "1.9.1",
-    "chai": "3.5.0",
-    "enzyme": "2.7.0",
-    "eslint": "2.4.0",
-    "eslint-plugin-react": "4.2.3",
-    "mocha": "3.2.0",
-    "react-native-mock": "0.2.9"
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-preset-react-native": "^4.0.0",
+    "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "eslint": "^5.2.0",
+    "eslint-plugin-react": "^7.10.0",
+    "mocha": "^5.2.0",
+    "react-native-mock": "^0.3.1"
   },
   "license": "MIT"
 }
