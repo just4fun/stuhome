@@ -5,7 +5,7 @@ import {
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
-} from '../../actions/message/pmListAction';
+} from '~/actions/message/pmListAction';
 
 const defaultPmListState = {
   isRefreshing: false,

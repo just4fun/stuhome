@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import MessageBar from '../services/MessageBar';
+import MessageBar from '~/services/MessageBar';
 
 function parseJSON(response) {
   return response.json();

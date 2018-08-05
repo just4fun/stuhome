@@ -3,7 +3,7 @@ import {
   REQUEST_COMPELTED,
   RESET,
   REQUEST_FAILED
-} from '../../actions/message/sendAction';
+} from '~/actions/message/sendAction';
 
 const defaultState = {
   isPublishing: false,

@@ -1,7 +1,7 @@
 import React from 'react';
-import TopicList from '../../src/components/TopicList';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import TopicList from '~/components/TopicList';
 
 describe('<TopicList />', () => {
   it('should not render bad topic data', () => {

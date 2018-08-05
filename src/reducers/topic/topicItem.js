@@ -4,7 +4,7 @@ import {
   REQUEST_COMPELTED,
   RESET,
   REQUEST_FAILED
-} from '../../actions/topic/topicAction';
+} from '~/actions/topic/topicAction';
 
 // We don't use `cacheManager` to check `shouldFetchTopicItem` in sagas
 // since topic comments are back with topic details together, and we don't

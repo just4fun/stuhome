@@ -3,7 +3,7 @@ import {
   REQUEST_COMPELTED,
   REQUEST_FAILED,
   RESET
-} from '../../actions/topic/searchAction';
+} from '~/actions/topic/searchAction';
 
 const defaultSearchState = {
   // indicate fetching via pull to refresh

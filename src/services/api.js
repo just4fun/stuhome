@@ -1,6 +1,6 @@
-import request from '../utils/request';
-import { API_ROOT, PLAT_TYPE } from '../config';
-import { getAppHashValue } from '../utils/app';
+import request from '~/utils/request';
+import { getAppHashValue } from '~/utils/app';
+import { API_ROOT, PLAT_TYPE } from '~/config';
 
 const DEFAULT_SORTTYPE = 'all';
 const DEFAULT_ORDER = 0;

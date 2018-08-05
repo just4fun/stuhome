@@ -5,8 +5,8 @@ import {
   REQUEST_COMPELTED,
   RESET,
   REQUEST_FAILED
-} from '../../actions/topic/topicListAction';
-import { REMOVE_CACHE } from '../../actions/authorizeAction';
+} from '~/actions/topic/topicListAction';
+import { REMOVE_CACHE } from '~/actions/authorizeAction';
 
 const defaultState = {};
 const defaultTopicListState = {

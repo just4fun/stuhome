@@ -3,7 +3,7 @@ import {
   REQUEST_COMPELTED,
   REQUEST_FAILED,
   INVALIDATE
-} from '../../actions/user/friendListAction';
+} from '~/actions/user/friendListAction';
 
 const defaultSearchState = {
   // indicate fetching via pull to refresh

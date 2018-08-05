@@ -1,5 +1,5 @@
 import md5 from 'md5';
-import { APP_AUTH_KEY } from '../config';
+import { APP_AUTH_KEY } from '~/config';
 
 // http://phpjs.org/functions/time/
 function time() {

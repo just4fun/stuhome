@@ -4,14 +4,14 @@ import {
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
-} from '../../actions/message/alertAction';
+} from '~/actions/message/alertAction';
 import {
   MARK_AT_ME_AS_READ,
   MARK_REPLY_AS_READ,
   MARK_SYSTEM_AS_READ
-} from '../../actions/message/notifyListAction';
-import { MARK_PM_AS_READ } from '../../actions/message/pmSessionListAction';
-import { REMOVE_CACHE } from '../../actions/authorizeAction';
+} from '~/actions/message/notifyListAction';
+import { MARK_PM_AS_READ } from '~/actions/message/pmSessionListAction';
+import { REMOVE_CACHE } from '~/actions/authorizeAction';
 
 const defaultAlertState = {
   isFetching: false,

@@ -6,7 +6,7 @@ import {
   REMOVE_CACHE,
   RESET_AUTHRIZATION,
   RESET_AUTHRIZATION_RESULT
-} from '../actions/authorizeAction';
+} from '~/actions/authorizeAction';
 
 const defaultUserState = {
   isFetching: false,

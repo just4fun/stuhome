@@ -4,7 +4,7 @@ import {
   REQUEST_COMPELTED,
   RESET,
   REQUEST_FAILED
-} from '../../actions/user/userAction';
+} from '~/actions/user/userAction';
 
 const defaultState = {};
 const defaultUserState = {

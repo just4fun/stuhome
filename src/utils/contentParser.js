@@ -3,8 +3,8 @@ import {
   Image,
   StyleSheet
 } from 'react-native';
-import { DEFAULT_EMOJIS } from '../constants/emojis';
-import { DEFAULT_EMOJI_ROOT } from '../config';
+import { DEFAULT_EMOJIS } from '~/constants/emojis';
+import { DEFAULT_EMOJI_ROOT } from '~/config';
 
 // This method is also used to copy topic content and comment content,
 // the second parameter here is used to exclude custom emoji as paste

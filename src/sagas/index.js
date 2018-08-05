@@ -1,24 +1,24 @@
 import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
-import * as authorizeActions from '../actions/authorizeAction';
-import * as topicListActions from '../actions/topic/topicListAction';
-import * as userTopicListActions from '../actions/user/topicListAction';
-import * as forumListActions from '../actions/forumAction';
-import * as notifyListActions from '../actions/message/notifyListAction';
-import * as searchActions from '../actions/topic/searchAction';
-import * as topicActions from '../actions/topic/topicAction';
-import * as pmSessionListActions from '../actions/message/pmSessionListAction';
-import * as pmListActions from '../actions/message/pmListAction';
-import * as sendActions from '../actions/message/sendAction';
-import * as alertActions from '../actions/message/alertAction';
-import * as settingsActions from '../actions/settingsAction';
-import * as userActions from '../actions/user/userAction';
-import * as friendListActions from '../actions/user/friendListAction';
+import * as authorizeActions from '~/actions/authorizeAction';
+import * as topicListActions from '~/actions/topic/topicListAction';
+import * as userTopicListActions from '~/actions/user/topicListAction';
+import * as forumListActions from '~/actions/forumAction';
+import * as notifyListActions from '~/actions/message/notifyListAction';
+import * as searchActions from '~/actions/topic/searchAction';
+import * as topicActions from '~/actions/topic/topicAction';
+import * as pmSessionListActions from '~/actions/message/pmSessionListAction';
+import * as pmListActions from '~/actions/message/pmListAction';
+import * as sendActions from '~/actions/message/sendAction';
+import * as alertActions from '~/actions/message/alertAction';
+import * as settingsActions from '~/actions/settingsAction';
+import * as userActions from '~/actions/user/userAction';
+import * as friendListActions from '~/actions/user/friendListAction';
 
-import cacheManager from '../services/cacheManager';
-import { fetchResource } from '../utils/sagaHelper';
-import api from '../services/api';
+import cacheManager from '~/services/cacheManager';
+import { fetchResource } from '~/utils/sagaHelper';
+import api from '~/services/api';
 
 const fetchLoginUserApi = fetchResource.bind(null, authorizeActions, api.fetchLoginUser);
 const fetchTopicListApi = fetchResource.bind(null, topicListActions, api.fetchTopicList);

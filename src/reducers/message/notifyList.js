@@ -4,8 +4,8 @@ import {
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
-} from '../../actions/message/notifyListAction';
-import { REMOVE_CACHE } from '../../actions/authorizeAction';
+} from '~/actions/message/notifyListAction';
+import { REMOVE_CACHE } from '~/actions/authorizeAction';
 
 const defaultState = {};
 const defaultNotifyListState = {

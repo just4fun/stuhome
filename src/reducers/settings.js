@@ -1,6 +1,6 @@
 import {
   DONE
-} from '../actions/settingsAction';
+} from '~/actions/settingsAction';
 
 const defaultSettingsState = {
   enableNotification: true,

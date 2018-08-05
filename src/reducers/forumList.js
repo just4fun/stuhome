@@ -4,8 +4,8 @@ import {
   REQUEST_STARTED,
   REQUEST_COMPELTED,
   REQUEST_FAILED
-} from '../actions/forumAction';
-import { REMOVE_CACHE } from '../actions/authorizeAction';
+} from '~/actions/forumAction';
+import { REMOVE_CACHE } from '~/actions/authorizeAction';
 
 const defaultState = {};
 const defaultForumListState = {
