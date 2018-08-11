@@ -11,7 +11,7 @@ import TopicList from '~/components/TopicList/TopicList';
 import ForumItems from '~/components/ForumItems/ForumItems';
 import PublishModal from '~/components/PublishModal/PublishModal';
 import PublishButton from '~/components/PublishButton/PublishButton';
-import { invalidateTopicList, fetchTopicList, resetTopicList } from '~/actions/topic/topicListAction';
+import { invalidateTopicList, fetchTopicList, resetTopicList } from '~/common/modules/topicList/topicList.ducks';
 import { invalidateForumList, fetchForumList } from '~/actions/forumAction';
 
 import mainStyles from '~/common/styles/Main.style';

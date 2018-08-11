@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
 import * as authorizeActions from '~/actions/authorizeAction';
-import * as topicListActions from '~/actions/topic/topicListAction';
+import * as topicListActions from '~/common/modules/topicList/topicList.ducks';
 import * as userTopicListActions from '~/actions/user/topicListAction';
 import * as forumListActions from '~/actions/forumAction';
 import * as notifyListActions from '~/actions/message/notifyListAction';
@@ -101,7 +101,7 @@ function putSettingsToStorage(settings) {
 
 function* watchTopicList() {
   while(true) {
-    const { payload } = yield take(topicListActions.REQUEST);
+    const { payload } = yield take(topicListActions.TOPIC_LIST_FETCH);
     yield fork(fetchTopicList, payload);
   }
 }
