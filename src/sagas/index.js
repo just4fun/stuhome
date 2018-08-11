@@ -7,7 +7,7 @@ import * as userTopicListActions from '~/actions/user/topicListAction';
 import * as forumListActions from '~/common/modules/forum/forumList.ducks';
 import * as notifyListActions from '~/actions/message/notifyListAction';
 import * as searchListActions from '~/common/modules/topic/searchList.ducks';
-import * as topicActions from '~/actions/topic/topicAction';
+import * as topicActions from '~/common/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/actions/message/pmSessionListAction';
 import * as pmListActions from '~/actions/message/pmListAction';
 import * as sendActions from '~/actions/message/sendAction';
@@ -182,7 +182,7 @@ function* watchSearchList() {
 
 function* watchTopic() {
   while(true) {
-    const { payload } = yield take(topicActions.REQUEST);
+    const { payload } = yield take(topicActions.TOPIC_FETCH);
     yield fork(fetchTopicApi, payload);
   }
 }
