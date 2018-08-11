@@ -9,7 +9,7 @@ import SearchBar from 'react-native-search-bar';
 import TopicList from '~/components/TopicList/TopicList';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import MENUS from '~/constants/menus';
-import { fetchSearch, resetSearch } from '~/actions/topic/searchAction';
+import { fetchSearchList, resetSearchList } from '~/common/modules/topic/searchList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import indicatorStyles from '~/common/styles/Indicator.style';
@@ -33,15 +33,15 @@ class Search extends Component {
   }
 
   componentWillUnmount() {
-    this.props.resetSearch();
+    this.props.resetSearchList();
   }
 
   componentWillReceiveProps(nextProps) {
-    let { search } = nextProps;
-    if (search.errCode) {
-      AlertIOS.alert('提示', search.errCode);
+    let { searchList } = nextProps;
+    if (searchList.errCode) {
+      AlertIOS.alert('提示', searchList.errCode);
       // Clean error message.
-      this.props.resetSearch();
+      this.props.resetSearchList();
     }
   }
 
@@ -57,7 +57,7 @@ class Search extends Component {
     // Search topic list can not be pulled to refresh,
     // so there is no need to invalidate topic list here,
     // this method is only used for end reach refreshing.
-    this.props.fetchSearch({
+    this.props.fetchSearchList({
       keyword: this.state.keyword,
       isEndReached,
       sortType: 'all',
@@ -77,7 +77,7 @@ class Search extends Component {
   render() {
     let {
       navigation,
-      search,
+      searchList,
       userId
     } = this.props;
 
@@ -86,13 +86,13 @@ class Search extends Component {
         <SearchBar
           ref='searchBar'
           placeholder='请输入关键字'
-          editable={!search.isRefreshing}
+          editable={!searchList.isRefreshing}
           showsCancelButton={this.state.focus}
           onFocus={() => this.setState({ focus: true })}
           onChangeText={keyword => this.handleChange(keyword)}
           onSearchButtonPress={() => this.handleSearch()}
           onCancelButtonPress={() => this.getSearchBarBlur()} />
-        {search.isRefreshing && (
+        {searchList.isRefreshing && (
           <LoadingSpinner text='正在搜索' />
         ) || (
           <TopicList
@@ -100,7 +100,7 @@ class Search extends Component {
             currentUserId={userId}
             navigation={navigation}
             isSearch={true}
-            topicList={search}
+            topicList={searchList}
             refreshTopicList={this.refreshTopicList.bind(this)} />
         )}
       </View>
@@ -108,14 +108,14 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps({ search, user }) {
+function mapStateToProps({ searchList, user }) {
   return {
     userId: _.get(user, ['authrization', 'uid']),
-    search
+    searchList
   };
 }
 
 export default connect(mapStateToProps, {
-  fetchSearch,
-  resetSearch
+  fetchSearchList,
+  resetSearchList
 })(Search);

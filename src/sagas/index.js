@@ -6,7 +6,7 @@ import * as topicListActions from '~/common/modules/topic/topicList.ducks';
 import * as userTopicListActions from '~/actions/user/topicListAction';
 import * as forumListActions from '~/common/modules/forum/forumList.ducks';
 import * as notifyListActions from '~/actions/message/notifyListAction';
-import * as searchActions from '~/actions/topic/searchAction';
+import * as searchListActions from '~/common/modules/topic/searchList.ducks';
 import * as topicActions from '~/actions/topic/topicAction';
 import * as pmSessionListActions from '~/actions/message/pmSessionListAction';
 import * as pmListActions from '~/actions/message/pmListAction';
@@ -25,7 +25,7 @@ const fetchTopicListApi = fetchResource.bind(null, topicListActions, api.fetchTo
 const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
-const fetchSearchListApi = fetchResource.bind(null, searchActions, api.fetchSearchList);
+const fetchSearchListApi = fetchResource.bind(null, searchListActions, api.fetchSearchList);
 const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
@@ -173,7 +173,7 @@ function* fetchNotifyList(payload) {
 
 function* watchSearchList() {
   while(true) {
-    const { payload } = yield take(searchActions.REQUEST);
+    const { payload } = yield take(searchListActions.SEARCH_LIST_FETCH);
     yield fork(fetchSearchListApi, payload);
   }
 }

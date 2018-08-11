@@ -3,7 +3,7 @@ import user from './user';
 import forumList from '~/common/modules/forum/forumList.ducks';
 import topicList from '~/common/modules/topic/topicList.ducks';
 import topicItem from './topic/topicItem';
-import search from './topic/search';
+import searchList from '~/common/modules/topic/searchList.ducks';
 import notifyList from './message/notifyList';
 import pmSessionList from './message/pmSessionList';
 import userTopicList from './user/topicList';
@@ -26,7 +26,7 @@ export default combineReducers({
   user,
   userItem,
   topicItem,
-  search,
+  searchList,
   friendList,
 
   userTopicList,
