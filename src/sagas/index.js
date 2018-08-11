@@ -2,9 +2,9 @@ import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
 import * as authorizeActions from '~/actions/authorizeAction';
-import * as topicListActions from '~/common/modules/topicList/topicList.ducks';
+import * as topicListActions from '~/common/modules/topic/topicList.ducks';
 import * as userTopicListActions from '~/actions/user/topicListAction';
-import * as forumListActions from '~/common/modules/forumList/forumList.ducks';
+import * as forumListActions from '~/common/modules/forum/forumList.ducks';
 import * as notifyListActions from '~/actions/message/notifyListAction';
 import * as searchActions from '~/actions/topic/searchAction';
 import * as topicActions from '~/actions/topic/topicAction';

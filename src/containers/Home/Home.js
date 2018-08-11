@@ -10,7 +10,7 @@ import Header from '~/components/Header/Header';
 import TopicList from '~/components/TopicList/TopicList';
 import MenuButton from '~/components/MenuButton/MenuButton';
 import PublishButton from '~/components/PublishButton/PublishButton';
-import { invalidateTopicList, fetchTopicList } from '~/common/modules/topicList/topicList.ducks';
+import { invalidateTopicList, fetchTopicList } from '~/common/modules/topic/topicList.ducks';
 import { getAlertCount } from '~/selectors/alert';
 
 import scrollableTabViewStyles from '~/common/styles/ScrollableTabView.style';

@@ -18,7 +18,7 @@ import {
   resetAuthrizationResult,
   cleanCache
 } from '~/actions/authorizeAction';
-import { invalidateTopicList, fetchTopicList } from '~/common/modules/topicList/topicList.ducks';
+import { invalidateTopicList, fetchTopicList } from '~/common/modules/topic/topicList.ducks';
 import { getAlertCount } from '~/selectors/alert';
 
 import styles from './Menu.style';
