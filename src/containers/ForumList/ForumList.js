@@ -8,7 +8,7 @@ import {
 import _ from 'lodash';
 import ForumItems from '~/components/ForumItems/ForumItems';
 import MENUS from '~/constants/menus';
-import { invalidateForumList, fetchForumList } from '~/actions/forumAction';
+import { invalidateForumList, fetchForumList } from '~/common/modules/forumList/forumList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 

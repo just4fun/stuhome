@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import ForumItems from '~/components/ForumItems/ForumItems';
 import Header from '~/components/Header/Header';
-import { invalidateForumList, fetchForumList } from '~/actions/forumAction';
+import { invalidateForumList, fetchForumList } from '~/common/modules/forumList/forumList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import modalStyles from '~/common/styles/Modal.style';

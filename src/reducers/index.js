@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
-import forumList from './forumList';
+import forumList from '~/common/modules/forumList/forumList.ducks';
 import topicList from '~/common/modules/topicList/topicList.ducks';
 import topicItem from './topic/topicItem';
 import search from './topic/search';

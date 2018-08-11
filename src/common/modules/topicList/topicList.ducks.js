@@ -130,7 +130,7 @@ export default handleActions({
       }
     };
   },
-  [REMOVE_CACHE]: (state, action) => { debugger; }
+  [REMOVE_CACHE]: () => defaultState
 }, defaultState);
 
 // map the fields of `type` to more clear names
