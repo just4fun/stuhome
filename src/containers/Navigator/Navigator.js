@@ -22,7 +22,7 @@ import ReplyModalScreen from '~/components/ReplyModal/ReplyModal';
 import ForumListModalScreen from '~/components/ForumListModal/ForumListModal';
 import FriendListModalScreen from '~/components/FriendListModal/FriendListModal';
 import { getUserFromStorage } from '~/actions/authorizeAction';
-import { getSettingsFromStorage } from '~/actions/settingsAction';
+import { retrieveSettingsFromStorage } from '~/common/modules/settings/settings.ducks';
 import { fetchAlerts } from '~/actions/message/alertAction';
 import { ALERT_POLL_FREQUENCY } from '~/config';
 
@@ -132,7 +132,7 @@ class AppRoot extends Component {
     MessageBarManager.registerMessageBar(this.refs.alert);
 
     this.props.getUserFromStorage();
-    this.props.getSettingsFromStorage();
+    this.props.retrieveSettingsFromStorage();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -187,6 +187,6 @@ function mapStateToProps({ user, settings }) {
 
 export default connect(mapStateToProps, {
   getUserFromStorage,
-  getSettingsFromStorage,
+  retrieveSettingsFromStorage,
   fetchAlerts
 })(AppRoot);

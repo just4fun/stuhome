@@ -12,7 +12,7 @@ import * as pmSessionListActions from '~/actions/message/pmSessionListAction';
 import * as pmListActions from '~/actions/message/pmListAction';
 import * as sendActions from '~/actions/message/sendAction';
 import * as alertActions from '~/actions/message/alertAction';
-import * as settingsActions from '~/actions/settingsAction';
+import * as settingsActions from '~/common/modules/settings/settings.ducks';
 import * as userActions from '~/actions/user/userAction';
 import * as friendListActions from '~/actions/user/friendListAction';
 
@@ -65,35 +65,35 @@ function* watchLogin() {
 
 function* watchRetrieveSettings() {
   while(true) {
-    yield take(settingsActions.RETRIEVE);
-    let settings = yield call(getSettingsFromStorage);
+    yield take(settingsActions.SETTINGS_RETRIEVE);
+    let settings = yield call(retrieveSettingsFromStorage);
 
     if (settings) {
       settings = JSON.parse(settings);
-      yield put(settingsActions.done(settings));
+      yield put(settingsActions.storeSettingsToRedux(settings));
     }
   }
 }
 
-function getSettingsFromStorage() {
+function retrieveSettingsFromStorage() {
   return new Promise(resolve => AsyncStorage.getItem('settings').then(resolve));
 }
 
 function* watchStoreSettings() {
   while(true) {
-    const { payload } = yield take(settingsActions.STORE);
+    const { payload } = yield take(settingsActions.SETTINGS_STORE);
     // get old settings
-    let settings = yield call(getSettingsFromStorage);
+    let settings = yield call(retrieveSettingsFromStorage);
     // merge with new settings
     let newSettings = Object.assign({}, JSON.parse(settings), payload);
     // store new settings in storage
-    yield call(putSettingsToStorage, JSON.stringify(newSettings));
+    yield call(storeSettingsToStorage, JSON.stringify(newSettings));
     // update redux store
-    yield put(settingsActions.done(newSettings));
+    yield put(settingsActions.storeSettingsToRedux(newSettings));
   }
 }
 
-function putSettingsToStorage(settings) {
+function storeSettingsToStorage(settings) {
   return new Promise(resolve => AsyncStorage.setItem('settings', settings).then(resolve));
 }
 

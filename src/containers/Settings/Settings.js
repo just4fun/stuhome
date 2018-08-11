@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '~/components/SettingItem/SettingItem';
 import SettingSwitchItem from '~/components/SettingSwitchItem/SettingSwitchItem';
 import MENUS from '~/constants/menus';
-import { getSettingsFromStorage, putSettingsToStorage } from '~/actions/settingsAction';
+import { retrieveSettingsFromStorage, storeSettingsToStorage } from '~/common/modules/settings/settings.ducks';
 import { resetAlerts } from '~/actions/message/alertAction';
 
 import mainStyles from '~/common/styles/Main.style';
@@ -38,13 +38,13 @@ class Settings extends Component {
   // }
 
   handleNotificationValueChange(value) {
-    this.props.putSettingsToStorage({ enableNotification: value });
+    this.props.storeSettingsToStorage({ enableNotification: value });
     // Clear message alters.
     this.props.resetAlerts();
   }
 
   handlePublishDialogValueChange(value) {
-    this.props.putSettingsToStorage({ enablePublishDialog: value });
+    this.props.storeSettingsToStorage({ enablePublishDialog: value });
   }
 
   render() {
@@ -89,7 +89,7 @@ function mapStateToProps({ settings }) {
 }
 
 export default connect(mapStateToProps, {
-  getSettingsFromStorage,
-  putSettingsToStorage,
+  retrieveSettingsFromStorage,
+  storeSettingsToStorage,
   resetAlerts
 })(Settings);
