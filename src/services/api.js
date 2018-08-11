@@ -292,7 +292,7 @@ export default {
     return callApi(`message/pmadmin`, fetchOptions);
   },
 
-  fetchAlerts: () => {
+  fetchAlert: () => {
     // Specify `sdkVersion` to get `systemInfo` instead of `friendInfo`.
     //
     // API source code:

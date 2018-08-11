@@ -11,7 +11,7 @@ import * as topicActions from '~/common/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/actions/message/pmSessionListAction';
 import * as pmListActions from '~/actions/message/pmListAction';
 import * as sendActions from '~/actions/message/sendAction';
-import * as alertActions from '~/actions/message/alertAction';
+import * as alertActions from '~/common/modules/message/alert.ducks';
 import * as settingsActions from '~/common/modules/settings/settings.ducks';
 import * as userActions from '~/actions/user/userAction';
 import * as friendListActions from '~/actions/user/friendListAction';
@@ -30,7 +30,7 @@ const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
-const fetchAlertsApi = fetchResource.bind(null, alertActions, api.fetchAlerts);
+const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
 const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
 const fetchFriendListApi = fetchResource.bind(null, friendListActions, api.fetchFriendList);
 
@@ -228,8 +228,8 @@ function* watchSendMessage() {
 
 function* watchAlerts() {
   while(true) {
-    const { payload } = yield take(alertActions.REQUEST);
-    yield fork(fetchAlertsApi, payload);
+    const { payload } = yield take(alertActions.ALERT_FETCH);
+    yield fork(fetchAlertApi, payload);
   }
 }
 

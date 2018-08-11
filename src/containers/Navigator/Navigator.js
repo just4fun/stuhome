@@ -23,7 +23,7 @@ import ForumListModalScreen from '~/components/ForumListModal/ForumListModal';
 import FriendListModalScreen from '~/components/FriendListModal/FriendListModal';
 import { getUserFromStorage } from '~/actions/authorizeAction';
 import { retrieveSettingsFromStorage } from '~/common/modules/settings/settings.ducks';
-import { fetchAlerts } from '~/actions/message/alertAction';
+import { fetchAlert } from '~/common/modules/message/alert.ducks';
 import { ALERT_POLL_FREQUENCY } from '~/config';
 
 import colors from '~/common/styles/colors.style';
@@ -153,12 +153,12 @@ class AppRoot extends Component {
     }
 
     if (!this.timer && nextEnableNotification) {
-      this.timer = setInterval(() => { this.fetchAlerts(); }, 1000 * ALERT_POLL_FREQUENCY);
+      this.timer = setInterval(() => { this.fetchAlert(); }, 1000 * ALERT_POLL_FREQUENCY);
     }
   }
 
-  fetchAlerts() {
-    this.props.fetchAlerts();
+  fetchAlert() {
+    this.props.fetchAlert();
   }
 
   componentWillUnmount() {
@@ -188,5 +188,5 @@ function mapStateToProps({ user, settings }) {
 export default connect(mapStateToProps, {
   getUserFromStorage,
   retrieveSettingsFromStorage,
-  fetchAlerts
+  fetchAlert
 })(AppRoot);

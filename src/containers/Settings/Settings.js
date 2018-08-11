@@ -14,7 +14,7 @@ import SettingItem from '~/components/SettingItem/SettingItem';
 import SettingSwitchItem from '~/components/SettingSwitchItem/SettingSwitchItem';
 import MENUS from '~/constants/menus';
 import { retrieveSettingsFromStorage, storeSettingsToStorage } from '~/common/modules/settings/settings.ducks';
-import { resetAlerts } from '~/actions/message/alertAction';
+import { resetAlert } from '~/common/modules/message/alert.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from '~/containers/Settings/Settings.style';
@@ -40,7 +40,7 @@ class Settings extends Component {
   handleNotificationValueChange(value) {
     this.props.storeSettingsToStorage({ enableNotification: value });
     // Clear message alters.
-    this.props.resetAlerts();
+    this.props.resetAlert();
   }
 
   handlePublishDialogValueChange(value) {
@@ -91,5 +91,5 @@ function mapStateToProps({ settings }) {
 export default connect(mapStateToProps, {
   retrieveSettingsFromStorage,
   storeSettingsToStorage,
-  resetAlerts
+  resetAlert
 })(Settings);
