@@ -14,7 +14,7 @@ import * as sendActions from '~/actions/message/sendAction';
 import * as alertActions from '~/common/modules/message/alert.ducks';
 import * as settingsActions from '~/common/modules/settings/settings.ducks';
 import * as userActions from '~/actions/user/userAction';
-import * as friendListActions from '~/actions/user/friendListAction';
+import * as friendListActions from '~/common/modules/user/friendList.ducks';
 
 import cacheManager from '~/services/cacheManager';
 import { fetchResource } from '~/utils/sagaHelper';
@@ -246,7 +246,7 @@ function* watchUsers() {
 
 function* watchFriendList() {
   while(true) {
-    const { payload } = yield take(friendListActions.REQUEST);
+    const { payload } = yield take(friendListActions.FRIEND_LIST_FETCH);
     yield fork(fetchFriendList, payload);
   }
 }

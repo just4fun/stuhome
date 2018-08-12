@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import FriendList from '~/components/FriendList/FriendList';
 import Header from '~/components/Header/Header';
-import { invalidateFriendList, fetchFriendList } from '~/actions/user/friendListAction';
+import { invalidateFriendList, fetchFriendList } from '~/common/modules/user/friendList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import modalStyles from '~/common/styles/Modal.style';

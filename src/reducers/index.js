@@ -12,7 +12,7 @@ import send from './message/send';
 import alert from '~/common/modules/message/alert.ducks';
 import settings from '~/common/modules/settings/settings.ducks';
 import userItem from './user/userItem';
-import friendList from './user/friendList';
+import friendList from '~/common/modules/user/friendList.ducks';
 
 export default combineReducers({
   forumList,
