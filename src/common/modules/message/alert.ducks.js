@@ -4,8 +4,8 @@ import {
   MARK_AT_ME_AS_READ,
   MARK_REPLY_AS_READ,
   MARK_SYSTEM_AS_READ
-} from '~/actions/message/notifyListAction';
-import { MARK_PM_AS_READ } from '~/actions/message/pmSessionListAction';
+} from '~/common/modules/message/notifyList.ducks';
+import { MARK_PM_AS_READ } from '~/common/modules/message/pmSessionList.ducks';
 import { REMOVE_CACHE } from '~/actions/authorizeAction';
 
 // *********************************

@@ -5,10 +5,10 @@ import * as authorizeActions from '~/actions/authorizeAction';
 import * as topicListActions from '~/common/modules/topic/topicList.ducks';
 import * as userTopicListActions from '~/actions/user/topicListAction';
 import * as forumListActions from '~/common/modules/forum/forumList.ducks';
-import * as notifyListActions from '~/actions/message/notifyListAction';
+import * as notifyListActions from '~/common/modules/message/notifyList.ducks';
 import * as searchListActions from '~/common/modules/topic/searchList.ducks';
 import * as topicActions from '~/common/modules/topic/topic.ducks';
-import * as pmSessionListActions from '~/actions/message/pmSessionListAction';
+import * as pmSessionListActions from '~/common/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/actions/message/pmListAction';
 import * as sendActions from '~/actions/message/sendAction';
 import * as alertActions from '~/common/modules/message/alert.ducks';
@@ -154,7 +154,7 @@ function* fetchForumList(payload) {
 
 function* watchNotifyList() {
   while(true) {
-    const { payload } = yield take(notifyListActions.REQUEST);
+    const { payload } = yield take(notifyListActions.NOTIFY_LIST_FETCH);
     yield fork(fetchNotifyList, payload);
   }
 }
@@ -191,7 +191,7 @@ function* watchTopic() {
 
 function* watchPmSessionList() {
   while(true) {
-    const { payload } = yield take(pmSessionListActions.REQUEST);
+    const { payload } = yield take(pmSessionListActions.PM_SESSION_LIST_FETCH);
     yield fork(fetchPmSessionList, payload);
   }
 }
