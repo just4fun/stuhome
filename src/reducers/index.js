@@ -6,7 +6,7 @@ import topicItem from '~/common/modules/topic/topic.ducks';
 import searchList from '~/common/modules/topic/searchList.ducks';
 import notifyList from '~/common/modules/message/notifyList.ducks';
 import pmSessionList from '~/common/modules/message/pmSessionList.ducks';
-import userTopicList from './user/topicList';
+import userTopicList from '~/common/modules/user/userTopicList.ducks';
 import pmList from '~/common/modules/message/pmList.ducks';
 import send from './message/send';
 import alert from '~/common/modules/message/alert.ducks';

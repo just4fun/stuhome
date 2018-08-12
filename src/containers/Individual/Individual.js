@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { HeaderBackButton } from 'react-navigation';
 import TopicList from '~/components/TopicList/TopicList';
-import { invalidateUserTopicList, fetchUserTopicList } from '~/actions/user/topicListAction';
+import { invalidateUserTopicList, fetchUserTopicList } from '~/common/modules/user/userTopicList.ducks';
 import { AVATAR_ROOT } from '~/config';
 
 import scrollableTabViewStyles from '~/common/styles/ScrollableTabView.style';

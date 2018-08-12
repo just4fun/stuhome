@@ -3,7 +3,7 @@ import { take, fork, select, put, call } from 'redux-saga/effects';
 
 import * as authorizeActions from '~/actions/authorizeAction';
 import * as topicListActions from '~/common/modules/topic/topicList.ducks';
-import * as userTopicListActions from '~/actions/user/topicListAction';
+import * as userTopicListActions from '~/common/modules/user/userTopicList.ducks';
 import * as forumListActions from '~/common/modules/forum/forumList.ducks';
 import * as notifyListActions from '~/common/modules/message/notifyList.ducks';
 import * as searchListActions from '~/common/modules/topic/searchList.ducks';
@@ -119,7 +119,7 @@ function* fetchTopicList(payload) {
 
 function* watchUserTopicList() {
   while(true) {
-    const { payload } = yield take(userTopicListActions.REQUEST);
+    const { payload } = yield take(userTopicListActions.USER_TOPIC_LIST_FETCH);
     yield fork(fetchUserTopicList, payload);
   }
 }
