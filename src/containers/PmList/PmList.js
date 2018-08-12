@@ -20,7 +20,7 @@ import {
   fetchPmList,
   resetPmList,
   resetPmListResponseStatus
-} from '~/actions/message/pmListAction';
+} from '~/common/modules/message/pmList.ducks';
 import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '~/config';
 
 import mainStyles from '~/common/styles/Main.style';

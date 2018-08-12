@@ -9,7 +9,7 @@ import * as notifyListActions from '~/common/modules/message/notifyList.ducks';
 import * as searchListActions from '~/common/modules/topic/searchList.ducks';
 import * as topicActions from '~/common/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/common/modules/message/pmSessionList.ducks';
-import * as pmListActions from '~/actions/message/pmListAction';
+import * as pmListActions from '~/common/modules/message/pmList.ducks';
 import * as sendActions from '~/actions/message/sendAction';
 import * as alertActions from '~/common/modules/message/alert.ducks';
 import * as settingsActions from '~/common/modules/settings/settings.ducks';
@@ -210,7 +210,7 @@ function* fetchPmSessionList(payload) {
 
 function* watchPmList() {
   while(true) {
-    const { payload } = yield take(pmListActions.REQUEST);
+    const { payload } = yield take(pmListActions.PM_LIST_FETCH);
     yield fork(fetchPmListApi, payload);
   }
 }
