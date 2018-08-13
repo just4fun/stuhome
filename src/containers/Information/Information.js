@@ -9,7 +9,7 @@ import ImagePicker from '~/services/ImagePicker';
 import MENUS from '~/constants/menus';
 import api from '~/services/api';
 import { setSession } from '~/common/modules/user/session.ducks';
-import { fetchUser, resetUser } from '~/actions/user/userAction';
+import { fetchUser, resetUser } from '~/common/modules/user/user.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import indicatorStyles from '~/common/styles/Indicator.style';

@@ -11,7 +11,7 @@ import pmList from '~/common/modules/message/pmList.ducks';
 import send from './message/send';
 import alert from '~/common/modules/message/alert.ducks';
 import settings from '~/common/modules/settings/settings.ducks';
-import userItem from './user/userItem';
+import userItem from '~/common/modules/user/user.ducks';
 import friendList from '~/common/modules/user/friendList.ducks';
 
 export default combineReducers({

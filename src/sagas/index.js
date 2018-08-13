@@ -13,7 +13,7 @@ import * as pmListActions from '~/common/modules/message/pmList.ducks';
 import * as sendActions from '~/actions/message/sendAction';
 import * as alertActions from '~/common/modules/message/alert.ducks';
 import * as settingsActions from '~/common/modules/settings/settings.ducks';
-import * as userActions from '~/actions/user/userAction';
+import * as userActions from '~/common/modules/user/user.ducks';
 import * as friendListActions from '~/common/modules/user/friendList.ducks';
 
 import cacheManager from '~/services/cacheManager';
@@ -237,7 +237,7 @@ function* watchAlerts() {
 
 function* watchUsers() {
   while(true) {
-    const { payload } = yield take(userActions.REQUEST);
+    const { payload } = yield take(userActions.USER_FETCH);
     yield fork(fetchUserApi, payload);
   }
 }
