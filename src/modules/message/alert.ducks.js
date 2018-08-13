@@ -4,9 +4,9 @@ import {
   MARK_AT_ME_AS_READ,
   MARK_REPLY_AS_READ,
   MARK_SYSTEM_AS_READ
-} from '~/common/modules/message/notifyList.ducks';
-import { MARK_PM_AS_READ } from '~/common/modules/message/pmSessionList.ducks';
-import { LOGOUT } from '~/common/modules/user/session.ducks';
+} from '~/modules/message/notifyList.ducks';
+import { MARK_PM_AS_READ } from '~/modules/message/pmSessionList.ducks';
+import { LOGOUT } from '~/modules/user/session.ducks';
 
 // *********************************
 // Actions

@@ -1,19 +1,19 @@
 import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
-import * as sessionActions from '~/common/modules/user/session.ducks';
-import * as topicListActions from '~/common/modules/topic/topicList.ducks';
-import * as userTopicListActions from '~/common/modules/user/userTopicList.ducks';
-import * as forumListActions from '~/common/modules/forum/forumList.ducks';
-import * as notifyListActions from '~/common/modules/message/notifyList.ducks';
-import * as searchListActions from '~/common/modules/topic/searchList.ducks';
-import * as topicActions from '~/common/modules/topic/topic.ducks';
-import * as pmSessionListActions from '~/common/modules/message/pmSessionList.ducks';
-import * as pmListActions from '~/common/modules/message/pmList.ducks';
-import * as alertActions from '~/common/modules/message/alert.ducks';
-import * as settingsActions from '~/common/modules/settings/settings.ducks';
-import * as userActions from '~/common/modules/user/user.ducks';
-import * as friendListActions from '~/common/modules/user/friendList.ducks';
+import * as sessionActions from '~/modules/user/session.ducks';
+import * as topicListActions from '~/modules/topic/topicList.ducks';
+import * as userTopicListActions from '~/modules/user/userTopicList.ducks';
+import * as forumListActions from '~/modules/forum/forumList.ducks';
+import * as notifyListActions from '~/modules/message/notifyList.ducks';
+import * as searchListActions from '~/modules/topic/searchList.ducks';
+import * as topicActions from '~/modules/topic/topic.ducks';
+import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
+import * as pmListActions from '~/modules/message/pmList.ducks';
+import * as alertActions from '~/modules/message/alert.ducks';
+import * as settingsActions from '~/modules/settings/settings.ducks';
+import * as userActions from '~/modules/user/user.ducks';
+import * as friendListActions from '~/modules/user/friendList.ducks';
 
 import cacheManager from '~/services/cacheManager';
 import { fetchResource } from '~/utils/sagaHelper';

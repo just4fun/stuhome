@@ -17,8 +17,8 @@ import {
   resetSession,
   resetSessionResult,
   logout
-} from '~/common/modules/user/session.ducks';
-import { invalidateTopicList, fetchTopicList } from '~/common/modules/topic/topicList.ducks';
+} from '~/modules/user/session.ducks';
+import { invalidateTopicList, fetchTopicList } from '~/modules/topic/topicList.ducks';
 import { getAlertCount } from '~/selectors/alert';
 
 import styles from './Menu.style';

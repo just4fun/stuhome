@@ -8,8 +8,8 @@ import NotifyList from '~/components/NotifyList/NotifyList';
 import PmSessionList from '~/components/PmSessionList/PmSessionList';
 import ReplyModal from '~/components/ReplyModal/ReplyModal';
 import MENUS from '~/constants/menus';
-import { invalidateNotifyList, fetchNotifyList } from '~/common/modules/message/notifyList.ducks';
-import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '~/common/modules/message/pmSessionList.ducks';
+import { invalidateNotifyList, fetchNotifyList } from '~/modules/message/notifyList.ducks';
+import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '~/modules/message/pmSessionList.ducks';
 import { getAtMeCount, getReplyCount, getPmCount, getSystemCount } from '~/selectors/alert';
 
 import mainStyles from '~/common/styles/Main.style';

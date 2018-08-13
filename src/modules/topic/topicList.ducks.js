@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { LOGOUT } from '~/common/modules/user/session.ducks';
+import { LOGOUT } from '~/modules/user/session.ducks';
 import _ from 'lodash';
 
 // *********************************

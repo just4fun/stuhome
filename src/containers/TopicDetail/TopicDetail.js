@@ -27,7 +27,7 @@ import SafariView from '~/services/SafariView';
 import api from '~/services/api';
 import { TOPIC_URL_ROOT } from '~/config';
 import { parseContentWithEmoji } from '~/utils/contentParser';
-import { fetchTopic, resetTopic } from '~/common/modules/topic/topic.ducks';
+import { fetchTopic, resetTopic } from '~/modules/topic/topic.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import headerRightButtonStyles from '~/common/styles/HeaderRightButton.style';

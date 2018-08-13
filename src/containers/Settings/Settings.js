@@ -13,8 +13,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '~/components/SettingItem/SettingItem';
 import SettingSwitchItem from '~/components/SettingSwitchItem/SettingSwitchItem';
 import MENUS from '~/constants/menus';
-import { retrieveSettingsFromStorage, storeSettingsToStorage } from '~/common/modules/settings/settings.ducks';
-import { resetAlert } from '~/common/modules/message/alert.ducks';
+import { retrieveSettingsFromStorage, storeSettingsToStorage } from '~/modules/settings/settings.ducks';
+import { resetAlert } from '~/modules/message/alert.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from '~/containers/Settings/Settings.style';

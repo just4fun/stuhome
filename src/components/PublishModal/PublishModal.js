@@ -24,7 +24,7 @@ import ImageUploader from '~/components/ImageUploader/ImageUploader';
 import MessageBar from '~/services/MessageBar';
 import api from '~/services/api';
 import { CUSTOM_EMOJIS } from '~/constants/emojis';
-import { invalidateTopicList, fetchTopicList } from '~/common/modules/topic/topicList.ducks';
+import { invalidateTopicList, fetchTopicList } from '~/modules/topic/topicList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import modalStyles from '~/common/styles/Modal.style';
