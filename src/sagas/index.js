@@ -10,7 +10,6 @@ import * as searchListActions from '~/common/modules/topic/searchList.ducks';
 import * as topicActions from '~/common/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/common/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/common/modules/message/pmList.ducks';
-import * as sendActions from '~/actions/message/sendAction';
 import * as alertActions from '~/common/modules/message/alert.ducks';
 import * as settingsActions from '~/common/modules/settings/settings.ducks';
 import * as userActions from '~/common/modules/user/user.ducks';
@@ -29,7 +28,6 @@ const fetchSearchListApi = fetchResource.bind(null, searchListActions, api.fetch
 const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
-const sendMessageApi = fetchResource.bind(null, sendActions, api.sendMessage);
 const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
 const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
 const fetchFriendListApi = fetchResource.bind(null, friendListActions, api.fetchFriendList);
@@ -215,15 +213,6 @@ function* watchPmList() {
   }
 }
 
-// send pm sagas
-
-function* watchSendMessage() {
-  while(true) {
-    const { payload } = yield take(sendActions.REQUEST);
-    yield fork(sendMessageApi, payload);
-  }
-}
-
 // alerts sagas
 
 function* watchAlerts() {
@@ -270,7 +259,6 @@ export default function* rootSaga() {
   yield fork(watchTopic);
   yield fork(watchPmSessionList);
   yield fork(watchPmList);
-  yield fork(watchSendMessage);
   yield fork(watchAlerts);
   yield fork(watchRetrieveSettings);
   yield fork(watchStoreSettings);

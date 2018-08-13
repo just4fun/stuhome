@@ -13,15 +13,12 @@ import GiftedChatLoadEarlierButton from '~/common/vendor/components/GiftedChatLo
 import GiftedChatMessageText from '~/common/vendor/components/GiftedChatMessageText';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import {
-  submit,
-  resetPublish
-} from '~/actions/message/sendAction';
-import {
   fetchPmList,
   resetPmList,
   resetPmListResponseStatus
 } from '~/common/modules/message/pmList.ducks';
 import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '~/config';
+import api from '~/services/api';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from './PmList.style';
@@ -42,7 +39,8 @@ class PmList extends Component {
     let { userId } = this.props.navigation.state.params;
     this.userId = userId;
     this.state = {
-      messages: []
+      messages: [],
+      isPublishing: false
     };
   }
 
@@ -73,47 +71,15 @@ class PmList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setUpTitle(nextProps.pmList.user.name);
+    let { pmList } = nextProps;
+    this.setUpTitle(pmList.user.name);
 
     // Handle private messages.
-    let {
-      send,
-      pmList
-    } = nextProps;
+    let { isPublishing } = this.state;
 
-    if (send.isPublishing) { return; }
+    if (isPublishing) { return; }
 
     if (pmList.isRefreshing)　{ return; }
-
-    if (send.response) {
-      let { rs, errcode } = send.response;
-
-      if (rs) {
-        // This is workaround to fix #14.
-        // In produciton, sometimes the new sent message can not be displayed
-        // in bubble list even it has been sent successfully, but it's very
-        // hard to be reproduced in development mode. As we know, JavaScript
-        // thread performance suffers greatly when running in development mode,
-        // so the workaround can not only fix the weird issue here, but also can
-        // give user a better ux with customized ticks `发送中...`, which seems
-        // like the best solustion now.
-        setTimeout(() => { this.fetchPmList(); }, 1000 * 3);
-      } else if (errcode) {
-        // The time between sending two messages is too short.
-        this.fetchPmList();
-        AlertIOS.alert('提示', send.response.errcode);
-      } else {
-        // No network.
-        this.setState(previousState => {
-          return {
-            messages: previousState.messages.filter(message => !message.isNew)
-          };
-        });
-      }
-
-      this.props.resetPublish();
-      return;
-    }
 
     // Translation from Redux store props to component state.
     if (pmList.response && pmList.response.rs) {
@@ -138,9 +104,39 @@ class PmList extends Component {
       };
     });
 
-    this.props.submit({
+    this.setState({ isPublishing: true });
+    api.sendMessage({
       newMessage: messages[0],
       toUserId
+    }).then(response => {
+      if (response.error && response.error.message === 'Network request failed') {
+        // No network.
+        this.setState(previousState => {
+          return {
+            messages: previousState.messages.filter(message => !message.isNew)
+          };
+        });
+        return;
+      }
+
+      let { rs, errcode } = response.data;
+      if (rs) {
+        // This is workaround to fix #14.
+        // In produciton, sometimes the new sent message can not be displayed
+        // in bubble list even it has been sent successfully, but it's very
+        // hard to be reproduced in development mode. As we know, JavaScript
+        // thread performance suffers greatly when running in development mode,
+        // so the workaround can not only fix the weird issue here, but also can
+        // give user a better ux with customized ticks `发送中...`, which seems
+        // like the best solution now.
+        setTimeout(() => { this.fetchPmList(); }, 1000 * 3);
+      } else if (errcode) {
+        // The time between sending two messages is too short.
+        this.fetchPmList();
+        AlertIOS.alert('提示', errcode);
+      }
+    }).finally(() => {
+      this.setState({ isPublishing: false });
     });
   }
 
@@ -152,9 +148,9 @@ class PmList extends Component {
         hasPrev,
         user,
         page
-      },
-      send
+      }
     } = this.props;
+    let { isPublishing } = this.state;
 
     if (isRefreshing && page === 0) {
       return (
@@ -200,7 +196,7 @@ class PmList extends Component {
 
             return (
               <View style={styles.tickView}>
-                {send.isPublishing && <Text style={styles.tick}>发布中...</Text>}
+                {isPublishing && <Text style={styles.tick}>发布中...</Text>}
               </View>
             );
           }}
@@ -211,17 +207,14 @@ class PmList extends Component {
   }
 }
 
-function mapStateToProps({ pmList, send }) {
+function mapStateToProps({ pmList }) {
   return {
-    pmList,
-    send
+    pmList
   };
 }
 
 export default connect(mapStateToProps, {
   fetchPmList,
   resetPmList,
-  resetPmListResponseStatus,
-  submit,
-  resetPublish
+  resetPmListResponseStatus
 })(PmList);
