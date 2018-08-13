@@ -11,11 +11,13 @@ import styles from './MenuProfile.style';
 export default class MenuProfile extends Component {
   render() {
     let {
-      authrization: {
-        uid,
-        token,
-        avatar,
-        userName,
+      session: {
+        data: {
+          uid,
+          token,
+          avatar,
+          userName
+        }
       },
       navigation
     } = this.props;

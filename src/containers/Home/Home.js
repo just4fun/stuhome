@@ -135,9 +135,9 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({ topicList, alert, user }) {
+function mapStateToProps({ topicList, alert, session }) {
   return {
-    userId: _.get(user, ['authrization', 'uid']),
+    userId: _.get(session, ['data', 'uid']),
     topicList,
     alertCount: getAlertCount(alert)
   };

@@ -49,19 +49,19 @@ class Individual extends Component {
     this.TABS = [];
 
     let {
-      user,
+      session,
       navigation: {
         state: {
           params: passProps
         }
       }
     } = this.props;
-    this.isLoginUser = !passProps || (+passProps.userId === user.authrization.uid);
+    this.isLoginUser = !passProps || (+passProps.userId === session.data.uid);
 
     if (this.isLoginUser) {
       let {
-        user: {
-          authrization: {
+        session: {
+          data: {
             uid,
             userName,
             avatar
@@ -172,9 +172,9 @@ class Individual extends Component {
   }
 }
 
-function mapStateToProps({ user, userTopicList }) {
+function mapStateToProps({ session, userTopicList }) {
   return {
-    user,
+    session,
     userTopicList
   };
 }

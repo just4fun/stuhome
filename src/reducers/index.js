@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import session from '~/common/modules/user/session.ducks';
 import forumList from '~/common/modules/forum/forumList.ducks';
 import topicList from '~/common/modules/topic/topicList.ducks';
 import topicItem from '~/common/modules/topic/topic.ducks';
@@ -23,7 +23,7 @@ export default combineReducers({
   send,
   alert,
 
-  user,
+  session,
   userItem,
   topicItem,
   searchList,

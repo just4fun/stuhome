@@ -122,7 +122,7 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, pmSessionList, alert, user }) {
+function mapStateToProps({ notifyList, pmSessionList, alert, session }) {
   return {
     notifyList,
     pmSessionList,
@@ -130,7 +130,7 @@ function mapStateToProps({ notifyList, pmSessionList, alert, user }) {
     replyCount: getReplyCount(alert),
     pmCount: getPmCount(alert),
     systemCount: getSystemCount(alert),
-    userId: _.get(user, ['authrization', 'uid'])
+    userId: _.get(session, ['data', 'uid'])
   };
 }
 

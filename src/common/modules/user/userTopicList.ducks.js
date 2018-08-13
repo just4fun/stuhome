@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import _ from 'lodash';
-import { REMOVE_CACHE } from '~/actions/authorizeAction';
+import { LOGOUT } from '~/common/modules/user/session.ducks';
 
 // *********************************
 // Actions
@@ -108,7 +108,7 @@ export default handleActions({
       }
     };
   },
-  [REMOVE_CACHE]: () => defaultState
+  [LOGOUT]: () => defaultState
 }, defaultState);
 
 function getNewCache(oldState, userTopicList, userId, type, page, isSuccessful) {

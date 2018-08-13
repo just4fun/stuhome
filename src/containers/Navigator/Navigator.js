@@ -21,7 +21,7 @@ import PublishModalScreen from '~/components/PublishModal/PublishModal';
 import ReplyModalScreen from '~/components/ReplyModal/ReplyModal';
 import ForumListModalScreen from '~/components/ForumListModal/ForumListModal';
 import FriendListModalScreen from '~/components/FriendListModal/FriendListModal';
-import { getUserFromStorage } from '~/actions/authorizeAction';
+import { retrieveSessionFromStorage } from '~/common/modules/user/session.ducks';
 import { retrieveSettingsFromStorage } from '~/common/modules/settings/settings.ducks';
 import { fetchAlert } from '~/common/modules/message/alert.ducks';
 import { ALERT_POLL_FREQUENCY } from '~/config';
@@ -131,13 +131,13 @@ class AppRoot extends Component {
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
 
-    this.props.getUserFromStorage();
+    this.props.retrieveSessionFromStorage();
     this.props.retrieveSettingsFromStorage();
   }
 
   componentWillReceiveProps(nextProps) {
-    let currentToken = this.props.user.authrization.token;
-    let nextToken = nextProps.user.authrization.token;
+    let currentToken = this.props.session.data.token;
+    let nextToken = nextProps.session.data.token;
 
     let currentEnableNotification = this.props.settings.enableNotification;
     let nextEnableNotification = nextProps.settings.enableNotification;
@@ -178,15 +178,15 @@ class AppRoot extends Component {
   }
 }
 
-function mapStateToProps({ user, settings }) {
+function mapStateToProps({ session, settings }) {
   return {
-    user,
+    session,
     settings
   };
 }
 
 export default connect(mapStateToProps, {
-  getUserFromStorage,
+  retrieveSessionFromStorage,
   retrieveSettingsFromStorage,
   fetchAlert
 })(AppRoot);

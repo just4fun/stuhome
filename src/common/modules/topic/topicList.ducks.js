@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { REMOVE_CACHE } from '~/actions/authorizeAction';
+import { LOGOUT } from '~/common/modules/user/session.ducks';
 import _ from 'lodash';
 
 // *********************************
@@ -130,7 +130,7 @@ export default handleActions({
       }
     };
   },
-  [REMOVE_CACHE]: () => defaultState
+  [LOGOUT]: () => defaultState
 }, defaultState);
 
 // map the fields of `type` to more clear names

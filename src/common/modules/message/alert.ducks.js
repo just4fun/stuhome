@@ -6,7 +6,7 @@ import {
   MARK_SYSTEM_AS_READ
 } from '~/common/modules/message/notifyList.ducks';
 import { MARK_PM_AS_READ } from '~/common/modules/message/pmSessionList.ducks';
-import { REMOVE_CACHE } from '~/actions/authorizeAction';
+import { LOGOUT } from '~/common/modules/user/session.ducks';
 
 // *********************************
 // Actions
@@ -90,5 +90,5 @@ export default handleActions({
     }
   }),
   [ALERT_RESET]: () => defaultAlertState,
-  [REMOVE_CACHE]: () => defaultAlertState
+  [LOGOUT]: () => defaultAlertState
 }, defaultAlertState);

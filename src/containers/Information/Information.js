@@ -8,7 +8,7 @@ import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ImagePicker from '~/services/ImagePicker';
 import MENUS from '~/constants/menus';
 import api from '~/services/api';
-import { setAuthrization } from '~/actions/authorizeAction';
+import { setSession } from '~/common/modules/user/session.ducks';
 import { fetchUser, resetUser } from '~/actions/user/userAction';
 
 import mainStyles from '~/common/styles/Main.style';
@@ -39,8 +39,8 @@ class Information extends Component {
   uploadPhoto(image) {
     api.uploadAvatar(image).then(response => {
       // update redux store
-      this.props.setAuthrization({
-        ...this.props.user.authrization,
+      this.props.setSession({
+        ...this.props.session.data,
         avatar: response.data.pic_path
       });
       // update storage
@@ -115,9 +115,9 @@ class Information extends Component {
   }
 }
 
-function mapStateToProps({ user, userItem }, ownProps) {
+function mapStateToProps({ session, userItem }, ownProps) {
   return {
-    loginUserId: _.get(user, ['authrization', 'uid']),
+    loginUserId: _.get(session, ['data', 'uid']),
     userItem: _.get(userItem, ownProps.navigation.state.params.userId, {})
   };
 }

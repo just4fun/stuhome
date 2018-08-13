@@ -96,7 +96,7 @@ class TopicDetail extends Component {
       // Use `headerTitle` here to avoid treating topic title
       // as screen header title.
       headerTitle: this.boardName,
-      isLogin: !!this.props.user.authrization.token,
+      isLogin: !!this.props.session.data.token,
       handleShowOperationDialog: () => this.showOperationDialog()
     });
     this.fetchTopic();
@@ -170,8 +170,8 @@ class TopicDetail extends Component {
       topicItem: {
         topic
       },
-      user: {
-        authrization: { uid }
+      session: {
+        data: { uid }
       }
     } = this.props;
     let { isFavoring, isVoting } = this.state;
@@ -322,8 +322,8 @@ class TopicDetail extends Component {
       '复制链接'
     ];
     let {
-      user: {
-        authrization: { uid }
+      session: {
+        data: { uid }
       },
       topicItem: {
         topic: {
@@ -400,8 +400,8 @@ class TopicDetail extends Component {
         }
       },
       navigation,
-      user: {
-        authrization: { uid }
+      session: {
+        data: { uid }
       }
     } = this.props;
 
@@ -458,11 +458,11 @@ class TopicDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  let { topicItem, user } = state;
+  let { topicItem, session } = state;
 
   return {
     topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
-    user
+    session
   };
 }
 

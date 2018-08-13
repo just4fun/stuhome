@@ -19,11 +19,11 @@ import Header from '~/components/Header/Header';
 import SafariView from '~/services/SafariView';
 import { REGISTER_URL } from '~/config';
 import {
-  userLogin,
-  resetAuthrization,
-  resetAuthrizationResult,
-  cleanCache
-} from '~/actions/authorizeAction';
+  login,
+  resetSession,
+  resetSessionResult,
+  logout
+} from '~/common/modules/user/session.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from './LoginModal.style';
@@ -45,20 +45,20 @@ class LoginModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { isFetching, authrization, hasError, result } = nextProps.user;
+    let { isFetching, data, hasError, result } = nextProps.session;
 
     if (hasError) {
-      AlertIOS.alert('提示', authrization.errcode);
-      nextProps.resetAuthrization();
+      AlertIOS.alert('提示', data.errcode);
+      nextProps.resetSession();
     }
 
     if (result) {
-      this.props.resetAuthrizationResult();
-      authrization = JSON.stringify(authrization);
-      AsyncStorage.setItem('authrization', authrization)
+      this.props.resetSessionResult();
+      data = JSON.stringify(data);
+      AsyncStorage.setItem('session', data)
         .then(() => {
-          // Remove all cache except authrization.
-          this.props.cleanCache({ isLogin: true });
+          // Remove all cache except session.
+          this.props.logout({ isLogin: true });
           // Back home page.
           this.props.navigation.dispatch(resetAction);
         });
@@ -77,7 +77,7 @@ class LoginModal extends Component {
     }
 
     Keyboard.dismiss();
-    this.props.userLogin({
+    this.props.login({
       userName,
       password
     });
@@ -85,7 +85,7 @@ class LoginModal extends Component {
 
   render() {
     let {
-      user: {
+      session: {
         isFetching
       },
       navigation
@@ -148,15 +148,15 @@ class LoginModal extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ session }) {
   return {
-    user
+    session
   };
 }
 
 export default connect(mapStateToProps, {
-  userLogin,
-  resetAuthrization,
-  resetAuthrizationResult,
-  cleanCache
+  login,
+  resetSession,
+  resetSessionResult,
+  logout
 })(LoginModal);

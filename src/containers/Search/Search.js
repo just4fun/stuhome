@@ -108,9 +108,9 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps({ searchList, user }) {
+function mapStateToProps({ searchList, session }) {
   return {
-    userId: _.get(user, ['authrization', 'uid']),
+    userId: _.get(session, ['data', 'uid']),
     searchList
   };
 }

@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
-import * as authorizeActions from '~/actions/authorizeAction';
+import * as sessionActions from '~/common/modules/user/session.ducks';
 import * as topicListActions from '~/common/modules/topic/topicList.ducks';
 import * as userTopicListActions from '~/common/modules/user/userTopicList.ducks';
 import * as forumListActions from '~/common/modules/forum/forumList.ducks';
@@ -20,7 +20,7 @@ import cacheManager from '~/services/cacheManager';
 import { fetchResource } from '~/utils/sagaHelper';
 import api from '~/services/api';
 
-const fetchLoginUserApi = fetchResource.bind(null, authorizeActions, api.fetchLoginUser);
+const fetchLoginUserApi = fetchResource.bind(null, sessionActions, api.fetchLoginUser);
 const fetchTopicListApi = fetchResource.bind(null, topicListActions, api.fetchTopicList);
 const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
@@ -36,27 +36,27 @@ const fetchFriendListApi = fetchResource.bind(null, friendListActions, api.fetch
 
 // user login sagas
 
-function* watchRetrieveUser() {
+function* watchRetrieveSession() {
   while(true) {
-    yield take(authorizeActions.RETRIEVE);
-    const authrization = yield call(getUserFromStorage);
+    yield take(sessionActions.SESSION_RETRIEVE);
+    let session = yield call(retrieveSessionFromStorage);
 
-    if (authrization) {
-      const user = JSON.parse(authrization);
-      yield put(authorizeActions.setAuthrization(user));
+    if (session) {
+      session = JSON.parse(session);
+      yield put(sessionActions.setSession(session));
     }
   }
 }
 
 // how to use `yield` inside callback?
 // https://github.com/redux-saga/redux-saga/issues/508
-function getUserFromStorage() {
-  return new Promise(resolve => AsyncStorage.getItem('authrization').then(resolve));
+function retrieveSessionFromStorage() {
+  return new Promise(resolve => AsyncStorage.getItem('session').then(resolve));
 }
 
 function* watchLogin() {
   while(true) {
-    const { payload } = yield take(authorizeActions.REQUEST);
+    const { payload } = yield take(sessionActions.LOGIN);
     yield fork(fetchLoginUserApi, payload);
   }
 }
@@ -260,7 +260,7 @@ function* fetchFriendList(payload) {
 }
 
 export default function* rootSaga() {
-  yield fork(watchRetrieveUser);
+  yield fork(watchRetrieveSession);
   yield fork(watchLogin);
   yield fork(watchTopicList);
   yield fork(watchUserTopicList);

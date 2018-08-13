@@ -13,11 +13,11 @@ import MenuItem from '~/components/MenuItem/MenuItem';
 import MenuBottomItem from '~/components/MenuBottomItem/MenuBottomItem';
 import MENUS from '~/constants/menus';
 import {
-  userLogin,
-  resetAuthrization,
-  resetAuthrizationResult,
-  cleanCache
-} from '~/actions/authorizeAction';
+  login,
+  resetSession,
+  resetSessionResult,
+  logout
+} from '~/common/modules/user/session.ducks';
 import { invalidateTopicList, fetchTopicList } from '~/common/modules/topic/topicList.ducks';
 import { getAlertCount } from '~/selectors/alert';
 
@@ -50,10 +50,10 @@ class Menu extends Component {
   }
 
   handleLogout() {
-    AsyncStorage.removeItem('authrization')
+    AsyncStorage.removeItem('session')
                 .then(() => {
                   // Remove all cache first.
-                  this.props.cleanCache({ isLogin: false });
+                  this.props.logout({ isLogin: false });
                   // Back home page.
                   this.props.navigation.dispatch(resetAction);
                 });
@@ -61,9 +61,9 @@ class Menu extends Component {
 
   render() {
     let {
-      user: {
-        authrization,
-        authrization: { token }
+      session: {
+        data,
+        data: { token }
       },
       alertCount
     } = this.props;
@@ -76,7 +76,6 @@ class Menu extends Component {
           source={require('~/images/shahe.jpg')}
           style={styles.blur} />
         <MenuProfile
-          authrization={authrization}
           {...this.props} />
         <View style={styles.menus}>
           {token &&
@@ -120,18 +119,18 @@ class Menu extends Component {
   }
 }
 
-function mapStateToProps({ user, alert }) {
+function mapStateToProps({ session, alert }) {
   return {
-    user,
+    session,
     alertCount: getAlertCount(alert)
   };
 }
 
 export default connect(mapStateToProps, {
-  userLogin,
-  resetAuthrization,
-  resetAuthrizationResult,
-  cleanCache,
+  login,
+  resetSession,
+  resetSessionResult,
+  logout,
   invalidateTopicList,
   fetchTopicList
 })(Menu);

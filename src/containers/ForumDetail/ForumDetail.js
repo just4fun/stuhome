@@ -207,9 +207,9 @@ class ForumDetail extends Component {
   }
 }
 
-function mapStateToProps({ topicList, forumList, user }) {
+function mapStateToProps({ topicList, forumList, session }) {
   return {
-    userId: _.get(user, ['authrization', 'uid']),
+    userId: _.get(session, ['data', 'uid']),
     topicList,
     forumList
   };
