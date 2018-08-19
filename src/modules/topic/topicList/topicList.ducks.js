@@ -10,7 +10,6 @@ export const TOPIC_LIST_FETCH = 'TOPIC_LIST_FETCH';
 export const TOPIC_LIST_INVALIDATE = 'TOPIC_LIST_INVALIDATE';
 export const TOPIC_LIST_RESET = 'TOPIC_LIST_RESET';
 
-const TOPIC_LIST_FETCH_REQUEST = 'TOPIC_LIST_FETCH_REQUEST';
 const TOPIC_LIST_FETCH_SUCCESS = 'TOPIC_LIST_FETCH_SUCCESS';
 const TOPIC_LIST_FETCH_FAILURE = 'TOPIC_LIST_FETCH_FAILURE';
 
@@ -22,9 +21,8 @@ export const fetchTopicList = createAction(TOPIC_LIST_FETCH);
 export const invalidateTopicList = createAction(TOPIC_LIST_INVALIDATE);
 export const resetTopicList = createAction(TOPIC_LIST_RESET);
 
-export const request = createAction(TOPIC_LIST_FETCH_REQUEST);
-export const success = createAction(TOPIC_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(TOPIC_LIST_FETCH_FAILURE, null, (...args) => args[1]);
+export const fetchTopicListSuccess = createAction(TOPIC_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchTopicListFailure = createAction(TOPIC_LIST_FETCH_FAILURE, null, (...args) => args[1]);
 
 // *********************************
 // Reducer
@@ -58,7 +56,7 @@ export default handleActions({
       }
     };
   },
-  [TOPIC_LIST_FETCH_REQUEST]: (state, action) => {
+  [TOPIC_LIST_FETCH]: (state, action) => {
     let { boardId, sortType, isEndReached } = action.payload;
     return {
       ...state,
