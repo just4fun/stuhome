@@ -9,7 +9,11 @@ import SearchBar from 'react-native-search-bar';
 import TopicList from '~/components/TopicList/TopicList';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import MENUS from '~/constants/menus';
-import { fetchSearchList, resetSearchList } from '~/modules/topic/searchList/searchList.ducks';
+import {
+  fetchSearchList,
+  cancelSearchList,
+  resetSearchList
+} from '~/modules/topic/searchList/searchList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import indicatorStyles from '~/common/styles/Indicator.style';
@@ -33,6 +37,7 @@ class Search extends Component {
   }
 
   componentWillUnmount() {
+    this.props.cancelSearchList();
     this.props.resetSearchList();
   }
 
@@ -117,5 +122,6 @@ function mapStateToProps({ searchList, session }) {
 
 export default connect(mapStateToProps, {
   fetchSearchList,
+  cancelSearchList,
   resetSearchList
 })(Search);

@@ -5,6 +5,7 @@ import { createAction, handleActions } from 'redux-actions';
 // *********************************
 
 export const SEARCHLIST_FETCH = 'SEARCHLIST_FETCH';
+export const SEARCHLIST_CANCEL = 'SEARCHLIST_CANCEL';
 export const SEARCHLIST_RESET = 'SEARCHLIST_RESET';
 
 const SEARCHLIST_FETCH_SUCCESS = 'SEARCHLIST_FETCH_SUCCESS';
@@ -15,6 +16,7 @@ const SEARCHLIST_FETCH_FAILURE = 'SEARCHLIST_FETCH_FAILURE';
 // *********************************
 
 export const fetchSearchList = createAction(SEARCHLIST_FETCH);
+export const cancelSearchList = createAction(SEARCHLIST_CANCEL);
 export const resetSearchList = createAction(SEARCHLIST_RESET);
 
 export const fetchSearchListSuccess = createAction(SEARCHLIST_FETCH_SUCCESS);
