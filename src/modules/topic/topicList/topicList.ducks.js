@@ -6,23 +6,23 @@ import _ from 'lodash';
 // Actions
 // *********************************
 
-export const TOPIC_LIST_FETCH = 'TOPIC_LIST_FETCH';
-export const TOPIC_LIST_INVALIDATE = 'TOPIC_LIST_INVALIDATE';
-export const TOPIC_LIST_RESET = 'TOPIC_LIST_RESET';
+export const TOPICLIST_FETCH = 'TOPICLIST_FETCH';
+export const TOPICLIST_INVALIDATE = 'TOPICLIST_INVALIDATE';
+export const TOPICLIST_RESET = 'TOPICLIST_RESET';
 
-const TOPIC_LIST_FETCH_SUCCESS = 'TOPIC_LIST_FETCH_SUCCESS';
-const TOPIC_LIST_FETCH_FAILURE = 'TOPIC_LIST_FETCH_FAILURE';
+const TOPICLIST_FETCH_SUCCESS = 'TOPICLIST_FETCH_SUCCESS';
+const TOPICLIST_FETCH_FAILURE = 'TOPICLIST_FETCH_FAILURE';
 
 // *********************************
 // Action Creators
 // *********************************
 
-export const fetchTopicList = createAction(TOPIC_LIST_FETCH);
-export const invalidateTopicList = createAction(TOPIC_LIST_INVALIDATE);
-export const resetTopicList = createAction(TOPIC_LIST_RESET);
+export const fetchTopicList = createAction(TOPICLIST_FETCH);
+export const invalidateTopicList = createAction(TOPICLIST_INVALIDATE);
+export const resetTopicList = createAction(TOPICLIST_RESET);
 
-export const fetchTopicListSuccess = createAction(TOPIC_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const fetchTopicListFailure = createAction(TOPIC_LIST_FETCH_FAILURE, null, (...args) => args[1]);
+export const fetchTopicListSuccess = createAction(TOPICLIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchTopicListFailure = createAction(TOPICLIST_FETCH_FAILURE, null, (...args) => args[1]);
 
 // *********************************
 // Reducer
@@ -43,7 +43,7 @@ const defaultTopicListState = {
 };
 
 export default handleActions({
-  [TOPIC_LIST_INVALIDATE]: (state, action) => {
+  [TOPICLIST_INVALIDATE]: (state, action) => {
     let { boardId, sortType } = action.payload;
     return {
       ...state,
@@ -56,7 +56,7 @@ export default handleActions({
       }
     };
   },
-  [TOPIC_LIST_FETCH]: (state, action) => {
+  [TOPICLIST_FETCH]: (state, action) => {
     let { boardId, sortType, isEndReached } = action.payload;
     return {
       ...state,
@@ -71,7 +71,7 @@ export default handleActions({
       }
     };
   },
-  [TOPIC_LIST_FETCH_SUCCESS]: (state, action) => {
+  [TOPICLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       payload: topicList,
       meta: {
@@ -99,7 +99,7 @@ export default handleActions({
       }
     };
   },
-  [TOPIC_LIST_FETCH_FAILURE]: (state, action) => {
+  [TOPICLIST_FETCH_FAILURE]: (state, action) => {
     let { boardId, sortType } = action.meta;
     return {
       ...state,
@@ -115,7 +115,7 @@ export default handleActions({
     };
   },
   // In case there is forum or sub forum we have no access.
-  [TOPIC_LIST_RESET]: (state, action) => {
+  [TOPICLIST_RESET]: (state, action) => {
     let { boardId, sortType } = action.payload;
     return {
       ...state,

@@ -5,7 +5,6 @@ import * as sessionActions from '~/modules/user/session.ducks';
 import * as userTopicListActions from '~/modules/user/userTopicList.ducks';
 import * as forumListActions from '~/modules/forum/forumList.ducks';
 import * as notifyListActions from '~/modules/message/notifyList.ducks';
-import * as searchListActions from '~/modules/topic/searchList.ducks';
 import * as topicActions from '~/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
@@ -22,7 +21,6 @@ const fetchLoginUserApi = fetchResource.bind(null, sessionActions, api.fetchLogi
 const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
-const fetchSearchListApi = fetchResource.bind(null, searchListActions, api.fetchSearchList);
 const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
@@ -147,15 +145,6 @@ function* fetchNotifyList(payload) {
   // }
 }
 
-// search list sagas
-
-function* watchSearchList() {
-  while(true) {
-    const { payload } = yield take(searchListActions.SEARCH_LIST_FETCH);
-    yield fork(fetchSearchListApi, payload);
-  }
-}
-
 // topic sagas
 
 function* watchTopic() {
@@ -234,7 +223,6 @@ export default function* rootSaga() {
   yield fork(watchUserTopicList);
   yield fork(watchForumList);
   yield fork(watchNotifyList);
-  yield fork(watchSearchList);
   yield fork(watchTopic);
   yield fork(watchPmSessionList);
   yield fork(watchPmList);

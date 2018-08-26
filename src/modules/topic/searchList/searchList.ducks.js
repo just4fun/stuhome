@@ -4,23 +4,21 @@ import { createAction, handleActions } from 'redux-actions';
 // Actions
 // *********************************
 
-export const SEARCH_LIST_FETCH = 'SEARCH_LIST_FETCH';
-export const SEARCH_LIST_RESET = 'SEARCH_LIST_RESET';
+export const SEARCHLIST_FETCH = 'SEARCHLIST_FETCH';
+export const SEARCHLIST_RESET = 'SEARCHLIST_RESET';
 
-const SEARCH_LIST_FETCH_REQUEST = 'SEARCH_LIST_FETCH_REQUEST';
-const SEARCH_LIST_FETCH_SUCCESS = 'SEARCH_LIST_FETCH_SUCCESS';
-const SEARCH_LIST_FETCH_FAILURE = 'SEARCH_LIST_FETCH_FAILURE';
+const SEARCHLIST_FETCH_SUCCESS = 'SEARCHLIST_FETCH_SUCCESS';
+const SEARCHLIST_FETCH_FAILURE = 'SEARCHLIST_FETCH_FAILURE';
 
 // *********************************
 // Action Creators
 // *********************************
 
-export const fetchSearchList = createAction(SEARCH_LIST_FETCH);
-export const resetSearchList = createAction(SEARCH_LIST_RESET);
+export const fetchSearchList = createAction(SEARCHLIST_FETCH);
+export const resetSearchList = createAction(SEARCHLIST_RESET);
 
-export const request = createAction(SEARCH_LIST_FETCH_REQUEST);
-export const success = createAction(SEARCH_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(SEARCH_LIST_FETCH_FAILURE);
+export const fetchSearchListSuccess = createAction(SEARCHLIST_FETCH_SUCCESS);
+export const fetchSearchListFailure = createAction(SEARCHLIST_FETCH_FAILURE);
 
 // *********************************
 // Reducer
@@ -37,13 +35,13 @@ const defaultSearchListState = {
 };
 
 export default handleActions({
-  [SEARCH_LIST_FETCH_REQUEST]: (state, action) => ({
+  [SEARCHLIST_FETCH]: (state, action) => ({
     ...state,
     isRefreshing: !action.payload.isEndReached,
     isEndReached: action.payload.isEndReached,
     didInvalidate: false
   }),
-  [SEARCH_LIST_FETCH_SUCCESS]: (state, action) => {
+  [SEARCHLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       payload: topicList
     } = action;
@@ -65,11 +63,11 @@ export default handleActions({
       errCode: topicList.errcode
     };
   },
-  [SEARCH_LIST_FETCH_FAILURE]: (state, action) => ({
+  [SEARCHLIST_FETCH_FAILURE]: (state, action) => ({
     ...state,
     isRefreshing: false,
     isEndReached: false,
     didInvalidate: false
   }),
-  [SEARCH_LIST_RESET]: () => defaultSearchListState
+  [SEARCHLIST_RESET]: () => defaultSearchListState
 }, defaultSearchListState);

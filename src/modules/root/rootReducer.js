@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import session from '~/modules/user/session.ducks';
 import topicList from '~/modules/topic/topicList/topicList.ducks';
 import forumList from '~/modules/forum/forumList.ducks';
-import searchList from '~/modules/topic/searchList.ducks';
+import searchList from '~/modules/topic/searchList/searchList.ducks';
 import notifyList from '~/modules/message/notifyList.ducks';
 import pmSessionList from '~/modules/message/pmSessionList.ducks';
 import pmList from '~/modules/message/pmList.ducks';
