@@ -10,6 +10,7 @@ export const TOPICLIST_FETCH = 'TOPICLIST_FETCH';
 export const TOPICLIST_INVALIDATE = 'TOPICLIST_INVALIDATE';
 export const TOPICLIST_RESET = 'TOPICLIST_RESET';
 
+const TOPICLIST_FETCH_REQUEST = 'TOPICLIST_FETCH_REQUEST';
 const TOPICLIST_FETCH_SUCCESS = 'TOPICLIST_FETCH_SUCCESS';
 const TOPICLIST_FETCH_FAILURE = 'TOPICLIST_FETCH_FAILURE';
 
@@ -21,6 +22,7 @@ export const fetchTopicList = createAction(TOPICLIST_FETCH);
 export const invalidateTopicList = createAction(TOPICLIST_INVALIDATE);
 export const resetTopicList = createAction(TOPICLIST_RESET);
 
+export const fetchTopicListRequest = createAction(TOPICLIST_FETCH_REQUEST);
 export const fetchTopicListSuccess = createAction(TOPICLIST_FETCH_SUCCESS, null, (...args) => args[1]);
 export const fetchTopicListFailure = createAction(TOPICLIST_FETCH_FAILURE, null, (...args) => args[1]);
 
@@ -56,7 +58,7 @@ export default handleActions({
       }
     };
   },
-  [TOPICLIST_FETCH]: (state, action) => {
+  [TOPICLIST_FETCH_REQUEST]: (state, action) => {
     let { boardId, sortType, isEndReached } = action.payload;
     return {
       ...state,

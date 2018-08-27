@@ -9,6 +9,7 @@ import _ from 'lodash';
 export const FORUMLIST_FETCH = 'FORUMLIST_FETCH';
 export const FORUMLIST_INVALIDATE = 'FORUMLIST_INVALIDATE';
 
+const FORUMLIST_FETCH_REQUEST = 'FORUMLIST_FETCH_REQUEST';
 const FORUMLIST_FETCH_SUCCESS = 'FORUMLIST_FETCH_SUCCESS';
 const FORUMLIST_FETCH_FAILURE = 'FORUMLIST_FETCH_FAILURE';
 
@@ -19,6 +20,7 @@ const FORUMLIST_FETCH_FAILURE = 'FORUMLIST_FETCH_FAILURE';
 export const fetchForumList = createAction(FORUMLIST_FETCH);
 export const invalidateForumList = createAction(FORUMLIST_INVALIDATE);
 
+export const fetchForumListRequest = createAction(FORUMLIST_FETCH_REQUEST);
 export const fetchForumListSuccess = createAction(FORUMLIST_FETCH_SUCCESS, null, (...args) => args[1]);
 export const fetchForumListFailure = createAction(FORUMLIST_FETCH_FAILURE, null, (...args) => args[1]);
 
@@ -44,7 +46,7 @@ export default handleActions({
       }
     };
   },
-  [FORUMLIST_FETCH]: (state, action) => {
+  [FORUMLIST_FETCH_REQUEST]: (state, action) => {
     let { boardId } = action.payload;
     return {
       ...state,
