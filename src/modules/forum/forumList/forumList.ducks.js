@@ -6,23 +6,21 @@ import _ from 'lodash';
 // Actions
 // *********************************
 
-export const FORUM_LIST_FETCH = 'FORUM_LIST_FETCH';
-export const FORUM_LIST_INVALIDATE = 'FORUM_LIST_INVALIDATE';
+export const FORUMLIST_FETCH = 'FORUMLIST_FETCH';
+export const FORUMLIST_INVALIDATE = 'FORUMLIST_INVALIDATE';
 
-const FORUM_LIST_FETCH_REQUEST = 'FORUM_LIST_FETCH_REQUEST';
-const FORUM_LIST_FETCH_SUCCESS = 'FORUM_LIST_FETCH_SUCCESS';
-const FORUM_LIST_FETCH_FAILURE = 'FORUM_LIST_FETCH_FAILURE';
+const FORUMLIST_FETCH_SUCCESS = 'FORUMLIST_FETCH_SUCCESS';
+const FORUMLIST_FETCH_FAILURE = 'FORUMLIST_FETCH_FAILURE';
 
 // *********************************
 // Action Creators
 // *********************************
 
-export const fetchForumList = createAction(FORUM_LIST_FETCH);
-export const invalidateForumList = createAction(FORUM_LIST_INVALIDATE);
+export const fetchForumList = createAction(FORUMLIST_FETCH);
+export const invalidateForumList = createAction(FORUMLIST_INVALIDATE);
 
-export const request = createAction(FORUM_LIST_FETCH_REQUEST);
-export const success = createAction(FORUM_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(FORUM_LIST_FETCH_FAILURE, null, (...args) => args[1]);
+export const fetchForumListSuccess = createAction(FORUMLIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchForumListFailure = createAction(FORUMLIST_FETCH_FAILURE, null, (...args) => args[1]);
 
 // *********************************
 // Reducer
@@ -36,7 +34,7 @@ const defaultForumListState = {
 };
 
 export default handleActions({
-  [FORUM_LIST_INVALIDATE]: (state, action) => {
+  [FORUMLIST_INVALIDATE]: (state, action) => {
     let { boardId } = action.payload;
     return {
       ...state,
@@ -46,7 +44,7 @@ export default handleActions({
       }
     };
   },
-  [FORUM_LIST_FETCH_REQUEST]: (state, action) => {
+  [FORUMLIST_FETCH]: (state, action) => {
     let { boardId } = action.payload;
     return {
       ...state,
@@ -57,7 +55,7 @@ export default handleActions({
       }
     };
   },
-  [FORUM_LIST_FETCH_SUCCESS]: (state, action) => {
+  [FORUMLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       payload: forumList,
       meta: {
@@ -74,7 +72,7 @@ export default handleActions({
       }
     };
   },
-  [FORUM_LIST_FETCH_FAILURE]: (state, action) => {
+  [FORUMLIST_FETCH_FAILURE]: (state, action) => {
     let { boardId } = action.meta;
     return {
       ...state,

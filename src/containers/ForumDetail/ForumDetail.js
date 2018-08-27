@@ -12,7 +12,7 @@ import ForumItems from '~/components/ForumItems/ForumItems';
 import PublishModal from '~/components/PublishModal/PublishModal';
 import PublishButton from '~/components/PublishButton/PublishButton';
 import { invalidateTopicList, fetchTopicList, resetTopicList } from '~/modules/topic/topicList/topicList.ducks';
-import { invalidateForumList, fetchForumList } from '~/modules/forum/forumList.ducks';
+import { invalidateForumList, fetchForumList } from '~/modules/forum/forumList/forumList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import scrollableTabViewStyles from '~/common/styles/ScrollableTabView.style';

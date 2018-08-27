@@ -3,7 +3,6 @@ import { take, fork, select, put, call } from 'redux-saga/effects';
 
 import * as sessionActions from '~/modules/user/session.ducks';
 import * as userTopicListActions from '~/modules/user/userTopicList.ducks';
-import * as forumListActions from '~/modules/forum/forumList.ducks';
 import * as notifyListActions from '~/modules/message/notifyList.ducks';
 import * as topicActions from '~/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
@@ -19,7 +18,6 @@ import api from '~/services/api';
 
 const fetchLoginUserApi = fetchResource.bind(null, sessionActions, api.fetchLoginUser);
 const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
-const fetchForumListApi = fetchResource.bind(null, forumListActions, api.fetchForumList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
@@ -106,23 +104,6 @@ function* fetchUserTopicList(payload) {
 
   if (cacheManager.shouldFetchList(state, 'userTopicList', userId, type)) {
     yield fork(fetchUserTopicListApi, payload);
-  }
-}
-
-// forum list sagas
-
-function* watchForumList() {
-  while(true) {
-    const { payload } = yield take(forumListActions.FORUM_LIST_FETCH);
-    yield fork(fetchForumList, payload);
-  }
-}
-
-function* fetchForumList(payload) {
-  const state = yield select();
-
-  if (cacheManager.shouldFetchList(state, 'forumList', payload.boardId)) {
-    yield fork(fetchForumListApi, payload);
   }
 }
 
@@ -221,7 +202,6 @@ export default function* rootSaga() {
   yield fork(watchRetrieveSession);
   yield fork(watchLogin);
   yield fork(watchUserTopicList);
-  yield fork(watchForumList);
   yield fork(watchNotifyList);
   yield fork(watchTopic);
   yield fork(watchPmSessionList);
