@@ -6,23 +6,23 @@ import { LOGOUT } from '~/modules/user/session.ducks';
 // Actions
 // *********************************
 
-export const USER_TOPIC_LIST_FETCH = 'USER_TOPIC_LIST_FETCH';
-export const USER_TOPIC_LIST_INVALIDATE = 'USER_TOPIC_LIST_INVALIDATE';
+export const USERTOPICLIST_FETCH = 'USERTOPICLIST_FETCH';
+export const USERTOPICLIST_INVALIDATE = 'USERTOPICLIST_INVALIDATE';
 
-const USER_TOPIC_LIST_FETCH_REQUEST = 'USER_TOPIC_LIST_FETCH_REQUEST';
-const USER_TOPIC_LIST_FETCH_SUCCESS = 'USER_TOPIC_LIST_FETCH_SUCCESS';
-const USER_TOPIC_LIST_FETCH_FAILURE = 'USER_TOPIC_LIST_FETCH_FAILURE';
+const USERTOPICLIST_FETCH_REQUEST = 'USERTOPICLIST_FETCH_REQUEST';
+const USERTOPICLIST_FETCH_SUCCESS = 'USERTOPICLIST_FETCH_SUCCESS';
+const USERTOPICLIST_FETCH_FAILURE = 'USERTOPICLIST_FETCH_FAILURE';
 
 // *********************************
 // Action Creators
 // *********************************
 
-export const fetchUserTopicList = createAction(USER_TOPIC_LIST_FETCH);
-export const invalidateUserTopicList = createAction(USER_TOPIC_LIST_INVALIDATE);
+export const fetchUserTopicList = createAction(USERTOPICLIST_FETCH);
+export const invalidateUserTopicList = createAction(USERTOPICLIST_INVALIDATE);
 
-export const request = createAction(USER_TOPIC_LIST_FETCH_REQUEST);
-export const success = createAction(USER_TOPIC_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(USER_TOPIC_LIST_FETCH_FAILURE, null, (...args) => args[1]);
+export const fetchUserTopicListRequest = createAction(USERTOPICLIST_FETCH_REQUEST);
+export const fetchUserTopicListSuccess = createAction(USERTOPICLIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchUserTopicListFailure = createAction(USERTOPICLIST_FETCH_FAILURE, null, (...args) => args[1]);
 
 // *********************************
 // Reducer
@@ -40,7 +40,7 @@ const defaultUserTopicListState = {
 };
 
 export default handleActions({
-  [USER_TOPIC_LIST_INVALIDATE]: (state, action) => {
+  [USERTOPICLIST_INVALIDATE]: (state, action) => {
     let { userId, type } = action.payload;
     return {
       ...state,
@@ -53,7 +53,7 @@ export default handleActions({
       }
     };
   },
-  [USER_TOPIC_LIST_FETCH_REQUEST]: (state, action) => {
+  [USERTOPICLIST_FETCH_REQUEST]: (state, action) => {
     let { userId, type, isEndReached } = action.payload;
     return {
       ...state,
@@ -68,7 +68,7 @@ export default handleActions({
       }
     };
   },
-  [USER_TOPIC_LIST_FETCH_SUCCESS]: (state, action) => {
+  [USERTOPICLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       payload: userTopicList,
       meta: {
@@ -93,7 +93,7 @@ export default handleActions({
       }
     };
   },
-  [USER_TOPIC_LIST_FETCH_FAILURE]: (state, action) => {
+  [USERTOPICLIST_FETCH_FAILURE]: (state, action) => {
     let { userId, type } = action.meta;
     return {
       ...state,

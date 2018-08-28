@@ -2,7 +2,6 @@ import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
 import * as sessionActions from '~/modules/user/session.ducks';
-import * as userTopicListActions from '~/modules/user/userTopicList.ducks';
 import * as notifyListActions from '~/modules/message/notifyList.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
@@ -14,7 +13,6 @@ import { fetchResource } from '~/utils/sagaHelper';
 import api from '~/services/api';
 
 const fetchLoginUserApi = fetchResource.bind(null, sessionActions, api.fetchLoginUser);
-const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
@@ -45,24 +43,6 @@ function* watchLogin() {
   while(true) {
     const { payload } = yield take(sessionActions.LOGIN);
     yield fork(fetchLoginUserApi, payload);
-  }
-}
-
-// user topic list sags
-
-function* watchUserTopicList() {
-  while(true) {
-    const { payload } = yield take(userTopicListActions.USER_TOPIC_LIST_FETCH);
-    yield fork(fetchUserTopicList, payload);
-  }
-}
-
-function* fetchUserTopicList(payload) {
-  const state = yield select();
-  const { userId, type } = payload;
-
-  if (cacheManager.shouldFetchList(state, 'userTopicList', userId, type)) {
-    yield fork(fetchUserTopicListApi, payload);
   }
 }
 
@@ -134,7 +114,6 @@ function* watchUsers() {
 export default function* rootSaga() {
   yield fork(watchRetrieveSession);
   yield fork(watchLogin);
-  yield fork(watchUserTopicList);
   yield fork(watchNotifyList);
   yield fork(watchPmSessionList);
   yield fork(watchPmList);
