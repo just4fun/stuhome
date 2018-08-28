@@ -4,7 +4,6 @@ import { take, fork, select, put, call } from 'redux-saga/effects';
 import * as sessionActions from '~/modules/user/session.ducks';
 import * as userTopicListActions from '~/modules/user/userTopicList.ducks';
 import * as notifyListActions from '~/modules/message/notifyList.ducks';
-import * as topicActions from '~/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
 import * as alertActions from '~/modules/message/alert.ducks';
@@ -18,7 +17,6 @@ import api from '~/services/api';
 const fetchLoginUserApi = fetchResource.bind(null, sessionActions, api.fetchLoginUser);
 const fetchUserTopicListApi = fetchResource.bind(null, userTopicListActions, api.fetchUserTopicList);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
-const fetchTopicApi = fetchResource.bind(null, topicActions, api.fetchTopic);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
@@ -89,15 +87,6 @@ function* fetchNotifyList(payload) {
   // }
 }
 
-// topic sagas
-
-function* watchTopic() {
-  while(true) {
-    const { payload } = yield take(topicActions.TOPIC_FETCH);
-    yield fork(fetchTopicApi, payload);
-  }
-}
-
 // pm session list sagas
 
 function* watchPmSessionList() {
@@ -166,7 +155,6 @@ export default function* rootSaga() {
   yield fork(watchLogin);
   yield fork(watchUserTopicList);
   yield fork(watchNotifyList);
-  yield fork(watchTopic);
   yield fork(watchPmSessionList);
   yield fork(watchPmList);
   yield fork(watchAlerts);

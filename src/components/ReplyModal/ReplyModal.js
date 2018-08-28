@@ -19,7 +19,7 @@ import ImageUploader from '~/components/ImageUploader/ImageUploader';
 import MessageBar from '~/services/MessageBar';
 import api from '~/services/api';
 import { CUSTOM_EMOJIS } from '~/constants/emojis';
-import { fetchTopic } from '~/modules/topic/topic.ducks';
+import { fetchTopic } from '~/modules/topic/topic/topic.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import modalStyles from '~/common/styles/Modal.style';

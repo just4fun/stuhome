@@ -8,7 +8,6 @@ import _ from 'lodash';
 export const TOPIC_FETCH = 'TOPIC_FETCH';
 export const TOPIC_RESET = 'TOPIC_RESET';
 
-const TOPIC_FETCH_REQUEST = 'TOPIC_FETCH_REQUEST';
 const TOPIC_FETCH_SUCCESS = 'TOPIC_FETCH_SUCCESS';
 const TOPIC_FETCH_FAILURE = 'TOPIC_FETCH_FAILURE';
 
@@ -19,9 +18,8 @@ const TOPIC_FETCH_FAILURE = 'TOPIC_FETCH_FAILURE';
 export const fetchTopic = createAction(TOPIC_FETCH);
 export const resetTopic = createAction(TOPIC_RESET);
 
-export const request = createAction(TOPIC_FETCH_REQUEST);
-export const success = createAction(TOPIC_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(TOPIC_FETCH_FAILURE);
+export const fetchTopicSuccess = createAction(TOPIC_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchTopicFailure = createAction(TOPIC_FETCH_FAILURE);
 
 // *********************************
 // Reducer
@@ -58,7 +56,7 @@ const defaultTopicState = {
 };
 
 export default handleActions({
-  [TOPIC_FETCH_REQUEST]: (state, action) => {
+  [TOPIC_FETCH]: (state, action) => {
     let { topicId, isEndReached } = action.payload;
     return {
       ...state,
