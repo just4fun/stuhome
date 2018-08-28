@@ -25,28 +25,61 @@ export const fetchTopicFailure = createAction(TOPIC_FETCH_FAILURE);
 // Reducer
 // *********************************
 
-// We don't use `cacheManager` to check `shouldFetchTopicItem` in sagas
-// since topic comments are back with topic details together, and we don't
-// want to cache comments (that said we will always get latest comments with
-// latest topic information in `componentDidMount` every time).
+// *********************************
+// Why we need to use key-value for each topic in redux store?
+// *********************************
 //
-// In this way, we should not also reset/clear the topic item in `componentWillUnmount`.
-// Say we navigate from topic A --> topic B --> topic A, then touch back twice to topic
-// A. We will get blank page since the content of topic A has been `reset` in the third
+// First of all, if we use key-value, that means we want to cache each topic.
+// However, the comments of a topic will back with topic information together,
+// that means we may won't get latest comments in next time.
+//
+// In this way, sounds like key-value is not needed, just use object to store
+// one specific topic is enough.
+//
+// In this app, we have one scenario, we can navigate from topic A to topic B
+// with inside link. In this case, if we touch back button to topic A, we will
+// still see the content of topic B. That's the reason.
+
+// *********************************
+// If we don't cache each topic content, why we don't reset/clear the topic
+// content in `componentWillUnmount`?
+// *********************************
+//
+// 1. We have no need to reset/clear to content since we don't use `cacheManager`
+// to check whether we can fetch the topic, that said we will always get latest
+// topic content in `componentDidMount` to overwrite the old one.
+//
+// 2. If we nagivate from topic A --> topic B --> topic A, or topic A --> topic A
+// (try it out in http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1705815),
+// when we touch back button to first topic A page, we will see nothing,
+// since the content of topic A has been `reset/clear` in the last topic A
 // page's `componentWillUnmount`.
+
+// *********************************
+// Any disadvantages if we don's reset/clear the topic content?
+// *********************************
 //
 // The only disadvantage of not resetting topic item is that, if we navigate from
-// topic A --> topic A (try it out in http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1705815),
-// we will see the content of first topic A will replace with loading spinner since we trigger
-// request action for topic A again. As tradeoff, I think it's not big deal.
+// topic A --> topic A, we will see the content of first topic A will be replaced
+// with loading spinner before the page transition since we trigger request action
+// for topic A again. As tradeoff, I think it's not big deal.
 
-// There is no race condition if we isolate every topic item via topicId in redux store.
+// *********************************
+// Is there race condition?
+// *********************************
+//
+// There is also no race condition if we use key-value for each topic in redux store.
 // https://github.com/just4fun/stuhome/issues/25
+//
+// So we have no need to use `takeUntil` to cancel fetch request when we leave the page
+// before response back. But we need to do it in search page becasue we won't send request
+// when we access search page and it may display previous search result without cancelling.
 
 const defaultState = {};
 const defaultTopicState = {
   isFetching: false,
   isEndReached: false,
+  // Topic information.
   topic: null,
   // Comment list.
   list: [],
@@ -112,13 +145,13 @@ export default handleActions({
       }
     };
   },
-  // We didn't cahce topic item like topic list, because comment list
-  // will be returned with topic info together, that means we will also
-  // cache topic comments as well.
+  // This will only be triggerd if we get any error for topic item.
   //
-  // This will be triggerd in `componentWillUnmount()`.
+  // Since the login modal will be displayed if the user clicks topic
+  // in home page without credentials instead of triggering this action,
+  // seems like it's useless now, but I'd like to leave it here.
   [TOPIC_RESET]: (state, action) => {
     let { topicId } = action.payload;
     return _.pickBy(state, (value, key) => +key !== +topicId);
   }
-}, defaultTopicState);
+}, defaultState);

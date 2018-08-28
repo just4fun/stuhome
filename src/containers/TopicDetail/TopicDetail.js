@@ -105,6 +105,10 @@ class TopicDetail extends Component {
   componentWillReceiveProps(nextProps) {
     let { topicItem } = nextProps;
 
+    // Seems like the code here won't be invoked since we
+    // display login modal instead when user clicks topic in
+    // home page without credentials. See comments in
+    // `topic.ducks` for more information.
     if (topicItem.errCode) {
       AlertIOS.alert('提示', topicItem.errCode);
       nextProps.resetTopic({ topicId: this.topicId });
