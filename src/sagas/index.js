@@ -8,7 +8,6 @@ import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
 import * as alertActions from '~/modules/message/alert.ducks';
 import * as userActions from '~/modules/user/user.ducks';
-import * as friendListActions from '~/modules/user/friendList.ducks';
 
 import cacheManager from '~/services/cacheManager';
 import { fetchResource } from '~/utils/sagaHelper';
@@ -21,7 +20,6 @@ const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
 const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
-const fetchFriendListApi = fetchResource.bind(null, friendListActions, api.fetchFriendList);
 
 // user login sagas
 
@@ -133,23 +131,6 @@ function* watchUsers() {
   }
 }
 
-// friend list sagas
-
-function* watchFriendList() {
-  while(true) {
-    const { payload } = yield take(friendListActions.FRIEND_LIST_FETCH);
-    yield fork(fetchFriendList, payload);
-  }
-}
-
-function* fetchFriendList(payload) {
-  const state = yield select();
-
-  if (cacheManager.shouldFetchList(state, 'friendList')) {
-    yield fork(fetchFriendListApi, payload);
-  }
-}
-
 export default function* rootSaga() {
   yield fork(watchRetrieveSession);
   yield fork(watchLogin);
@@ -159,5 +140,4 @@ export default function* rootSaga() {
   yield fork(watchPmList);
   yield fork(watchAlerts);
   yield fork(watchUsers);
-  yield fork(watchFriendList);
 }

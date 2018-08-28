@@ -4,23 +4,21 @@ import { createAction, handleActions } from 'redux-actions';
 // Actions
 // *********************************
 
-export const FRIEND_LIST_FETCH = 'FRIEND_LIST_FETCH';
-export const FRIEND_LIST_INVALIDATE = 'FRIEND_LIST_INVALIDATE';
+export const FRIENDLIST_FETCH = 'FRIENDLIST_FETCH';
+export const FRIENDLIST_INVALIDATE = 'FRIENDLIST_INVALIDATE';
 
-const FRIEND_LIST_FETCH_REQUEST = 'FRIEND_LIST_FETCH_REQUEST';
-const FRIEND_LIST_FETCH_SUCCESS = 'FRIEND_LIST_FETCH_SUCCESS';
-const FRIEND_LIST_FETCH_FAILURE = 'FRIEND_LIST_FETCH_FAILURE';
+const FRIENDLIST_FETCH_SUCCESS = 'FRIENDLIST_FETCH_SUCCESS';
+const FRIENDLIST_FETCH_FAILURE = 'FRIENDLIST_FETCH_FAILURE';
 
 // *********************************
 // Action Creators
 // *********************************
 
-export const fetchFriendList = createAction(FRIEND_LIST_FETCH);
-export const invalidateFriendList = createAction(FRIEND_LIST_INVALIDATE);
+export const fetchFriendList = createAction(FRIENDLIST_FETCH);
+export const invalidateFriendList = createAction(FRIENDLIST_INVALIDATE);
 
-export const request = createAction(FRIEND_LIST_FETCH_REQUEST);
-export const success = createAction(FRIEND_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(FRIEND_LIST_FETCH_FAILURE);
+export const fetchFriendListSuccess = createAction(FRIENDLIST_FETCH_SUCCESS);
+export const fetchFriendListFailure = createAction(FRIENDLIST_FETCH_FAILURE);
 
 // *********************************
 // Reducer
@@ -37,11 +35,11 @@ const defaultFriendListState = {
 };
 
 export default handleActions({
-  [FRIEND_LIST_INVALIDATE]: (state, action) => ({
+  [FRIENDLIST_INVALIDATE]: (state, action) => ({
     ...state,
     didInvalidate: true
   }),
-  [FRIEND_LIST_FETCH_REQUEST]: (state, action) => {
+  [FRIENDLIST_FETCH]: (state, action) => {
     let { isEndReached } = action.payload;
     return {
       ...state,
@@ -50,7 +48,7 @@ export default handleActions({
       didInvalidate: false
     };
   },
-  [FRIEND_LIST_FETCH_SUCCESS]: (state, action) => {
+  [FRIENDLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       payload: friendList
     } = action;
@@ -70,7 +68,7 @@ export default handleActions({
       errCode: friendList.errcode
     };
   },
-  [FRIEND_LIST_FETCH_FAILURE]: (state, action) => ({
+  [FRIENDLIST_FETCH_FAILURE]: (state, action) => ({
     ...state,
     isRefreshing: false,
     isEndReached: false,
