@@ -8,7 +8,6 @@ import * as topicActions from '~/modules/topic/topic.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
 import * as alertActions from '~/modules/message/alert.ducks';
-import * as settingsActions from '~/modules/settings/settings.ducks';
 import * as userActions from '~/modules/user/user.ducks';
 import * as friendListActions from '~/modules/user/friendList.ducks';
 
@@ -51,42 +50,6 @@ function* watchLogin() {
     const { payload } = yield take(sessionActions.LOGIN);
     yield fork(fetchLoginUserApi, payload);
   }
-}
-
-// settings sagas
-
-function* watchRetrieveSettings() {
-  while(true) {
-    yield take(settingsActions.SETTINGS_RETRIEVE);
-    let settings = yield call(retrieveSettingsFromStorage);
-
-    if (settings) {
-      settings = JSON.parse(settings);
-      yield put(settingsActions.storeSettingsToRedux(settings));
-    }
-  }
-}
-
-function retrieveSettingsFromStorage() {
-  return new Promise(resolve => AsyncStorage.getItem('settings').then(resolve));
-}
-
-function* watchStoreSettings() {
-  while(true) {
-    const { payload } = yield take(settingsActions.SETTINGS_STORE);
-    // get old settings
-    let settings = yield call(retrieveSettingsFromStorage);
-    // merge with new settings
-    let newSettings = Object.assign({}, JSON.parse(settings), payload);
-    // store new settings in storage
-    yield call(storeSettingsToStorage, JSON.stringify(newSettings));
-    // update redux store
-    yield put(settingsActions.storeSettingsToRedux(newSettings));
-  }
-}
-
-function storeSettingsToStorage(settings) {
-  return new Promise(resolve => AsyncStorage.setItem('settings', settings).then(resolve));
 }
 
 // user topic list sags
@@ -207,8 +170,6 @@ export default function* rootSaga() {
   yield fork(watchPmSessionList);
   yield fork(watchPmList);
   yield fork(watchAlerts);
-  yield fork(watchRetrieveSettings);
-  yield fork(watchStoreSettings);
   yield fork(watchUsers);
   yield fork(watchFriendList);
 }
