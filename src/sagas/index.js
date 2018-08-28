@@ -6,7 +6,6 @@ import * as notifyListActions from '~/modules/message/notifyList.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
 import * as alertActions from '~/modules/message/alert.ducks';
-import * as userActions from '~/modules/user/user.ducks';
 
 import cacheManager from '~/services/cacheManager';
 import { fetchResource } from '~/utils/sagaHelper';
@@ -17,7 +16,6 @@ const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetch
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
-const fetchUserApi = fetchResource.bind(null, userActions, api.fetchUser);
 
 // user login sagas
 
@@ -102,15 +100,6 @@ function* watchAlerts() {
   }
 }
 
-// users sagas
-
-function* watchUsers() {
-  while(true) {
-    const { payload } = yield take(userActions.USER_FETCH);
-    yield fork(fetchUserApi, payload);
-  }
-}
-
 export default function* rootSaga() {
   yield fork(watchRetrieveSession);
   yield fork(watchLogin);
@@ -118,5 +107,4 @@ export default function* rootSaga() {
   yield fork(watchPmSessionList);
   yield fork(watchPmList);
   yield fork(watchAlerts);
-  yield fork(watchUsers);
 }

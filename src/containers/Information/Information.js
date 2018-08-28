@@ -9,7 +9,11 @@ import ImagePicker from '~/services/ImagePicker';
 import MENUS from '~/constants/menus';
 import api from '~/services/api';
 import { setSession } from '~/modules/user/session.ducks';
-import { fetchUser, resetUser } from '~/modules/user/user.ducks';
+import {
+  fetchUser,
+  cancelUser,
+  resetUser
+} from '~/modules/user/user/user.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import indicatorStyles from '~/common/styles/Indicator.style';
@@ -33,7 +37,8 @@ class Information extends Component {
   }
 
   componentWillUnmount() {
-    this.props.resetUser({ userId: this.userId });
+    this.props.cancelUser();
+    this.props.resetUser();
   }
 
   uploadPhoto(image) {
@@ -72,14 +77,13 @@ class Information extends Component {
 
   render() {
     let {
-      userItem,
       userItem: {
         isFetching,
         user
       }
     } = this.props;
 
-    if (isFetching || !_.get(userItem, ['user', 'name'])) {
+    if (isFetching || !user) {
       return (
         <LoadingSpinner />
       );
@@ -115,14 +119,15 @@ class Information extends Component {
   }
 }
 
-function mapStateToProps({ session, userItem }, ownProps) {
+function mapStateToProps({ session, userItem }) {
   return {
     loginUserId: _.get(session, ['data', 'uid']),
-    userItem: _.get(userItem, ownProps.navigation.state.params.userId, {})
+    userItem
   };
 }
 
 export default connect(mapStateToProps, {
   fetchUser,
+  cancelUser,
   resetUser
 })(Information);

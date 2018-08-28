@@ -9,7 +9,7 @@ import pmList from '~/modules/message/pmList.ducks';
 import userTopicList from '~/modules/user/userTopicList/userTopicList.ducks';
 import friendList from '~/modules/user/friendList/friendList.ducks';
 import topicItem from '~/modules/topic/topic/topic.ducks';
-import userItem from '~/modules/user/user.ducks';
+import userItem from '~/modules/user/user/user.ducks';
 import alert from '~/modules/message/alert.ducks';
 import settings from '~/modules/settings/settings.ducks';
 

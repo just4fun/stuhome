@@ -5,6 +5,7 @@ import searchList from '~/modules/topic/searchList/searchList.epics';
 import userTopicList from '~/modules/user/userTopicList/userTopicList.epics';
 import friendList from '~/modules/user/friendList/friendList.epics';
 import topicItem from '~/modules/topic/topic/topic.epics';
+import userItem from '~/modules/user/user/user.epics';
 import settings from '~/modules/settings/settings.epics';
 
 export default combineEpics(
@@ -15,6 +16,7 @@ export default combineEpics(
   friendList,
 
   topicItem,
+  userItem,
 
   settings
 );
