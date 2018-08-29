@@ -11,7 +11,7 @@ import userTopicList from '~/modules/user/userTopicList/userTopicList.ducks';
 import friendList from '~/modules/user/friendList/friendList.ducks';
 import topicItem from '~/modules/topic/topic/topic.ducks';
 import userItem from '~/modules/user/user/user.ducks';
-import alert from '~/modules/message/alert.ducks';
+import alert from '~/modules/message/alert/alert.ducks';
 import settings from '~/modules/settings/settings.ducks';
 
 export default combineReducers({

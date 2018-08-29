@@ -15,7 +15,6 @@ import { LOGOUT } from '~/modules/user/session/session.ducks';
 export const ALERT_FETCH = 'ALERT_FETCH';
 export const ALERT_RESET = 'ALERT_RESET';
 
-const ALERT_FETCH_REQUEST = 'ALERT_FETCH_REQUEST';
 const ALERT_FETCH_SUCCESS = 'ALERT_FETCH_SUCCESS';
 const ALERT_FETCH_FAILURE = 'ALERT_FETCH_FAILURE';
 
@@ -26,9 +25,8 @@ const ALERT_FETCH_FAILURE = 'ALERT_FETCH_FAILURE';
 export const fetchAlert = createAction(ALERT_FETCH);
 export const resetAlert = createAction(ALERT_RESET);
 
-export const request = createAction(ALERT_FETCH_REQUEST);
-export const success = createAction(ALERT_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(ALERT_FETCH_FAILURE);
+export const fetchAlertSuccess = createAction(ALERT_FETCH_SUCCESS);
+export const fetchAlertFailure = createAction(ALERT_FETCH_FAILURE);
 
 // *********************************
 // Reducer
@@ -45,7 +43,7 @@ const defaultAlertState = {
 };
 
 export default handleActions({
-  [ALERT_FETCH_REQUEST]: (state, action) => ({
+  [ALERT_FETCH]: (state, action) => ({
     ...state,
     isFetching: true
   }),

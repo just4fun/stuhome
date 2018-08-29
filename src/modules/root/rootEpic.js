@@ -10,6 +10,7 @@ import userTopicList from '~/modules/user/userTopicList/userTopicList.epics';
 import friendList from '~/modules/user/friendList/friendList.epics';
 import topicItem from '~/modules/topic/topic/topic.epics';
 import userItem from '~/modules/user/user/user.epics';
+import alert from '~/modules/message/alert/alert.epics';
 import settings from '~/modules/settings/settings.epics';
 
 export default combineEpics(
@@ -26,5 +27,6 @@ export default combineEpics(
   topicItem,
   userItem,
 
+  alert,
   settings
 );

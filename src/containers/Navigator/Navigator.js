@@ -23,7 +23,7 @@ import ForumListModalScreen from '~/components/ForumListModal/ForumListModal';
 import FriendListModalScreen from '~/components/FriendListModal/FriendListModal';
 import { retrieveSessionFromStorage } from '~/modules/user/session/session.ducks';
 import { retrieveSettingsFromStorage } from '~/modules/settings/settings.ducks';
-import { fetchAlert } from '~/modules/message/alert.ducks';
+import { fetchAlert } from '~/modules/message/alert/alert.ducks';
 import { ALERT_POLL_FREQUENCY } from '~/config';
 
 import colors from '~/common/styles/colors.style';

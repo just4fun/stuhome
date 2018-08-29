@@ -14,7 +14,7 @@ import SettingItem from '~/components/SettingItem/SettingItem';
 import SettingSwitchItem from '~/components/SettingSwitchItem/SettingSwitchItem';
 import MENUS from '~/constants/menus';
 import { storeSettingsToStorage } from '~/modules/settings/settings.ducks';
-import { resetAlert } from '~/modules/message/alert.ducks';
+import { resetAlert } from '~/modules/message/alert/alert.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from '~/containers/Settings/Settings.style';
