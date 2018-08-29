@@ -6,12 +6,11 @@ import { LOGOUT } from '~/modules/user/session/session.ducks';
 // Actions
 // *********************************
 
-export const PM_SESSION_LIST_FETCH = 'PM_SESSION_LIST_FETCH';
-export const PM_SESSION_LIST_INVALIDATE = 'PM_SESSION_LIST_INVALIDATE';
+export const PMSESSIONLIST_FETCH = 'PMSESSIONLIST_FETCH';
+export const PMSESSIONLIST_INVALIDATE = 'PMSESSIONLIST_INVALIDATE';
 
-const PM_SESSION_LIST_FETCH_REQUEST = 'PM_SESSION_LIST_FETCH_REQUEST';
-const PM_SESSION_LIST_FETCH_SUCCESS = 'PM_SESSION_LIST_FETCH_SUCCESS';
-const PM_SESSION_LIST_FETCH_FAILURE = 'PM_SESSION_LIST_FETCH_FAILURE';
+const PMSESSIONLIST_FETCH_SUCCESS = 'PMSESSIONLIST_FETCH_SUCCESS';
+const PMSESSIONLIST_FETCH_FAILURE = 'PMSESSIONLIST_FETCH_FAILURE';
 
 export const MARK_PM_AS_READ = 'MARK_PM_AS_READ';
 
@@ -19,14 +18,13 @@ export const MARK_PM_AS_READ = 'MARK_PM_AS_READ';
 // Action Creators
 // *********************************
 
-export const fetchPmSessionList = createAction(PM_SESSION_LIST_FETCH);
-export const invalidatePmSessionList = createAction(PM_SESSION_LIST_INVALIDATE);
+export const fetchPmSessionList = createAction(PMSESSIONLIST_FETCH);
+export const invalidatePmSessionList = createAction(PMSESSIONLIST_INVALIDATE);
 
 export const markPmAsRead = createAction(MARK_PM_AS_READ);
 
-export const request = createAction(PM_SESSION_LIST_FETCH_REQUEST);
-export const success = createAction(PM_SESSION_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(PM_SESSION_LIST_FETCH_FAILURE, null, (...args) => args[1]);
+export const fetchPmSessionListSuccess = createAction(PMSESSIONLIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchPmSessionListFailure = createAction(PMSESSIONLIST_FETCH_FAILURE);
 
 // *********************************
 // Reducer
@@ -43,7 +41,7 @@ const defaultPmSessionListState = {
 };
 
 export default handleActions({
-  [PM_SESSION_LIST_INVALIDATE]: (state, action) => ({
+  [PMSESSIONLIST_INVALIDATE]: (state, action) => ({
     ...state,
     didInvalidate: true
   }),
@@ -59,7 +57,7 @@ export default handleActions({
       })
     };
   },
-  [PM_SESSION_LIST_FETCH_REQUEST]: (state, action) => {
+  [PMSESSIONLIST_FETCH]: (state, action) => {
     let { isEndReached } = action.payload;
     return {
       ...state,
@@ -68,7 +66,7 @@ export default handleActions({
       didInvalidate: false
     };
   },
-  [PM_SESSION_LIST_FETCH_SUCCESS]: (state, action) => {
+  [PMSESSIONLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       meta,
       payload,
@@ -88,7 +86,7 @@ export default handleActions({
       errCode: payload.errcode
     };
   },
-  [PM_SESSION_LIST_FETCH_FAILURE]: (state, action) => ({
+  [PMSESSIONLIST_FETCH_FAILURE]: (state, action) => ({
     ...state,
     isRefreshing: false,
     isEndReached: false,

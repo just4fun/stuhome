@@ -5,7 +5,7 @@ import {
   MARK_REPLY_AS_READ,
   MARK_SYSTEM_AS_READ
 } from '~/modules/message/notifyList.ducks';
-import { MARK_PM_AS_READ } from '~/modules/message/pmSessionList.ducks';
+import { MARK_PM_AS_READ } from '~/modules/message/pmSessionList/pmSessionList.ducks';
 import { LOGOUT } from '~/modules/user/session/session.ducks';
 
 // *********************************
