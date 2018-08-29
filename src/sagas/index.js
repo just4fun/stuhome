@@ -1,7 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { take, fork, select, put, call } from 'redux-saga/effects';
 
-import * as sessionActions from '~/modules/user/session.ducks';
 import * as notifyListActions from '~/modules/message/notifyList.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
 import * as pmListActions from '~/modules/message/pmList.ducks';
@@ -11,38 +10,11 @@ import cacheManager from '~/services/cacheManager';
 import { fetchResource } from '~/utils/sagaHelper';
 import api from '~/services/api';
 
-const fetchLoginUserApi = fetchResource.bind(null, sessionActions, api.fetchLoginUser);
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
 const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
 
-// user login sagas
-
-function* watchRetrieveSession() {
-  while(true) {
-    yield take(sessionActions.SESSION_RETRIEVE);
-    let session = yield call(retrieveSessionFromStorage);
-
-    if (session) {
-      session = JSON.parse(session);
-      yield put(sessionActions.setSession(session));
-    }
-  }
-}
-
-// how to use `yield` inside callback?
-// https://github.com/redux-saga/redux-saga/issues/508
-function retrieveSessionFromStorage() {
-  return new Promise(resolve => AsyncStorage.getItem('session').then(resolve));
-}
-
-function* watchLogin() {
-  while(true) {
-    const { payload } = yield take(sessionActions.LOGIN);
-    yield fork(fetchLoginUserApi, payload);
-  }
-}
 
 // notify list sagas
 
@@ -101,8 +73,6 @@ function* watchAlerts() {
 }
 
 export default function* rootSaga() {
-  yield fork(watchRetrieveSession);
-  yield fork(watchLogin);
   yield fork(watchNotifyList);
   yield fork(watchPmSessionList);
   yield fork(watchPmList);

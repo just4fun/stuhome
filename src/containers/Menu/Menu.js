@@ -17,7 +17,7 @@ import {
   resetSession,
   resetSessionResult,
   logout
-} from '~/modules/user/session.ducks';
+} from '~/modules/user/session/session.ducks';
 import { invalidateTopicList, fetchTopicList } from '~/modules/topic/topicList/topicList.ducks';
 import { getAlertCount } from '~/selectors/alert';
 

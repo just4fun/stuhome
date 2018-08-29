@@ -23,7 +23,7 @@ import {
   resetSession,
   resetSessionResult,
   logout
-} from '~/modules/user/session.ducks';
+} from '~/modules/user/session/session.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from './LoginModal.style';

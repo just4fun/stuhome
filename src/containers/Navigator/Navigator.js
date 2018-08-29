@@ -21,7 +21,7 @@ import PublishModalScreen from '~/components/PublishModal/PublishModal';
 import ReplyModalScreen from '~/components/ReplyModal/ReplyModal';
 import ForumListModalScreen from '~/components/ForumListModal/ForumListModal';
 import FriendListModalScreen from '~/components/FriendListModal/FriendListModal';
-import { retrieveSessionFromStorage } from '~/modules/user/session.ducks';
+import { retrieveSessionFromStorage } from '~/modules/user/session/session.ducks';
 import { retrieveSettingsFromStorage } from '~/modules/settings/settings.ducks';
 import { fetchAlert } from '~/modules/message/alert.ducks';
 import { ALERT_POLL_FREQUENCY } from '~/config';

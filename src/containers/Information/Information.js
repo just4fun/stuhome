@@ -8,7 +8,7 @@ import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ImagePicker from '~/services/ImagePicker';
 import MENUS from '~/constants/menus';
 import api from '~/services/api';
-import { setSession } from '~/modules/user/session.ducks';
+import { setSession } from '~/modules/user/session/session.ducks';
 import {
   fetchUser,
   cancelUser,

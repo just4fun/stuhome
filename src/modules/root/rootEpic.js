@@ -1,4 +1,6 @@
 import { combineEpics } from 'redux-observable';
+
+import session from '~/modules/user/session/session.epics';
 import topicList from '~/modules/topic/topicList/topicList.epics';
 import forumList from '~/modules/forum/forumList/forumList.epics';
 import searchList from '~/modules/topic/searchList/searchList.epics';
@@ -9,6 +11,8 @@ import userItem from '~/modules/user/user/user.epics';
 import settings from '~/modules/settings/settings.epics';
 
 export default combineEpics(
+  session,
+
   topicList,
   forumList,
   searchList,

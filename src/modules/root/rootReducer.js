@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
-import session from '~/modules/user/session.ducks';
+
+import session from '~/modules/user/session/session.ducks';
 import topicList from '~/modules/topic/topicList/topicList.ducks';
 import forumList from '~/modules/forum/forumList/forumList.ducks';
 import searchList from '~/modules/topic/searchList/searchList.ducks';

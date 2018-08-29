@@ -97,7 +97,7 @@ function assemblePayload({
 // API Methods
 
 export default {
-  fetchLoginUser: ({
+  login: ({
     userName,
     password
   }) => {
