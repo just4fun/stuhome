@@ -14,9 +14,10 @@ import GiftedChatMessageText from '~/common/vendor/components/GiftedChatMessageT
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import {
   fetchPmList,
+  cancelPmList,
   resetPmList,
   resetPmListResponseStatus
-} from '~/modules/message/pmList.ducks';
+} from '~/modules/message/pmList/pmList.ducks';
 import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '~/config';
 import api from '~/services/api';
 
@@ -51,6 +52,7 @@ class PmList extends Component {
   }
 
   componentWillUnmount() {
+    this.props.cancelPmList();
     this.props.resetPmList();
     // Tear down timer.
     this.timer && clearInterval(this.timer);
@@ -215,6 +217,7 @@ function mapStateToProps({ pmList }) {
 
 export default connect(mapStateToProps, {
   fetchPmList,
+  cancelPmList,
   resetPmList,
   resetPmListResponseStatus
 })(PmList);

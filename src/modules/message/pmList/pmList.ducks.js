@@ -5,25 +5,25 @@ import _ from 'lodash';
 // Actions
 // *********************************
 
-export const PM_LIST_FETCH = 'PM_LIST_FETCH';
-export const PM_LIST_RESET = 'PM_LIST_RESET';
-export const PM_LIST_RESPONSE_STATUS_RESET = 'PM_LIST_RESPONSE_STATUS_RESET';
+export const PMLIST_FETCH = 'PMLIST_FETCH';
+export const PMLIST_CANCEL = 'PMLIST_CANCEL';
+export const PMLIST_RESET = 'PMLIST_RESET';
+export const PMLIST_RESPONSE_STATUS_RESET = 'PMLIST_RESPONSE_STATUS_RESET';
 
-const PM_LIST_FETCH_REQUEST = 'PM_LIST_FETCH_REQUEST';
-const PM_LIST_FETCH_SUCCESS = 'PM_LIST_FETCH_SUCCESS';
-const PM_LIST_FETCH_FAILURE = 'PM_LIST_FETCH_FAILURE';
+const PMLIST_FETCH_SUCCESS = 'PMLIST_FETCH_SUCCESS';
+const PMLIST_FETCH_FAILURE = 'PMLIST_FETCH_FAILURE';
 
 // *********************************
 // Action Creators
 // *********************************
 
-export const fetchPmList = createAction(PM_LIST_FETCH);
-export const resetPmList = createAction(PM_LIST_RESET);
-export const resetPmListResponseStatus = createAction(PM_LIST_RESPONSE_STATUS_RESET);
+export const fetchPmList = createAction(PMLIST_FETCH);
+export const cancelPmList = createAction(PMLIST_CANCEL);
+export const resetPmList = createAction(PMLIST_RESET);
+export const resetPmListResponseStatus = createAction(PMLIST_RESPONSE_STATUS_RESET);
 
-export const request = createAction(PM_LIST_FETCH_REQUEST);
-export const success = createAction(PM_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(PM_LIST_FETCH_FAILURE);
+export const fetchPmListSuccess = createAction(PMLIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchPmListFailure = createAction(PMLIST_FETCH_FAILURE);
 
 // *********************************
 // Reducer
@@ -40,11 +40,11 @@ const defaultPmListState = {
 };
 
 export default handleActions({
-  [PM_LIST_FETCH_REQUEST]: (state, action) => ({
+  [PMLIST_FETCH]: (state, action) => ({
     ...state,
     isRefreshing: true
   }),
-  [PM_LIST_FETCH_SUCCESS]: (state, action) => {
+  [PMLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       meta,
       payload,
@@ -78,12 +78,12 @@ export default handleActions({
       response: payload
     };
   },
-  [PM_LIST_FETCH_FAILURE]: (state, action) => ({
+  [PMLIST_FETCH_FAILURE]: (state, action) => ({
     ...state,
     isRefreshing: false
   }),
-  [PM_LIST_RESET]: () => defaultPmListState,
-  [PM_LIST_RESPONSE_STATUS_RESET]: (state, action) => ({
+  [PMLIST_RESET]: () => defaultPmListState,
+  [PMLIST_RESPONSE_STATUS_RESET]: (state, action) => ({
     ...state,
     response: ''
   })

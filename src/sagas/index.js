@@ -3,7 +3,6 @@ import { take, fork, select, put, call } from 'redux-saga/effects';
 
 import * as notifyListActions from '~/modules/message/notifyList.ducks';
 import * as pmSessionListActions from '~/modules/message/pmSessionList.ducks';
-import * as pmListActions from '~/modules/message/pmList.ducks';
 import * as alertActions from '~/modules/message/alert.ducks';
 
 import cacheManager from '~/services/cacheManager';
@@ -12,7 +11,6 @@ import api from '~/services/api';
 
 const fetchNotifyListApi = fetchResource.bind(null, notifyListActions, api.fetchNotifyList);
 const fetchPmSessionListApi = fetchResource.bind(null, pmSessionListActions, api.fetchPmSessionList);
-const fetchPmListApi = fetchResource.bind(null, pmListActions, api.fetchPmList);
 const fetchAlertApi = fetchResource.bind(null, alertActions, api.fetchAlert);
 
 
@@ -54,15 +52,6 @@ function* fetchPmSessionList(payload) {
   // }
 }
 
-// pm list sagas
-
-function* watchPmList() {
-  while(true) {
-    const { payload } = yield take(pmListActions.PM_LIST_FETCH);
-    yield fork(fetchPmListApi, payload);
-  }
-}
-
 // alerts sagas
 
 function* watchAlerts() {
@@ -75,6 +64,5 @@ function* watchAlerts() {
 export default function* rootSaga() {
   yield fork(watchNotifyList);
   yield fork(watchPmSessionList);
-  yield fork(watchPmList);
   yield fork(watchAlerts);
 }
