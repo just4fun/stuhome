@@ -113,7 +113,6 @@ class TopicDetail extends Component {
       AlertIOS.alert('提示', topicItem.errCode);
       nextProps.resetTopic({ topicId: this.topicId });
       nextProps.navigation.goBack();
-      return;
     }
   }
 

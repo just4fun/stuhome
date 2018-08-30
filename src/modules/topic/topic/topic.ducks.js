@@ -56,7 +56,7 @@ export const fetchTopicFailure = createAction(TOPIC_FETCH_FAILURE);
 // page's `componentWillUnmount`.
 
 // *********************************
-// Any disadvantages if we don's reset/clear the topic content?
+// Any disadvantages if we don't reset/clear the topic content?
 // *********************************
 //
 // The only disadvantage of not resetting topic item is that, if we navigate from
@@ -65,14 +65,25 @@ export const fetchTopicFailure = createAction(TOPIC_FETCH_FAILURE);
 // for topic A again. As tradeoff, I think it's not big deal.
 
 // *********************************
+// Why there is still `TOPIC_RESET` action?
+// *********************************
+//
+// 1. Before we display login modal instead when user clicks topic in home page
+// without credentials, this action was used to reset the topic which we have no
+// access.
+//
+// 2. Even we login, there are still topics we have no access, such as the topics
+// in some specific forums like `版主交流`.
+
+// *********************************
 // Is there race condition?
 // *********************************
 //
 // There is also no race condition if we use key-value for each topic in redux store.
 // https://github.com/just4fun/stuhome/issues/25
 //
-// So we have no need to use `takeUntil` to cancel fetch request when we leave the page
-// before response back. But we need to do it in search page becasue we won't send request
+// So we also have no need to use `takeUntil` to cancel fetch request when we leave the page
+// before response back. But we need to do it in search page because we won't send request
 // when we access search page and it may display previous search result without cancelling.
 
 const defaultState = {};
@@ -145,11 +156,6 @@ export default handleActions({
       }
     };
   },
-  // This will only be triggerd if we get any error for topic item.
-  //
-  // Since the login modal will be displayed if the user clicks topic
-  // in home page without credentials instead of triggering this action,
-  // seems like it's useless now, but I'd like to leave it here.
   [TOPIC_RESET]: (state, action) => {
     let { topicId } = action.payload;
     return _.pickBy(state, (value, key) => +key !== +topicId);
