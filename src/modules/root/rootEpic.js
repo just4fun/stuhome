@@ -2,7 +2,7 @@ import { combineEpics } from 'redux-observable';
 
 import session from '~/modules/user/session/session.epics';
 import topicList from '~/modules/topic/topicList/topicList.epics';
-import forumList from '~/modules/forum/forumList/forumList.epics';
+import forumList from '~/modules/forum/forumList.epics';
 import searchList from '~/modules/topic/searchList/searchList.epics';
 import notifyList from '~/modules/message/notifyList/notifyList.epics';
 import pmSessionList from '~/modules/message/pmSessionList/pmSessionList.epics';
