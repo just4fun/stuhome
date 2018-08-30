@@ -10,7 +10,7 @@ import ReplyModal from '~/components/ReplyModal/ReplyModal';
 import MENUS from '~/constants/menus';
 import { invalidateNotifyList, fetchNotifyList } from '~/modules/message/notifyList/notifyList.ducks';
 import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '~/modules/message/pmSessionList/pmSessionList.ducks';
-import { getAtMeCount, getReplyCount, getPmCount, getSystemCount } from '~/selectors/alert';
+import { getAtMeCount, getReplyCount, getPmCount, getSystemCount } from '~/modules/message/alert/alert.selectors';
 
 import mainStyles from '~/common/styles/Main.style';
 import scrollableTabViewStyles from '~/common/styles/ScrollableTabView.style';

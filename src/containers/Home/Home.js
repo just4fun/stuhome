@@ -11,7 +11,7 @@ import TopicList from '~/components/TopicList/TopicList';
 import MenuButton from '~/components/MenuButton/MenuButton';
 import PublishButton from '~/components/PublishButton/PublishButton';
 import { invalidateTopicList, fetchTopicList } from '~/modules/topic/topicList/topicList.ducks';
-import { getAlertCount } from '~/selectors/alert';
+import { getAlertCount } from '~/modules/message/alert/alert.selectors';
 
 import scrollableTabViewStyles from '~/common/styles/ScrollableTabView.style';
 import mainStyles from '~/common/styles/Main.style';

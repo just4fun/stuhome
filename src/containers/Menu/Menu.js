@@ -19,7 +19,7 @@ import {
   logout
 } from '~/modules/user/session/session.ducks';
 import { invalidateTopicList, fetchTopicList } from '~/modules/topic/topicList/topicList.ducks';
-import { getAlertCount } from '~/selectors/alert';
+import { getAlertCount } from '~/modules/message/alert/alert.selectors';
 
 import styles from './Menu.style';
 
