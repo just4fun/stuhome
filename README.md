@@ -88,7 +88,6 @@ npm run eslint
 
 - ~~Update UI per new design~~
 - ~~Submit to [App Store](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)~~
-- ~~Replace [redux-thunk](https://github.com/gaearon/redux-thunk) with [redux-saga](https://github.com/redux-saga/redux-saga)~~ ([#7](https://github.com/just4fun/stuhome/pull/7))
 - ~~Unit Testing Infrastructure~~ ([#8](https://github.com/just4fun/stuhome/pull/8))
 - ~~Replace deprecated Navigator with [React Navigation](https://github.com/react-navigation/react-navigation)~~ ([#19](https://github.com/just4fun/stuhome/pull/19))
 
