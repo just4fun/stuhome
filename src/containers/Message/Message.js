@@ -8,7 +8,7 @@ import NotifyList from '~/components/NotifyList/NotifyList';
 import PmSessionList from '~/components/PmSessionList/PmSessionList';
 import ReplyModal from '~/components/ReplyModal/ReplyModal';
 import MENUS from '~/constants/menus';
-import { invalidateNotifyList, fetchNotifyList } from '~/modules/message/notifyList.ducks';
+import { invalidateNotifyList, fetchNotifyList } from '~/modules/message/notifyList/notifyList.ducks';
 import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '~/modules/message/pmSessionList/pmSessionList.ducks';
 import { getAtMeCount, getReplyCount, getPmCount, getSystemCount } from '~/selectors/alert';
 

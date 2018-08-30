@@ -4,7 +4,7 @@ import session from '~/modules/user/session/session.ducks';
 import topicList from '~/modules/topic/topicList/topicList.ducks';
 import forumList from '~/modules/forum/forumList/forumList.ducks';
 import searchList from '~/modules/topic/searchList/searchList.ducks';
-import notifyList from '~/modules/message/notifyList.ducks';
+import notifyList from '~/modules/message/notifyList/notifyList.ducks';
 import pmSessionList from '~/modules/message/pmSessionList/pmSessionList.ducks';
 import pmList from '~/modules/message/pmList/pmList.ducks';
 import userTopicList from '~/modules/user/userTopicList/userTopicList.ducks';

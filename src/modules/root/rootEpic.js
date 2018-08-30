@@ -4,6 +4,7 @@ import session from '~/modules/user/session/session.epics';
 import topicList from '~/modules/topic/topicList/topicList.epics';
 import forumList from '~/modules/forum/forumList/forumList.epics';
 import searchList from '~/modules/topic/searchList/searchList.epics';
+import notifyList from '~/modules/message/notifyList/notifyList.epics';
 import pmSessionList from '~/modules/message/pmSessionList/pmSessionList.epics';
 import pmList from '~/modules/message/pmList/pmList.epics';
 import userTopicList from '~/modules/user/userTopicList/userTopicList.epics';
@@ -19,6 +20,7 @@ export default combineEpics(
   topicList,
   forumList,
   searchList,
+  notifyList,
   pmSessionList,
   pmList,
   userTopicList,

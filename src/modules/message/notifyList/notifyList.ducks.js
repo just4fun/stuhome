@@ -6,12 +6,11 @@ import { LOGOUT } from '~/modules/user/session/session.ducks';
 // Actions
 // *********************************
 
-export const NOTIFY_LIST_FETCH = 'NOTIFY_LIST_FETCH';
-export const NOTIFY_LIST_INVALIDATE = 'NOTIFY_LIST_INVALIDATE';
+export const NOTIFYLIST_FETCH = 'NOTIFYLIST_FETCH';
+export const NOTIFYLIST_INVALIDATE = 'NOTIFYLIST_INVALIDATE';
 
-const NOTIFY_LIST_FETCH_REQUEST = 'NOTIFY_LIST_FETCH_REQUEST';
-const NOTIFY_LIST_FETCH_SUCCESS = 'NOTIFY_LIST_FETCH_SUCCESS';
-const NOTIFY_LIST_FETCH_FAILURE = 'NOTIFY_LIST_FETCH_FAILURE';
+export const NOTIFYLIST_FETCH_SUCCESS = 'NOTIFYLIST_FETCH_SUCCESS';
+const NOTIFYLIST_FETCH_FAILURE = 'NOTIFYLIST_FETCH_FAILURE';
 
 export const MARK_AT_ME_AS_READ = 'MARK_AT_ME_AS_READ';
 export const MARK_REPLY_AS_READ = 'MARK_REPLY_AS_READ';
@@ -21,8 +20,11 @@ export const MARK_SYSTEM_AS_READ = 'MARK_SYSTEM_AS_READ';
 // Action Creators
 // *********************************
 
-export const fetchNotifyList = createAction(NOTIFY_LIST_FETCH);
-export const invalidateNotifyList = createAction(NOTIFY_LIST_INVALIDATE);
+export const fetchNotifyList = createAction(NOTIFYLIST_FETCH);
+export const invalidateNotifyList = createAction(NOTIFYLIST_INVALIDATE);
+
+export const fetchNotifyListSuccess = createAction(NOTIFYLIST_FETCH_SUCCESS, null, (...args) => args[1]);
+export const fetchNotifyListFailure = createAction(NOTIFYLIST_FETCH_FAILURE, null, (...args) => args[1]);
 
 const markAtMeAsRead = createAction(MARK_AT_ME_AS_READ);
 const markReplyAsRead = createAction(MARK_REPLY_AS_READ);
@@ -30,7 +32,7 @@ const markSystemAsRead = createAction(MARK_SYSTEM_AS_READ);
 
 // Update unread message count immediately instead of
 // clearing them with next poll after 0 ~ 15s.
-export const successfulCallback = (payload) => {
+export const fetchNotifyListSuccessfulCallback = (payload) => {
   switch (payload.notifyType) {
     case 'at':
       return markAtMeAsRead();
@@ -40,10 +42,6 @@ export const successfulCallback = (payload) => {
       return markSystemAsRead();
   }
 }
-
-export const request = createAction(NOTIFY_LIST_FETCH_REQUEST);
-export const success = createAction(NOTIFY_LIST_FETCH_SUCCESS, null, (...args) => args[1]);
-export const failure = createAction(NOTIFY_LIST_FETCH_FAILURE, null, (...args) => args[1]);
 
 // *********************************
 // Reducer
@@ -62,7 +60,7 @@ const defaultNotifyListState = {
 };
 
 export default handleActions({
-  [NOTIFY_LIST_INVALIDATE]: (state, action) => {
+  [NOTIFYLIST_INVALIDATE]: (state, action) => {
     let { notifyType } = action.payload;
     return {
       ...state,
@@ -72,7 +70,7 @@ export default handleActions({
       }
     };
   },
-  [NOTIFY_LIST_FETCH_REQUEST]: (state, action) => {
+  [NOTIFYLIST_FETCH]: (state, action) => {
     let { notifyType, isEndReached } = action.payload;
     return {
       ...state,
@@ -84,7 +82,7 @@ export default handleActions({
       }
     };
   },
-  [NOTIFY_LIST_FETCH_SUCCESS]: (state, action) => {
+  [NOTIFYLIST_FETCH_SUCCESS]: (state, action) => {
     let {
       payload: notifyList,
       meta: {
@@ -112,7 +110,7 @@ export default handleActions({
       }
     };
   },
-  [NOTIFY_LIST_FETCH_FAILURE]: (state, action) => {
+  [NOTIFYLIST_FETCH_FAILURE]: (state, action) => {
     let { notifyType } = action.meta;
     return {
       ...state,
