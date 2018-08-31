@@ -6,7 +6,6 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import MessageTabBar from '~/common/vendor/components/MessageTabBar';
 import NotifyList from '~/components/NotifyList/NotifyList';
 import PmSessionList from '~/components/PmSessionList/PmSessionList';
-import ReplyModal from '~/components/ReplyModal/ReplyModal';
 import MENUS from '~/constants/menus';
 import { invalidateNotifyList, fetchNotifyList } from '~/modules/message/notifyList/notifyList.ducks';
 import { invalidatePmSessionList, fetchPmSessionList, markPmAsRead } from '~/modules/message/pmSessionList/pmSessionList.ducks';

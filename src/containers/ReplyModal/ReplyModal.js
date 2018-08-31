@@ -71,7 +71,7 @@ class ReplyModal extends Component {
   getTitle(comment) {
     if (comment) {
       return `回复 ${comment.user_nick_name || comment.reply_name}`;
-    } 
+    }
 
     return '评论';
   }

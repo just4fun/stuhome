@@ -9,7 +9,6 @@ import _ from 'lodash';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import TopicList from '~/components/TopicList/TopicList';
 import ForumItems from '~/components/ForumItems/ForumItems';
-import PublishModal from '~/components/PublishModal/PublishModal';
 import PublishButton from '~/components/PublishButton/PublishButton';
 import { invalidateTopicList, fetchTopicList, resetTopicList } from '~/modules/topic/topicList/topicList.ducks';
 import { invalidateForumList, fetchForumList } from '~/modules/forum/forumList.ducks';

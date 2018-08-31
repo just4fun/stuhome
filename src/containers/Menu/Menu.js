@@ -7,7 +7,6 @@ import {
   ActionSheetIOS,
 } from 'react-native';
 import { SafeAreaView, NavigationActions } from 'react-navigation';
-import LoginModal from '~/components/LoginModal/LoginModal';
 import MenuProfile from '~/components/MenuProfile/MenuProfile';
 import MenuItem from '~/components/MenuItem/MenuItem';
 import MenuBottomItem from '~/components/MenuBottomItem/MenuBottomItem';

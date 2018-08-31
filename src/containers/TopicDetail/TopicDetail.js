@@ -16,7 +16,6 @@ import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 import Avatar from '~/components/Avatar/Avatar';
-import ReplyModal from '~/components/ReplyModal/ReplyModal';
 import Comment from '~/components/Comment/Comment';
 import Content from '~/components/Content/Content';
 import VoteList from '~/components/VoteList/VoteList';
