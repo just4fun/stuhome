@@ -55,7 +55,7 @@ class Settings extends Component {
 
   render() {
     let { settings, navigation } = this.props;
-    let fontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
+    let selectedFontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
 
     return (
       <View style={[mainStyles.container, styles.container]}>
@@ -64,7 +64,7 @@ class Settings extends Component {
             text='字体大小'
             onPress={() => navigation.navigate('SettingsFontSize')}>
             <Text style={settingItemStyles.indicator}>
-              {fontSize.text} >
+              {selectedFontSize.text} >
             </Text>
           </SettingItem>
         </View>

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import ProgressImage from '~/components/ProgressImage/ProgressImage';
 import SafariView from '~/services/SafariView';
+import FONT_SIZES from '~/constants/fontSize';
 import { parseContentWithEmoji } from '~/utils/contentParser';
 import { DOMAIN_ROOT } from '~/config';
 
@@ -111,7 +112,8 @@ export default class Content extends Component {
   // adjust layout.
   render() {
     let newContent = this.getContentByGroup();
-    let { navigation } = this.props;
+    let { navigation, settings } = this.props;
+    let selectedFontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
 
     return (
       <View style={styles.container}>
@@ -127,7 +129,10 @@ export default class Content extends Component {
             case 4:
               return (
                 <Text key={groupIndex}
-                      style={[styles.item, styles.text]}>
+                      style={[styles.item, styles.text, {
+                        fontSize: selectedFontSize.fontSize,
+                        lineHeight: selectedFontSize.lineHeight
+                      }]}>
                   {groupContent.map((item, index) => {
                     return (
                       item.type === 0 && (

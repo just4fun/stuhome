@@ -7,5 +7,16 @@ export default StyleSheet.create({
   },
   check: {
     color: '#69d57a'
+  },
+  demo: {
+    backgroundColor: colors.white,
+    borderBottomWidth: 0,
+    padding: 15
+  },
+  text: {
+    color: colors.mainField
+  },
+  url: {
+    color: colors.link
   }
 });

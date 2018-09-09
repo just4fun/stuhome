@@ -174,7 +174,8 @@ class TopicDetail extends Component {
       },
       session: {
         data: { uid }
-      }
+      },
+      settings
     } = this.props;
     let { isFavoring, isVoting } = this.state;
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
@@ -244,6 +245,7 @@ class TopicDetail extends Component {
           <View>
             <Content
               content={topic.content}
+              settings={settings}
               navigation={navigation} />
             {topic.poll_info &&
               <VoteList
@@ -404,7 +406,8 @@ class TopicDetail extends Component {
       navigation,
       session: {
         data: { uid }
-      }
+      },
+      settings
     } = this.props;
 
     return (
@@ -423,6 +426,7 @@ class TopicDetail extends Component {
               <Comment
                 key={comment.reply_posts_id}
                 comment={comment}
+                settings={settings}
                 currentUserId={uid}
                 // `topicId` and `boardId` are not involved in `comment` here,
                 // which are necessary for topic reply API.
@@ -460,11 +464,12 @@ class TopicDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  let { topicItem, session } = state;
+  let { topicItem, session, settings } = state;
 
   return {
     topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),
-    session
+    session,
+    settings
   };
 }
 

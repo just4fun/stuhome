@@ -108,7 +108,8 @@ export default class Comment extends Component {
         is_quote,
         quote_content,
         mobileSign
-      }
+      },
+      settings
     } = this.props;
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
@@ -153,6 +154,7 @@ export default class Comment extends Component {
             }
             <Content
               content={reply_content}
+              settings={settings}
               navigation={navigation} />
           </View>
         </View>

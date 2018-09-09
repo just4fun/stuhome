@@ -25,6 +25,8 @@ module.exports = {
 
   AUTHOR_ID: 32044,
 
+  AUTHOR_NAME: '法律之光',
+
   AUTHOR_URL: 'http://just4fun.github.io/',
 
   SOURCE_URL: 'https://github.com/just4fun/stuhome',
@@ -33,7 +35,7 @@ module.exports = {
 
   APP_STORE: 'itms-apps://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355',
 
-  COPY_RIGHT: `2015-${new Date().getFullYear()} 清水河畔@法律之光`,
+  COPY_RIGHT: `2015-${new Date().getFullYear()} 清水河畔`,
 
   // seconds
   ALERT_POLL_FREQUENCY: 15,
