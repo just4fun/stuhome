@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import {
+  View,
+  Image,
+  Text
+} from 'react-native';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '~/components/SettingItem/SettingItem';
@@ -16,8 +20,9 @@ import {
 } from '~/modules/user/user/user.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
-import indicatorStyles from '~/common/styles/Indicator.style';
-import styles from '~/containers/About/About.style';
+import aboutStyles from '~/containers/About/About.style';
+import settingItemStyles from '~/components/SettingItem/SettingItem.style';
+import styles from './Information.style';
 
 class Information extends Component {
   static navigationOptions = {
@@ -90,29 +95,49 @@ class Information extends Component {
     }
 
     return (
-      <View style={[mainStyles.container, styles.container]}>
-        <View style={styles.group}>
+      <View style={[mainStyles.container, aboutStyles.container]}>
+        <View style={aboutStyles.group}>
           <SettingItem
             text='头像'
-            style={styles.informationAvatar}
-            avatar={user.icon}
-            isLoginUser={this.isLoginUser}
-            onPress={() => this.handleAvatarPress()} />
+            style={styles.avatarItem}
+            onPress={() => this.handleAvatarPress()}>
+            <View style={styles.avatarWapper}>
+              <Image
+                style={styles.avatar}
+                source={{ uri: user.icon }} />
+              {this.isLoginUser && <Text style={styles.avatarIndicator}>></Text>}
+            </View>
+          </SettingItem>
           <SettingItem
-            text='昵称'
-            indicator={user.name} />
+            text='昵称'>
+            <Text style={settingItemStyles.indicator}>
+              {user.name}
+            </Text>
+          </SettingItem>
           <SettingItem
-            text='性别'
-            indicator={this.getGender(user.gender)} />
+            text='性别'>
+            <Text style={settingItemStyles.indicator}>
+              {this.getGender(user.gender)}
+            </Text>
+          </SettingItem>
           <SettingItem
-            text='等级'
-            indicator={user.userTitle} />
+            text='等级'>
+            <Text style={settingItemStyles.indicator}>
+              {user.userTitle}
+            </Text>
+          </SettingItem>
           <SettingItem
-            text='积分'
-            indicator={user.credits} />
+            text='积分'>
+            <Text style={settingItemStyles.indicator}>
+              {user.credits}
+            </Text>
+          </SettingItem>
           <SettingItem
-            text='水滴'
-            indicator={user.gold_num} />
+            text='水滴'>
+            <Text style={settingItemStyles.indicator}>
+              {user.gold_num}
+            </Text>
+          </SettingItem>
         </View>
       </View>
     );

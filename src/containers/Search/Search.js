@@ -16,7 +16,6 @@ import {
 } from '~/modules/topic/searchList/searchList.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
-import indicatorStyles from '~/common/styles/Indicator.style';
 
 class Search extends Component {
   static navigationOptions = {

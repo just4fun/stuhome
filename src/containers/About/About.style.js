@@ -30,7 +30,4 @@ export default StyleSheet.create({
   text: {
     color: colors.mainField,
   },
-  informationAvatar: {
-    height: 60
-  }
 });

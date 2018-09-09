@@ -12,7 +12,7 @@ import styles from './SettingItem.style';
 
 export default class SettingItem extends Component {
   render() {
-    let { text, style, indicator, avatar, isLoginUser } = this.props;
+    let { text, style, children } = this.props;
 
     return (
       <TouchableHighlight
@@ -20,18 +20,9 @@ export default class SettingItem extends Component {
         onPress={this.props.onPress}>
         <View style={[styles.item, style]}>
           <Text style={styles.info}>{text}</Text>
-          {!!avatar &&
-            <View style={styles.avatarWapper}>
-              <Image
-                style={styles.avatar}
-                source={{ uri: avatar }} />
-              {isLoginUser && <Text style={styles.avatarIndicator}>></Text>}
-            </View>
-            ||
-            <Text style={styles.indicator}>
-              {!!indicator ? indicator : '>'}
-            </Text>
-          }
+          {children || (
+            <Text style={styles.indicator}>></Text>
+          )}
         </View>
       </TouchableHighlight>
     );
