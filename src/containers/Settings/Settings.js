@@ -13,10 +13,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '~/components/SettingItem/SettingItem';
 import SettingSwitchItem from '~/components/SettingSwitchItem/SettingSwitchItem';
 import MENUS from '~/constants/menus';
+import FONT_SIZES from '~/constants/fontSize';
 import { storeSettingsToStorage } from '~/modules/settings/settings.ducks';
 import { fetchAlert, resetAlert } from '~/modules/message/alert/alert.ducks';
 
 import mainStyles from '~/common/styles/Main.style';
+import settingItemStyles from '~/components/SettingItem/SettingItem.style';
 import styles from '~/containers/Settings/Settings.style';
 
 class Settings extends Component {
@@ -52,10 +54,20 @@ class Settings extends Component {
   }
 
   render() {
-    let { settings } = this.props;
+    let { settings, navigation } = this.props;
+    let fontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
 
     return (
       <View style={[mainStyles.container, styles.container]}>
+        <View style={styles.group}>
+          <SettingItem
+            text='字体大小'
+            onPress={() => navigation.navigate('SettingsFontSize')}>
+            <Text style={settingItemStyles.indicator}>
+              {fontSize.text} >
+            </Text>
+          </SettingItem>
+        </View>
         {
           // <View style={styles.group}>
           //   <SettingItem

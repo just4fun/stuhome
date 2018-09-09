@@ -15,6 +15,7 @@ import PrivateMessageScreen from '~/containers/PmList/PmList';
 import AboutScreen from '~/containers/About/About';
 import InformationScreen from '~/containers/Information/Information';
 import SettingsScreen from '~/containers/Settings/Settings';
+import SettingsFontSizeScreen from '~/containers/SettingsFontSize/SettingsFontSize';
 import WebPageScreen from '~/containers/WebPage/WebPage';
 import LoginModalScreen from '~/containers/LoginModal/LoginModal';
 import PublishModalScreen from '~/containers/PublishModal/PublishModal';
@@ -68,6 +69,9 @@ const AppNavigator = DrawerNavigator({
           },
           Settings: {
             screen: SettingsScreen
+          },
+          SettingsFontSize: {
+            screen: SettingsFontSizeScreen
           }
         }, {
           initialRouteName: 'Home',
