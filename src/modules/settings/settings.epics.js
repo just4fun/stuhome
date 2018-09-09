@@ -1,6 +1,6 @@
 import { combineEpics, ofType } from 'redux-observable';
 import { from as fromPromise, of, concat } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, filter } from 'rxjs/operators';
 import { AsyncStorage } from 'react-native';
 import {
   SETTINGS_RETRIEVE,
@@ -12,11 +12,10 @@ import api from '~/services/api';
 const retrieveSettings = (action$) => action$.pipe(
   ofType(SETTINGS_RETRIEVE),
   mergeMap(action => fromPromise(AsyncStorage.getItem('settings')).pipe(
+    filter(settings => settings),
     map(settings => {
-      if (settings) {
-        settings = JSON.parse(settings);
-        return storeSettingsToRedux(settings);
-      }
+      settings = JSON.parse(settings);
+      return storeSettingsToRedux(settings);
     })
   ))
 );

@@ -1,6 +1,6 @@
 import { combineEpics, ofType } from 'redux-observable';
 import { from as fromPromise, of, concat } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, filter } from 'rxjs/operators';
 import { AsyncStorage } from 'react-native';
 import {
   LOGIN,
@@ -30,11 +30,10 @@ const login = (action$) => action$.pipe(
 const retrieveSession = (action$) => action$.pipe(
   ofType(SESSION_RETRIEVE),
   mergeMap(action => fromPromise(AsyncStorage.getItem('session')).pipe(
+    filter(session => session),
     map(session => {
-      if (session) {
-        session = JSON.parse(session);
-        return setSession(session);
-      }
+      session = JSON.parse(session);
+      return setSession(session);
     })
   ))
 );
