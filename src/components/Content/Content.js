@@ -113,7 +113,11 @@ export default class Content extends Component {
   render() {
     let newContent = this.getContentByGroup();
     let { navigation, settings } = this.props;
-    let selectedFontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
+    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    let fontStyle = {
+      fontSize,
+      lineHeight
+    };
 
     return (
       <View style={styles.container}>
@@ -129,10 +133,7 @@ export default class Content extends Component {
             case 4:
               return (
                 <Text key={groupIndex}
-                      style={[styles.item, styles.text, {
-                        fontSize: selectedFontSize.fontSize,
-                        lineHeight: selectedFontSize.lineHeight
-                      }]}>
+                      style={[styles.item, styles.text, fontStyle]}>
                   {groupContent.map((item, index) => {
                     return (
                       item.type === 0 && (

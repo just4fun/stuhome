@@ -105,7 +105,8 @@ class Home extends Component {
     let {
       navigation,
       topicList,
-      userId
+      userId,
+      settings
     } = this.props;
 
     return (
@@ -124,6 +125,7 @@ class Home extends Component {
                 currentUserId={userId}
                 tabLabel={tab.label}
                 navigation={navigation}
+                settings={settings}
                 type={tab.type}
                 topicList={_.get(topicList, [this.boardId, tab.type], {})}
                 refreshTopicList={({ page, isEndReached }) => this.refreshTopicList({ page, isEndReached, sortType: tab.type })} />
@@ -135,11 +137,12 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({ topicList, alert, session }) {
+function mapStateToProps({ topicList, alert, session, settings }) {
   return {
     userId: _.get(session, ['data', 'uid']),
     topicList,
-    alertCount: getAlertCount(alert)
+    alertCount: getAlertCount(alert),
+    settings
   };
 }
 

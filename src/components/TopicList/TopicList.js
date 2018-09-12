@@ -78,7 +78,8 @@ export default class TopicList extends Component {
       isSearch,
       accessTopicListFromForumItem,
       currentUserId,
-      navigation
+      navigation,
+      settings
     } = this.props;
     let realTopicList = [];
     let isRefreshing = false;
@@ -127,6 +128,7 @@ export default class TopicList extends Component {
             <TopicItem
               key={this.getTopicId(topic)}
               currentUserId={currentUserId}
+              settings={settings}
               accessTopicListFromForumItem={accessTopicListFromForumItem}
               topic={topic}
               navigation={navigation} />

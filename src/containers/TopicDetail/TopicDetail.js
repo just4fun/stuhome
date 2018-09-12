@@ -181,7 +181,6 @@ class TopicDetail extends Component {
     let create_date = moment(+topic.create_date).startOf('minute').fromNow();
     let commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
-
     // Same with f227938f.
     if (topic.user_id === 0) {
       topic.user_nick_name = '匿名';

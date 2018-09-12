@@ -14,7 +14,7 @@ import styles from '~/containers/SettingsFontSize/SettingsFontSize.style';
 
 class SettingsFontSize extends Component {
   static navigationOptions = {
-    title: '字号大小'
+    title: '阅读字号'
   }
 
   storeFontSize(fontSize) {
@@ -23,7 +23,11 @@ class SettingsFontSize extends Component {
 
   render() {
     let { settings, navigation } = this.props;
-    let selectedFontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
+    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    let fontStyle = {
+      fontSize,
+      lineHeight
+    };
     let authorLink = (
       <Text
         style={styles.url}
@@ -38,30 +42,23 @@ class SettingsFontSize extends Component {
     return (
       <View style={[mainStyles.container, styles.container]}>
         <View style={settingsStyles.group}>
-          {FONT_SIZES.map((item, index) => (
+          {Object.keys(FONT_SIZES).map((key, index) => (
             <SettingItem
               key={index}
-              text={item.text}
-              onPress={() => this.storeFontSize(item.value)}>
+              text={FONT_SIZES[key].text}
+              onPress={() => this.storeFontSize(key)}>
               <Text style={settingsItemStyles.indicator}>
-                {settings.fontSize === item.value && <Icon style={styles.check} name='check' />}
+                {settings.fontSize === key && <Icon style={styles.check} name='check' />}
               </Text>
             </SettingItem>
           ))}
         </View>
         <View style={[settingsStyles.group, styles.demo]}>
-          <Text style={[styles.text, {
-            fontSize: selectedFontSize.fontSize,
-            lineHeight: selectedFontSize.lineHeight
-          }]}>
+          <Text style={[styles.text, fontStyle]}>
             这款 App 是由畔友 {authorLink} 利用业余时间，用编程语言 JavaScript 完成的。
             App 不仅一直保持开源，也一直坚持着代码结构的整洁与最新技术的引入。
           </Text>
-          <Text style={[styles.text, {
-            marginTop: 10,
-            fontSize: selectedFontSize.fontSize,
-            lineHeight: selectedFontSize.lineHeight
-          }]}>
+          <Text style={[styles.text, fontStyle, { marginTop: 10 }]}>
             This App was created by {authorLink} in spare time with JavaScript.
             The App is still keeping open source, while also keeping code structure
             clean as well as introducing latest tech stack.

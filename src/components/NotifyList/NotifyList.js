@@ -64,7 +64,8 @@ export default class NotifyList extends Component {
       notifyList,
       navigation,
       currentUserId,
-      refreshNotifyList
+      refreshNotifyList,
+      settings
     } = this.props;
     let realNotifyList = [];
     let isRefreshing = false;
@@ -85,6 +86,7 @@ export default class NotifyList extends Component {
             return (
               <NotifySystemItem
                 key={index}
+                settings={settings}
                 notification={notification} />
             );
           }
@@ -94,6 +96,7 @@ export default class NotifyList extends Component {
               key={notification.topic_id}
               notification={notification}
               currentUserId={currentUserId}
+              settings={settings}
               navigation={navigation} />
           );
         }}

@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import Avatar from '~/components/Avatar/Avatar';
+import FONT_SIZES from '~/constants/fontSize';
 
 import styles from '~/components/NotifyItem/NotifyItem.style';
 
@@ -15,10 +16,16 @@ export default class NotifyItem extends Component {
         authorAvatar,
         dateline,
         note
-      }
+      },
+      settings
     } = this.props;
 
     dateline = moment(+dateline).startOf('minute').fromNow();
+    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    let fontStyle = {
+      fontSize,
+      lineHeight
+    };
 
     return (
       <View
@@ -33,7 +40,7 @@ export default class NotifyItem extends Component {
               <Text style={styles.date}>{dateline}</Text>
             </View>
           </View>
-          <Text style={styles.replyContent}>{note}</Text>
+          <Text style={[styles.replyContent, fontStyle]}>{note}</Text>
         </View>
       </View>
     );

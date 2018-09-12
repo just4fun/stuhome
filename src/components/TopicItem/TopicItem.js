@@ -9,6 +9,7 @@ import moment from 'moment';
 // Refer to this issue https://github.com/moment/momentjs.com/pull/241
 import 'moment/locale/zh-cn';
 import Avatar from '~/components/Avatar/Avatar';
+import FONT_SIZES from '~/constants/fontSize';
 import { AVATAR_ROOT } from '~/config';
 
 import colors from '~/common/styles/colors.style';
@@ -31,6 +32,7 @@ export default class TopicItem extends Component {
   render() {
     let {
       navigation,
+      settings,
       accessTopicListFromForumItem,
       currentUserId,
       topic,
@@ -49,6 +51,11 @@ export default class TopicItem extends Component {
       }
     } = this.props;
 
+    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    let fontStyle = {
+      fontSize,
+      lineHeight
+    };
     // `last_reply_date` is timestamp in string from API
     last_reply_date = moment(+last_reply_date).startOf('minute').fromNow();
     // for `Search`, there is no avatar available in API response, so we need to
@@ -64,7 +71,7 @@ export default class TopicItem extends Component {
             <View style={styles.row}>
               <View style={styles.left}>
                 <Avatar
-                  style={styles.avatar}
+                  style={styles[`avatar_${settings.fontSize}`]}
                   url={userAvatar}
                   userId={user_id}
                   userName={user_nick_name}
@@ -73,14 +80,14 @@ export default class TopicItem extends Component {
               </View>
               <View style={styles.right}>
                 <View style={styles.leftInfo}>
-                  <Text style={styles.name}>{user_nick_name}</Text>
-                  <Text style={styles.date}>{last_reply_date}</Text>
+                  <Text style={[styles.name, fontStyle]}>{user_nick_name}</Text>
+                  <Text style={[styles.date, fontStyle]}>{last_reply_date}</Text>
                 </View>
                 <View style={styles.rightInfo}>
                   {(!accessTopicListFromForumItem && !!board_name) &&
                     <View style={styles.metrics}>
                       <View style={styles.forumBorder}>
-                        <Text style={styles.forumName}>
+                        <Text style={[styles.forumName, fontStyle]}>
                           {board_name}
                         </Text>
                       </View>
@@ -88,12 +95,12 @@ export default class TopicItem extends Component {
                   }
                   <View style={styles.metrics}>
                     <Icon
-                      style={styles.viewsInfo}
+                      style={[styles.viewsInfo, fontStyle]}
                       name='eye'>
                       {hits}
                     </Icon>
                     <Icon
-                      style={styles.commentsInfo}
+                      style={[styles.commentsInfo, fontStyle]}
                       name='commenting'>
                       {replies}
                     </Icon>
@@ -102,9 +109,9 @@ export default class TopicItem extends Component {
               </View>
             </View>
             <View>
-              <Text style={styles.title}>{title}</Text>
-              {!!subject && <Text style={styles.subject}>{subject}</Text>}
-              {!!summary && <Text style={styles.subject}>{summary}</Text>}
+              <Text style={[styles.title, fontStyle]}>{title}</Text>
+              {!!subject && <Text style={[styles.subject, fontStyle]}>{subject}</Text>}
+              {!!summary && <Text style={[styles.subject, fontStyle]}>{summary}</Text>}
             </View>
           </View>
         </TouchableHighlight>

@@ -133,7 +133,8 @@ class ForumDetail extends Component {
       forumList,
       publish,
       userId,
-      navigation
+      navigation,
+      settings
     } = this.props;
 
     return (
@@ -154,6 +155,7 @@ class ForumDetail extends Component {
                   currentUserId={userId}
                   tabLabel={tab.label}
                   navigation={navigation}
+                  settings={settings}
                   type={tab.type}
                   accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
@@ -186,6 +188,7 @@ class ForumDetail extends Component {
                   currentUserId={userId}
                   tabLabel={tab.label}
                   navigation={navigation}
+                  settings={settings}
                   type={tab.type}
                   accessTopicListFromForumItem={true}
                   topicList={_.get(topicList, [this.boardId, tab.type], {})}
@@ -206,11 +209,12 @@ class ForumDetail extends Component {
   }
 }
 
-function mapStateToProps({ topicList, forumList, session }) {
+function mapStateToProps({ topicList, forumList, session, settings }) {
   return {
     userId: _.get(session, ['data', 'uid']),
     topicList,
-    forumList
+    forumList,
+    settings
   };
 }
 

@@ -12,6 +12,7 @@ import Content from '~/components/Content/Content';
 import Avatar from '~/components/Avatar/Avatar';
 import MessageBar from '~/services/MessageBar';
 import SafariView from '~/services/SafariView';
+import FONT_SIZES from '~/constants/fontSize';
 
 import colors from '~/common/styles/colors.style';
 import styles from './Comment.style';
@@ -111,6 +112,11 @@ export default class Comment extends Component {
       },
       settings
     } = this.props;
+    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    let fontStyle = {
+      fontSize,
+      lineHeight
+    };
 
     posts_date = moment(+posts_date).startOf('minute').fromNow();
 
@@ -149,7 +155,7 @@ export default class Comment extends Component {
           <View style={styles.comment}>
             {!!is_quote &&
               <View style={styles.quote}>
-                <Text style={styles.quoteContent}>{quote_content}</Text>
+                <Text style={[styles.quoteContent, fontStyle]}>{quote_content}</Text>
               </View>
             }
             <Content

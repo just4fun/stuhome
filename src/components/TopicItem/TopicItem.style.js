@@ -14,8 +14,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   left: {
-    width: 40,
-    marginRight: 5
+    marginRight: 8
   },
   right: {
     flex: 1,
@@ -32,12 +31,10 @@ export default StyleSheet.create({
   },
   title: {
     marginTop: 8,
-    fontSize: 15,
     color: colors.significantField,
   },
   subject: {
     marginTop: 5,
-    fontSize: 12,
     color: colors.mainField,
   },
   leftInfo: {
@@ -63,7 +60,15 @@ export default StyleSheet.create({
   avatar: {
     height: 35,
     width: 35,
-    borderRadius: 5,
+    borderRadius: 5
+  },
+  avatar_medium: {
+    height: 50,
+    width: 50
+  },
+  avatar_big: {
+    height: 55,
+    width: 55
   },
   viewsInfo: {
     color: colors.mainField,

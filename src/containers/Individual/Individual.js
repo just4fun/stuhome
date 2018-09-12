@@ -132,7 +132,8 @@ class Individual extends Component {
   render() {
     let {
       navigation,
-      userTopicList
+      userTopicList,
+      settings
     } = this.props;
 
     return (
@@ -161,6 +162,7 @@ class Individual extends Component {
                 currentUserId={this.userId}
                 tabLabel={tab.label}
                 navigation={navigation}
+                settings={settings}
                 type={tab.type}
                 topicList={_.get(userTopicList, [this.userId, tab.type], {})}
                 refreshTopicList={({ page, isEndReached }) => this.refreshUserTopicList({ page, isEndReached, type: tab.type })} />
@@ -172,10 +174,11 @@ class Individual extends Component {
   }
 }
 
-function mapStateToProps({ session, userTopicList }) {
+function mapStateToProps({ session, userTopicList, settings }) {
   return {
     session,
-    userTopicList
+    userTopicList,
+    settings
   };
 }
 

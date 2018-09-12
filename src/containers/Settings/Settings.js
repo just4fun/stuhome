@@ -55,19 +55,10 @@ class Settings extends Component {
 
   render() {
     let { settings, navigation } = this.props;
-    let selectedFontSize = FONT_SIZES.find(item => item.value === settings.fontSize);
+    let selectedFontSize = FONT_SIZES[settings.fontSize];
 
     return (
       <View style={[mainStyles.container, styles.container]}>
-        <View style={styles.group}>
-          <SettingItem
-            text='字体大小'
-            onPress={() => navigation.navigate('SettingsFontSize')}>
-            <Text style={settingItemStyles.indicator}>
-              {selectedFontSize.text} >
-            </Text>
-          </SettingItem>
-        </View>
         {
           // <View style={styles.group}>
           //   <SettingItem
@@ -93,6 +84,15 @@ class Settings extends Component {
         <Text style={[styles.explanation, styles.text]}>
           开启“发帖确认提示”，在发帖和回帖时，会弹出对话框确认是否发布，避免手误。
         </Text>
+        <View style={styles.group}>
+          <SettingItem
+            text='阅读字号'
+            onPress={() => navigation.navigate('SettingsFontSize')}>
+            <Text style={settingItemStyles.indicator}>
+              {selectedFontSize.text} >
+            </Text>
+          </SettingItem>
+        </View>
       </View>
     );
   }

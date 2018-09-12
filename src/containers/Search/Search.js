@@ -82,7 +82,8 @@ class Search extends Component {
     let {
       navigation,
       searchList,
-      userId
+      userId,
+      settings
     } = this.props;
 
     return (
@@ -103,6 +104,7 @@ class Search extends Component {
             ref={component => this.searchList = component}
             currentUserId={userId}
             navigation={navigation}
+            settings={settings}
             isSearch={true}
             topicList={searchList}
             refreshTopicList={this.refreshTopicList.bind(this)} />
@@ -112,10 +114,11 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps({ searchList, session }) {
+function mapStateToProps({ searchList, session, settings }) {
   return {
     userId: _.get(session, ['data', 'uid']),
-    searchList
+    searchList,
+    settings
   };
 }
 

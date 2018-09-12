@@ -7,6 +7,7 @@ import {
 import Button from 'apsl-react-native-button';
 import moment from 'moment';
 import Avatar from '~/components/Avatar/Avatar';
+import FONT_SIZES from '~/constants/fontSize';
 
 import colors from '~/common/styles/colors.style';
 import styles from './NotifyItem.style';
@@ -27,10 +28,16 @@ export default class NotifyItem extends Component {
         reply_nick_name,
         reply_remind_id,
         replied_date
-      }
+      },
+      settings
     } = this.props;
 
     replied_date = moment(+replied_date).startOf('minute').fromNow();
+    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    let fontStyle = {
+      fontSize,
+      lineHeight
+    };
 
     return (
       <TouchableHighlight
@@ -55,9 +62,9 @@ export default class NotifyItem extends Component {
               <Text style={styles.date}>{replied_date}</Text>
             </View>
           </View>
-          <Text style={styles.replyContent}>{reply_content}</Text>
+          <Text style={[styles.replyContent, fontStyle]}>{reply_content}</Text>
           <View style={styles.quote}>
-            <Text style={styles.topicContent}>{topic_content}</Text>
+            <Text style={[styles.topicContent, fontStyle]}>{topic_content}</Text>
           </View>
           <View style={styles.reply}>
             <Button

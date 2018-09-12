@@ -77,7 +77,8 @@ class Message extends Component {
       pmSessionList,
       reply,
       navigation,
-      userId
+      userId,
+      settings
     } = this.props;
 
     return (
@@ -111,6 +112,7 @@ class Message extends Component {
                 notifyList={_.get(notifyList, tab.type, {})}
                 currentUserId={userId}
                 navigation={navigation}
+                settings={settings}
                 fetchNotifyList={() => this.fetchNotifyList({ notifyType: tab.type })}
                 refreshNotifyList={({ page, isEndReached }) => this.refreshNotifyList({ page, isEndReached, notifyType: tab.type })} />
             );
@@ -121,7 +123,7 @@ class Message extends Component {
   }
 }
 
-function mapStateToProps({ notifyList, pmSessionList, alert, session }) {
+function mapStateToProps({ notifyList, pmSessionList, alert, session, settings }) {
   return {
     notifyList,
     pmSessionList,
@@ -129,7 +131,8 @@ function mapStateToProps({ notifyList, pmSessionList, alert, session }) {
     replyCount: getReplyCount(alert),
     pmCount: getPmCount(alert),
     systemCount: getSystemCount(alert),
-    userId: _.get(session, ['data', 'uid'])
+    userId: _.get(session, ['data', 'uid']),
+    settings
   };
 }
 
