@@ -35,9 +35,6 @@ export default class About extends Component {
         <Text style={[styles.information, styles.text]}>
           清水河畔 {configs.VERSION}
         </Text>
-        <Text style={[styles.information, styles.text]}>
-          Powered by React Native with Redux
-        </Text>
         <View style={styles.group}>
           <SettingItem
             text='去商店评分'

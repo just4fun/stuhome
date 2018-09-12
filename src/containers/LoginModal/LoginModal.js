@@ -111,7 +111,7 @@ class LoginModal extends Component {
             <View style={styles.top}>
               <Image
                 style={styles.avatar}
-                source={require('~/images/logo_transparent.png')} />
+                source={require('~/images/new_logo.png')} />
             </View>
             <View style={styles.form}>
               <TextInput

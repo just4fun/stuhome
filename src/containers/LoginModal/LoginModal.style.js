@@ -11,6 +11,7 @@ export default StyleSheet.create({
     width: 120,
   },
   form: {
+    marginTop: 10,
     padding: 20,
     backgroundColor: 'transparent',
   },
