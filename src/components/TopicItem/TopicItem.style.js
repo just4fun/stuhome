@@ -62,14 +62,6 @@ export default StyleSheet.create({
     width: 35,
     borderRadius: 5
   },
-  avatar_medium: {
-    height: 50,
-    width: 50
-  },
-  avatar_big: {
-    height: 55,
-    width: 55
-  },
   viewsInfo: {
     color: colors.mainField,
     textAlign: 'left',

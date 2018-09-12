@@ -71,7 +71,7 @@ export default class TopicItem extends Component {
             <View style={styles.row}>
               <View style={styles.left}>
                 <Avatar
-                  style={styles[`avatar_${settings.fontSize}`]}
+                  style={styles.avatar}
                   url={userAvatar}
                   userId={user_id}
                   userName={user_nick_name}
@@ -80,14 +80,14 @@ export default class TopicItem extends Component {
               </View>
               <View style={styles.right}>
                 <View style={styles.leftInfo}>
-                  <Text style={[styles.name, fontStyle]}>{user_nick_name}</Text>
-                  <Text style={[styles.date, fontStyle]}>{last_reply_date}</Text>
+                  <Text style={styles.name}>{user_nick_name}</Text>
+                  <Text style={styles.date}>{last_reply_date}</Text>
                 </View>
                 <View style={styles.rightInfo}>
                   {(!accessTopicListFromForumItem && !!board_name) &&
                     <View style={styles.metrics}>
                       <View style={styles.forumBorder}>
-                        <Text style={[styles.forumName, fontStyle]}>
+                        <Text style={[styles.forumName]}>
                           {board_name}
                         </Text>
                       </View>
@@ -95,12 +95,12 @@ export default class TopicItem extends Component {
                   }
                   <View style={styles.metrics}>
                     <Icon
-                      style={[styles.viewsInfo, fontStyle]}
+                      style={styles.viewsInfo}
                       name='eye'>
                       {hits}
                     </Icon>
                     <Icon
-                      style={[styles.commentsInfo, fontStyle]}
+                      style={styles.commentsInfo}
                       name='commenting'>
                       {replies}
                     </Icon>
