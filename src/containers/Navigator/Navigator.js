@@ -175,7 +175,7 @@ class AppRoot extends Component {
       <SafeAreaView
         forceInset={{ top: 'never' }}
         style={{ flex: 1, backgroundColor: colors.blue }}>
-        <AppNavigator {...this.props} />
+        <AppNavigator />
         <MessageBar ref="alert" />
       </SafeAreaView>
     );
