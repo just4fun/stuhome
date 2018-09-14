@@ -70,7 +70,12 @@ export default handleActions({
   },
   [USERTOPICLIST_FETCH_SUCCESS]: (state, action) => {
     let {
-      payload: userTopicList,
+      payload: {
+        list: newUserTopicList,
+        page,
+        has_next,
+        errcode: errCode
+      },
       meta: {
         userId,
         type
@@ -85,10 +90,10 @@ export default handleActions({
           isRefreshing: false,
           isEndReached: false,
           didInvalidate: false,
-          list: getNewCache(state, userTopicList.list, userId, type, userTopicList.page, userTopicList.rs),
-          hasMore: !!userTopicList.has_next,
-          page: userTopicList.page,
-          errCode: userTopicList.errcode
+          list: page === 1 ? newUserTopicList : state[userId][type].list.concat(newUserTopicList),
+          hasMore: !!has_next,
+          page,
+          errCode
         }
       }
     };
@@ -110,17 +115,3 @@ export default handleActions({
   },
   [LOGOUT]: () => defaultState
 }, defaultState);
-
-function getNewCache(oldState, userTopicList, userId, type, page, isSuccessful) {
-  if (!isSuccessful) { return oldState.list; }
-
-  let newUserTopicList = [];
-
-  if (page !== 1) {
-    newUserTopicList = oldState[userId][type].list.concat(userTopicList);
-  } else {
-    newUserTopicList = userTopicList;
-  }
-
-  return newUserTopicList;
-}

@@ -75,7 +75,14 @@ export default handleActions({
   },
   [TOPICLIST_FETCH_SUCCESS]: (state, action) => {
     let {
-      payload: topicList,
+      payload: {
+        classificationType_list,
+        list: newTopicList,
+        page,
+        rs: result,
+        has_next,
+        errcode: errCode
+      },
       meta: {
         boardId,
         sortType
@@ -86,17 +93,23 @@ export default handleActions({
       [boardId]: {
         ..._.get(state, boardId, {}),
         // all topic list of different sort type have same type list
-        typeList: getMappedTypeList(topicList.classificationType_list),
+        typeList: getMappedTypeList(classificationType_list),
         [sortType]: {
           ..._.get(state, [boardId, sortType], defaultTopicListState),
           isRefreshing: false,
           isEndReached: false,
           didInvalidate: false,
           boardId,
-          list: getNewCache(state, topicList.list, boardId, sortType, topicList.page, topicList.rs),
-          hasMore: !!topicList.has_next,
-          page: topicList.page,
-          errCode: topicList.errcode
+          list: !result
+            // If we have no access to a forum or sub forum, we
+            // should return original forum groups.
+            ? state.list
+            : page === 1
+              ? newTopicList
+              : state[boardId][sortType].list.concat(newTopicList),
+          hasMore: !!has_next,
+          page,
+          errCode
         }
       }
     };
@@ -143,21 +156,4 @@ function getMappedTypeList(typeList) {
       typeName: item.classificationType_name
     };
   });
-}
-
-// cache topic list and return
-function getNewCache(oldState, topicList, boardId, sortType, page, isSuccessful) {
-  // if we have no access to a forum or sub forum, we
-  // should return original forum groups.
-  if (!isSuccessful) { return oldState.list; }
-
-  let newTopicList = [];
-
-  if (page !== 1) {
-    newTopicList = oldState[boardId][sortType].list.concat(topicList);
-  } else {
-    newTopicList = topicList;
-  }
-
-  return newTopicList;
 }

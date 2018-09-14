@@ -84,7 +84,13 @@ export default handleActions({
   },
   [NOTIFYLIST_FETCH_SUCCESS]: (state, action) => {
     let {
-      payload: notifyList,
+      payload: {
+        list: newNotifyList,
+        body,
+        has_next,
+        page,
+        errcode: errCode
+      },
       meta: {
         notifyType
       }
@@ -92,7 +98,7 @@ export default handleActions({
 
     // `list` is `[]` for `system` type.
     if (notifyType === 'system') {
-      notifyList.list = notifyList.body.data;
+      newNotifyList = body.data;
     }
 
     return {
@@ -103,10 +109,10 @@ export default handleActions({
         isEndReached: false,
         didInvalidate: false,
         notifyType,
-        list: getNewCache(state, notifyList.list, notifyType, notifyList.page),
-        hasMore: !!notifyList.has_next,
-        page: notifyList.page,
-        errCode: notifyList.errcode
+        list: page === 1 ? newNotifyList : state[notifyType].list.concat(newNotifyList),
+        hasMore: !!has_next,
+        page,
+        errCode
       }
     };
   },
@@ -124,15 +130,3 @@ export default handleActions({
   },
   [LOGOUT]: () => defaultState
 }, defaultState);
-
-function getNewCache(oldState, notifyList, notifyType, page) {
-  let newNotifyList = [];
-
-  if (page !== 1) {
-    newNotifyList = oldState[notifyType].list.concat(notifyList);
-  } else {
-    newNotifyList = notifyList;
-  }
-
-  return newNotifyList;
-}

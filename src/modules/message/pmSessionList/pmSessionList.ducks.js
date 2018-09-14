@@ -68,10 +68,15 @@ export default handleActions({
   },
   [PMSESSIONLIST_FETCH_SUCCESS]: (state, action) => {
     let {
-      meta,
-      payload,
       payload: {
-        body: pmSessionList
+        body: {
+          list: newPmSessionList,
+          hasNext
+        },
+        errcode: errCode
+      },
+      meta: {
+        page
       }
     } = action;
 
@@ -80,10 +85,10 @@ export default handleActions({
       isRefreshing: false,
       isEndReached: false,
       didInvalidate: false,
-      list: getNewCache(state, pmSessionList.list, meta.page),
-      hasMore: !!pmSessionList.hasNext,
-      page: meta.page,
-      errCode: payload.errcode
+      list: page === 1 ? newPmSessionList : state.list.concat(newPmSessionList),
+      hasMore: !!hasNext,
+      page,
+      errCode
     };
   },
   [PMSESSIONLIST_FETCH_FAILURE]: (state, action) => ({
@@ -94,15 +99,3 @@ export default handleActions({
   }),
   [LOGOUT]: () => defaultPmSessionListState
 }, defaultPmSessionListState);
-
-function getNewCache(oldState, pmSessionList, page) {
-  let newPmSessionList = [];
-
-  if (page !== 1) {
-    newPmSessionList = oldState.list.concat(pmSessionList);
-  } else {
-    newPmSessionList = pmSessionList;
-  }
-
-  return newPmSessionList;
-}
