@@ -18,7 +18,7 @@ import {
   resetPmList,
   resetPmListResponseStatus
 } from '~/modules/message/pmList/pmList.ducks';
-import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '~/config';
+import { PRIVATE_MESSAGE_POLL_FREQUENCY } from '~/config/app';
 import api from '~/services/api';
 
 import mainStyles from '~/common/styles/Main.style';

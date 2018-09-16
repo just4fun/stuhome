@@ -17,7 +17,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PopButton from '~/components/PopButton/PopButton';
 import Header from '~/components/Header/Header';
 import SafariView from '~/services/SafariView';
-import { REGISTER_URL } from '~/config';
+import { REGISTER_URL } from '~/config/app';
 import {
   login,
   resetSession,

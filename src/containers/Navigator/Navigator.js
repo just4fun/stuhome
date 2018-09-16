@@ -25,7 +25,7 @@ import FriendListModalScreen from '~/containers/FriendListModal/FriendListModal'
 import { retrieveSessionFromStorage } from '~/modules/user/session/session.ducks';
 import { retrieveSettingsFromStorage } from '~/modules/settings/settings.ducks';
 import { fetchAlert } from '~/modules/message/alert/alert.ducks';
-import { ALERT_POLL_FREQUENCY } from '~/config';
+import { ALERT_POLL_FREQUENCY } from '~/config/app';
 
 import colors from '~/common/styles/colors.style';
 

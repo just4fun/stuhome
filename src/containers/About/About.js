@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '~/components/SettingItem/SettingItem';
 import SafariView from '~/services/SafariView';
 import MENUS from '~/constants/menus';
-import * as configs from '~/config';
+import * as configs from '~/config/app';
 
 import mainStyles from '~/common/styles/Main.style';
 import styles from './About.style';

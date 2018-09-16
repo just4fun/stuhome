@@ -13,7 +13,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { HeaderBackButton } from 'react-navigation';
 import TopicList from '~/components/TopicList/TopicList';
 import { invalidateUserTopicList, fetchUserTopicList } from '~/modules/user/userTopicList/userTopicList.ducks';
-import { AVATAR_ROOT } from '~/config';
+import { AVATAR_ROOT } from '~/config/app';
 
 import scrollableTabViewStyles from '~/common/styles/ScrollableTabView.style';
 import headerRightButtonStyles from '~/common/styles/HeaderRightButton.style';

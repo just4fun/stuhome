@@ -12,7 +12,7 @@ module.exports = {
   REGISTER_URL: 'http://bbs.uestc.edu.cn/member.php?mod=register',
 
   APP_AUTH_KEY: 'appbyme_key',
-  
+
   /**
    * 1: Android (default)
    * 5: iOS

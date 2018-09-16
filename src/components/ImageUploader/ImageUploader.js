@@ -7,7 +7,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePreview from '~/components/ImagePreview/ImagePreview';
 import ImagePicker from '~/services/ImagePicker';
-import { MAX_UPLOAD_IMAGES_COUNT } from '~/config';
+import { MAX_UPLOAD_IMAGES_COUNT } from '~/config/app';
 
 import colors from '~/common/styles/colors.style';
 import styles from './ImageUploader.style';

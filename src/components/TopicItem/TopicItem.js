@@ -10,7 +10,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import Avatar from '~/components/Avatar/Avatar';
 import FONT_SIZES from '~/constants/fontSize';
-import { AVATAR_ROOT } from '~/config';
+import { AVATAR_ROOT } from '~/config/app';
 
 import colors from '~/common/styles/colors.style';
 import styles from './TopicItem.style';

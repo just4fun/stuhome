@@ -7,7 +7,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import TopicItem from '~/components/TopicItem/TopicItem';
-import { AVATAR_ROOT } from '~/config';
+import { AVATAR_ROOT } from '~/config/app';
 
 import listStyles from '~/common/styles/List.style';
 import indicatorStyles from '~/common/styles/Indicator.style';

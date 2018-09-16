@@ -24,7 +24,7 @@ import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import MessageBar from '~/services/MessageBar';
 import SafariView from '~/services/SafariView';
 import api from '~/services/api';
-import { TOPIC_URL_ROOT } from '~/config';
+import { TOPIC_URL_ROOT } from '~/config/app';
 import { parseContentWithEmoji } from '~/utils/contentParser';
 import { fetchTopic, resetTopic } from '~/modules/topic/topic/topic.ducks';
 

@@ -8,7 +8,7 @@ import ProgressImage from '~/components/ProgressImage/ProgressImage';
 import SafariView from '~/services/SafariView';
 import FONT_SIZES from '~/constants/fontSize';
 import { parseContentWithEmoji } from '~/utils/contentParser';
-import { DOMAIN_ROOT } from '~/config';
+import { DOMAIN_ROOT } from '~/config/app';
 
 import styles from './Content.style';
 

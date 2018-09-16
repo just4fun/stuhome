@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingItem from '~/components/SettingItem/SettingItem';
 import FONT_SIZES from '~/constants/fontSize';
-import * as configs from '~/config';
+import * as configs from '~/config/app';
 import { storeSettingsToStorage } from '~/modules/settings/settings.ducks';
 
 import mainStyles from '~/common/styles/Main.style';

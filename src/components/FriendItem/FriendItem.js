@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import Avatar from '~/components/Avatar/Avatar';
-import { AVATAR_ROOT } from '~/config';
+import { AVATAR_ROOT } from '~/config/app';
 
 import colors from '~/common/styles/colors.style';
 import styles from './FriendItem.style';
