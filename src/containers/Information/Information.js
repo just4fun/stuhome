@@ -11,6 +11,7 @@ import SettingItem from '~/components/SettingItem/SettingItem';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ImagePicker from '~/services/ImagePicker';
 import MENUS from '~/constants/menus';
+import MessageBar from '~/services/MessageBar';
 import api from '~/services/api';
 import { setSession } from '~/modules/user/session/session.ducks';
 import {
@@ -48,12 +49,27 @@ class Information extends Component {
 
   uploadPhoto(image) {
     api.uploadAvatar(image).then(response => {
-      // update redux store
-      this.props.setSession({
-        ...this.props.session.data,
-        avatar: response.data.pic_path
-      });
-      // update storage
+      if (!response.data.rs) {
+        MessageBar.show({
+          message: '修改头像失败',
+          type: 'error'
+        });
+      } else {
+        // 1. update redux store
+        this.props.setSession({
+          ...this.props.session.data,
+          avatar: response.data.pic_path
+        });
+        // 2. update storage
+
+        // Actually we have no need to do 1 & 2, since the path of avatar
+        // always be 301 redirect, which is not real path.
+
+        MessageBar.show({
+          message: '修改头像成功。可能会有延迟。',
+          type: 'success'
+        });
+      }
     });
   }
 
@@ -154,5 +170,6 @@ function mapStateToProps({ session, userItem }) {
 export default connect(mapStateToProps, {
   fetchUser,
   cancelUser,
-  resetUser
+  resetUser,
+  setSession
 })(Information);
