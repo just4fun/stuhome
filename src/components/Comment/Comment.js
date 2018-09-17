@@ -19,7 +19,7 @@ import styles from './Comment.style';
 
 export default class Comment extends Component {
   showOptions() {
-    let {
+    const {
       currentUserId,
       navigation,
       topicId,
@@ -36,10 +36,10 @@ export default class Comment extends Component {
       '回复',
       '复制'
     ];
-    let isLoginUser = currentUserId === userId;
+    const isLoginUser = currentUserId === userId;
     // If userId is 0, it's anonymous user.
-    let canSendPrivateMessage = !isLoginUser && userId !== 0;
-    let editable =
+    const canSendPrivateMessage = !isLoginUser && userId !== 0;
+    const editable =
       isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
     if (canSendPrivateMessage) {
       options.push('私信');
@@ -79,7 +79,7 @@ export default class Comment extends Component {
           if (canSendPrivateMessage) {
             navigation.navigate('PrivateMessage', { userId });
           } else if (editable) {
-            let editAction = managePanel.find(item => item.title === '编辑');
+            const editAction = managePanel.find(item => item.title === '编辑');
             SafariView.show(editAction.action);
           }
           break;
@@ -93,7 +93,7 @@ export default class Comment extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       currentUserId,
       topicId,
@@ -112,13 +112,12 @@ export default class Comment extends Component {
       },
       settings
     } = this.props;
-    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
-    let fontStyle = {
+    const postDate = moment(+posts_date).startOf('minute').fromNow();
+    const { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    const fontStyle = {
       fontSize,
       lineHeight
     };
-
-    posts_date = moment(+posts_date).startOf('minute').fromNow();
 
     return (
       <TouchableHighlight
@@ -139,7 +138,7 @@ export default class Comment extends Component {
                 <Text style={styles.level}>{userTitle}</Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.date}>{posts_date}</Text>
+                <Text style={styles.date}>{postDate}</Text>
                 {!!mobileSign &&
                   <View style={[styles.row, styles.mobileWrapper]}>
                     <Icon style={styles.mobileIcon} name='mobile' />

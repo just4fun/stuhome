@@ -41,7 +41,7 @@ class Search extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { searchList } = nextProps;
+    const { searchList } = nextProps;
     if (searchList.errCode) {
       AlertIOS.alert('提示', searchList.errCode);
       // Clean error message.
@@ -79,7 +79,7 @@ class Search extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       searchList,
       userId,

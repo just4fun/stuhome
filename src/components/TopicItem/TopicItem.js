@@ -17,7 +17,7 @@ import styles from './TopicItem.style';
 
 export default class TopicItem extends Component {
   handleOnPress(topic) {
-    let {
+    const {
       currentUserId,
       navigation
     } = this.props;
@@ -30,7 +30,7 @@ export default class TopicItem extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       settings,
       accessTopicListFromForumItem,
@@ -50,17 +50,13 @@ export default class TopicItem extends Component {
         userAvatar
       }
     } = this.props;
-
-    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
-    let fontStyle = {
+    // `last_reply_date` is timestamp in string from API
+    const lastReplyDate = moment(+last_reply_date).startOf('minute').fromNow();
+    const { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    const fontStyle = {
       fontSize,
       lineHeight
     };
-    // `last_reply_date` is timestamp in string from API
-    last_reply_date = moment(+last_reply_date).startOf('minute').fromNow();
-    // for `Search`, there is no avatar available in API response, so we need to
-    // set it manually.
-    userAvatar = userAvatar || `${AVATAR_ROOT}&uid=${user_id}`;
 
     return (
       <View style={styles.container}>
@@ -72,7 +68,9 @@ export default class TopicItem extends Component {
               <View style={styles.left}>
                 <Avatar
                   style={styles.avatar}
-                  url={userAvatar}
+                  // For `Search` page, there is no avatar available in API response,
+                  // so we need to set it manually.
+                  url={userAvatar || `${AVATAR_ROOT}&uid=${user_id}`}
                   userId={user_id}
                   userName={user_nick_name}
                   currentUserId={currentUserId}
@@ -81,7 +79,7 @@ export default class TopicItem extends Component {
               <View style={styles.right}>
                 <View style={styles.leftInfo}>
                   <Text style={styles.name}>{user_nick_name}</Text>
-                  <Text style={styles.date}>{last_reply_date}</Text>
+                  <Text style={styles.date}>{lastReplyDate}</Text>
                 </View>
                 <View style={styles.rightInfo}>
                   {(!accessTopicListFromForumItem && !!board_name) &&

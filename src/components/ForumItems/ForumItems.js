@@ -7,7 +7,7 @@ import ForumItem from '~/components/ForumItem/ForumItem';
 
 export default class ForumItems extends Component {
   componentDidMount() {
-    let { shouldFetchDataInside, boardId } = this.props;
+    const { shouldFetchDataInside, boardId } = this.props;
 
     // In `ForumDetail` page, we want current component will
     // fetch data only when second tab selected, so we need to
@@ -19,9 +19,9 @@ export default class ForumItems extends Component {
   }
 
   render() {
-    let { forumList } = this.props;
-    let realForumList = [];
+    const { forumList } = this.props;
     let isRefreshing = false;
+    let realForumList = [];
 
     if (forumList.list) {
       realForumList = forumList.list;

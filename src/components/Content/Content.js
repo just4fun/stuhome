@@ -24,7 +24,7 @@ export default class Content extends Component {
   }
 
   getContentByGroup() {
-    let { content } = this.props;
+    const { content } = this.props;
     let newContent = [];
     let groupIndex = 0;
 
@@ -33,8 +33,8 @@ export default class Content extends Component {
         newContent[groupIndex] = [];
       }
 
-      let previousItem = content[index - 1];
-      let currentItem = content[index];
+      const previousItem = content[index - 1];
+      const currentItem = content[index];
 
       if (!previousItem || this.isSameContentType(previousItem, currentItem)) {
         newContent[groupIndex].push(currentItem);
@@ -48,7 +48,7 @@ export default class Content extends Component {
 
   getUserId(url) {
     if (!url) { return null; }
-    let matchArray = /https?:\/\/.+uid=(\d+)/.exec(url);
+    const matchArray = /https?:\/\/.+uid=(\d+)/.exec(url);
     return matchArray[1];
   }
 
@@ -76,7 +76,7 @@ export default class Content extends Component {
 
   getTopicId(url) {
     if (!url) { return null; }
-    let matchArray = /https?:\/\/.+tid=(\d+)/.exec(url);
+    const matchArray = /https?:\/\/.+tid=(\d+)/.exec(url);
     return matchArray[1];
   }
 
@@ -111,10 +111,10 @@ export default class Content extends Component {
   // To classify <Text> and <Image> into different wrappers, we could use margin or padding to
   // adjust layout.
   render() {
-    let newContent = this.getContentByGroup();
-    let { navigation, settings } = this.props;
-    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
-    let fontStyle = {
+    const newContent = this.getContentByGroup();
+    const { navigation, settings } = this.props;
+    const { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    const fontStyle = {
       fontSize,
       lineHeight
     };
@@ -132,8 +132,9 @@ export default class Content extends Component {
             case 0:
             case 4:
               return (
-                <Text key={groupIndex}
-                      style={[styles.item, styles.text, fontStyle]}>
+                <Text
+                  key={groupIndex}
+                  style={[styles.item, styles.text, fontStyle]}>
                   {groupContent.map((item, index) => {
                     return (
                       item.type === 0 && (
@@ -141,12 +142,13 @@ export default class Content extends Component {
                       ) || (
                         this.isAtSomebody(item.url) && (
                           // @somebody
-                          <Text key={index}
-                                style={styles.url}
-                                onPress={() => navigation.navigate('Individual', {
-                                  userId: this.getUserId(item.url),
-                                  userName: this.getUserName(item.infor)
-                                })}>
+                          <Text
+                            key={index}
+                            style={styles.url}
+                            onPress={() => navigation.navigate('Individual', {
+                              userId: this.getUserId(item.url),
+                              userName: this.getUserName(item.infor)
+                            })}>
                             {item.infor}
                           </Text>
                         ) || (
@@ -154,17 +156,19 @@ export default class Content extends Component {
                           //  1. topic
                           //  2. common url
                           this.isTopicLink(item.url) && (
-                            <Text key={index}
-                                  style={styles.url}
-                                  onPress={() => navigation.navigate('Topic', {
-                                    topic_id: this.getTopicId(item.url)
-                                  })}>
+                            <Text
+                              key={index}
+                              style={styles.url}
+                              onPress={() => navigation.navigate('Topic', {
+                                topic_id: this.getTopicId(item.url)
+                              })}>
                               {item.infor}
                             </Text>
                           ) || (
-                            <Text key={index}
-                                  style={styles.url}
-                                  onPress={() => SafariView.show(item.url)}>
+                            <Text
+                              key={index}
+                              style={styles.url}
+                              onPress={() => SafariView.show(item.url)}>
                               {item.infor}
                             </Text>
                           )
@@ -177,8 +181,9 @@ export default class Content extends Component {
             // image
             case 1:
               return (
-                <View key={groupIndex}
-                      style={[styles.item, styles.imageWrapper]}>
+                <View 
+                  key={groupIndex}
+                  style={[styles.item, styles.imageWrapper]}>
                   {groupContent.map((item, index) => {
                     return (
                       <ProgressImage

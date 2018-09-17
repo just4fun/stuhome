@@ -75,7 +75,7 @@ class PublishModal extends Component {
   }
 
   handleCancel() {
-    let { title, content, images } = this.state;
+    const { title, content, images } = this.state;
     if (title.length || content.length || images.length) {
       AlertIOS.alert(
         '提示',
@@ -94,11 +94,11 @@ class PublishModal extends Component {
   }
 
   isFormValid() {
-    let { typeId, title, content } = this.state;
-    let { types } = this.props;
+    const { typeId, title, content } = this.state;
+    const { types } = this.props;
 
-    let hasNoTopicTypes = types.length === 0;
-    let hasTypeId = hasNoTopicTypes && true || (typeId !== null);
+    const hasNoTopicTypes = types.length === 0;
+    const hasTypeId = hasNoTopicTypes && true || (typeId !== null);
 
     return hasTypeId
         && title.length
@@ -130,7 +130,7 @@ class PublishModal extends Component {
     // this.setState({ isPublishing: true });
     this.modalLoadingSpinnerOverLay.show();
     api.uploadImages(this.state.images).then(data => {
-      let { typeId, title, content } = this.state;
+      const { typeId, title, content } = this.state;
       return api.publishTopic({
         boardId: this.boardId,
         // topicId: null,
@@ -181,7 +181,7 @@ class PublishModal extends Component {
     if (this.state.isPublishing) { return; }
 
     this.setState((prevState) => {
-      let newContent = prevState.content.substr(0, this.contentCursorLocation)
+      const newContent = prevState.content.substr(0, this.contentCursorLocation)
                      + extraContent
                      + prevState.content.substr(this.contentCursorLocation);
       return { content: newContent };
@@ -232,7 +232,7 @@ class PublishModal extends Component {
   }
 
   hideKeyboard() {
-    let { selectedPanel } = this.state;
+    const { selectedPanel } = this.state;
 
     if (selectedPanel === 'keyboard') {
       Keyboard.dismiss();
@@ -257,7 +257,7 @@ class PublishModal extends Component {
   }
 
   render() {
-    let {
+    const {
       typeId,
       content,
       isPickerOpen,
@@ -266,7 +266,7 @@ class PublishModal extends Component {
       selectedPanel,
       isTitleFocused
     } = this.state;
-    let { types } = this.props;
+    const { types } = this.props;
 
     return (
       <View style={mainStyles.container}>

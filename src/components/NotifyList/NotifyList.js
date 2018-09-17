@@ -18,7 +18,7 @@ export default class NotifyList extends Component {
   }
 
   endReached() {
-    let {
+    const {
       hasMore,
       isRefreshing,
       isEndReached,
@@ -35,7 +35,7 @@ export default class NotifyList extends Component {
   }
 
   renderFooter() {
-    let {
+    const {
       hasMore,
       isEndReached
     } = this.props.notifyList;
@@ -60,15 +60,15 @@ export default class NotifyList extends Component {
   }
 
   render() {
-    let {
+    const {
       notifyList,
       navigation,
       currentUserId,
       refreshNotifyList,
       settings
     } = this.props;
-    let realNotifyList = [];
     let isRefreshing = false;
+    let realNotifyList = [];
 
     if (notifyList.list) {
       realNotifyList = notifyList.list;

@@ -25,7 +25,7 @@ const TABS = [
 
 class Home extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { alertCount, isLogin } = _.get(navigation, ['state', 'params'], {});
+    const { alertCount, isLogin } = _.get(navigation, ['state', 'params'], {});
     return {
       title: '清水河畔',
       headerLeft: (
@@ -48,7 +48,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    let {
+    const {
       userId,
       alertCount
     } = this.props;
@@ -64,9 +64,9 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let lastUserId = this.props.userId;
-    let lastAlertCount = this.props.alertCount;
-    let {
+    const lastUserId = this.props.userId;
+    const lastAlertCount = this.props.alertCount;
+    const {
       userId,
       alertCount
     } = nextProps;
@@ -102,7 +102,7 @@ class Home extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       topicList,
       userId,

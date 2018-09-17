@@ -3,14 +3,14 @@ import { WebView } from 'react-native';
 
 export default class WebPage extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title } = navigation.state.params;
+    const { title } = navigation.state.params;
     return {
       title
     };
   }
 
   render() {
-    let {
+    const {
       url,
       title,
       navigation,

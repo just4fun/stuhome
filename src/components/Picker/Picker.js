@@ -18,16 +18,14 @@ export default class Picker extends Component {
   }
 
   initId() {
-    let { list, selectedId } = this.props;
+    const { list, selectedId } = this.props;
     let id = selectedId;
 
     if (!id && (list && list.length)) {
       id = list[0].id;
     }
 
-    this.state = {
-      id
-    };
+    this.state = { id };
   }
 
   setSelection() {
@@ -36,7 +34,7 @@ export default class Picker extends Component {
   }
 
   render() {
-    let { list } = this.props;
+    const { list } = this.props;
 
     return (
       <Modal

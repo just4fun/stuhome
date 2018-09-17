@@ -17,7 +17,7 @@ export default class PrivateList extends Component {
   }
 
   endReached() {
-    let {
+    const {
       hasMore,
       isRefreshing,
       isEndReached,
@@ -34,7 +34,7 @@ export default class PrivateList extends Component {
   }
 
   renderFooter() {
-    let {
+    const {
       hasMore,
       isEndReached
     } = this.props.pmSessionList;
@@ -59,15 +59,15 @@ export default class PrivateList extends Component {
   }
 
   render() {
-    let {
+    const {
       pmSessionList,
       navigation,
       refreshPmSessionList,
       markPmAsRead,
       currentUserId
     } = this.props;
-    let realPmSessionList = [];
     let isRefreshing = false;
+    let realPmSessionList = [];
 
     if (pmSessionList.list) {
       realPmSessionList = pmSessionList.list;

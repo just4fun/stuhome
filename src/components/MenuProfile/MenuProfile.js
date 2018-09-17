@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,45 +8,43 @@ import {
 
 import styles from './MenuProfile.style';
 
-export default class MenuProfile extends Component {
-  render() {
-    let {
-      session: {
-        data: {
-          uid,
-          token,
-          avatar,
-          userName
-        }
-      },
-      navigation
-    } = this.props;
+export default MenuProfile = (props) => {
+  const {
+    session: {
+      data: {
+        uid,
+        token,
+        avatar,
+        userName
+      }
+    },
+    navigation
+  } = props;
 
-    return (
-      <View style={styles.menuHeader}>
-        <View>
-          {token &&
-            <TouchableOpacity
+  return (
+    <View style={styles.menuHeader}>
+      <View>
+        {token &&
+          <TouchableOpacity
+            style={styles.avatar}
+            onPress={() => navigation.navigate('Information', { userId: uid })}>
+            <Image
+              key={avatar}
               style={styles.avatar}
-              onPress={() => navigation.navigate('Information', { userId: uid })}>
-              <Image
-                key={avatar}
-                style={styles.avatar}
-                source={{ uri: avatar }} />
-             </TouchableOpacity>
-            ||
-            <TouchableOpacity
+              source={{ uri: avatar }} />
+           </TouchableOpacity>
+          ||
+          <TouchableOpacity
+            style={styles.avatar}
+            onPress={() => navigation.navigate('LoginModal')}>
+            <Image
+              key='noavatar'
               style={styles.avatar}
-              onPress={() => navigation.navigate('LoginModal')}>
-              <Image
-                key='noavatar'
-                style={styles.avatar}
-                source={require('~/images/noavatar.jpg')} />
-             </TouchableOpacity>
-          }
-          <Text style={styles.name}>{token ? userName : '请先登录'}</Text>
-        </View>
+              source={require('~/images/noavatar.jpg')} />
+           </TouchableOpacity>
+        }
+        <Text style={styles.name}>{token ? userName : '请先登录'}</Text>
       </View>
-    );
-  }
+    </View>
+  );
 }

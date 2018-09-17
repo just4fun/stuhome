@@ -45,7 +45,7 @@ class LoginModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { isFetching, data, hasError, result } = nextProps.session;
+    const { isFetching, data, hasError, result } = nextProps.session;
 
     if (hasError) {
       AlertIOS.alert('提示', data.errcode);
@@ -54,8 +54,8 @@ class LoginModal extends Component {
 
     if (result) {
       this.props.resetSessionResult();
-      data = JSON.stringify(data);
-      AsyncStorage.setItem('session', data)
+      const json = JSON.stringify(data);
+      AsyncStorage.setItem('session', json)
         .then(() => {
           // Remove all cache except session.
           this.props.logout({ isLogin: true });
@@ -84,14 +84,14 @@ class LoginModal extends Component {
   }
 
   render() {
-    let {
+    const {
       session: {
         isFetching
       },
       navigation
     } = this.props;
-    let { userName, password } = this.state;
-    let isDisabled = !userName || !password || isFetching;
+    const { userName, password } = this.state;
+    const isDisabled = !userName || !password || isFetching;
 
     return (
       <View style={mainStyles.container}>

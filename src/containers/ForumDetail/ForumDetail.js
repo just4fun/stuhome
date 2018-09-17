@@ -25,7 +25,7 @@ const TABS = [
 
 class ForumDetail extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title, isLogin, boardId, handleModalCallback } = navigation.state.params;
+    const { title, isLogin, boardId, handleModalCallback } = navigation.state.params;
     return {
       title,
       headerRight: (
@@ -42,7 +42,7 @@ class ForumDetail extends Component {
   constructor(props) {
     super(props);
 
-    let {
+    const {
       board_id,
       board_name,
       board_content,
@@ -55,7 +55,7 @@ class ForumDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let errCode = _.get(nextProps, ['topicList', this.boardId, 'all', 'errCode'], '');
+    const errCode = _.get(nextProps, ['topicList', this.boardId, 'all', 'errCode'], '');
     if (errCode) {
       AlertIOS.alert('提示', errCode);
       // Clean error message.
@@ -128,7 +128,7 @@ class ForumDetail extends Component {
   }
 
   render() {
-    let {
+    const {
       topicList,
       forumList,
       publish,

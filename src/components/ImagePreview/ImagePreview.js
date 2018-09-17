@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Modal,
@@ -8,31 +8,29 @@ import {
 
 import styles from './ImagePreview.style';
 
-export default class ImagePreview extends Component {
-  render() {
-    let {
-      source,
-      visible,
-      close,
-      imageStyle,
-      indicator
-    } = this.props;
+export default ImagePreview = (props) => {
+  const {
+    source,
+    visible,
+    close,
+    imageStyle,
+    indicator
+  } = props;
 
-    return (
-      <Modal
-        animationType={'fade'}
-        transparent={true}
-        onRequestClose={close}
-        visible={visible}>
-        <View style={styles.overlay}>
-          <TouchableWithoutFeedback onPress={close}>
-            <Image
-              style={[styles.image, imageStyle]}
-              source={source}
-              resizeMode={'contain'} />
-          </TouchableWithoutFeedback>
-        </View>
-      </Modal>
-    );
-  }
+  return (
+    <Modal
+      animationType={'fade'}
+      transparent={true}
+      onRequestClose={close}
+      visible={visible}>
+      <View style={styles.overlay}>
+        <TouchableWithoutFeedback onPress={close}>
+          <Image
+            style={[styles.image, imageStyle]}
+            source={source}
+            resizeMode={'contain'} />
+        </TouchableWithoutFeedback>
+      </View>
+    </Modal>
+  );
 }

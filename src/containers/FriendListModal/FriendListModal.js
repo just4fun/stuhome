@@ -39,7 +39,7 @@ class FriendListModal extends Component {
   }
 
   render() {
-    let { friendList, navigation } = this.props;
+    const { friendList, navigation } = this.props;
 
     return (
       <View style={mainStyles.container}>

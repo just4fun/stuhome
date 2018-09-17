@@ -22,13 +22,13 @@ class SettingsFontSize extends Component {
   }
 
   render() {
-    let { settings, navigation } = this.props;
-    let { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
-    let fontStyle = {
+    const { settings, navigation } = this.props;
+    const { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    const fontStyle = {
       fontSize,
       lineHeight
     };
-    let authorLink = (
+    const authorLink = (
       <Text
         style={styles.url}
         onPress={() => navigation.navigate('Individual', {

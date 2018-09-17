@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text
@@ -7,27 +7,25 @@ import SubForumList from '~/components/SubForumList/SubForumList';
 
 import styles from './ForumItem.style';
 
-export default class ForumItem extends Component {
-  render() {
-    let {
-      isTopForumList,
-      forum: {
-        board_category_name,
-        board_list
-      }
-    } = this.props;
+export default ForumItem = (props) => {
+  const {
+    isTopForumList,
+    forum: {
+      board_category_name,
+      board_list
+    }
+  } = props;
 
-    return (
-      <View style={styles.container}>
-        {isTopForumList &&
-          <View style={styles.forumHeader}>
-            <Text style={styles.forumTitle}>{board_category_name}</Text>
-          </View>
-        }
-        <SubForumList
-          {...this.props}
-          forumList={board_list} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      {isTopForumList &&
+        <View style={styles.forumHeader}>
+          <Text style={styles.forumTitle}>{board_category_name}</Text>
+        </View>
+      }
+      <SubForumList
+        {...props}
+        forumList={board_list} />
+    </View>
+  );
 }

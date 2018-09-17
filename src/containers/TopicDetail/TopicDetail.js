@@ -55,7 +55,7 @@ function getTopicId(topic) {
 
 class TopicDetail extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { headerTitle, isLogin, handleShowOperationDialog } = navigation.state.params;
+    const { headerTitle, isLogin, handleShowOperationDialog } = navigation.state.params;
     return {
       title: headerTitle,
       headerRight: (
@@ -72,7 +72,7 @@ class TopicDetail extends Component {
   constructor(props) {
     super(props);
 
-    let { params } = props.navigation.state;
+    const { params } = props.navigation.state;
     this.topicId = getTopicId(params);
     this.boardId = params.board_id;
     this.boardName = params.board_name;
@@ -102,7 +102,7 @@ class TopicDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { topicItem } = nextProps;
+    const { topicItem } = nextProps;
 
     // Seems like the code here won't be invoked since we
     // display login modal instead when user clicks topic in
@@ -150,7 +150,7 @@ class TopicDetail extends Component {
   }
 
   endReached() {
-    let {
+    const {
       hasMore,
       isFetching,
       isEndReached,
@@ -166,7 +166,7 @@ class TopicDetail extends Component {
   }
 
   renderHeader() {
-    let {
+    const {
       navigation,
       vote,
       topicItem: {
@@ -177,9 +177,9 @@ class TopicDetail extends Component {
       },
       settings
     } = this.props;
-    let { isFavoring, isVoting } = this.state;
-    let create_date = moment(+topic.create_date).startOf('minute').fromNow();
-    let commentHeaderText =
+    const { isFavoring, isVoting } = this.state;
+    const create_date = moment(+topic.create_date).startOf('minute').fromNow();
+    const commentHeaderText =
       topic.replies > 0 ? (topic.replies + '条评论') : '还没有评论，快来抢沙发！';
     // Same with f227938f.
     if (topic.user_id === 0) {
@@ -269,7 +269,7 @@ class TopicDetail extends Component {
   }
 
   renderFooter() {
-    let {
+    const {
       hasMore,
       isEndReached
     } = this.props.topicItem;
@@ -324,7 +324,7 @@ class TopicDetail extends Component {
       '复制内容',
       '复制链接'
     ];
-    let {
+    const {
       session: {
         data: { uid }
       },
@@ -335,8 +335,8 @@ class TopicDetail extends Component {
         }
       }
     } = this.props;
-    let isLoginUser = uid === user_id;
-    let editable =
+    const isLoginUser = uid === user_id;
+    const editable =
       isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
     if (editable) {
       options.push('编辑帖子');
@@ -348,7 +348,7 @@ class TopicDetail extends Component {
       cancelButtonIndex: options.length - 1
     },
     (buttonIndex) => {
-      let { topic } = this.props.topicItem;
+      const { topic } = this.props.topicItem;
       switch (buttonIndex) {
         case 0:
           this.props.navigation.dispatch(resetAction);
@@ -377,7 +377,7 @@ class TopicDetail extends Component {
           break;
         case 5:
           if (editable) {
-            let editAction = managePanel.find(item => item.title === '编辑');
+            const editAction = managePanel.find(item => item.title === '编辑');
             SafariView.show(editAction.action);
           }
           break;
@@ -386,7 +386,7 @@ class TopicDetail extends Component {
   }
 
   render() {
-    let { topicItem } = this.props;
+    const { topicItem } = this.props;
 
     if (topicItem.isFetching || !_.get(topicItem, ['topic', 'topic_id'])) {
       return (
@@ -394,7 +394,7 @@ class TopicDetail extends Component {
       );
     }
 
-    let {
+    const {
       topicItem: {
         topic: {
           user_nick_name,
@@ -463,7 +463,7 @@ class TopicDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  let { topicItem, session, settings } = state;
+  const { topicItem, session, settings } = state;
 
   return {
     topicItem: _.get(topicItem, getTopicId(ownProps.navigation.state.params), {}),

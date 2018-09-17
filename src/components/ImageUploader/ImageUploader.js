@@ -24,11 +24,11 @@ export default class ImageUploader extends Component {
   handleUploaderPress() {
     if (this.props.disabled) { return; }
 
-    let takePhotoOptions = {
+    const takePhotoOptions = {
       compressImageQuality: 0.5,
       loadingLabelText: '处理中...'
     };
-    let selectPhotoOptions = {
+    const selectPhotoOptions = {
       compressImageQuality: 0.5,
       maxFiles: MAX_UPLOAD_IMAGES_COUNT - this.props.images.length,
       mediaType: 'photo',
@@ -59,8 +59,8 @@ export default class ImageUploader extends Component {
   }
 
   render() {
-    let { previewUri } = this.state;
-    let { disabled, images } = this.props;
+    const { previewUri } = this.state;
+    const { disabled, images } = this.props;
 
     return (
       <View style={styles.container}>

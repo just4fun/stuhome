@@ -20,7 +20,7 @@ export default class PmSessionItem extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       currentUserId,
       session: {
@@ -33,8 +33,7 @@ export default class PmSessionItem extends Component {
         plid // To indicate current message session.
       }
     } = this.props;
-
-    lastDateline = moment(+lastDateline).startOf('minute').fromNow();
+    const date = moment(+lastDateline).startOf('minute').fromNow();
 
     return (
       <TouchableHighlight
@@ -55,7 +54,7 @@ export default class PmSessionItem extends Component {
                 {!!isNew && <View style={styles.alert}></View>}
                 <Text style={[styles.name, !!isNew && styles.bold]}>{toUserName}</Text>
               </View>
-              <Text style={styles.date}>{lastDateline}</Text>
+              <Text style={styles.date}>{date}</Text>
             </View>
             <Text style={styles.replyContent} numberOfLines={1}>{lastSummary}</Text>
           </View>

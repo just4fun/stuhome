@@ -34,7 +34,7 @@ class Information extends Component {
     super(props);
 
     this.userId = this.props.navigation.state.params.userId;
-    let { loginUserId } = this.props;
+    const { loginUserId } = this.props;
     this.isLoginUser = loginUserId === this.userId;
   }
 
@@ -76,7 +76,7 @@ class Information extends Component {
   handleAvatarPress() {
     if (!this.isLoginUser) { return; }
 
-    let photoOptions = {
+    const photoOptions = {
       width: 500,
       height: 500,
       cropping: true
@@ -97,7 +97,7 @@ class Information extends Component {
   }
 
   render() {
-    let {
+    const {
       userItem: {
         isFetching,
         user

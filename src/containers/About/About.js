@@ -23,7 +23,7 @@ export default class About extends Component {
   }
 
   render() {
-    let { navigation } = this.props;
+    const { navigation } = this.props;
 
     return (
       <ScrollView style={[mainStyles.container, styles.container]}>

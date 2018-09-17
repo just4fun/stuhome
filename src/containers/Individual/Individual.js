@@ -23,7 +23,7 @@ import styles from './Individual.style';
 
 class Individual extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { userId, isLoginUser } = _.get(navigation, ['state', 'params'], {});
+    const { userId, isLoginUser } = _.get(navigation, ['state', 'params'], {});
     return {
       headerStyle: {
         backgroundColor: colors.lightBlue,
@@ -48,7 +48,7 @@ class Individual extends Component {
   initTabsAndUserInformation() {
     this.TABS = [];
 
-    let {
+    const {
       session,
       navigation: {
         state: {
@@ -59,7 +59,7 @@ class Individual extends Component {
     this.isLoginUser = !passProps || (+passProps.userId === session.data.uid);
 
     if (this.isLoginUser) {
-      let {
+      const {
         session: {
           data: {
             uid,
@@ -78,7 +78,7 @@ class Individual extends Component {
         { label: '我的收藏', type: 'favorite' }
       ];
     } else {
-      let {
+      const {
         userId,
         userName,
         userAvatar
@@ -130,7 +130,7 @@ class Individual extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       userTopicList,
       settings

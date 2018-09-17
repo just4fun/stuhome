@@ -10,7 +10,7 @@ import styles from './MenuButton.style';
 
 export default class MenuButton extends Component {
   handleOnPress() {
-    let {
+    const {
       isLogin,
       navigation
     } = this.props;
@@ -23,7 +23,7 @@ export default class MenuButton extends Component {
   }
 
   render() {
-    let { alertCount } = this.props;
+    const { alertCount } = this.props;
 
     return (
       <TouchableOpacity

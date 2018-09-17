@@ -140,11 +140,11 @@ class AppRoot extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let currentToken = this.props.session.data.token;
-    let nextToken = nextProps.session.data.token;
+    const currentToken = this.props.session.data.token;
+    const nextToken = nextProps.session.data.token;
 
-    let currentEnableNotification = this.props.settings.enableNotification;
-    let nextEnableNotification = nextProps.settings.enableNotification;
+    const currentEnableNotification = this.props.settings.enableNotification;
+    const nextEnableNotification = nextProps.settings.enableNotification;
 
     if (currentToken === nextToken && currentEnableNotification === nextEnableNotification) { return; }
 

@@ -72,8 +72,8 @@ export default class ProgressImage extends Component {
   // }
 
   render() {
-    let { style, thumbUri, originalUri } = this.props;
-    let { isLoading, isLoadError } = this.state;
+    const { style, thumbUri, originalUri } = this.props;
+    const { isLoading, isLoadError } = this.state;
 
     return (
       <TouchableHighlight

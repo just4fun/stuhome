@@ -30,7 +30,7 @@ export default class VoteList extends Component {
 
   initState() {
     let pollListStatus = {};
-    let { poll_item_list } = this.props.pollInfo;
+    const { poll_item_list } = this.props.pollInfo;
     poll_item_list.forEach(item => {
       pollListStatus[item.poll_item_id] = false;
     });
@@ -39,7 +39,7 @@ export default class VoteList extends Component {
   }
 
   setPollItemStatus(pollItemId, checked) {
-    let newPollListStatusState = Object.assign({}, this.state.pollListStatus, {
+    const newPollListStatusState = Object.assign({}, this.state.pollListStatus, {
       [pollItemId]: checked
     });
 
@@ -50,24 +50,23 @@ export default class VoteList extends Component {
 
   isSubmitDisabled() {
     // type: max selected items count (WTF???)
-    let { type } = this.props.pollInfo;
-    let { pollListStatus } = this.state;
-    let selectedItemsCount = Object.keys(pollListStatus).filter(key => pollListStatus[key]).length;
+    const { type } = this.props.pollInfo;
+    const { pollListStatus } = this.state;
+    const selectedItemsCount = Object.keys(pollListStatus).filter(key => pollListStatus[key]).length;
 
     return selectedItemsCount === 0 || (selectedItemsCount > type);
   }
 
   handleVote() {
-    let { pollListStatus } = this.state;
-    let voteIds = Object.keys(pollListStatus)
+    const { pollListStatus } = this.state;
+    const voteIds = Object.keys(pollListStatus)
                         .filter(key => pollListStatus[key])
                         .join(',');
-
     this.props.publishVote(voteIds);
   }
 
   render() {
-    let {
+    const {
       pollInfo: {
         poll_item_list,
         type,
@@ -77,7 +76,7 @@ export default class VoteList extends Component {
       isVoting
     } = this.props;
 
-    let pollTitle = (type === 1 && '单选投票' || `多选投票（最多可选${type}项）`)
+    const pollTitle = (type === 1 && '单选投票' || `多选投票（最多可选${type}项）`)
                   + (poll_status === 2 && '，投票后结果可见' || '')
                   + `，共有${voters}人参与投票`;
 
@@ -86,7 +85,7 @@ export default class VoteList extends Component {
         <Text style={styles.pollTitle}>{pollTitle}</Text>
         <View style={styles.pollItemList}>
           {poll_item_list.map((item, index) => {
-            let percent = parseFloat(item.percent.substring(0, item.percent.length - 1)) / 100;
+            const percent = parseFloat(item.percent.substring(0, item.percent.length - 1)) / 100;
             let colorIndex = 0;
 
             if (index > 9) {
@@ -95,8 +94,8 @@ export default class VoteList extends Component {
               colorIndex = index;
             }
 
-            let labelText = `${index + 1}. ${item.name}`;
-            let progressTintColor = progressTintColors[colorIndex];
+            const labelText = `${index + 1}. ${item.name}`;
+            const progressTintColor = progressTintColors[colorIndex];
 
             return (
               <View key={item.poll_item_id} style={styles.pollItem}>

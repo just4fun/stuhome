@@ -31,7 +31,7 @@ export default class TopicList extends Component {
   }
 
   renderFooter() {
-    let {
+    const {
       hasMore,
       isEndReached
     } = this.props.topicList;
@@ -73,7 +73,7 @@ export default class TopicList extends Component {
   }
 
   render() {
-    let {
+    const {
       topicList,
       isSearch,
       accessTopicListFromForumItem,
@@ -91,13 +91,15 @@ export default class TopicList extends Component {
     };
 
     if (!isSearch) {
-      refreshControl = <RefreshControl
-                         title='正在加载...'
-                         onRefresh={() => this.props.refreshTopicList({
-                           page: 1,
-                           isEndReached: false
-                         })}
-                         refreshing={isRefreshing} />;
+      refreshControl = (
+        <RefreshControl
+          title='正在加载...'
+          onRefresh={() => this.props.refreshTopicList({
+            page: 1,
+            isEndReached: false
+          })}
+          refreshing={isRefreshing} />
+      )
     }
 
     return (

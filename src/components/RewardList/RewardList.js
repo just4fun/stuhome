@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,55 +8,50 @@ import Avatar from '~/components/Avatar/Avatar';
 
 import styles from './RewardList.style';
 
-export default class RewardList extends Component {
-  render() {
-    let {
-      reward: {
-        score,
-        userNumber,
-        userList,
-        showAllUrl
-      },
-      currentUserId,
-      navigation
-    } = this.props;
+export default RewardList = (props) => {
+  const {
+    reward: {
+      score,
+      userNumber,
+      userList,
+      showAllUrl
+    },
+    currentUserId,
+    navigation
+  } = props;
 
-    return (
-      <View style={styles.reward}>
-        <View style={styles.rewardHeader}>
-          <Text style={styles.rewardHeaderText}>
-            {`共 ${userNumber} 人评分${score.map(({ info, value }) => {
-              if (value >= 0) {
-                value = `+${value}`;
-              }
-
-              return `， ${info} ${value}`;
-            })}`}
-          </Text>
-        </View>
-        <View style={styles.rewardUserList}>
-          {userList.map((user, index) => {
-            return (
-              <Avatar
-                key={index}
-                style={styles.rewardUser}
-                url={user.userIcon}
-                userId={user.uid}
-                currentUserId={currentUserId}
-                userName={user.userName}
-                navigation={navigation} />
-            );
-          })}
-          <Icon
-            style={[styles.rewardUser, styles.more]}
-            name='ellipsis-h'
-            size={14}
-            onPress={() => navigation.navigate('WebPage', {
-              url: showAllUrl,
-              title: '全部评分'
-            })} />
-        </View>
+  return (
+    <View style={styles.reward}>
+      <View style={styles.rewardHeader}>
+        <Text style={styles.rewardHeaderText}>
+          {`共 ${userNumber} 人评分${score.map(({ info, value }) => {
+            if (value >= 0) {
+              value = `+${value}`;
+            }
+            return `， ${info} ${value}`;
+          })}`}
+        </Text>
       </View>
-    );
-  }
+      <View style={styles.rewardUserList}>
+        {userList.map((user, index) => (
+          <Avatar
+            key={index}
+            style={styles.rewardUser}
+            url={user.userIcon}
+            userId={user.uid}
+            currentUserId={currentUserId}
+            userName={user.userName}
+            navigation={navigation} />
+        ))}
+        <Icon
+          style={[styles.rewardUser, styles.more]}
+          name='ellipsis-h'
+          size={14}
+          onPress={() => navigation.navigate('WebPage', {
+            url: showAllUrl,
+            title: '全部评分'
+          })} />
+      </View>
+    </View>
+  );
 }

@@ -40,7 +40,7 @@ class ForumList extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       forumList
     } = this.props;

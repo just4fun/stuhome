@@ -13,7 +13,7 @@ import indicatorStyles from '~/common/styles/Indicator.style';
 
 export default class FriendList extends Component {
   endReached() {
-    let {
+    const {
       hasMore,
       isRefreshing,
       isEndReached,
@@ -30,7 +30,7 @@ export default class FriendList extends Component {
   }
 
   renderFooter() {
-    let {
+    const {
       hasMore,
       isEndReached
     } = this.props.friendList;
@@ -55,15 +55,15 @@ export default class FriendList extends Component {
   }
 
   render() {
-    let {
+    const {
       friendList,
       navigation,
       refreshFriendList,
       currentUserId,
       handleSelectFriend
     } = this.props;
-    let realFriendList = [];
     let isRefreshing = false;
+    let realFriendList = [];
 
     if (friendList.list) {
       realFriendList = friendList.list;

@@ -59,7 +59,7 @@ class Menu extends Component {
   }
 
   render() {
-    let {
+    const {
       session: {
         data,
         data: { token }

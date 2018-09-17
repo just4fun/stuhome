@@ -28,7 +28,7 @@ const LOGIN_USER_ID = Symbol();
 
 class PmList extends Component {
   static navigationOptions = ({ navigation }) => {
-    let { title } = navigation.state.params;
+    const { title } = navigation.state.params;
     return {
       title
     };
@@ -37,7 +37,7 @@ class PmList extends Component {
   constructor(props) {
     super(props);
 
-    let { userId } = this.props.navigation.state.params;
+    const { userId } = this.props.navigation.state.params;
     this.userId = userId;
     this.state = {
       messages: [],
@@ -66,18 +66,18 @@ class PmList extends Component {
   }
 
   setUpTitle(newUserName) {
-    let userName = this.props.pmList.user.name;
+    const userName = this.props.pmList.user.name;
     if (userName !== newUserName) {
       this.props.navigation.setParams({ title: newUserName });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    let { pmList } = nextProps;
+    const { pmList } = nextProps;
     this.setUpTitle(pmList.user.name);
 
     // Handle private messages.
-    let { isPublishing } = this.state;
+    const { isPublishing } = this.state;
 
     if (isPublishing) { return; }
 
@@ -121,7 +121,7 @@ class PmList extends Component {
         return;
       }
 
-      let { rs, errcode } = response.data;
+      const { rs, errcode } = response.data;
       if (rs) {
         // This is workaround to fix #14.
         // In produciton, sometimes the new sent message can not be displayed
@@ -143,7 +143,7 @@ class PmList extends Component {
   }
 
   render() {
-    let {
+    const {
       navigation,
       pmList: {
         isRefreshing,
@@ -152,7 +152,7 @@ class PmList extends Component {
         page
       }
     } = this.props;
-    let { isPublishing } = this.state;
+    const { isPublishing } = this.state;
 
     if (isRefreshing && page === 0) {
       return (
@@ -160,7 +160,7 @@ class PmList extends Component {
       );
     }
 
-    let messages = this.state.messages.map(item => {
+    const messages = this.state.messages.map(item => {
       if (item.isNew) { return item; }
 
       return {

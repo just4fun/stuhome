@@ -54,8 +54,8 @@ class Settings extends Component {
   }
 
   render() {
-    let { settings, navigation } = this.props;
-    let selectedFontSize = FONT_SIZES[settings.fontSize];
+    const { settings, navigation } = this.props;
+    const selectedFontSize = FONT_SIZES[settings.fontSize];
 
     return (
       <View style={[mainStyles.container, styles.container]}>

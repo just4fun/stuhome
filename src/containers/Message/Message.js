@@ -63,7 +63,7 @@ class Message extends Component {
   // for each tab of <ScrollableTabView /> component.
   getTabsWithAlertCount(tabs) {
     let newTabs = [];
-    let { atMeCount, replyCount, pmCount, systemCount } = this.props;
+    const { atMeCount, replyCount, pmCount, systemCount } = this.props;
     newTabs.push({ name: tabs[0], count: atMeCount });
     newTabs.push({ name: tabs[1], count: replyCount });
     newTabs.push({ name: tabs[2], count: pmCount });
@@ -72,7 +72,7 @@ class Message extends Component {
   }
 
   render() {
-    let {
+    const {
       notifyList,
       pmSessionList,
       reply,

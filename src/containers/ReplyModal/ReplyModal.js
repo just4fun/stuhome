@@ -40,7 +40,7 @@ class ReplyModal extends Component {
   }
 
   initNecessaryData() {
-    let {
+    const {
       comment,
       comment: {
         reply_posts_id,
@@ -81,7 +81,7 @@ class ReplyModal extends Component {
   }
 
   handleCancel() {
-    let { replyContent, images } = this.state;
+    const { replyContent, images } = this.state;
     if (replyContent.length || images.length) {
       AlertIOS.alert(
         '提示',
@@ -188,7 +188,7 @@ class ReplyModal extends Component {
     if (this.state.isPublishing) { return; }
 
     this.setState((prevState) => {
-      let newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
+      const newContent = prevState.replyContent.substr(0, this.contentCursorLocation)
                      + extraContent
                      + prevState.replyContent.substr(this.contentCursorLocation);
       return { replyContent: newContent };
@@ -211,7 +211,7 @@ class ReplyModal extends Component {
   }
 
   hideKeyboard() {
-    let { selectedPanel } = this.state;
+    const { selectedPanel } = this.state;
 
     if (selectedPanel === 'keyboard') {
       Keyboard.dismiss();
@@ -236,7 +236,7 @@ class ReplyModal extends Component {
   }
 
   render() {
-    let {
+    const {
       replyContent,
       isPublishing,
       selectedPanel,
