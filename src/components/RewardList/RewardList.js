@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Avatar from '~/components/Avatar/Avatar';
+import SafariView from '~/services/SafariView';
 
 import styles from './RewardList.style';
 
@@ -47,10 +48,7 @@ export default RewardList = (props) => {
           style={[styles.rewardUser, styles.more]}
           name='ellipsis-h'
           size={14}
-          onPress={() => navigation.navigate('WebPage', {
-            url: showAllUrl,
-            title: '全部评分'
-          })} />
+          onPress={() => SafariView.show(showAllUrl)} />
       </View>
     </View>
   );

@@ -16,7 +16,6 @@ import AboutScreen from '~/containers/About/About';
 import InformationScreen from '~/containers/Information/Information';
 import SettingsScreen from '~/containers/Settings/Settings';
 import SettingsFontSizeScreen from '~/containers/SettingsFontSize/SettingsFontSize';
-import WebPageScreen from '~/containers/WebPage/WebPage';
 import LoginModalScreen from '~/containers/LoginModal/LoginModal';
 import PublishModalScreen from '~/containers/PublishModal/PublishModal';
 import ReplyModalScreen from '~/containers/ReplyModal/ReplyModal';
@@ -57,9 +56,6 @@ const AppNavigator = DrawerNavigator({
           },
           PrivateMessage: {
             screen: PrivateMessageScreen
-          },
-          WebPage: {
-            screen: WebPageScreen
           },
           About: {
             screen: AboutScreen
