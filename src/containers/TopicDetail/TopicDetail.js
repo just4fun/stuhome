@@ -317,13 +317,6 @@ class TopicDetail extends Component {
   showOperationDialog() {
     if (this.props.topicItem.isFetching) { return; }
 
-    let options = [
-      '返回首页',
-      this.order === 0 ? '倒序查看' : '顺序查看',
-      this.authorId === 0 ? '只看楼主' : '查看全部',
-      '复制内容',
-      '复制链接'
-    ];
     const {
       session: {
         data: { uid }
@@ -335,9 +328,20 @@ class TopicDetail extends Component {
         }
       }
     } = this.props;
+
     const isLoginUser = uid === user_id;
-    const editable =
-      isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
+    const editable = isLoginUser
+      && managePanel
+      && managePanel.length > 0
+      && managePanel.some(item => item.title === '编辑');
+
+    let options = [
+      '返回首页',
+      this.order === 0 ? '倒序查看' : '顺序查看',
+      this.authorId === 0 ? '只看楼主' : '查看全部',
+      '复制内容',
+      '复制链接'
+    ];
     if (editable) {
       options.push('编辑帖子');
     }

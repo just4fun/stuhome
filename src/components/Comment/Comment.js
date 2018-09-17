@@ -32,15 +32,18 @@ export default class Comment extends Component {
       }
     } = this.props;
 
+    const isLoginUser = currentUserId === userId;
+    // If userId is 0, it's anonymous user.
+    const canSendPrivateMessage = !isLoginUser && userId !== 0;
+    const editable = isLoginUser
+      && managePanel
+      && managePanel.length > 0
+      && managePanel.some(item => item.title === '编辑');
+
     let options = [
       '回复',
       '复制'
     ];
-    const isLoginUser = currentUserId === userId;
-    // If userId is 0, it's anonymous user.
-    const canSendPrivateMessage = !isLoginUser && userId !== 0;
-    const editable =
-      isLoginUser && managePanel && managePanel.length > 0 && !!managePanel.find(item => item.title === '编辑');
     if (canSendPrivateMessage) {
       options.push('私信');
     } else if (editable) {
