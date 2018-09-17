@@ -24,7 +24,7 @@ import api from '~/services/api';
 import mainStyles from '~/common/styles/Main.style';
 import styles from './PmList.style';
 
-const LOGIN_USER_ID = Symbol();
+const __CURRENT_LOGIN_USER_ID__ = '__CURRENT_LOGIN_USER_ID__';
 
 class PmList extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -168,7 +168,7 @@ class PmList extends Component {
         text: item.content,
         createdAt: new Date(+item.time),
         user: {
-          _id: (item.sender === user.id) && item.sender || LOGIN_USER_ID,
+          _id: (item.sender === user.id) && item.sender || __CURRENT_LOGIN_USER_ID__,
           avatar: (item.sender === user.id) && user.avatar
         }
       };
@@ -203,7 +203,7 @@ class PmList extends Component {
             );
           }}
           messages={messages}
-          user={{ _id: LOGIN_USER_ID }} />
+          user={{ _id: __CURRENT_LOGIN_USER_ID__ }} />
       </View>
     );
   }
