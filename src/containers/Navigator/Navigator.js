@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView } from 'react-native';
+import { StatusBar } from 'react-native';
 import { DrawerNavigator, StackNavigator, SafeAreaView } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import SafariView from 'react-native-safari-view';
 import Menu from '~/containers/Menu/Menu';
 import HomeScreen from '~/containers/Home/Home';
 import ForumListScreen from '~/containers/ForumList/ForumList';
@@ -133,6 +134,26 @@ class AppRoot extends Component {
 
     this.props.retrieveSessionFromStorage();
     this.props.retrieveSettingsFromStorage();
+
+    this.addEventListenersToSafariView();
+  }
+
+  setStatusBarToDarkStyle() {
+    StatusBar.setBarStyle('dark-content');
+  }
+
+  setStatusBarToLightStyle() {
+    StatusBar.setBarStyle('light-content');
+  }
+
+  addEventListenersToSafariView() {
+    SafariView.addEventListener('onShow', this.setStatusBarToDarkStyle);
+    SafariView.addEventListener('onDismiss', this.setStatusBarToLightStyle);
+  }
+
+  removeEventListenersFromSafariView() {
+    SafariView.removeEventListener('onShow', this.setStatusBarToDarkStyle);
+    SafariView.removeEventListener('onDismiss', this.setStatusBarToLightStyle);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -164,6 +185,7 @@ class AppRoot extends Component {
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
     this.timer && clearInterval(this.timer);
+    this.removeEventListenersFromSafariView();
   }
 
   render() {
