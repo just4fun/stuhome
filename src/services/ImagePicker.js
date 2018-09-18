@@ -4,7 +4,7 @@ import {
   ActionSheetIOS
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import MESSAGES from '../constants/messages'
+import MESSAGES from '~/constants/messages';
 
 function takePhoto({
   takePhotoOptions,

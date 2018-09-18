@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet
-} from 'react-native';
-import Content from '../../src/components/Content';
+import { Text } from 'react-native';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import Content from '~/components/Content';
 
 describe('<Content />', () => {
   it('should render child components as many as `content` length', () => {

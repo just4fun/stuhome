@@ -1,6 +1,6 @@
-import request from '../utils/request';
-import { API_ROOT, PLAT_TYPE } from '../config';
-import { getAppHashValue } from '../utils/app';
+import request from '~/utils/request';
+import { getAppHashValue } from '~/utils/app';
+import { API_ROOT, PLAT_TYPE } from '~/config/app';
 
 const DEFAULT_SORTTYPE = 'all';
 const DEFAULT_ORDER = 0;
@@ -97,7 +97,7 @@ function assemblePayload({
 // API Methods
 
 export default {
-  fetchLoginUser: ({
+  login: ({
     userName,
     password
   }) => {
@@ -292,7 +292,7 @@ export default {
     return callApi(`message/pmadmin`, fetchOptions);
   },
 
-  fetchAlerts: () => {
+  fetchAlert: () => {
     // Specify `sdkVersion` to get `systemInfo` instead of `friendInfo`.
     //
     // API source code:

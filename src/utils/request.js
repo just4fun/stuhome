@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import MessageBar from '../services/MessageBar';
+import MessageBar from '~/services/MessageBar';
 
 function parseJSON(response) {
   return response.json();
@@ -34,10 +34,10 @@ function handleError(error) {
 }
 
 export default function request(url, options) {
-  return AsyncStorage.getItem('authrization')
-    .then(authrization => {
-      if (authrization) {
-        let { token, secret } = JSON.parse(authrization);
+  return AsyncStorage.getItem('session')
+    .then(session => {
+      if (session) {
+        let { token, secret } = JSON.parse(session);
         url += `&accessToken=${token}&accessSecret=${secret}`;
       }
 
