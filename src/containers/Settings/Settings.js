@@ -53,6 +53,10 @@ class Settings extends Component {
     this.props.storeSettingsToStorage({ enablePublishDialog: value });
   }
 
+  handleNightModeValueChange(value) {
+    this.props.storeSettingsToStorage({ enableNightMode: value });
+  }
+
   render() {
     const { settings, navigation } = this.props;
     const selectedFontSize = FONT_SIZES[settings.fontSize];
@@ -83,6 +87,15 @@ class Settings extends Component {
         </View>
         <Text style={[styles.explanation, styles.text]}>
           开启“发帖确认提示”，在发帖和回帖时，会弹出对话框确认是否发布，避免手误。
+        </Text>
+        <View style={styles.group}>
+          <SettingSwitchItem
+            text='夜间模式'
+            onValueChange={(value) => this.handleNightModeValueChange(value)}
+            value={settings.enableNightMode} />
+        </View>
+        <Text style={[styles.explanation, styles.text]}>
+          适用于夜晚或者光线较暗的情况。
         </Text>
         <View style={styles.group}>
           <SettingItem

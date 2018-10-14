@@ -23,6 +23,7 @@ export const storeSettingsToRedux = createAction(SETTINGS_STORE_DONE);
 const defaultSettingsState = {
   enableNotification: true,
   enablePublishDialog: false,
+  enableNightMode: false,
   fontSize: 'small'
 };
 
