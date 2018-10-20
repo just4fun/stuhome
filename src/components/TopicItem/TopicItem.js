@@ -10,6 +10,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import Avatar from '~/components/Avatar/Avatar';
 import FONT_SIZES from '~/constants/fontSize';
+import { NIGHT_MODE } from '~/constants/themes';
 import { AVATAR_ROOT } from '~/config/app';
 
 import colors from '~/common/styles/colors.style';
@@ -50,6 +51,7 @@ export default class TopicItem extends Component {
         userAvatar
       }
     } = this.props;
+
     // `last_reply_date` is timestamp in string from API
     const lastReplyDate = moment(+last_reply_date).startOf('minute').fromNow();
     const { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
@@ -58,8 +60,23 @@ export default class TopicItem extends Component {
       lineHeight
     };
 
+    // Theme.
+    let containerBackgroundColor = colors.white;
+    let underlayColor = colors.underlay;
+    let mainFieldColor = colors.mainField;
+    let significantFieldColor = colors.significantField;
+    if (settings.enableNightMode) {
+      containerBackgroundColor = NIGHT_MODE.mainBackground;
+      underlayColor = NIGHT_MODE.underlay;
+      mainField = NIGHT_MODE.mainField;
+      significantFieldColor = NIGHT_MODE.significantField;
+    }
+
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {
+        backgroundColor: containerBackgroundColor,
+        borderBottomColor: underlayColor
+      }]}>
         <TouchableHighlight
           underlayColor={colors.underlay}
           onPress={() => this.handleOnPress(topic)}>
@@ -78,8 +95,8 @@ export default class TopicItem extends Component {
               </View>
               <View style={styles.right}>
                 <View style={styles.leftInfo}>
-                  <Text style={styles.name}>{user_nick_name}</Text>
-                  <Text style={styles.date}>{lastReplyDate}</Text>
+                  <Text style={[styles.name, { color: significantFieldColor }]}>{user_nick_name}</Text>
+                  <Text style={[styles.date, { color: mainFieldColor }]}>{lastReplyDate}</Text>
                 </View>
                 <View style={styles.rightInfo}>
                   {(!accessTopicListFromForumItem && !!board_name) &&
@@ -93,12 +110,12 @@ export default class TopicItem extends Component {
                   }
                   <View style={styles.metrics}>
                     <Icon
-                      style={styles.viewsInfo}
+                      style={[styles.viewsInfo, { color: mainFieldColor }]}
                       name='eye'>
                       {hits}
                     </Icon>
                     <Icon
-                      style={styles.commentsInfo}
+                      style={[styles.commentsInfo, { color: mainFieldColor }]}
                       name='commenting'>
                       {replies}
                     </Icon>
@@ -107,9 +124,9 @@ export default class TopicItem extends Component {
               </View>
             </View>
             <View>
-              <Text style={[styles.title, fontStyle]}>{title}</Text>
-              {!!subject && <Text style={[styles.subject, fontStyle]}>{subject}</Text>}
-              {!!summary && <Text style={[styles.subject, fontStyle]}>{summary}</Text>}
+              <Text style={[styles.title, fontStyle, { color: significantFieldColor }]}>{title}</Text>
+              {!!subject && <Text style={[styles.subject, fontStyle, { color: mainFieldColor }]}>{subject}</Text>}
+              {!!summary && <Text style={[styles.subject, fontStyle, { color: mainFieldColor }]}>{summary}</Text>}
             </View>
           </View>
         </TouchableHighlight>

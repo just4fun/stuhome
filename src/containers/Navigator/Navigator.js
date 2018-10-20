@@ -26,6 +26,7 @@ import { retrieveSessionFromStorage } from '~/modules/user/session/session.ducks
 import { retrieveSettingsFromStorage } from '~/modules/settings/settings.ducks';
 import { fetchAlert } from '~/modules/message/alert/alert.ducks';
 import { ALERT_POLL_FREQUENCY } from '~/config/app';
+import { NIGHT_MODE } from '~/constants/themes';
 
 import colors from '~/common/styles/colors.style';
 
@@ -75,7 +76,7 @@ const AppNavigator = DrawerNavigator({
           navigationOptions: {
             headerTintColor: 'white',
             headerStyle: {
-              backgroundColor: colors.blue
+              backgroundColor: console.log(this)
             },
             headerTruncatedBackTitle: '返回',
             drawerLockMode: 'locked-closed'
@@ -114,7 +115,7 @@ const AppNavigator = DrawerNavigator({
       navigationOptions: {
         headerTintColor: 'white',
         headerStyle: {
-          backgroundColor: colors.blue
+          backgroundColor: props.screenProps.settings.enableNightMode ? NIGHT_MODE.mainBackground : colors.blue
         },
         drawerLockMode: 'locked-closed'
       }
@@ -189,11 +190,13 @@ class AppRoot extends Component {
   }
 
   render() {
+    const { settings } = this.props;
+    let backgroundColor = settings.enableNightMode ? NIGHT_MODE.mainBackground : colors.blue;
     return (
       <SafeAreaView
         forceInset={{ top: 'never' }}
-        style={{ flex: 1, backgroundColor: colors.blue }}>
-        <AppNavigator />
+        style={{ flex: 1, backgroundColor }}>
+        <AppNavigator screenProps={settings} />
         <MessageBar ref="alert" />
       </SafeAreaView>
     );

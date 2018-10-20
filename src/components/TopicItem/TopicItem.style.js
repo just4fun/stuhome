@@ -3,9 +3,7 @@ import colors from '~/common/styles/colors.style';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
     borderBottomWidth: 6,
-    borderBottomColor: colors.underlay
   },
   item: {
     margin: 10
@@ -21,21 +19,17 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   name: {
-    color: colors.significantField,
     fontWeight: '400',
   },
   date: {
     fontSize: 11,
-    color: colors.mainField,
     marginTop: 5,
   },
   title: {
     marginTop: 8,
-    color: colors.significantField,
   },
   subject: {
     marginTop: 5,
-    color: colors.mainField,
   },
   leftInfo: {
     flex: 1,
@@ -63,12 +57,10 @@ export default StyleSheet.create({
     borderRadius: 5
   },
   viewsInfo: {
-    color: colors.mainField,
     textAlign: 'left',
   },
   commentsInfo: {
     marginLeft: 5,
-    color: colors.mainField,
     textAlign: 'left',
   },
 });
