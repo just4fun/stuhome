@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StatusBar } from 'react-native';
-import { DrawerNavigator, StackNavigator, SafeAreaView } from 'react-navigation';
+import {
+  createAppContainer,
+  createDrawerNavigator,
+  createStackNavigator,
+  SafeAreaView
+} from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import SafariView from 'react-native-safari-view';
 import Menu from '~/containers/Menu/Menu';
@@ -29,104 +34,111 @@ import { ALERT_POLL_FREQUENCY } from '~/config/app';
 
 import colors from '~/common/styles/colors.style';
 
-const AppNavigator = DrawerNavigator({
-  App: {
-    screen: StackNavigator({
-      Main: {
-        screen: StackNavigator({
-          Home: {
-            screen: HomeScreen
-          },
-          ForumList: {
-            screen: ForumListScreen
-          },
-          Forum: {
-            screen: ForumScreen
-          },
-          Search: {
-            screen: SearchScreen
-          },
-          Topic: {
-            screen: TopicScreen
-          },
-          Individual: {
-            screen: IndividualScreen
-          },
-          Message: {
-            screen: MessageScreen
-          },
-          PrivateMessage: {
-            screen: PrivateMessageScreen
-          },
-          About: {
-            screen: AboutScreen
-          },
-          Information: {
-            screen: InformationScreen
-          },
-          Settings: {
-            screen: SettingsScreen
-          },
-          SettingsFontSize: {
-            screen: SettingsFontSizeScreen
-          }
-        }, {
-          initialRouteName: 'Home',
-          navigationOptions: {
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: colors.blue
-            },
-            headerTruncatedBackTitle: '返回',
-            drawerLockMode: 'locked-closed'
-          }
-        })
-      },
-      LoginModal: {
-        screen: LoginModalScreen
-      },
-      PublishModal: {
-        screen: PublishModalScreen
-      },
-      ReplyModal: {
-        screen: ReplyModalScreen
-      },
-      ForumListModal: {
-        screen: ForumListModalScreen
-      },
-      FriendListModal: {
-        screen: FriendListModalScreen
-      }
-    }, {
-      // Without `headerMode: 'none'`, there will be two headers since there are two
-      // StackNavigators which is workaround for using both `Card` and `Modal` mode.
-      //
-      // However, it will also hide header for Modal components, maybe you think why
-      // we don't use original custom Header component written with RN Modal, the reason
-      // is in that way we need to involve Modal component in every needed place.
-      //
-      // As workaround, I just used original custom Header component for Modal components.
-      //
-      // https://github.com/react-navigation/react-navigation/issues/1276
-      headerMode: 'none',
-      mode: 'modal',
-      initialRouteName: 'Main',
-      navigationOptions: {
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: colors.blue
-        },
-        drawerLockMode: 'locked-closed'
-      }
-    })
+const MainScreen = createStackNavigator({
+  Home: {
+    screen: HomeScreen
   },
+  ForumList: {
+    screen: ForumListScreen
+  },
+  Forum: {
+    screen: ForumScreen
+  },
+  Search: {
+    screen: SearchScreen
+  },
+  Topic: {
+    screen: TopicScreen
+  },
+  Individual: {
+    screen: IndividualScreen
+  },
+  Message: {
+    screen: MessageScreen
+  },
+  PrivateMessage: {
+    screen: PrivateMessageScreen
+  },
+  About: {
+    screen: AboutScreen
+  },
+  Information: {
+    screen: InformationScreen
+  },
+  Settings: {
+    screen: SettingsScreen
+  },
+  SettingsFontSize: {
+    screen: SettingsFontSizeScreen
+  }
+}, {
+  initialRouteName: 'Home',
+  defaultNavigationOptions: {
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: colors.blue
+    },
+    headerTruncatedBackTitle: '返回'
+  }
+});
+
+const MainScreenWithModals = createStackNavigator({
+  Main: {
+    screen: MainScreen
+  },
+  LoginModal: {
+    screen: LoginModalScreen
+  },
+  PublishModal: {
+    screen: PublishModalScreen
+  },
+  ReplyModal: {
+    screen: ReplyModalScreen
+  },
+  ForumListModal: {
+    screen: ForumListModalScreen
+  },
+  FriendListModal: {
+    screen: FriendListModalScreen
+  }
+}, {
+  // Without `headerMode: 'none'`, there will be two headers since there are two
+  // StackNavigators which is workaround for using both `Card` and `Modal` mode.
+  //
+  // However, it will also hide header for Modal components, maybe you think why
+  // we don't use original custom Header component written with RN Modal, the reason
+  // is in that way we need to involve Modal component in every needed place.
+  //
+  // As workaround, I just used original custom Header component for Modal components.
+  //
+  // https://github.com/react-navigation/react-navigation/issues/1276
+  headerMode: 'none',
+  mode: 'modal',
+  initialRouteName: 'Main',
+  defaultNavigationOptions: {
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: colors.blue
+    }
+  }
+});
+
+// https://reactnavigation.org/docs/en/navigation-options-resolution.html#a-drawer-has-a-stack-inside-of-it-and-you-want-to-lock-the-drawer-on-certain-screens
+MainScreenWithModals.navigationOptions = ({ navigation }) => ({ drawerLockMode: 'locked-closed' });
+
+const MainNavigator = createDrawerNavigator({
+  App: {
+    screen: MainScreenWithModals,
+  }
 }, {
   initialRouteName: 'App',
   contentComponent: Menu,
   drawerOpenRoute: 'DrawerOpen',
   drawerCloseRoute: 'DrawerClose',
-  drawerToggleRoute: 'DrawerToggle',
+  drawerToggleRoute: 'DrawerToggle'
 });
+
+const MainContent = createAppContainer(MainNavigator);
 
 class AppRoot extends Component {
   componentDidMount() {
@@ -193,7 +205,7 @@ class AppRoot extends Component {
       <SafeAreaView
         forceInset={{ top: 'never' }}
         style={{ flex: 1, backgroundColor: colors.blue }}>
-        <AppNavigator />
+        <MainContent />
         <MessageBar ref="alert" />
       </SafeAreaView>
     );

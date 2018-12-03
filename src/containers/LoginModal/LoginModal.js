@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PopButton from '~/components/PopButton/PopButton';
 import Header from '~/components/Header/Header';
@@ -28,7 +28,7 @@ import {
 import mainStyles from '~/common/styles/Main.style';
 import styles from './LoginModal.style';
 
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({ routeName: 'Main' })
