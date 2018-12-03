@@ -73,7 +73,7 @@ export default class FriendList extends Component {
     return (
       <FlatList
         data={realFriendList}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={false}
         enableEmptySections={true}
         renderItem={({ item: friend }) => {

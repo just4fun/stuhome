@@ -31,7 +31,7 @@ export default class ForumItems extends Component {
     return (
       <FlatList
         data={realForumList}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={false}
         enableEmptySections={true}
         renderItem={({ item: forum }) => {

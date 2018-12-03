@@ -106,7 +106,7 @@ export default class TopicList extends Component {
       <FlatList
         ref={component => this.topicList = component}
         data={realTopicList}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={false}
         enableEmptySections={true}
         renderItem={({ item: topic }) => {

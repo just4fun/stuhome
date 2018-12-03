@@ -78,7 +78,7 @@ export default class NotifyList extends Component {
     return (
       <FlatList
         data={realNotifyList}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={false}
         enableEmptySections={true}
         renderItem={({ item: notification, index }) => {

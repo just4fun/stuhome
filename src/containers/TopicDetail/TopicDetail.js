@@ -417,7 +417,7 @@ class TopicDetail extends Component {
       <View style={mainStyles.container}>
         <FlatList
           data={topicItem.list}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={false}
           enableEmptySections={true}
           renderItem={({ item: comment }) => {

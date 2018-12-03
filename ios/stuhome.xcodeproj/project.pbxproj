@@ -49,6 +49,8 @@
 		BF79E53FEDF64BAB9E7523F1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D823645157147AFB39E947B /* SimpleLineIcons.ttf */; };
 		C482BEDF7E8C4DFFBAA68FDF /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EDC71F631104C95B634023E /* Feather.ttf */; };
 		C49262EC21B4E0F2000616C6 /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4B4B45321B3A93C004DF372 /* libSafariViewManager.a */; };
+		C492632D21B4F6FD000616C6 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8B08C11FE67AFE0078887C /* libimageCropPicker.a */; };
+		C492635921B4F7F7000616C6 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC68A3D52003679F00CF0A66 /* libRNSearchBar.a */; };
 		CADFC20831874D4195C24CA3 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94EA1A088811405C8418E4E9 /* FontAwesome.ttf */; };
 		CB57BA041E8D175C00B99DC9 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB57BA031E8D175C00B99DC9 /* RSKImageCropper.framework */; };
 		CB57BA051E8D175C00B99DC9 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB57BA031E8D175C00B99DC9 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -460,6 +462,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C492635921B4F7F7000616C6 /* libRNSearchBar.a in Frameworks */,
+				C492632D21B4F6FD000616C6 /* libimageCropPicker.a in Frameworks */,
 				C49262EC21B4E0F2000616C6 /* libSafariViewManager.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,

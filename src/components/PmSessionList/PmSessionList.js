@@ -77,7 +77,7 @@ export default class PrivateList extends Component {
     return (
       <FlatList
         data={realPmSessionList}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={false}
         enableEmptySections={true}
         renderItem={({ item: session }) => {
