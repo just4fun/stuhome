@@ -27,7 +27,7 @@ export default MenuItem = (props) => {
   return (
     <TouchableHighlight
       underlayColor={colors.menuUnderlay}
-      onPress={() => navigation.push(routeName)}>
+      onPress={() => navigation.navigate(routeName)}>
       <View style={[styles.row, style]}>
         <Icon style={[styles.icon, styles.item]} name={icon} size={+iconSize || 20} />
         <Text style={[styles.text, styles.item]}>{title}</Text>
