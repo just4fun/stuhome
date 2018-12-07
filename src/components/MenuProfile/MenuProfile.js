@@ -27,7 +27,8 @@ export default MenuProfile = (props) => {
         {token &&
           <TouchableOpacity
             style={styles.avatar}
-            onPress={() => navigation.push('Information', { userId: uid })}>
+            // https://reactnavigation.org/docs/en/navigation-prop.html
+            onPress={() => navigation.navigate('Information', { userId: uid })}>
             <Image
               key={avatar}
               style={styles.avatar}
