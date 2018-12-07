@@ -14,7 +14,7 @@ import {
 import moment from 'moment';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import Avatar from '~/components/Avatar/Avatar';
 import Comment from '~/components/Comment/Comment';
 import Content from '~/components/Content/Content';
@@ -35,7 +35,7 @@ import modalStyles from '~/common/styles/Modal.style';
 import colors from '~/common/styles/colors.style';
 import styles from './TopicDetail.style';
 
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({ routeName: 'Home' })
