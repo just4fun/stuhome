@@ -87,7 +87,7 @@ class Settings extends Component {
         <View style={styles.group}>
           <SettingItem
             text='阅读字号'
-            onPress={() => navigation.navigate('SettingsFontSize')}>
+            onPress={() => navigation.push('SettingsFontSize')}>
             <Text style={settingItemStyles.indicator}>
               {selectedFontSize.text} >
             </Text>

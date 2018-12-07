@@ -58,10 +58,6 @@ class ReplyModal extends Component {
     this.title = this.getTitle(comment);
   }
 
-  componentDidMount() {
-    this.showKeyboard();
-  }
-
   fetchTopic() {
     this.props.fetchTopic({
       topicId: this.topicId
@@ -227,7 +223,7 @@ class ReplyModal extends Component {
   showFriendList() {
     if (this.state.isPublishing) { return; }
 
-    this.props.navigation.navigate('FriendListModal', {
+    this.props.navigation.push('FriendListModal', {
       callback: (friend) => {
         friend && this.handleExtraContentPress(`@${friend.name} `);
         this.showKeyboard();
@@ -293,6 +289,7 @@ class ReplyModal extends Component {
               onSelectionChange={(event) => this.handleContentSelectionChange(event)}
               onChangeText={(text) => this.setState({ replyContent: text })}
               multiline={true}
+              autoFocus={true}
               editable={!isPublishing} />
           </View>
           <View style={styles.upload}>

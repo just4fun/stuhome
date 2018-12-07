@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 import EmojiPicker from 'react-native-smart-emoji-picker';
@@ -32,7 +32,7 @@ import keyboardAccessoryStyles from '~/common/styles/KeyboardAccessory.style';
 import colors from '~/common/styles/colors.style';
 import styles from './PublishModal.style';
 
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({ routeName: 'Main' })
@@ -248,7 +248,7 @@ class PublishModal extends Component {
   showFriendList() {
     if (this.state.isPublishing) { return; }
 
-    this.props.navigation.navigate('FriendListModal', {
+    this.props.navigation.push('FriendListModal', {
       callback: (friend) => {
         friend && this.handleExtraContentPress(`@${friend.name} `);
         this.showKeyboard();

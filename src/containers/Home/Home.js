@@ -37,7 +37,7 @@ class Home extends Component {
       headerRight: (
         isLogin &&
           <PublishButton
-            onPress={() => navigation.navigate('ForumListModal')} />
+            onPress={() => navigation.push('ForumListModal')} />
       )
     };
   }

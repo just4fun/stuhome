@@ -12,11 +12,11 @@ export default StyleSheet.create({
     backgroundColor: colors.white,
   },
   info: {
-    color: colors.mainField,
+    color: colors.significantField,
   },
   indicator: {
     flex: 1,
     textAlign: 'right',
-    color: colors.underlay,
+    color: colors.mainField,
   }
 });

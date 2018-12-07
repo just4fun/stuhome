@@ -16,7 +16,7 @@ export default class PmSessionItem extends Component {
       // Mark message as read.
       this.props.markPmAsRead({ plid });
     }
-    this.props.navigation.navigate('PrivateMessage', { userId });
+    this.props.navigation.push('PrivateMessage', { userId });
   }
 
   render() {

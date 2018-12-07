@@ -6,7 +6,7 @@ import {
   AsyncStorage,
   ActionSheetIOS,
 } from 'react-native';
-import { SafeAreaView, NavigationActions } from 'react-navigation';
+import { SafeAreaView, NavigationActions, StackActions } from 'react-navigation';
 import MenuProfile from '~/components/MenuProfile/MenuProfile';
 import MenuItem from '~/components/MenuItem/MenuItem';
 import MenuBottomItem from '~/components/MenuBottomItem/MenuBottomItem';
@@ -22,7 +22,7 @@ import { getAlertCount } from '~/modules/message/alert/alert.selectors';
 
 import styles from './Menu.style';
 
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({ routeName: 'Home' })

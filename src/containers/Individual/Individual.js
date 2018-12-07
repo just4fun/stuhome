@@ -35,7 +35,7 @@ class Individual extends Component {
             style={headerRightButtonStyles.button}
             name='envelope'
             size={18}
-            onPress={() => navigation.navigate('PrivateMessage', { userId })} />
+            onPress={() => navigation.push('PrivateMessage', { userId })} />
       )
     };
   }
@@ -141,7 +141,7 @@ class Individual extends Component {
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Information', { userId: this.userId });
+              navigation.push('Information', { userId: this.userId });
             }}>
             <Image
               style={styles.avatar}

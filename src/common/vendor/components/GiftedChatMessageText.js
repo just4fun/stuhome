@@ -81,7 +81,12 @@ export default class MessageText extends React.Component {
           ]}
           childrenProps={{...this.props.textProps}}
         >
-          {parseContentWithEmoji(this.props.currentMessage.text)}
+          {
+            // In private message, no need to custom the size for emoji,
+            // since the font size setting is only used for topic content.
+            // So `0` for 2nd parameter here.
+          }
+          {parseContentWithEmoji(this.props.currentMessage.text, 0)}
         </ParsedText>
       </View>
     );

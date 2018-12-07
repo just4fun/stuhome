@@ -16,9 +16,9 @@ export default class MenuButton extends Component {
     } = this.props;
 
     if (isLogin) {
-      navigation.navigate('DrawerToggle');
+      navigation.openDrawer();
     } else {
-      navigation.navigate('LoginModal');
+      navigation.push('LoginModal');
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "stuhome",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "An officially recommended 3rd party iOS client for http://bbs.uestc.edu.cn/ written in react-native, redux and redux-observable.",
   "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
@@ -20,7 +20,7 @@
     "apsl-react-native-button": "3.1.0",
     "lodash": "4.17.4",
     "md5": "2.1.0",
-    "moment": "2.19.3",
+    "moment": "^2.19.0",
     "react": "16.0.0",
     "react-native": "0.51.0",
     "react-native-checkbox": "2.0.0",
@@ -36,7 +36,7 @@
     "react-native-smart-timer-enhance": "1.0.3",
     "react-native-sticky-keyboard-accessory": "0.1.1",
     "react-native-vector-icons": "4.4.3",
-    "react-navigation": "1.0.3",
+    "react-navigation": "2.18.3",
     "react-redux": "5.0.6",
     "redux": "3.3.1",
     "redux-actions": "1.2.1",

@@ -36,7 +36,7 @@ export default SubForumItem = (props) => {
         if (isForumListModal) {
           props.handleSelectForum(subForum);
         } else {
-          navigation.navigate('Forum', subForum);
+          navigation.push('Forum', subForum);
         }
       }}>
       <View style={styles.subForum}>

@@ -42,7 +42,7 @@ export default class About extends Component {
           <SettingItem
             style={styles.lastItem}
             text='BUG 上报或意见反馈'
-            onPress={() => navigation.navigate('PrivateMessage', {
+            onPress={() => navigation.push('PrivateMessage', {
               userId: configs.AUTHOR_ID
             })} />
         </View>

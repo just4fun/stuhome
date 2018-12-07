@@ -1,16 +1,30 @@
-[<img width="200" alt="new_logo" src="https://user-images.githubusercontent.com/7512625/34460783-aaf95076-ee53-11e7-8699-3e94b6a0c270.png">](https://user-images.githubusercontent.com/7512625/34460783-aaf95076-ee53-11e7-8699-3e94b6a0c270.png)
+<p align="center">
+  <img width="200" alt="new_logo" src="https://user-images.githubusercontent.com/7512625/34460783-aaf95076-ee53-11e7-8699-3e94b6a0c270.png">
+  <p align="center">
+    <img alt="alu" src="https://user-images.githubusercontent.com/7512625/49665467-eb50ab80-fa8f-11e8-871c-5928dc2c3cb8.gif" />
+    <img alt="alu" src="https://user-images.githubusercontent.com/7512625/49665467-eb50ab80-fa8f-11e8-871c-5928dc2c3cb8.gif" />
+    <img alt="alu" src="https://user-images.githubusercontent.com/7512625/49665467-eb50ab80-fa8f-11e8-871c-5928dc2c3cb8.gif" />
+  </p>
+  <p align="center">
+    <a href="https://facebook.github.io/react-native">
+      <img alt="React Native" src="https://img.shields.io/badge/react--native-v0.51.0-05A5D1.svg" />
+    </a>
+    <a href="https://github.com/just4fun/stuhome/issues">
+      <img alt="GitHub issues" src="https://img.shields.io/github/issues/just4fun/stuhome.svg" />
+    </a>
+    <a href="http://opensource.org/licenses/MIT">
+      <img alt="MIT" src="https://img.shields.io/dub/l/vibe-d.svg" />
+    </a>
+  </p>
+</p>
 
-[![React Native](https://img.shields.io/badge/react--native-v0.51.0-05A5D1.svg)](https://facebook.github.io/react-native)
-[![GitHub issues](https://img.shields.io/github/issues/just4fun/stuhome.svg)](https://github.com/just4fun/stuhome/issues)
-[![MIT](https://img.shields.io/dub/l/vibe-d.svg)](http://opensource.org/licenses/MIT)
+## What
 
-An officially recommended 3rd party iOS client for http://bbs.uestc.edu.cn/ written in [react-native](https://facebook.github.io/react-native/), [redux](http://redux.js.org/) and [redux-observable](https://redux-observable.js.org/).
+An iOS client for http://bbs.uestc.edu.cn/ written in [react-native](https://facebook.github.io/react-native/), [redux](http://redux.js.org/) and [redux-observable](https://redux-observable.js.org/), which has been [recommended officially](http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255) as one of the best 3rd party iOS clients.
 
 APIs are provided by [appbyme/mobcent-discuz](https://github.com/appbyme/mobcent-discuz) and partly documented by [UESTC-BBS/API-Docs](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
-For all officially recommended clients, please visit http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255.
-
-## Status (v1.7.0)
+## Status (v1.7.1)
 
 [<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 

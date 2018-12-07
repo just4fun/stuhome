@@ -20,6 +20,6 @@ export default StyleSheet.create({
   },
   avatarIndicator: {
     marginLeft: 10,
-    color: colors.underlay,
+    color: colors.mainField,
   }
 });

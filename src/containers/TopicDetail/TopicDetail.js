@@ -14,7 +14,7 @@ import {
 import moment from 'moment';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import Avatar from '~/components/Avatar/Avatar';
 import Comment from '~/components/Comment/Comment';
 import Content from '~/components/Content/Content';
@@ -35,7 +35,7 @@ import modalStyles from '~/common/styles/Modal.style';
 import colors from '~/common/styles/colors.style';
 import styles from './TopicDetail.style';
 
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({ routeName: 'Home' })
@@ -307,9 +307,9 @@ class TopicDetail extends Component {
     // Only copy text and link.
     return content.map(item => {
       if (item.type === 0 || item.type === 4) {
-        // The second parameter is used to exclude custom emoji
+        // The 3rd parameter is used to exclude custom emoji
         // as copied content which type is also `0`.
-        return parseContentWithEmoji(item.infor, false).join('');
+        return parseContentWithEmoji(item.infor, 0, false).join('');
       }
     }).join('');
   }
@@ -447,7 +447,7 @@ class TopicDetail extends Component {
           <TouchableHighlight
             style={styles.commentAreaWrapper}
             underlayColor={colors.underlay}
-            onPress={() => navigation.navigate('ReplyModal', {
+            onPress={() => navigation.push('ReplyModal', {
               comment: {
                 // `reply_posts_id` is not necessary when reply topic author
                 user_nick_name: user_nick_name,

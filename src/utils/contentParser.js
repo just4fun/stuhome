@@ -9,7 +9,7 @@ import { DEFAULT_EMOJI_ROOT } from '~/config/app';
 // This method is also used to copy topic content and comment content,
 // the second parameter here is used to exclude custom emoji as paste
 // content.
-export function parseContentWithEmoji(content, includeEmoji = true) {
+export function parseContentWithEmoji(content, emojiSize, includeEmoji = true) {
   if (!content) { return ''; }
 
   // var regex = new RegExp(/xyz/, 'i');
@@ -17,6 +17,8 @@ export function parseContentWithEmoji(content, includeEmoji = true) {
   let contentWithEmoji = content.replace(/\[mobcent_phiz=(https?:\/\/[^\]]+\.(?:jpg|png|gif))\]/g, '___emojiBoundary___$1___emojiBoundary___')
                                 .replace(/(\[[^\]]+\])/g, '___emojiBoundary___$1___emojiBoundary___');
   let contentEmojiArray = contentWithEmoji.split('___emojiBoundary___');
+
+  emojiSize = emojiSize || 30;
 
   return contentEmojiArray.filter(item => item.trim()).map((item, index) => {
     // Handle custom emojis.
@@ -29,7 +31,13 @@ export function parseContentWithEmoji(content, includeEmoji = true) {
         <Image
           key={index}
           source={{ uri: item }}
-          style={styles.emoji} />
+          style={[
+            styles.emoji,
+            {
+              height: emojiSize,
+              width: emojiSize
+            }
+          ]} />
       );
     }
 
@@ -46,7 +54,13 @@ export function parseContentWithEmoji(content, includeEmoji = true) {
         <Image
           key={index}
           source={{ uri: `${DEFAULT_EMOJI_ROOT}/${DEFAULT_EMOJIS[item]}` }}
-          style={styles.emoji} />
+          style={[
+            styles.emoji,
+            {
+              height: emojiSize,
+              width: emojiSize
+            }
+          ]} />
       );
     }
 
