@@ -447,7 +447,7 @@ class TopicDetail extends Component {
           <TouchableHighlight
             style={styles.commentAreaWrapper}
             underlayColor={colors.underlay}
-            onPress={() => navigation.navigate('ReplyModal', {
+            onPress={() => navigation.push('ReplyModal', {
               comment: {
                 // `reply_posts_id` is not necessary when reply topic author
                 user_nick_name: user_nick_name,

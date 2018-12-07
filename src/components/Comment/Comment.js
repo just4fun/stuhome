@@ -58,7 +58,7 @@ export default class Comment extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          navigation.navigate('ReplyModal', {
+          navigation.push('ReplyModal', {
             // `comment` here is item from `forum/postlist`, which has
             // no `topicId` and `boardId`, but necessary for topic reply
             // API.
@@ -80,7 +80,7 @@ export default class Comment extends Component {
           break;
         case 2:
           if (canSendPrivateMessage) {
-            navigation.navigate('PrivateMessage', { userId });
+            navigation.push('PrivateMessage', { userId });
           } else if (editable) {
             const editAction = managePanel.find(item => item.title === '编辑');
             SafariView.show(editAction.action);

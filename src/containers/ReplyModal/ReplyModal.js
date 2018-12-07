@@ -223,7 +223,7 @@ class ReplyModal extends Component {
   showFriendList() {
     if (this.state.isPublishing) { return; }
 
-    this.props.navigation.navigate('FriendListModal', {
+    this.props.navigation.push('FriendListModal', {
       callback: (friend) => {
         friend && this.handleExtraContentPress(`@${friend.name} `);
         this.showKeyboard();

@@ -30,7 +30,7 @@ export default Avatar = (props) => {
         // 3. Same user (in individual page)
         if (!currentUserId || !userId || +userId === +currentUserId) { return; }
 
-        navigation.navigate('Individual', {
+        navigation.push('Individual', {
           userId,
           userName,
           currentUserId

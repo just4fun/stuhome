@@ -18,7 +18,7 @@ export default class MenuButton extends Component {
     if (isLogin) {
       navigation.openDrawer();
     } else {
-      navigation.navigate('LoginModal');
+      navigation.push('LoginModal');
     }
   }
 

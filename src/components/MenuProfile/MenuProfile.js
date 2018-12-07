@@ -27,7 +27,7 @@ export default MenuProfile = (props) => {
         {token &&
           <TouchableOpacity
             style={styles.avatar}
-            onPress={() => navigation.navigate('Information', { userId: uid })}>
+            onPress={() => navigation.push('Information', { userId: uid })}>
             <Image
               key={avatar}
               style={styles.avatar}
@@ -36,7 +36,7 @@ export default MenuProfile = (props) => {
           ||
           <TouchableOpacity
             style={styles.avatar}
-            onPress={() => navigation.navigate('LoginModal')}>
+            onPress={() => navigation.push('LoginModal')}>
             <Image
               key='noavatar'
               style={styles.avatar}

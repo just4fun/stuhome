@@ -31,7 +31,7 @@ class SettingsFontSize extends Component {
     const authorLink = (
       <Text
         style={styles.url}
-        onPress={() => navigation.navigate('Individual', {
+        onPress={() => navigation.push('Individual', {
           userId: configs.AUTHOR_ID,
           userName: configs.AUTHOR_NAME
         })}>
