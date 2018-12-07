@@ -41,7 +41,7 @@ export default NotifyItem = (props) => {
     <TouchableHighlight
       style={styles.container}
       underlayColor={colors.underlay}
-      onPress={() => navigation.navigate('Topic', {
+      onPress={() => navigation.push('Topic', {
         topic_id,
         board_id,
         board_name
@@ -68,7 +68,7 @@ export default NotifyItem = (props) => {
           <Button
             style={styles.button}
             textStyle={styles.buttonText}
-            onPress={() => navigation.navigate('ReplyModal', {
+            onPress={() => navigation.push('ReplyModal', {
               comment: {
                 // WTF! Why there are different names for common field?!
                 reply_name: reply_nick_name,

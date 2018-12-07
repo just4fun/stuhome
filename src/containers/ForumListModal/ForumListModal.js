@@ -38,7 +38,7 @@ class ForumListModal extends Component {
 
   handleSelectForum(forum) {
     const { navigation } = this.props;
-    navigation.navigate('PublishModal', {
+    navigation.push('PublishModal', {
       boardId: forum.board_id
     });
   }

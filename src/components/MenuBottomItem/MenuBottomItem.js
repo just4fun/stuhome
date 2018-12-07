@@ -33,7 +33,7 @@ export default MenuBottomItem = (props) => {
           onPress();
           return;
         }
-        navigation.navigate(routeName);
+        navigation.push(routeName);
       }}>
       <View style={[styles.row, rowStyle]}>
         <Icon style={[styles.icon, styles.item]} name={icon} size={+iconSize || 18} />

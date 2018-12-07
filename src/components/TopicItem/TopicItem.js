@@ -23,9 +23,9 @@ export default class TopicItem extends Component {
     } = this.props;
     // Login User
     if (currentUserId) {
-      navigation.navigate('Topic', topic);
+      navigation.push('Topic', topic);
     } else {
-      navigation.navigate('LoginModal');
+      navigation.push('LoginModal');
     }
   }
 

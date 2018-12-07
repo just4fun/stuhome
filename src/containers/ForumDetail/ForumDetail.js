@@ -31,7 +31,7 @@ class ForumDetail extends Component {
       headerRight: (
         isLogin &&
           <PublishButton
-            onPress={() => navigation.navigate('PublishModal', {
+            onPress={() => navigation.push('PublishModal', {
               boardId,
               callback: () => handleModalCallback()
             })} />

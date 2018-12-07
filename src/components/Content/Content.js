@@ -145,7 +145,7 @@ export default class Content extends Component {
                           <Text
                             key={index}
                             style={styles.url}
-                            onPress={() => navigation.navigate('Individual', {
+                            onPress={() => navigation.push('Individual', {
                               userId: this.getUserId(item.url),
                               userName: this.getUserName(item.infor)
                             })}>
@@ -159,7 +159,7 @@ export default class Content extends Component {
                             <Text
                               key={index}
                               style={styles.url}
-                              onPress={() => navigation.navigate('Topic', {
+                              onPress={() => navigation.push('Topic', {
                                 topic_id: this.getTopicId(item.url)
                               })}>
                               {item.infor}
