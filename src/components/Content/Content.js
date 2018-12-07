@@ -113,7 +113,7 @@ export default class Content extends Component {
   render() {
     const newContent = this.getContentByGroup();
     const { navigation, settings } = this.props;
-    const { fontSize, lineHeight } = FONT_SIZES[settings.fontSize];
+    const { fontSize, lineHeight, emojiSize } = FONT_SIZES[settings.fontSize];
     const fontStyle = {
       fontSize,
       lineHeight
@@ -138,7 +138,7 @@ export default class Content extends Component {
                   {groupContent.map((item, index) => {
                     return (
                       item.type === 0 && (
-                        <Text key={index}>{parseContentWithEmoji(item.infor)}</Text>
+                        <Text key={index}>{parseContentWithEmoji(item.infor, emojiSize)}</Text>
                       ) || (
                         this.isAtSomebody(item.url) && (
                           // @somebody
