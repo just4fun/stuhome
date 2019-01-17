@@ -146,7 +146,16 @@ class ReplyModal extends Component {
           });
         // I really hate the fields which mobcent API return
         } else if (response.data.errcode) {
-          AlertIOS.alert('提示', response.data.errcode);
+          // *********************************
+          // Alert could not work with the spinner overlay together.
+          // https://github.com/joinspontaneous/react-native-loading-spinner-overlay/issues/72
+          // *********************************
+
+          // AlertIOS.alert('提示', response.data.errcode);
+          MessageBar.show({
+            message: response.data.errcode,
+            type: 'error'
+          });
         }
       }
     }).finally(() => {
