@@ -103,6 +103,7 @@ http://facebook.github.io/react-native/docs/running-on-device.html#running-your-
 - ~~Switching between pages is not very smooth sometimes~~ (Fixed by [#19](https://github.com/just4fun/stuhome/pull/19))
 - Image could not be inserted to TextInput: [RN/#17468](https://github.com/facebook/react-native/issues/17468), [RN/#18566](https://github.com/facebook/react-native/issues/18566)
 - Unit tests are not working due to deprecated property in react-native-mock. [react-native-mock/#158](https://github.com/RealOrangeOne/react-native-mock/pull/158), [#40](https://github.com/just4fun/stuhome/issues/40)
+- You need to patch this fix [RN/#25146](https://github.com/facebook/react-native/pull/25146/files#diff-263fc157dfce55895cdc16495b55d190) in your local if you want to run the app with XCode 11, until the app upgraded to latest RN
 
 ## FAQ
 
