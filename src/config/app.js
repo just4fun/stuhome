@@ -21,7 +21,7 @@ module.exports = {
 
   MAX_UPLOAD_IMAGES_COUNT: 9,
 
-  VERSION: 'v1.7.2',
+  VERSION: 'v1.7.3',
 
   AUTHOR_ID: 32044,
 

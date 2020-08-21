@@ -1,6 +1,6 @@
 {
   "name": "stuhome",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "An iOS client for https://bbs.uestc.edu.cn/ written in react-native, redux and redux-observable.",
   "author": "just4fun <houritsunohikari@gmail.com>",
   "scripts": {
