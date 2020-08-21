@@ -57,7 +57,7 @@ export default class Content extends Component {
     return content.slice(1);
   }
 
-  // http://bbs.uestc.edu.cn/home.php?mod=space&uid=32044
+  // https://bbs.uestc.edu.cn/home.php?mod=space&uid=32044
   isAtSomebody(url) {
     if (!url) { return false; }
 
@@ -68,7 +68,7 @@ export default class Content extends Component {
     return !!(/https?:\/\/.+uid=(\d+)/.exec(url));
   }
 
-  // http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255
+  // https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255
   isTopicLink(url) {
     if (!url) { return false; }
     return !!(/https?:\/\/.+tid=(\d+)/.exec(url));

@@ -24,7 +24,7 @@ describe('<TopicList />', () => {
           top: 0,
           topic_id: 1675973,
           type_id: 5,
-          userAvatar: 'http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=32044&size=middle',
+          userAvatar: 'https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=32044&size=middle',
           user_id: 32044,
           user_nick_name: '法律之光'
         },
@@ -45,7 +45,7 @@ describe('<TopicList />', () => {
           top: 0,
           topic_id: 1675973,
           type_id: 5,
-          userAvatar: 'http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle',
+          userAvatar: 'https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle',
           user_id: 0,
           user_nick_name: ''
         }
