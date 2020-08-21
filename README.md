@@ -20,11 +20,11 @@
 
 ## What
 
-An iOS client for http://bbs.uestc.edu.cn/ written in [react-native](https://facebook.github.io/react-native/), [redux](http://redux.js.org/) and [redux-observable](https://redux-observable.js.org/), which has been [recommended officially](http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255) as one of the best 3rd party iOS clients.
+An iOS client for https://bbs.uestc.edu.cn/ written in [react-native](https://facebook.github.io/react-native/), [redux](http://redux.js.org/) and [redux-observable](https://redux-observable.js.org/), which has been [recommended officially](https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1554255) as one of the best 3rd party iOS clients.
 
 APIs are provided by [appbyme/mobcent-discuz](https://github.com/appbyme/mobcent-discuz) and partly documented by [UESTC-BBS/API-Docs](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
-## Status (v1.7.2)
+## Status (v1.7.3)
 
 [<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
 

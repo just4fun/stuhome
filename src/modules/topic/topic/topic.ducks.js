@@ -50,7 +50,7 @@ export const fetchTopicFailure = createAction(TOPIC_FETCH_FAILURE);
 // topic content in `componentDidMount` to overwrite the old one.
 //
 // 2. If we nagivate from topic A --> topic B --> topic A, or topic A --> topic A
-// (try it out in http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1705815),
+// (try it out in https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1705815),
 // when we touch back button to first topic A page, we will see nothing,
 // since the content of topic A has been `reset/clear` in the last topic A
 // page's `componentWillUnmount`.

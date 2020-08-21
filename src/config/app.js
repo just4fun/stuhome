@@ -1,15 +1,15 @@
 module.exports = {
-  DOMAIN_ROOT: 'http://bbs.uestc.edu.cn',
+  DOMAIN_ROOT: 'https://bbs.uestc.edu.cn',
 
-  API_ROOT: 'http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=',
+  API_ROOT: 'https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=',
 
-  AVATAR_ROOT: 'http://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle',
+  AVATAR_ROOT: 'https://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle',
 
-  TOPIC_URL_ROOT: 'http://bbs.uestc.edu.cn/forum.php?mod=viewthread',
+  TOPIC_URL_ROOT: 'https://bbs.uestc.edu.cn/forum.php?mod=viewthread',
 
-  DEFAULT_EMOJI_ROOT: 'http://bbs.uestc.edu.cn/mobcent/app/data/phiz/default',
+  DEFAULT_EMOJI_ROOT: 'https://bbs.uestc.edu.cn/mobcent/app/data/phiz/default',
 
-  REGISTER_URL: 'http://bbs.uestc.edu.cn/member.php?mod=register',
+  REGISTER_URL: 'https://bbs.uestc.edu.cn/member.php?mod=register',
 
   APP_AUTH_KEY: 'appbyme_key',
 
@@ -21,7 +21,7 @@ module.exports = {
 
   MAX_UPLOAD_IMAGES_COUNT: 9,
 
-  VERSION: 'v1.7.2',
+  VERSION: 'v1.7.3',
 
   AUTHOR_ID: 32044,
 
