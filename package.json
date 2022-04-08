@@ -20,7 +20,7 @@
     "apsl-react-native-button": "3.1.0",
     "lodash": "4.17.4",
     "md5": "2.1.0",
-    "moment": "^2.19.0",
+    "moment": "^2.29.2",
     "react": "16.0.0",
     "react-native": "0.51.0",
     "react-native-checkbox": "2.0.0",
