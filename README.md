@@ -24,6 +24,10 @@ An iOS client for https://bbs.uestc.edu.cn/ written in [react-native](https://fa
 
 APIs are provided by [appbyme/mobcent-discuz](https://github.com/appbyme/mobcent-discuz) and partly documented by [UESTC-BBS/API-Docs](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
+## Archievement
+
+![](https://user-images.githubusercontent.com/7512625/221882560-28ccda98-240b-4be7-bbbe-c0cc045a417b.png)
+
 ## Status
 
 > This app was published to App Store on Jan 7 2017, now it's retired and archived from Feb 26 2023.
