@@ -24,9 +24,13 @@ An iOS client for https://bbs.uestc.edu.cn/ written in [react-native](https://fa
 
 APIs are provided by [appbyme/mobcent-discuz](https://github.com/appbyme/mobcent-discuz) and partly documented by [UESTC-BBS/API-Docs](https://github.com/UESTC-BBS/API-Docs/wiki/Mobcent-API).
 
-## Status (v1.7.3)
+## Status
 
-[<img width="250" alt="download_on_the_app_store" src="https://user-images.githubusercontent.com/7512625/27969868-353f554c-637f-11e7-869d-3963933461ca.png">](https://itunes.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355)
+> This app was published to App Store on Jan 7 2017, now it's retired and archived from Feb 26 2023.
+
+~~https://apps.apple.com/cn/app/qing-shui-he-pan-stuhome/id1190564355~~
+
+Some memories about the great experience to build this application during those years - https://www.notion.so/iOS-18468e4a446b49ab8bb8c35d1559d4b5
 
 ![](https://cloud.githubusercontent.com/assets/7512625/12371330/88981098-bc6a-11e5-8511-6e02c5233006.gif)
 
